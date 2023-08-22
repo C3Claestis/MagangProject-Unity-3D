@@ -5,32 +5,20 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [SerializeField] private Animator unitAnimator;
-
-    [Header("System Speed")]
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float rotateSpeed = 15f;
-
-
-    [Header("Character Status")]
     [SerializeField] private int baseHealth=100;
     [SerializeField] private int currentHealth;
-    [Space(10)]
     [SerializeField] private int basePhysicalAttack=10;
     [SerializeField] private int currentPhysicalAttack;
-    [Space(10)]
     [SerializeField] private float baseMagicalAttack=10;
     [SerializeField] private float currentMagicalAttack;
-    [Space(10)]
     [SerializeField] private float basePhysicalDefense=10;
     [SerializeField] private float currentPhysicalDefense;
-    [Space(10)]
     [SerializeField] private float baseMagicalDefense=0;
     [SerializeField] private float currentMagicalDefense=0;
-    [Space(10)]
     [SerializeField] private int baseAgility = 0;
     [SerializeField] private int currentAgility = 0;
-    
-    [Header("System Status")]
     [SerializeField] private bool alreadyMove = false;   
 
     private float stoppingDistance = .1f;
