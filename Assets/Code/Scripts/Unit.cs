@@ -5,13 +5,33 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [SerializeField] private Animator unitAnimator;
+
+    [Header("System Speed")]
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float rotateSpeed = 15f;
 
-    [SerializeField] private int defaultSpeed = 3;
-    [SerializeField] private int currentSpeed;
-     
-    [SerializeField] private int CT;
+
+    [Header("Character Status")]
+    [SerializeField] private int baseHealth=100;
+    [SerializeField] private int currentHealth;
+    [Space(10)]
+    [SerializeField] private int basePhysicalAttack=10;
+    [SerializeField] private int currentPhysicalAttack;
+    [Space(10)]
+    [SerializeField] private float baseMagicalAttack=10;
+    [SerializeField] private float currentMagicalAttack;
+    [Space(10)]
+    [SerializeField] private float basePhysicalDefense=10;
+    [SerializeField] private float currentPhysicalDefense;
+    [Space(10)]
+    [SerializeField] private float baseMagicalDefense=0;
+    [SerializeField] private float currentMagicalDefense=0;
+    [Space(10)]
+    [SerializeField] private int baseAgility = 0;
+    [SerializeField] private int currentAgility = 0;
+    
+    [Header("System Status")]
+    [SerializeField] private bool alreadyMove = false;   
 
     private float stoppingDistance = .1f;
     private Vector3 targetPosition;
@@ -21,7 +41,12 @@ public class Unit : MonoBehaviour
     }
 
     private void Start() {
-        currentSpeed = defaultSpeed;
+        currentHealth = baseHealth;
+        currentPhysicalAttack = basePhysicalAttack;
+        currentMagicalAttack = baseMagicalAttack;
+        currentPhysicalDefense = basePhysicalDefense;
+        currentMagicalDefense = baseMagicalDefense;
+        currentAgility = baseAgility;
     }
     
     private void Update()
@@ -49,7 +74,6 @@ public class Unit : MonoBehaviour
         this.targetPosition = targetPosition; 
     }
 
-    public int GetCT(){
-        return CT;
-    }
+    public int GetAgi() => currentAgility;
+    public bool GetMoveStatus() => alreadyMove;
 }

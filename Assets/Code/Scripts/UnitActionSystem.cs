@@ -15,6 +15,7 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0)){
+            
             selectedUnit.Move(MouseWorld.GetPosition());
         }
     }
@@ -31,9 +32,10 @@ public class UnitActionSystem : MonoBehaviour
 
             if (unitComponent != null)
             {
-                int unitSpeed = unitComponent.GetCT();
+                int unitSpeed = unitComponent.GetAgi();
+                bool alreadyMove = unitComponent.GetMoveStatus();
 
-                if (unitSpeed >= 100 && unitSpeed > fastestSpeed)
+                if (!alreadyMove && unitSpeed > fastestSpeed)
                 {
                     fastestUnit = unitComponent;
                     fastestSpeed = unitSpeed;
@@ -44,11 +46,11 @@ public class UnitActionSystem : MonoBehaviour
         if (fastestUnit != null)
         {
             selectedUnit = fastestUnit;
-            Debug.Log("Fastest unit with speed over 100: " + fastestUnit.gameObject.name + ", Speed: " + fastestSpeed);
+            Debug.Log("Fastest Unit: " + fastestUnit.gameObject.name + ", Speed: " + fastestSpeed);
         }
         else
         {
-            Debug.Log("No units with speed over 100 and the 'Unit' component found.");
+            Debug.Log("All unit is already move.");
         }
     }
 }
