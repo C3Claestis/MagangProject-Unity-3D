@@ -8,7 +8,7 @@ using UnityEditor;
 public class UnitEditor : Editor
 {
     #region 
-    SerializedProperty unitAnimator;
+    SerializedProperty characterName;
 
     SerializedProperty moveSpeed;
     SerializedProperty rotateSpeed;
@@ -31,7 +31,12 @@ public class UnitEditor : Editor
     SerializedProperty baseAgility;
     SerializedProperty currentAgility;
 
-    SerializedProperty alreadyMove;
+    SerializedProperty hasMove;
+    SerializedProperty isSelected;
+
+    SerializedProperty unitAnimator;
+    SerializedProperty skinnedMeshRenderer;
+
     #endregion
 
     private bool showHealth = false;
@@ -47,7 +52,7 @@ public class UnitEditor : Editor
 
     private void OnEnable()
     {
-        unitAnimator = serializedObject.FindProperty("unitAnimator");
+        characterName = serializedObject.FindProperty("characterName");
 
         moveSpeed = serializedObject.FindProperty("moveSpeed");
         rotateSpeed = serializedObject.FindProperty("rotateSpeed");
@@ -70,12 +75,19 @@ public class UnitEditor : Editor
         baseAgility = serializedObject.FindProperty("baseAgility");
         currentAgility = serializedObject.FindProperty("currentAgility");
 
-        alreadyMove = serializedObject.FindProperty("alreadyMove");
+        hasMove = serializedObject.FindProperty("hasMove");
+        isSelected = serializedObject.FindProperty("isSelected");
+
+        unitAnimator = serializedObject.FindProperty("unitAnimator");
+        skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
+
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+
+        EditorGUILayout.PropertyField(characterName);
 
         #region 
         showHealth = EditorGUILayout.Foldout(showHealth, "Health");
@@ -216,11 +228,13 @@ public class UnitEditor : Editor
 
         showStatus = EditorGUILayout.Foldout(showStatus, "Status");
         if(showStatus){
-            EditorGUILayout.PropertyField(alreadyMove);
+            EditorGUILayout.PropertyField(hasMove);
+            EditorGUILayout.PropertyField(isSelected);
             GUILayout.Space(5);
         }
 
         EditorGUILayout.PropertyField(unitAnimator);
+        EditorGUILayout.PropertyField(skinnedMeshRenderer);
 
         serializedObject.ApplyModifiedProperties();
     }

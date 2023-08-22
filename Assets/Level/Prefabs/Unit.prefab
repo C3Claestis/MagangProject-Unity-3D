@@ -46,8 +46,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitAnimator: {fileID: 8279450905956337918}
+  skinnedMeshRenderer: {fileID: 8240321862663793904}
+  characterName: Base Unit
   moveSpeed: 4
   rotateSpeed: 15
+  baseHealth: 100
+  currentHealth: 0
+  basePhysicalAttack: 12
+  currentPhysicalAttack: 0
+  baseMagicalAttack: 11
+  currentMagicalAttack: 0
+  basePhysicalDefense: 7
+  currentPhysicalDefense: 0
+  baseMagicalDefense: 6
+  currentMagicalDefense: 0
+  baseAgility: 7
+  currentAgility: 0
+  hasMove: 0
+  isSelected: 0
 --- !u!1001 &8336947303999415974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113,6 +129,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}
+--- !u!137 &8240321862663793904 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 137720934533220950, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}
+  m_PrefabInstance: {fileID: 8336947303999415974}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &8279450905956337918 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95787105524477528, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}

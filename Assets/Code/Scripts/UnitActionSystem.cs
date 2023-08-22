@@ -7,6 +7,10 @@ public class UnitActionSystem : MonoBehaviour
 {
     [SerializeField] private Unit selectedUnit;
     private string unitTag = "Units";
+
+    private void Start() {
+        HandleUnitSelection();
+    }
     
     private void Update() {
         if (Input.GetKeyUp(KeyCode.Space))
@@ -15,14 +19,15 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0)){
-            
+            if (selectedUnit == null) return;
             selectedUnit.Move(MouseWorld.GetPosition());
         }
     }
 
-    private void HandleUnitSelection(){
+    private void HandleUnitSelection()
+    {
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
-        
+
         Unit fastestUnit = null;
         int fastestSpeed = int.MinValue;
 
@@ -32,10 +37,10 @@ public class UnitActionSystem : MonoBehaviour
 
             if (unitComponent != null)
             {
-                int unitSpeed = unitComponent.GetAgi();
-                bool alreadyMove = unitComponent.GetMoveStatus();
+                int unitSpeed = unitComponent.GetAgility();
+                bool hasMoved = unitComponent.GetMoveStatus();
 
-                if (!alreadyMove && unitSpeed > fastestSpeed)
+                if (!hasMoved && unitSpeed > fastestSpeed)
                 {
                     fastestUnit = unitComponent;
                     fastestSpeed = unitSpeed;
@@ -43,14 +48,36 @@ public class UnitActionSystem : MonoBehaviour
             }
         }
 
+        if (selectedUnit != null)
+        {
+            ResetSelectedUnit();
+        }
+
         if (fastestUnit != null)
         {
-            selectedUnit = fastestUnit;
-            Debug.Log("Fastest Unit: " + fastestUnit.gameObject.name + ", Speed: " + fastestSpeed);
+            SelectUnit(fastestUnit, fastestSpeed);
         }
         else
         {
-            Debug.Log("All unit is already move.");
+            selectedUnit = null;
+            Debug.Log("All units have already moved");
         }
     }
+
+    private void ResetSelectedUnit()
+    {
+        selectedUnit.SetSelectedStatus(false);
+        selectedUnit.ChangeMaterial();
+        selectedUnit.SetMoveStatus(true);
+    }
+
+    private void SelectUnit(Unit unit, int speed)
+    {
+        selectedUnit = unit;
+        selectedUnit.SetMoveStatus(true);
+        selectedUnit.SetSelectedStatus(true);
+        selectedUnit.ChangeMaterial();
+        Debug.Log("Fastest Unit Selected! Name: " + unit.GetCharacterName() + ", Speed: " + speed);
+    }
+
 }
