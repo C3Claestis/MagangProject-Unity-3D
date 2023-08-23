@@ -726,8 +726,8 @@ GameObject:
   - component: {fileID: 1201687340}
   - component: {fileID: 1201687342}
   - component: {fileID: 1201687341}
-  - component: {fileID: 1201687345}
   - component: {fileID: 1201687347}
+  - component: {fileID: 1201687345}
   - component: {fileID: 1201687346}
   m_Layer: 0
   m_Name: Player
@@ -815,8 +815,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8afcc5c39335b3d4b9a78e4d7878703d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
-  animator: {fileID: 1658630031}
+  walkSpeed: 4
+  runSpeed: 8
+  rotateSpeed: 15
 --- !u!114 &1201687346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,6 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30715ae06957ba479209888ac67b5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1658630031}
 --- !u!114 &1201687347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,7 +860,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1201687346}
         m_TargetAssemblyTypeName: InputSystem, Assembly-CSharp
-        m_MethodName: Moving
+        m_MethodName: MovingAction
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
