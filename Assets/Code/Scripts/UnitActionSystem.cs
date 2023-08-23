@@ -5,9 +5,20 @@ using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour
 {
-    [SerializeField] private Unit selectedUnit;
+    public static UnitActionSystem Instance { get; private set; }
+    
+    private Unit selectedUnit;
     private string unitTag = "Units";
 
+    private void Awake(){
+        if(Instance != null){
+            Debug.LogError("There's more than one UnitActionSystem! " + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+    
     private void Start() {
         HandleUnitSelection();
     }
