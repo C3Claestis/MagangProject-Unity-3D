@@ -5,12 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerMov : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    [SerializeField] float moveSpeed;
     private Rigidbody playerRigidbody;
     [SerializeField] Animator animator;    
     bool _iswalk = false;    
     private PlayerInputActions inputActions;
-    private bool isGrounded;
+    private bool isGrounded, isRun;
+    Vector2 inputVector;
     private void Awake()
     {        
         playerRigidbody = GetComponent<Rigidbody>();
@@ -18,6 +19,8 @@ public class PlayerMov : MonoBehaviour
         inputActions.Player.Enable();
         inputActions.Player.Jump.performed += Jump;
         inputActions.Player.Interaksi.performed += Interaksi;
+        inputActions.Player.Run.performed += Run;
+        inputActions.Player.Run.canceled += UnRun;
     }    
 
     private void Update()
@@ -27,7 +30,18 @@ public class PlayerMov : MonoBehaviour
 
         // Mengecek apakah karakter di tanah sebelum mengatur animasi lompat atau idle
         isGrounded = CheckGrounded();
-        
+
+        if (isRun)
+        {
+            moveSpeed = 30;
+            animator.SetBool("isRun", true);
+        }
+        else
+        {
+            moveSpeed = 15;
+            animator.SetBool("isRun", false);
+        }
+
         if (playerRigidbody.velocity.y != 0)
         {
             //Animasi Lompat
@@ -56,9 +70,9 @@ public class PlayerMov : MonoBehaviour
     private void Move()
     {
         //Mengambil Input System
-        Vector2 inputVector = inputActions.Player.Movement.ReadValue<Vector2>();
+        inputVector = inputActions.Player.Movement.ReadValue<Vector2>();
         Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y) * moveSpeed * Time.deltaTime;
-        movement.Normalize();
+        //movement.Normalize();
 
         //Untuk bergerak
         Vector3 targetPosition = transform.position + movement;
@@ -75,11 +89,32 @@ public class PlayerMov : MonoBehaviour
         if (inputVector.x == 0 && inputVector.y == 0)
         {
             animator.SetBool("isWalking", false);
+            animator.SetBool("isRun", false);
         }
         else
         {
             animator.SetBool("isWalking", true);
         }
+    }
+    private void UnRun(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            if (isGrounded && inputVector.x == 0 || inputVector.y == 0)
+            {
+                isRun = false;
+            }
+        }
+    }
+    private void Run(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (isGrounded && inputVector.x != 0 || inputVector.y != 0)
+            {
+                isRun = true;
+            }            
+        }       
     }
     private void Jump(InputAction.CallbackContext context)
     {        
