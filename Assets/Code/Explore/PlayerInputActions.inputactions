@@ -15,16 +15,16 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
+                    "name": "Run",
                     "type": "Button",
-                    "id": "7a36fc11-1ff9-4b1d-86d7-57a31d288930",
+                    "id": "52b930cb-aaa2-4488-8f34-ab128c2b23b6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interaksi",
+                    "name": "Interaction",
                     "type": "Button",
                     "id": "5a6d6ea3-7e28-4057-8094-f8a4fc1c58c1",
                     "expectedControlType": "Button",
@@ -33,9 +33,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Run",
+                    "name": "Jump",
                     "type": "Button",
-                    "id": "52b930cb-aaa2-4488-8f34-ab128c2b23b6",
+                    "id": "7a36fc11-1ff9-4b1d-86d7-57a31d288930",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -44,7 +44,18 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
+                    "name": "",
+                    "id": "d019ae46-4b24-4db0-b5be-448af7592dbb",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Dpad",
                     "id": "07af3a85-8c7e-4517-be82-3a08d8e2122b",
                     "path": "2DVector",
                     "interactions": "",
@@ -100,23 +111,12 @@
                 },
                 {
                     "name": "",
-                    "id": "d67e4521-95d2-4930-b096-72e8c9e81eee",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cf76a3ec-72a7-4bf6-b7e3-8652997cc1eb",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaksi",
+                    "action": "Interaction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -128,6 +128,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d67e4521-95d2-4930-b096-72e8c9e81eee",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
