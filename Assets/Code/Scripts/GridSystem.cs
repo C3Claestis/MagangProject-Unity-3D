@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class GridSystem
@@ -29,12 +31,22 @@ public class GridSystem
         {
             for (int z = 0; z < height; z++)
             {
-                GameObject.Instantiate(debugPrefab, GetWorldPosition(x, z), Quaternion.identity);
+                GridPosition gridPosition = new GridPosition(x,z);
+                Transform debugTransform = 
+                    GameObject.Instantiate(debugPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
+                GridDebugObject gridDebugObject = debugTransform.GetComponent<GridDebugObject>();
+                gridDebugObject.SetGridObject(GetGridObject(gridPosition));
             }
         }
     }
 
-    public Vector3 GetWorldPosition(int x, int z) => new Vector3(x, 0, z) * cellSize;
+    public GridObject GetGridObject(GridPosition gridPosition)
+    {
+        return gridObjectArray[gridPosition.x, gridPosition.z];
+    }
+    public Vector3 GetWorldPosition(GridPosition gridPosition){
+        return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
+    }
 
     public GridPosition GetGridPosition(Vector3 worldPosition){
         return new GridPosition(

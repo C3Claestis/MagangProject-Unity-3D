@@ -1,14 +1,14 @@
 public struct GridPosition{
     public int x;
-    public int y;
+    public int z;
     
-    public GridPosition(int x, int y){
+    public GridPosition(int x, int z){
         this.x = x;
-        this.y = y;
+        this.z = z;
     }
 
     public override string ToString() 
     {
-        return $"x: {x}; y: {y}";
+        return $"x: {x}; z: {z}";
     }
 }
