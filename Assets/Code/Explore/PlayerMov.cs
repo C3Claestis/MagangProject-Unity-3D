@@ -5,133 +5,76 @@ using UnityEngine.InputSystem;
 
 public class PlayerMov : MonoBehaviour
 {
-    [SerializeField] float moveSpeed;
+    [SerializeField] float walkSpeed = 4f;
+    [SerializeField] float runSpeed = 8f;
+    [SerializeField] float rotateSpeed = 30f;
     private Rigidbody playerRigidbody;
-    [SerializeField] Animator animator;    
-    bool _iswalk = false;    
-    private PlayerInputActions inputActions;
-    private bool isGrounded, isRun;
-    Vector2 inputVector;
+    private InputSystem inputSystem;
+
+    private bool onGround;
+
     private void Awake()
-    {        
+    {
+        inputSystem = GetComponent<InputSystem>();
         playerRigidbody = GetComponent<Rigidbody>();
-        inputActions = new PlayerInputActions();
-        inputActions.Player.Enable();
-        inputActions.Player.Jump.performed += Jump;
-        inputActions.Player.Interaksi.performed += Interaksi;
-        inputActions.Player.Run.performed += Run;
-        inputActions.Player.Run.canceled += UnRun;
-    }    
+    }
 
     private void Update()
     {
-        if(!_iswalk)
-            Move();
-
-        // Mengecek apakah karakter di tanah sebelum mengatur animasi lompat atau idle
-        isGrounded = CheckGrounded();
-
-        if (isRun)
-        {
-            moveSpeed = 30;
-            animator.SetBool("isRun", true);
-        }
-        else
-        {
-            moveSpeed = 15;
-            animator.SetBool("isRun", false);
-        }
-
-        if (playerRigidbody.velocity.y != 0)
-        {
-            //Animasi Lompat
-        }
-        else 
-        {
-            //Animasi Idle
-        }
+        Move();        
     }
-    private bool CheckGrounded()
+
+    //Akan terpanggil otomatis jika player bersentuhan dengan Ground
+    private void OnCollisionEnter(Collision other)
     {
-        RaycastHit hit;
-        float rayDistance = 0.1f; // Ubah ini sesuai dengan ukuran karakter
-        Vector3 rayOrigin = transform.position + Vector3.up * rayDistance * 0.5f;
+        if (other.gameObject.layer != 3) return;
 
-        // Raycast ke bawah untuk mendeteksi permukaan di bawah karakter
-        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, rayDistance))
-        {
-            // Jika permukaan yang terdeteksi ada, karakter dianggap berada di tanah
-            return true;
-        }
-
-        // Tidak ada permukaan yang terdeteksi di bawah karakter
-        return false;
+        onGround = true;
+        Debug.Log("Player is on the ground");
     }
+
+    //Akan terpanggil otomatis jika player tidak bersentuhan dengan ground
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.layer != 3) return;
+
+        onGround = false;
+        Debug.Log("Player exit the ground");
+    }
+
     private void Move()
     {
-        //Mengambil Input System
-        inputVector = inputActions.Player.Movement.ReadValue<Vector2>();
-        Vector3 movement = new Vector3(inputVector.x, 0f, inputVector.y) * moveSpeed * Time.deltaTime;
-        //movement.Normalize();
+        Vector2 input = inputSystem.GetMovementValue();
+        Vector3 moveDirection = new Vector3(input.x, 0, input.y);
+        float moveSpeed = walkSpeed;
 
-        //Untuk bergerak
-        Vector3 targetPosition = transform.position + movement;
-        playerRigidbody.MovePosition(Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f));
-
-        //Agar karakter tidak berotasi seperti awal
-        if (inputVector.x != 0 || inputVector.y != 0)
+        if (input == Vector2.zero)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            return;
         }
 
-        //Animasi
-        if (inputVector.x == 0 && inputVector.y == 0)
+        if (moveDirection != Vector3.zero)
         {
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRun", false);
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
-        else
+
+
+        if (inputSystem.CanRunning())
         {
-            animator.SetBool("isWalking", true);
+            moveSpeed = runSpeed;
         }
+
+        transform.position += moveDirection * Time.deltaTime * moveSpeed;
     }
-    private void UnRun(InputAction.CallbackContext context)
+    public void Jump(bool jump)
     {
-        if (context.canceled)
+        if (jump)
         {
-            if (isGrounded && inputVector.x == 0 || inputVector.y == 0)
-            {
-                isRun = false;
-            }
-        }
-    }
-    private void Run(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            if (isGrounded && inputVector.x != 0 || inputVector.y != 0)
-            {
-                isRun = true;
-            }            
-        }       
-    }
-    private void Jump(InputAction.CallbackContext context)
-    {        
-        if(context.performed)
-        {
-            if (isGrounded)
+            if (onGround)
             {
                 playerRigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
             }
-        }            
-    }
-
-    private void Interaksi(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            Debug.Log("Interaksi");
-        }
+        }                 
     }
 }
