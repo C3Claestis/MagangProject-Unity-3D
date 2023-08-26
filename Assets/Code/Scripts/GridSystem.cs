@@ -44,6 +44,7 @@ public class GridSystem
     {
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }
+    
     public Vector3 GetWorldPosition(GridPosition gridPosition){
         return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
     }
