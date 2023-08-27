@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseWorld : MonoBehaviour
@@ -17,6 +15,11 @@ public class MouseWorld : MonoBehaviour
         transform.position = MouseWorld.GetPosition();
     }
 
+    /// <summary>
+    /// Gets the world position in 3D space corresponding to the current mouse cursor position on the screen.
+    /// Uses a raycast from the camera through the mouse cursor to interact with the scene.
+    /// </summary>
+    /// <returns>The 3D world position where the raycast from the mouse cursor hits an object.</returns>
     public static Vector3 GetPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

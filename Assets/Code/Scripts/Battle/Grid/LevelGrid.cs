@@ -27,25 +27,48 @@ public class LevelGrid : MonoBehaviour
         gridSystem.CreateDebugObjects(gridObjectDebug);
     }
 
+    /// <summary>
+    /// Adds a unit at the specified grid position.
+    /// </summary>
+    /// <param name="gridPosition">The grid position to add the unit to.</param>
+    /// <param name="unit">The unit to be added.</param>
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit){
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         gridObject.AddUnit(unit);
     }
 
+    /// <summary>
+    /// Retrieves the list of units at the specified grid position.
+    /// </summary>
+    /// <param name="gridPosition">The grid position to query.</param>
+    /// <returns>A list of units at the specified grid position.</returns>
     public List<Unit> GetUnitListAtGridPosition(GridPosition gridPosition){
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         return gridObject.GetUnitList();
     }
 
+    /// <summary>
+    /// Removes a unit from the specified grid position.
+    /// </summary>
+    /// <param name="gridPosition">The grid position to remove the unit from.</param>
+    /// <param name="unit">The unit to be removed.</param>
     public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit){
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         gridObject.RemoveUnit(unit);
     }
 
+    /// <summary>
+    /// Moves a unit from one grid position to another.
+    /// </summary>
+    /// <param name="unit">The unit to move.</param>
+    /// <param name="fromGridPosition">The source grid position.</param>
+    /// <param name="toGridPosition">The target grid position.</param>
     public void UnitMoveGridPosition(Unit unit, GridPosition fromGridPosition, GridPosition toGridPosition){
         RemoveUnitAtGridPosition(fromGridPosition, unit);
         AddUnitAtGridPosition(toGridPosition, unit);
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
+    public int GetWidth() => width;
+    public int GetHeight() => height;
 }

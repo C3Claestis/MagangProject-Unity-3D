@@ -47,25 +47,17 @@ public class Unit : MonoBehaviour
         currentMagicalDefense = baseMagicalDefense;
         currentAgility = baseAgility;
         
-        ChangeMaterial();
+        ChangeUnitShade();
     }
     
     private void Update()
     {
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
-        {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-            transform.position += moveDirection * Time.deltaTime * moveSpeed;
-
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
-            unitAnimator.SetBool("isWalking",true);
+        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance){
+            Moving();
         }
-        else
-        {
+        else{
             unitAnimator.SetBool("isWalking", false);
         }
-
 
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if(newGridPosition != gridPosition){ // if unit change grid position
@@ -73,17 +65,34 @@ public class Unit : MonoBehaviour
             gridPosition = newGridPosition;
         }
     }
-    
-    public void Move(Vector3 targetPosition)
-    {
-        this.targetPosition = targetPosition; 
+
+    /// <summary>
+    /// Moves the object towards a target position. 
+    /// </summary>
+    /// <remarks> Adjusting its position, orientation, and animation. </remarks>
+    private void Moving(){
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+        transform.position += moveDirection * Time.deltaTime * moveSpeed;
+
+        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
+        unitAnimator.SetBool("isWalking",true);
     }
 
-    public void ChangeMaterial(){
+    /// <summary>
+    /// Change unit material shading based on the selection status.
+    /// </summary>
+    public void ChangeUnitShade(){
         Material newMaterial = skinnedMeshRenderer.material;
         newMaterial.color = isSelected ?  new Color(0.9f, 0.9f, 0.9f, 1f) :  new Color(0.4f, 0.4f, 0.4f, 1f);
         skinnedMeshRenderer.material = newMaterial;
     }
+
+    /// <summary>
+    /// Set the target position for movement.
+    /// </summary>
+    /// <param name="targetPosition">The target position to move to.</param>
+    public void Move(Vector3 targetPosition) => this.targetPosition = targetPosition; 
 
     public int GetAgility() => currentAgility;
     public bool GetMoveStatus() => hasMove;

@@ -35,6 +35,9 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the selection of the fastest unit that hasn't moved yet.
+    /// </summary>
     private void HandleUnitSelection()
     {
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
@@ -46,16 +49,15 @@ public class UnitActionSystem : MonoBehaviour
         {
             Unit unitComponent = unitObject.GetComponent<Unit>();
 
-            if (unitComponent != null)
-            {
-                int unitSpeed = unitComponent.GetAgility();
-                bool hasMoved = unitComponent.GetMoveStatus();
+            if (unitComponent == null) continue;
+            
+            int unitSpeed = unitComponent.GetAgility();
+            bool hasMoved = unitComponent.GetMoveStatus();
 
-                if (!hasMoved && unitSpeed > fastestSpeed)
-                {
-                    fastestUnit = unitComponent;
-                    fastestSpeed = unitSpeed;
-                }
+            if (!hasMoved && unitSpeed > fastestSpeed)
+            {
+                fastestUnit = unitComponent;
+                fastestSpeed = unitSpeed;
             }
         }
 
@@ -66,7 +68,7 @@ public class UnitActionSystem : MonoBehaviour
 
         if (fastestUnit != null)
         {
-            SelectUnit(fastestUnit, fastestSpeed);
+            SelectUnit(fastestUnit);
         }
         else
         {
@@ -75,20 +77,25 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Resets the selected unit's status and shading after it has been moved.
+    /// </summary>
     private void ResetSelectedUnit()
     {
         selectedUnit.SetSelectedStatus(false);
-        selectedUnit.ChangeMaterial();
+        selectedUnit.ChangeUnitShade();
         selectedUnit.SetMoveStatus(true);
     }
 
-    private void SelectUnit(Unit unit, int speed)
+    /// <summary>
+    /// Selects a unit and updates its status and shading.
+    /// </summary>
+    /// <param name="unit">The unit to be selected.</param>
+    private void SelectUnit(Unit unit)
     {
         selectedUnit = unit;
         selectedUnit.SetMoveStatus(true);
         selectedUnit.SetSelectedStatus(true);
-        selectedUnit.ChangeMaterial();
-        Debug.Log("Fastest Unit Selected! Name: " + unit.GetCharacterName() + ", Speed: " + speed);
+        selectedUnit.ChangeUnitShade();
     }
-
 }

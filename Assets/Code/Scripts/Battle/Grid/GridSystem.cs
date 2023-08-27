@@ -26,6 +26,10 @@ public class GridSystem
         }
     }    
 
+    /// <summary>
+    /// Creates debug objects for visualizing the grid.
+    /// </summary>
+    /// <param name="debugPrefab">The prefab used for debug visualization.</param>
     public void CreateDebugObjects(Transform debugPrefab){
         for (int x = 0; x < width; x++)
         {
@@ -40,15 +44,30 @@ public class GridSystem
         }
     }
 
+    /// <summary>
+    /// Retrieves the grid object at the specified grid position.
+    /// </summary>
+    /// <param name="gridPosition">The grid position to query.</param>
+    /// <returns>The grid object at the specified grid position.</returns>
     public GridObject GetGridObject(GridPosition gridPosition)
     {
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }
     
+    /// <summary>
+    /// Converts a grid position to world space.
+    /// </summary>
+    /// <param name="gridPosition">The grid position to convert.</param>
+    /// <returns>The corresponding world position.</returns>
     public Vector3 GetWorldPosition(GridPosition gridPosition){
         return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
     }
 
+    /// <summary>
+    /// Converts a world position to a grid position.
+    /// </summary>
+    /// <param name="worldPosition">The world position to convert.</param>
+    /// <returns>The corresponding grid position.</returns>
     public GridPosition GetGridPosition(Vector3 worldPosition){
         return new GridPosition(
             Mathf.RoundToInt(worldPosition.x/cellSize),
