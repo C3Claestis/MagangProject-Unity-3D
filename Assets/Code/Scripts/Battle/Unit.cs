@@ -67,10 +67,11 @@ public class Unit : MonoBehaviour
     public int GetAgility() => currentAgility;
     public bool GetMoveStatus() => hasMove;
     public string GetCharacterName() => characterName;
+
     public MoveAction GetMoveAction() => moveAction;
+    public GridPosition GetGridPosition() => gridPosition;
 
     public void SetMoveStatus(bool hasMove) => this.hasMove = hasMove;
     public void SetSelectedStatus(bool isSelected) => this.isSelected = isSelected;
 
-    
 }

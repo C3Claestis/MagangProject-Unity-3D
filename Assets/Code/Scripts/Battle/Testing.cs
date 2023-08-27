@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    // private void Update(){
-    //     Debug.Log(gridSystem.GetGridPosition(MouseWorld.GetPosition()));
-    // } 
+    [SerializeField] private Unit unit;
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.T)) {
+            unit.GetMoveAction().GetValidActionGridPosition();
+        }
+
+    }
 
 }
