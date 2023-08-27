@@ -20,7 +20,6 @@ public class UnitActionSystem : MonoBehaviour
     }
     
     private void Start() {
-        HandleUnitSelection();
     }
     
     private void Update() {
@@ -68,6 +67,7 @@ public class UnitActionSystem : MonoBehaviour
 
         if (fastestUnit != null)
         {
+            CameraController.Instance.SetCameraFocusToPosition(fastestUnit.transform.position);
             SelectUnit(fastestUnit);
         }
         else

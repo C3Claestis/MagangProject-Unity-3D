@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
+
     [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
+
+    private CinemachineTransposer cinemachineTransposer;
+    private PlayerInputController playerInputController;
 
     [SerializeField] private float cameraMoveSpeed = 10f;
     [SerializeField] private float cameraZoomSpeed = 3f;
@@ -14,16 +19,28 @@ public class CameraController : MonoBehaviour
 
     private float minZoomLimit = 2f;
     private float maxZoomLimit = 7f;
-    private float zoomAmmount = 1f;
+    private float zoomAmmount = 0.8f;
 
     private Vector3 targetFollowOffset;
-    private CinemachineTransposer cinemachineTransposer;
-    private PlayerInputController playerInputController;
+
+    private Vector3 targetPosition = new Vector3(0, 0, 0);
+    [SerializeField] float cameraFocusStoppingDistance = .1f;
+    [SerializeField] float cameraFocusActiveMoveSpeed = 10f;
+    private bool cameraFocusActive = false;
+
+    private void Awake() {
+        if(Instance != null){
+            Debug.LogError("There's more than one CameraController! " + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;    
+    }
 
     private void Start() {
         widthMoveLimit = LevelGrid.Instance.GetWidth() * 2f - 1f;
         heighMoveLimit = LevelGrid.Instance.GetHeight() * 2 - 1f;
-
+        
         cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;
         playerInputController = PlayerInputController.Instance;
@@ -35,13 +52,13 @@ public class CameraController : MonoBehaviour
     void Update(){
         HandleCameraMovement();
         HandleCameraZoom();
+        HandleCameraFocusToPosition();
     }
 
     private void HandleCameraMovement(){
-        Vector2 cameraMovement = playerInputController.GetCameraMovement();
+        if (!playerInputController.GetCameraMovementStatus()) return;
 
-        if(cameraMovement == Vector2.zero) return;
-
+        Vector2 cameraMovement = playerInputController.GetCameraMovementValue();
         Vector3 inputMoveDir = new Vector3(cameraMovement.x, 0, cameraMovement.y);
         Vector3 moveVector = transform.forward * inputMoveDir.z + transform.right * inputMoveDir.x;
         Vector3 newPosition = transform.position + moveVector * cameraMoveSpeed * Time.deltaTime;
@@ -53,7 +70,9 @@ public class CameraController : MonoBehaviour
     }
 
     private void HandleCameraZoom(){
-        float cameraZoomValue = playerInputController.GetCameraZoom();
+        if(!playerInputController.GetCameraZoomStatus()) return;
+        
+        float cameraZoomValue = playerInputController.GetCameraZoomValue();
 
         if(cameraZoomValue > 0){
             targetFollowOffset.y -=  zoomAmmount;
@@ -67,5 +86,20 @@ public class CameraController : MonoBehaviour
         cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * cameraZoomSpeed);
     }
 
-    public Transform GetCameraController() => transform;
+    private void HandleCameraFocusToPosition(){
+        if(!cameraFocusActive) return;
+
+        if (Vector3.Distance(transform.position, targetPosition) > cameraFocusStoppingDistance){
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
+            transform.position += moveDirection * Time.deltaTime * cameraFocusActiveMoveSpeed;
+
+            transform.position = Vector3.Lerp(transform.position, moveDirection, Time.deltaTime);
+        }
+        else cameraFocusActive = false;
+    }
+
+    public void SetCameraFocusToPosition(Vector3 targetPosition){
+        this.targetPosition = targetPosition;
+        cameraFocusActive = true;
+    }
 }

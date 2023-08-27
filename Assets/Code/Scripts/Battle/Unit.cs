@@ -39,7 +39,6 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
-
         currentHealth = baseHealth;
         currentPhysicalAttack = basePhysicalAttack;
         currentMagicalAttack = baseMagicalAttack;
