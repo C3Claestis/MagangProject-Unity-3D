@@ -10,9 +10,6 @@ public class UnitEditor : Editor
     #region 
     SerializedProperty characterName;
 
-    SerializedProperty moveSpeed;
-    SerializedProperty rotateSpeed;
-
     SerializedProperty baseHealth;
     SerializedProperty currentHealth;
 
@@ -47,15 +44,11 @@ public class UnitEditor : Editor
     private bool showPhysicalDefense = false;
     private bool showMagicalDefense = false;
     private bool showAgility = false;
-    private bool showSpeed = false;
     private bool showStatus = false;
 
     private void OnEnable()
     {
         characterName = serializedObject.FindProperty("characterName");
-
-        moveSpeed = serializedObject.FindProperty("moveSpeed");
-        rotateSpeed = serializedObject.FindProperty("rotateSpeed");
 
         baseHealth = serializedObject.FindProperty("baseHealth");
         currentHealth = serializedObject.FindProperty("currentHealth");
@@ -206,24 +199,6 @@ public class UnitEditor : Editor
             GUILayout.EndHorizontal();
             GUILayout.Space(5);
         }
-
-        showSpeed = EditorGUILayout.Foldout(showSpeed, "Speed System");
-        if(showSpeed)
-        {
-            GUILayout.BeginHorizontal();
-
-            GUILayout.Label("Move", EditorStyles.boldLabel, GUILayout.Width(40));
-            EditorGUILayout.PropertyField(moveSpeed, GUIContent.none, GUILayout.Width(60));
-
-            GUILayout.Space(20);
-
-            GUILayout.Label("Rotate", EditorStyles.boldLabel, GUILayout.Width(40));
-            EditorGUILayout.PropertyField(rotateSpeed, GUIContent.none, GUILayout.Width(60));
-
-            GUILayout.EndHorizontal();
-            GUILayout.Space(5);
-        }
-
         #endregion
 
         showStatus = EditorGUILayout.Foldout(showStatus, "Status");
@@ -233,7 +208,6 @@ public class UnitEditor : Editor
             GUILayout.Space(5);
         }
 
-        EditorGUILayout.PropertyField(unitAnimator);
         EditorGUILayout.PropertyField(skinnedMeshRenderer);
 
         serializedObject.ApplyModifiedProperties();

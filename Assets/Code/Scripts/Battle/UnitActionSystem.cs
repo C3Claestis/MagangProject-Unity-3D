@@ -30,7 +30,7 @@ public class UnitActionSystem : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)){
             if (selectedUnit == null) return;
-            selectedUnit.Move(MouseWorld.GetPosition());
+            selectedUnit.GetMoveAction().MoveTo(MouseWorld.GetPosition());
         }
     }
 
