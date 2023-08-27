@@ -1,0 +1,22 @@
+{
+    "name": "BattleInputActions",
+    "maps": [
+        {
+            "name": "Battle",
+            "id": "d51a6136-d6c8-4a09-aa32-e395db751282",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "PassThrough",
+                    "id": "73066471-65ee-4086-afb1-b4c160a82094",
+                    "expectedControlType": "Bone",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": []
+        }
+    ],
+    "controlSchemes": []
+}
