@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Scenes/BattleGameplay.unity
     guid: 79a20dd499aaeed4ea140a937c08c071
+  - enabled: 1
+    path: Assets/Level/Scenes/MainMenu.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
