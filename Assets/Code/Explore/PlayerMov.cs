@@ -8,9 +8,9 @@ public class PlayerMov : MonoBehaviour
     [SerializeField] float walkSpeed = 4f;
     [SerializeField] float runSpeed = 8f;
     [SerializeField] float rotateSpeed = 30f;
+    [SerializeField] InteraksiNPC interaksiNPC;
     private Rigidbody playerRigidbody;
-    private InputSystem inputSystem;
-
+    private InputSystem inputSystem;    
     private bool onGround;
 
     private void Awake()
@@ -20,8 +20,11 @@ public class PlayerMov : MonoBehaviour
     }
 
     private void Update()
-    {
-        Move();        
+    {        
+        if (!interaksiNPC.isTalk)
+        {
+            Move();
+        }        
     }
 
     //Akan terpanggil otomatis jika player bersentuhan dengan Ground
@@ -67,6 +70,7 @@ public class PlayerMov : MonoBehaviour
 
         transform.position += moveDirection * Time.deltaTime * moveSpeed;
     }
+    /*
     public void Jump(bool jump)
     {
         if (jump)
@@ -76,5 +80,5 @@ public class PlayerMov : MonoBehaviour
                 playerRigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
             }
         }                 
-    }
+    }*/
 }

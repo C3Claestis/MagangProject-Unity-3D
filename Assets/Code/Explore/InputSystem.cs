@@ -5,6 +5,7 @@ public class InputSystem : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerMov playerMov;
+    [SerializeField] private InteraksiNPC interaksiNPC;
     private Vector2 movementValue;
     private bool isMoving = false;
     private bool canRunning = false;
@@ -62,12 +63,19 @@ public class InputSystem : MonoBehaviour
 
     public void InteractionAction(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !interaksiNPC.isTalk)
         {
             Debug.Log("Interaksi");
+            interaksiNPC.isTalk = true;            
+        }
+        else if (context.performed && interaksiNPC.isTalk)
+        {
+            Debug.Log("Tidak Interaksi");
+            interaksiNPC.isTalk = false;
         }
     }
 
+    /*
     public void JumpAction(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -81,11 +89,24 @@ public class InputSystem : MonoBehaviour
             SetJumping(false);
         }
     }
-
+    */
     //////////////////////////////
-    private void SetAnimatorRunning(bool value) => animator.SetBool("isRun", value);
-    private void SetAnimatorWalking(bool value) => animator.SetBool("isWalking", value);
-    private void SetJumping(bool value) => playerMov.Jump(value);
+    private void SetAnimatorRunning(bool value)
+    {
+        if(!interaksiNPC.isTalk)
+            animator.SetBool("isRun", value);
+    }
+    private void SetAnimatorWalking(bool value)
+    {
+        if (!interaksiNPC.isTalk)
+            animator.SetBool("isWalking", value);
+    }
+    /*
+    private void SetJumping(bool value)
+    {
+        if (!interaksiNPC.isTalk)
+            //playerMov.Jump(value);
+    }*/
     public Vector2 GetMovementValue() => movementValue;
     public bool CanRunning() => canRunning;    
 }

@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 4.5, z: -3.5}
+  m_FollowOffset: {x: 0, y: 4.5, z: -3}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -471,8 +471,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351582394}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: -0.000000015597685, z: 0.0000000064607724, w: 0.92387956}
-  m_LocalPosition: {x: -1.92, y: 4.476, z: -9.76}
+  m_LocalRotation: {x: 0.43935144, y: 0.000000028768255, z: -0.000000014070088, w: 0.89831525}
+  m_LocalPosition: {x: 0, y: 4.476, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -604,10 +604,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -669,6 +669,10 @@ PrefabInstance:
     - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_Name
       value: NPC (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5907973634155975812, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -808,7 +812,7 @@ Transform:
   m_GameObject: {fileID: 832299985}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.5}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -831,7 +835,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.25, y: 1.25, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -847,7 +851,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892ab51605c968c40b34896dfa112f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: {fileID: 1414622294}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  text: {fileID: 1414622294}
+  player: {fileID: 1201687340}
+  isTalk: 0
 --- !u!1 &847106764
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,8 +923,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847106764}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: -0.000000015597685, z: 0.0000000064607724, w: 0.92387956}
-  m_LocalPosition: {x: -1.92, y: 4.476, z: -9.76}
+  m_LocalRotation: {x: 0.43935144, y: 0.000000028768255, z: -0.000000014070088, w: 0.89831525}
+  m_LocalPosition: {x: 0, y: 4.476, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -962,6 +971,10 @@ PrefabInstance:
     - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_Name
       value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5907973634155975812, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1019,6 +1032,10 @@ PrefabInstance:
     - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_Name
       value: NPC (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5907973634155975812, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1221,7 +1238,7 @@ Transform:
   m_GameObject: {fileID: 1201687339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.92, y: -0.024, z: -6.26}
+  m_LocalPosition: {x: 0, y: -0.024, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1294,6 +1311,7 @@ MonoBehaviour:
   walkSpeed: 4
   runSpeed: 8
   rotateSpeed: 30
+  interaksiNPC: {fileID: 832299988}
 --- !u!114 &1201687346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1308,6 +1326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1658630031}
   playerMov: {fileID: 1201687345}
+  interaksiNPC: {fileID: 832299988}
 --- !u!114 &1201687347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,7 +1385,19 @@ MonoBehaviour:
     m_ActionId: 7a36fc11-1ff9-4b1d-86d7-57a31d288930
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1201687346}
+        m_TargetAssemblyTypeName: InputSystem, Assembly-CSharp
+        m_MethodName: InteractionAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5a6d6ea3-7e28-4057-8094-f8a4fc1c58c1
     m_ActionName: Player/Interaksi[/Keyboard/e]
   - m_PersistentCalls:
@@ -1385,8 +1416,12 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 52b930cb-aaa2-4488-8f34-ab128c2b23b6
     m_ActionName: Player/Run[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8d5cd13e-465e-49d5-b45f-88502c11d2d0
+    m_ActionName: Player/New action
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -1835,6 +1870,10 @@ PrefabInstance:
     - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_Name
       value: NPC (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 393460918820814005, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5907973634155975812, guid: 2718d4e87a19cc34782dd6f79874fe05, type: 3}
       propertyPath: m_LocalPosition.x
