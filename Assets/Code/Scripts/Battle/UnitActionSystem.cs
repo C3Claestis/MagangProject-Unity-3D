@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour
@@ -29,18 +26,12 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0)){
-            if (selectedUnit == null) return;
-
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            
-            if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
-                selectedUnit.GetMoveAction().MoveTo(mouseGridPosition);
-                Debug.Log("VALID MOVE POSITION");
-            }else{ Debug.LogWarning("INVALID MOVE POSITION!");}
+            TryMoveSelectedUnitToGridPosition();
         }
     }
 
-    /// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
+    /// <summary> Handles the selection of the fastest unit that hasn't moved yet.
+    /// </summary>
     private void HandleUnitSelection()
     {
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
@@ -81,7 +72,8 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
-    /// <summary>Resets the selected unit's status and shading after it has been moved.</summary>
+    /// <summary>Resets the selected unit's status and shading after it has been moved.
+    /// </summary>
     private void ResetSelectedUnit()
     {
         selectedUnit.SetSelectedStatus(false);
@@ -89,7 +81,22 @@ public class UnitActionSystem : MonoBehaviour
         selectedUnit.SetMoveStatus(true);
     }
 
-    /// <summary>Selects a unit and updates its status and shading.</summary>
+    /// <summary>Tries to move the selected unit to the mouse cursor's grid position.
+    /// </summary>
+    private void TryMoveSelectedUnitToGridPosition(){
+        if (selectedUnit == null) return;
+
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            
+            if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
+                selectedUnit.GetMoveAction().MoveTo(mouseGridPosition);
+                Debug.Log("VALID MOVE POSITION");
+            }
+            else Debug.LogWarning("INVALID MOVE POSITION!");
+    }
+
+    /// <summary>Selects a unit and updates its status and shading.
+    /// </summary>
     /// <param name="unit">The unit to be selected.</param>
     private void SelectUnit(Unit unit)
     {

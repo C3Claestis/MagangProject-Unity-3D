@@ -1,4 +1,3 @@
-using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
@@ -55,6 +54,8 @@ public class CameraController : MonoBehaviour
         HandleCameraFocusToPosition();
     }
 
+/// <summary>Handles camera movement based on player input.
+/// </summary>
     private void HandleCameraMovement(){
         if (!playerInputController.GetCameraMovementStatus()) return;
 
@@ -69,6 +70,8 @@ public class CameraController : MonoBehaviour
         transform.position = newPosition;
     }
 
+/// <summary>Handles camera zoom based on player input.
+/// </summary>
     private void HandleCameraZoom(){
         if(!playerInputController.GetCameraZoomStatus()) return;
         
@@ -86,6 +89,8 @@ public class CameraController : MonoBehaviour
         cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * cameraZoomSpeed);
     }
 
+/// <summary>Handles the camera focusing to a specific position.
+/// </summary>
     private void HandleCameraFocusToPosition(){
         if(!cameraFocusActive) return;
 

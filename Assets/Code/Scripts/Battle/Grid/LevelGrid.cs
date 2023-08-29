@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class LevelGrid : MonoBehaviour
 {
@@ -27,8 +24,7 @@ public class LevelGrid : MonoBehaviour
         gridSystem.CreateDebugObjects(gridObjectDebug);
     }
 
-    /// <summary>
-    /// Adds a unit at the specified grid position.
+    /// <summary>Adds a unit at the specified grid position.
     /// </summary>
     /// <param name="gridPosition">The grid position to add the unit to.</param>
     /// <param name="unit">The unit to be added.</param>
@@ -37,8 +33,7 @@ public class LevelGrid : MonoBehaviour
         gridObject.AddUnit(unit);
     }
 
-    /// <summary>
-    /// Retrieves the list of units at the specified grid position.
+    /// <summary>Retrieves the list of units at the specified grid position.
     /// </summary>
     /// <param name="gridPosition">The grid position to query.</param>
     /// <returns>A list of units at the specified grid position.</returns>
@@ -47,8 +42,7 @@ public class LevelGrid : MonoBehaviour
         return gridObject.GetUnitList();
     }
 
-    /// <summary>
-    /// Removes a unit from the specified grid position.
+    /// <summary>Removes a unit from the specified grid position.
     /// </summary>
     /// <param name="gridPosition">The grid position to remove the unit from.</param>
     /// <param name="unit">The unit to be removed.</param>
@@ -57,8 +51,7 @@ public class LevelGrid : MonoBehaviour
         gridObject.RemoveUnit(unit);
     }
 
-    /// <summary>
-    /// Moves a unit from one grid position to another.
+    /// <summary>Moves a unit from one grid position to another.
     /// </summary>
     /// <param name="unit">The unit to move.</param>
     /// <param name="fromGridPosition">The source grid position.</param>

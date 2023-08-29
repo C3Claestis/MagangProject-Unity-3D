@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
@@ -35,9 +33,6 @@ public class PlayerInputController : MonoBehaviour
         if(context.started) return;
 
         cameraZoom = context.ReadValue<float>();
-        
-        // if(context.performed) cameraCanZoom = true; 
-        // else cameraCanZoom = false;
     }
 
     public Vector2 GetCameraMovementValue() => cameraMovement;

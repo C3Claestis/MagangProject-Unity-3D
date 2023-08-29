@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mime;
-using UnityEditor.Search;
 using UnityEngine;
 
 public class MoveAction : MonoBehaviour
@@ -13,6 +10,7 @@ public class MoveAction : MonoBehaviour
     [SerializeField] private int maxMoveDistance = 4;
 
     private float stoppingDistance = .1f;
+    private bool justStopMoving = false;
     private Vector3 targetPosition;
     private Unit unit;
 
@@ -24,18 +22,18 @@ public class MoveAction : MonoBehaviour
     void Update()
     {
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance){
-            Moving();
+            HandleMoving();
+            justStopMoving = true;
         }
-        else{
+        else if(justStopMoving){
             unitAnimator.SetBool("isWalking", false);
         }
     }
 
-    /// <summary>
-    /// Moves the object towards a target position. 
+    /// <summary>Moves unit towards a target position. 
     /// </summary>
     /// <remarks> Adjusting its position, orientation, and animation. </remarks>
-    private void Moving(){
+    private void HandleMoving(){
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
         transform.position += moveDirection * Time.deltaTime * moveSpeed;
 
@@ -44,14 +42,16 @@ public class MoveAction : MonoBehaviour
         unitAnimator.SetBool("isWalking",true);
     }
 
-    /// <summary>
-    /// Set the target position for movement.
+    /// <summary>Set the target position for movement.
     /// </summary>
     /// <param name="targetPosition">The target position to move to.</param>
     public void MoveTo(GridPosition gridPosition) {
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
     }
     
+    /// <summary>Retrieves a list of valid grid positions that the unit can move to.
+    /// </summary>
+    /// <returns>A list of valid grid positions for the unit's movement.</returns>
     public List<GridPosition> GetValidActionGridPosition(){
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();
@@ -71,6 +71,10 @@ public class MoveAction : MonoBehaviour
         return validGridPositionList;
     }
 
+    /// <summary>Checks whether the given grid position is a valid action grid position for the unit.
+    /// </summary>
+    /// <param name="gridPosition">The grid position to be checked.</param>
+    /// <returns>True if the grid position is a valid action grid position, otherwise false.</returns>
     public bool IsValidActionGridPosition(GridPosition gridPosition){
         List<GridPosition> validGridPositionList = GetValidActionGridPosition();
         return validGridPositionList.Contains(gridPosition);

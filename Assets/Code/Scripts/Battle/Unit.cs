@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Unit : MonoBehaviour
 {
@@ -46,22 +42,25 @@ public class Unit : MonoBehaviour
     
     private void Update()
     {
-        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        if(newGridPosition != gridPosition){ // if unit change grid position
-            LevelGrid.Instance.UnitMoveGridPosition(this, gridPosition, newGridPosition);
-            gridPosition = newGridPosition;
-        }
+        UpdateUnitGridPosition();
     }
 
-   
-
-    /// <summary>
-    /// Change unit material shading based on the selection status.
+    /// <summary>Change unit material shading based on the selection status.
     /// </summary>
     public void ChangeUnitShade(){
         Material newMaterial = skinnedMeshRenderer.material;
         newMaterial.color = isSelected ?  new Color(0.9f, 0.9f, 0.9f, 1f) :  new Color(0.4f, 0.4f, 0.4f, 1f);
         skinnedMeshRenderer.material = newMaterial;
+    }
+
+    /// <summary>Updates the grid position of the unit based on its current world position.
+    /// </summary>
+    private void UpdateUnitGridPosition(){
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        if(newGridPosition != gridPosition){ // if unit change grid position
+            LevelGrid.Instance.UnitMoveGridPosition(this, gridPosition, newGridPosition);
+            gridPosition = newGridPosition;
+        }
     }
 
     public int GetAgility() => currentAgility;

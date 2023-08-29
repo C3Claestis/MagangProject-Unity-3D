@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class GridSystem
@@ -26,8 +24,7 @@ public class GridSystem
         }
     }    
 
-    /// <summary>
-    /// Creates debug objects for visualizing the grid.
+    /// <summary>Creates debug objects for visualizing the grid.
     /// </summary>
     /// <param name="debugPrefab">The prefab used for debug visualization.</param>
     public void CreateDebugObjects(Transform debugPrefab){
@@ -44,8 +41,7 @@ public class GridSystem
         }
     }
 
-    /// <summary>
-    /// Retrieves the grid object at the specified grid position.
+    /// <summary>Retrieves the grid object at the specified grid position.
     /// </summary>
     /// <param name="gridPosition">The grid position to query.</param>
     /// <returns>The grid object at the specified grid position.</returns>
@@ -54,8 +50,7 @@ public class GridSystem
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }
     
-    /// <summary>
-    /// Converts a grid position to world space.
+    /// <summary>Converts a grid position to world space.
     /// </summary>
     /// <param name="gridPosition">The grid position to convert.</param>
     /// <returns>The corresponding world position.</returns>
@@ -63,8 +58,7 @@ public class GridSystem
         return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
     }
 
-    /// <summary>
-    /// Converts a world position to a grid position.
+    /// <summary>Converts a world position to a grid position.
     /// </summary>
     /// <param name="worldPosition">The world position to convert.</param>
     /// <returns>The corresponding grid position.</returns>
