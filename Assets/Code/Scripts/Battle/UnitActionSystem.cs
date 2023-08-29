@@ -22,7 +22,7 @@ public class UnitActionSystem : MonoBehaviour
     private void Update() {
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            HandleUnitSelection();
+            SelectFastestUnit();
         }
 
         if (Input.GetMouseButtonDown(0)){
@@ -32,7 +32,7 @@ public class UnitActionSystem : MonoBehaviour
 
     /// <summary> Handles the selection of the fastest unit that hasn't moved yet.
     /// </summary>
-    private void HandleUnitSelection()
+    private void SelectFastestUnit()
     {
         GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
 
@@ -86,13 +86,11 @@ public class UnitActionSystem : MonoBehaviour
     private void TryMoveSelectedUnitToGridPosition(){
         if (selectedUnit == null) return;
 
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            
-            if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
-                selectedUnit.GetMoveAction().MoveTo(mouseGridPosition);
-                Debug.Log("VALID MOVE POSITION");
-            }
-            else Debug.LogWarning("INVALID MOVE POSITION!");
+        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+        
+        if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
+            selectedUnit.GetMoveAction().MoveTo(mouseGridPosition);
+        }
     }
 
     /// <summary>Selects a unit and updates its status and shading.
@@ -105,4 +103,6 @@ public class UnitActionSystem : MonoBehaviour
         selectedUnit.SetSelectedStatus(true);
         selectedUnit.ChangeUnitShade();
     }
+
+    public Unit GetSelectedUnit() => selectedUnit;
 }

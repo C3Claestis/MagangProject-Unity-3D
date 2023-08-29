@@ -390,7 +390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: maxMoveDistance
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: baseAgility
@@ -825,7 +825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: maxMoveDistance
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: characterName
@@ -914,8 +914,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridObjectDebug: {fileID: 6508921365226185444, guid: d9fd5ae812ebd2243ace1e15ab2a15bb, type: 3}
-  width: 8
-  height: 4
+  gridWidth: 8
+  gridHeight: 4
   cellSize: 2
 --- !u!4 &880107925
 Transform:
@@ -997,7 +997,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: maxMoveDistance
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: baseAgility
@@ -1359,6 +1359,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1857770371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1857770373}
+  - component: {fileID: 1857770372}
+  m_Layer: 0
+  m_Name: GridSystemVisual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1857770372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857770371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3a01d858621c843b699771ea103eeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSystemVisualSinglePrefab: {fileID: 4825930530328535635, guid: 376f48d43c4257944a7ab391799f85ac, type: 3}
+--- !u!4 &1857770373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857770371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1975823979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,3 +1594,4 @@ SceneRoots:
   - {fileID: 1975823981}
   - {fileID: 2056574861}
   - {fileID: 351467061}
+  - {fileID: 1857770373}

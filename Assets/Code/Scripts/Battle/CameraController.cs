@@ -37,8 +37,8 @@ public class CameraController : MonoBehaviour
     }
 
     private void Start() {
-        widthMoveLimit = LevelGrid.Instance.GetWidth() * 2f - 1f;
-        heighMoveLimit = LevelGrid.Instance.GetHeight() * 2 - 1f;
+        widthMoveLimit = LevelGrid.Instance.GetGridWidth() * 2f - 1f;
+        heighMoveLimit = LevelGrid.Instance.GetGridHeight() * 2 - 1f;
         
         cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         targetFollowOffset = cinemachineTransposer.m_FollowOffset;

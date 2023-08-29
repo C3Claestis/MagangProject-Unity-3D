@@ -6,8 +6,8 @@ public class LevelGrid : MonoBehaviour
     public static LevelGrid Instance {get; private set;}
 
     [SerializeField] private Transform gridObjectDebug;
-    [SerializeField] private int width = 8;
-    [SerializeField] private int height = 4;
+    [SerializeField] private int gridWidth = 8;
+    [SerializeField] private int gridHeight = 4;
     [SerializeField] private float cellSize = 2;
 
     private GridSystem gridSystem;
@@ -20,7 +20,7 @@ public class LevelGrid : MonoBehaviour
         }
         Instance = this;
 
-        gridSystem = new GridSystem(width, height, cellSize);
+        gridSystem = new GridSystem(gridWidth, gridHeight, cellSize);
         gridSystem.CreateDebugObjects(gridObjectDebug);
     }
 
@@ -70,6 +70,6 @@ public class LevelGrid : MonoBehaviour
         return gridObject.HasAnyUnit();
     }
 
-    public int GetWidth() => width;
-    public int GetHeight() => height;
+    public int GetGridWidth() => gridWidth;
+    public int GetGridHeight() => gridHeight;
 }

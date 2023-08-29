@@ -41,6 +41,13 @@ public class GridSystem
         }
     }
 
+    public bool IsValidGridPosition(GridPosition gridPosition){
+        return  gridPosition.x >= 0 && 
+                gridPosition.z >= 0 && 
+                gridPosition.x < width && 
+                gridPosition.z < height;
+    }
+
     /// <summary>Retrieves the grid object at the specified grid position.
     /// </summary>
     /// <param name="gridPosition">The grid position to query.</param>
@@ -69,10 +76,6 @@ public class GridSystem
         );
     }
 
-    public bool IsValidGridPosition(GridPosition gridPosition){
-        return  gridPosition.x >= 0 && 
-                gridPosition.z >= 0 && 
-                gridPosition.x < width && 
-                gridPosition.z < height;
-    }
+    public int GetWidth() => width;
+    public int GetHeight() => height;
 }
