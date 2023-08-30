@@ -5,43 +5,56 @@ using UnityEngine.UI;
 public class InteraksiNPC : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
-    [SerializeField] Text text;
-    [SerializeField] Transform player;
+    [SerializeField] Text text;     
+    [SerializeField] Transform player;    
     RaycastHit raycast;
     float rotationSpeed = 5.0f;
-    public bool isTalk;
+    public Text interaksi;
+    public bool isTalk, isNPC;
     private void Update()
     {
+        Interaksi();   
+    }
+
+    private void Interaksi()
+    {
+        //Raycast untuk scan NPC di depan
         Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward));
 
-        if(Physics.Raycast(ray, out raycast, 1f, layerMask, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out raycast, 1f, layerMask, QueryTriggerInteraction.Ignore))
         {
+            //Untuk membuat line 
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycast.distance, Color.red);
-            string objectName = raycast.collider.gameObject.name;
-            Debug.Log("Object Name: " + objectName);            
+            //Mengambil komponen script NPCnya
             NPC npc = raycast.collider.GetComponent<NPC>();
+            //Jika NPCnya ada didepannya
             if (npc != null)
             {
+                //Jika NPC tidak sedang berinteraksi dengan player
                 if (!npc.isInterect)
-                {                    
+                {
                     npc.isInterect = true;
                     text.text = raycast.collider.gameObject.name;
-                    Debug.Log("isInteract: " + npc.isInterect);                    
+                    isNPC = true;                    
                 }
             }
+            //Kondisi untuk rotasi ketika di tekan button interaksi di keyboard
             if (isTalk) { RotateTowardsPlayer(raycast.collider.gameObject); }
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);
             text.text = "";
+            //Mengambil semua komponen NPC yang ada untuk mengembalikan nilai awalnya
             NPC[] npcs = FindObjectsOfType<NPC>();
             foreach (NPC npc in npcs)
             {
                 npc.isInterect = false;
-            }           
+                isNPC = false;
+            }
         }
     }
+    //Untuk mengatur rotasi agar NPC melihat ke arah player
     private void RotateTowardsPlayer(GameObject obj)
     {
         if (player != null)

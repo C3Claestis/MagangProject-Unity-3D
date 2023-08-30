@@ -12,7 +12,7 @@ public class MaterialPair
 public class ObjectFedOut : MonoBehaviour
 {
     Renderer renderer;
-    public MaterialPair[] materialPairs = new MaterialPair[2]; // Array ini harus memiliki 2 pasangan MaterialPair
+    public MaterialPair[] materialPairs; // Array ini harus memiliki 2 pasangan MaterialPair
     public bool isTransparent = false;
 
     private void Start()
@@ -25,6 +25,10 @@ public class ObjectFedOut : MonoBehaviour
     {
         if (isTransparent)
         {
+            if (renderer.materials[0] != materialPairs[0].transparentMaterial)                
+            {
+                UpdateMaterial();
+            }
             if (renderer.materials[0] != materialPairs[0].transparentMaterial ||
                 renderer.materials[1] != materialPairs[1].transparentMaterial)
             {
@@ -33,6 +37,10 @@ public class ObjectFedOut : MonoBehaviour
         }
         else
         {
+            if (renderer.materials[0] != materialPairs[0].originalMaterial)
+            {
+                UpdateMaterial();
+            }
             if (renderer.materials[0] != materialPairs[0].originalMaterial ||
                 renderer.materials[1] != materialPairs[1].originalMaterial)
             {
@@ -41,6 +49,14 @@ public class ObjectFedOut : MonoBehaviour
         }
     }
 
+    private void UpdateMaterial()
+    {
+        Material[] newMaterials = new Material[] {
+            isTransparent ? materialPairs[0].transparentMaterial : materialPairs[0].originalMaterial            
+        };
+
+        renderer.materials = newMaterials;
+    }
     private void UpdateMaterials()
     {
         Material[] newMaterials = new Material[] {

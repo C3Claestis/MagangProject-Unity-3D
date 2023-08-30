@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Units
   - NPC
+  - Buiding
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - MousePlane
   - Building
   - NPC
-  - 
-  - 
+  - 'Player '
+  - Minimap
   - 
   - 
   - 

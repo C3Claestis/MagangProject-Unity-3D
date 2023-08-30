@@ -6,10 +6,18 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerMov playerMov;
     [SerializeField] private InteraksiNPC interaksiNPC;
-    private Vector2 movementValue;
+    [SerializeField] PlayerInput playerInput;
+    private Vector2 movementValue, insertValue;
     private bool isMoving = false;
     private bool canRunning = false;
     
+    public void UIAction(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            insertValue = context.ReadValue<Vector2>();
+        }
+    }
     public void RunAction(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -29,8 +37,7 @@ public class InputSystem : MonoBehaviour
 
             if (isMoving)
             {
-                SetAnimatorWalking(true);
-                Debug.Log("isWalking: " + animator.GetBool("isWalking") + "; isRun: " + animator.GetBool("isRun"));
+                SetAnimatorWalking(true);                
             }
         }
     }
@@ -63,16 +70,23 @@ public class InputSystem : MonoBehaviour
 
     public void InteractionAction(InputAction.CallbackContext context)
     {
-        if (context.performed && !interaksiNPC.isTalk)
+        if (interaksiNPC.isNPC)
         {
-            Debug.Log("Interaksi");
-            interaksiNPC.isTalk = true;            
-        }
-        else if (context.performed && interaksiNPC.isTalk)
-        {
-            Debug.Log("Tidak Interaksi");
-            interaksiNPC.isTalk = false;
-        }
+            if (context.performed && !interaksiNPC.isTalk)
+            {                
+                interaksiNPC.isTalk = true;
+                playerInput.SwitchCurrentActionMap("UI");
+                interaksiNPC.interaksi.text = "Sedang Interaksi";
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isRun", false);
+            }
+            else if (context.performed && interaksiNPC.isTalk)
+            {             
+                interaksiNPC.interaksi.text = "";
+                interaksiNPC.isTalk = false;
+                playerInput.SwitchCurrentActionMap("Player");
+            }
+        }        
     }
 
     /*

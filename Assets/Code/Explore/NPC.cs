@@ -20,13 +20,14 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
+        //Jika NPC sedang interaksi
         if(interaksiNPC.isTalk != true)
         {
             bubbleText.SetActive(isInterect);
         }
         else { bubbleText.SetActive(false); }
         
-
+        //Jika sedang tidak ada player yang Raycast
         if (!isInterect)
         {            
             transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);            
