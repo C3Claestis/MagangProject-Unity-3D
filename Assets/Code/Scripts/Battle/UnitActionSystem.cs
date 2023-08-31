@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour
@@ -6,6 +7,8 @@ public class UnitActionSystem : MonoBehaviour
     private Unit selectedUnit;
     
     private string unitTag = "Units";
+
+    private bool isBusy = false;
 
     private void Awake(){
         if(Instance != null){
@@ -20,17 +23,18 @@ public class UnitActionSystem : MonoBehaviour
     }
     
     private void Update() {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
+        if(isBusy) return;
+
+        if (Input.GetKeyUp(KeyCode.Space)){
             SelectFastestUnit();
         }
 
         if (Input.GetMouseButtonDown(0)){
-            TryMoveSelectedUnitToGridPosition();
+            TryMoveAction();
         }
 
         if(Input.GetMouseButtonUp(1)){
-            selectedUnit.GetSpinAction().Spin();
+            TrySpinAction();
         }
     }
 
@@ -87,14 +91,23 @@ public class UnitActionSystem : MonoBehaviour
 
     /// <summary>Tries to move the selected unit to the mouse cursor's grid position.
     /// </summary>
-    private void TryMoveSelectedUnitToGridPosition(){
+    private void TryMoveAction(){
         if (selectedUnit == null) return;
 
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
         
         if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
-            selectedUnit.GetMoveAction().MoveTo(mouseGridPosition);
+            SetBusy();
+            selectedUnit.GetMoveAction().MoveTo(mouseGridPosition, ClearBusy);
         }
+    }
+
+    // ! Temporary Function, Will delete this later.
+    private void TrySpinAction(){
+        if (selectedUnit == null) return;
+        SetBusy();
+        selectedUnit.GetSpinAction().Spin(ClearBusy);
+
     }
 
     /// <summary>Selects a unit and updates its status and shading.
@@ -108,5 +121,9 @@ public class UnitActionSystem : MonoBehaviour
         selectedUnit.ChangeUnitShade();
     }
 
+            
+    private void ClearBusy() => isBusy = false; 
+
+    private void SetBusy() => isBusy = true;
     public Unit GetSelectedUnit() => selectedUnit;
 }

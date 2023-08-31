@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,6 +40,7 @@ public class MoveAction : BaseAction
         else{
             unitAnimator.SetBool("isWalking", false);
             isActive = false;
+            onActionComplete();
         }
         
     }
@@ -46,9 +48,10 @@ public class MoveAction : BaseAction
     /// <summary>Set the target position for movement.
     /// </summary>
     /// <param name="targetPosition">The target position to move to.</param>
-    public void MoveTo(GridPosition gridPosition) {
-        this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+    public void MoveTo(GridPosition gridPosition, Action onActionComplete) {
+        this.onActionComplete = onActionComplete;
         isActive = true;
+        this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
     }
 
     /// <summary>Checks whether the given grid position is a valid action grid position for the unit.
