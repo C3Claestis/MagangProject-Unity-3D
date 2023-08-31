@@ -21,9 +21,11 @@ public class Unit : MonoBehaviour
 
     private GridPosition gridPosition;
     private MoveAction moveAction;
+    private SpinAction spinAction;
 
     private void Awake() {
-        moveAction = GetComponent<MoveAction>();            
+        moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();            
     }
 
     private void Start() {
@@ -68,6 +70,7 @@ public class Unit : MonoBehaviour
     public string GetCharacterName() => characterName;
 
     public MoveAction GetMoveAction() => moveAction;
+    public SpinAction GetSpinAction() => spinAction;
     public GridPosition GetGridPosition() => gridPosition;
 
     public void SetMoveStatus(bool hasMove) => this.hasMove = hasMove;

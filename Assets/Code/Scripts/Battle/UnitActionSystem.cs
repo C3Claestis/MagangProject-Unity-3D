@@ -28,6 +28,10 @@ public class UnitActionSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0)){
             TryMoveSelectedUnitToGridPosition();
         }
+
+        if(Input.GetMouseButtonUp(1)){
+            selectedUnit.GetSpinAction().Spin();
+        }
     }
 
     /// <summary> Handles the selection of the fastest unit that hasn't moved yet.

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : MonoBehaviour
+public class MoveAction : BaseAction
 {
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float rotateSpeed = 15f;
@@ -9,17 +9,18 @@ public class MoveAction : MonoBehaviour
         
     [SerializeField] private int maxMoveDistance = 4;
 
-    private float stoppingDistance = .1f;
-    private bool justStopMoving = false;
-    private Vector3 targetPosition;
-    private Unit unit;
+    private float moveStoppingDistance = .1f;
 
-    private void Awake() {
-        targetPosition = transform.position;
+    private Vector3 moveTargetPosition;
+
+    protected override void Awake() {
+        base.Awake();
+        moveTargetPosition = transform.position;
         unit = GetComponent<Unit>();            
     }
 
     private void Update(){
+        if(!isActive) return;
         HandleMoving();
     }
 
@@ -27,19 +28,17 @@ public class MoveAction : MonoBehaviour
     /// </summary>
     /// <remarks> Adjusting its position, orientation, and animation. </remarks>
     private void HandleMoving(){
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance){
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
+        if (Vector3.Distance(transform.position, moveTargetPosition) > moveStoppingDistance){
+            Vector3 moveDirection = (moveTargetPosition - transform.position).normalized;
             transform.position += moveDirection * Time.deltaTime * moveSpeed;
 
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 
             unitAnimator.SetBool("isWalking",true);
-            
-            justStopMoving = true;
         }
-        else if(justStopMoving){
+        else{
             unitAnimator.SetBool("isWalking", false);
-            justStopMoving = false;
+            isActive = false;
         }
         
     }
@@ -48,7 +47,8 @@ public class MoveAction : MonoBehaviour
     /// </summary>
     /// <param name="targetPosition">The target position to move to.</param>
     public void MoveTo(GridPosition gridPosition) {
-        this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        isActive = true;
     }
 
     /// <summary>Checks whether the given grid position is a valid action grid position for the unit.
