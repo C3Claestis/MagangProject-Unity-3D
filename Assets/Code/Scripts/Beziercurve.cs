@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Beziercurve : MonoBehaviour
 {
-    public Transform[] controlPoints; // At least 3 points for a quadratic Bézier curve
+    public Transform[] controlPoints; // At least 3 points for a quadratic Bï¿½zier curve
 
     private float CalculatePathLength()
     {
+        //testting
         float pathLength = 0f;
         Vector3 previousPoint = GetPointOnBezier(0f);
 
