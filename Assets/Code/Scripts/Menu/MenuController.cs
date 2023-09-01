@@ -8,6 +8,11 @@ public class MenuController : MonoBehaviour
     public GameObject panelMenu;
     public GameObject panelQuest;
 
+    
+    public void Move()
+    {
+
+    }
     public void PanelQuest()
     {
         panelQuest.SetActive(true);
@@ -18,6 +23,26 @@ public class MenuController : MonoBehaviour
     {
         panelMenu.SetActive(true);
         panelQuest.SetActive(false);
+    }
+
+    public void Item()
+    {
+
+    }
+
+    public void SaveGame()
+    {
+
+    }
+
+    public void Achievement()
+    {
+
+    }
+
+    public void Settings()
+    {
+
     }
 
     public void MainMenu()
