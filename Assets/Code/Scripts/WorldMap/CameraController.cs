@@ -8,16 +8,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraMoveSpeed = 3f;
     [SerializeField] private float smoothTime = 0.2f;
     [SerializeField] private float zoomMultiplier = 0.1f;
-    private float zoom;
+    private float limitXMovement = 3.09f;
+    private float limitYMovement = 1.5f;
+    private float zoomTarget;
     private float minZoom = 0.5f;
     private float maxZoom = 2.4f;
     private float velocity = 0f;
 
     [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
     private PlayerInputController playerInputController;
-
-
-
 
     private void Start() {
         playerInputController = GetComponent<PlayerInputController>();
@@ -38,8 +37,8 @@ public class CameraController : MonoBehaviour
         Vector3 inputMoveDir = new Vector3(cameraMovement.x, cameraMovement.y, 0);
         Vector3 newPosition = transform.position + inputMoveDir * cameraMoveSpeed  * Time.deltaTime * cinemachineVirtualCamera.m_Lens.OrthographicSize; 
 
-        newPosition.x = Mathf.Clamp(newPosition.x, -4.73f, 4.73f);
-        newPosition.y = Mathf.Clamp(newPosition.y, -2.41f, 2.41f);
+        newPosition.x = Mathf.Clamp(newPosition.x, -limitXMovement, limitXMovement);
+        newPosition.y = Mathf.Clamp(newPosition.y, -limitYMovement, limitYMovement);
 
 
         transform.position = newPosition;
@@ -49,14 +48,14 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void HandleCameraZoom(){
         float cameraZoomValue = playerInputController.GetCameraZoomValue();
-        float zoomValue = cinemachineVirtualCamera.m_Lens.OrthographicSize;
-        
-        if(cameraZoomValue > 0) zoom -=  zoomMultiplier;
-        if(cameraZoomValue < 0) zoom +=  zoomMultiplier;
-        
+        float baseZoom = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+        zoomTarget = baseZoom;
 
-        zoom = Mathf.Clamp(zoom, minZoom, maxZoom);
-        cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.SmoothDamp(zoomValue, zoom, ref velocity, smoothTime);
+        if(cameraZoomValue > 0) zoomTarget -=  zoomMultiplier;
+        else if(cameraZoomValue < 0) zoomTarget +=  zoomMultiplier;
+ 
+        zoomTarget = Mathf.Clamp(zoomTarget, minZoom, maxZoom);
+        cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.SmoothDamp(baseZoom, zoomTarget, ref velocity, smoothTime);
     }
 
 
