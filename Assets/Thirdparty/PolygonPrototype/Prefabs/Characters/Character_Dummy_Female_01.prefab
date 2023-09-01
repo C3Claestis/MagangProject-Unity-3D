@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4839508566551504}
   - component: {fileID: 137043315913542574}
+  - component: {fileID: 8702924402442158107}
   m_Layer: 0
   m_Name: Character_Dummy_Female_01
   m_TagString: Untagged
@@ -230,6 +231,28 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 85.54445, z: -0.17533779}
     m_Extent: {x: 102.7469, y: 93.30795, z: 16.755741}
   m_DirtyAABB: 0
+--- !u!64 &8702924402442158107
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092001472203630}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300010, guid: b5f71c859f9f9bf41badda8a4650082c, type: 3}
 --- !u!1 &1107813803748002
 GameObject:
   m_ObjectHideFlags: 0
