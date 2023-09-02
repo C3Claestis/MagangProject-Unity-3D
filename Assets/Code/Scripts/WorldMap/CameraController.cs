@@ -1,26 +1,24 @@
-using System;
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private float cameraMoveSpeed = 3f;
+    [SerializeField] private float cameraMoveSpeed = 50f;
     [SerializeField] private float smoothTime = 0.2f;
     [SerializeField] private float zoomMultiplier = 0.1f;
-    private float limitXMovement = 3.09f;
-    private float limitYMovement = 1.5f;
+    private float movementOffset = 2f;
     private float zoomTarget;
     private float minZoom = 0.5f;
     private float maxZoom = 2.4f;
     private float velocity = 0f;
 
     [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField] Camera mainCamera;
     private PlayerInputController playerInputController;
 
     private void Start() {
         playerInputController = GetComponent<PlayerInputController>();
-
+        zoomTarget = cinemachineVirtualCamera.m_Lens.OrthographicSize;
     }
 
     private void Update(){
@@ -35,11 +33,15 @@ public class CameraController : MonoBehaviour
 
         Vector2 cameraMovement = playerInputController.GetCameraMovementValue();
         Vector3 inputMoveDir = new Vector3(cameraMovement.x, cameraMovement.y, 0);
-        Vector3 newPosition = transform.position + inputMoveDir * cameraMoveSpeed  * Time.deltaTime * cinemachineVirtualCamera.m_Lens.OrthographicSize; 
+        Vector3 newPosition = transform.position + inputMoveDir * cameraMoveSpeed * Time.deltaTime * cinemachineVirtualCamera.m_Lens.OrthographicSize;
+        Vector3 offset = newPosition - mainCamera.transform.position;
 
-        newPosition.x = Mathf.Clamp(newPosition.x, -limitXMovement, limitXMovement);
-        newPosition.y = Mathf.Clamp(newPosition.y, -limitYMovement, limitYMovement);
+        float distance = offset.magnitude;
 
+        if (distance > movementOffset){
+            Vector3 clampedPosition = mainCamera.transform.position + offset.normalized * movementOffset;
+            newPosition = new Vector3(clampedPosition.x, clampedPosition.y, 0);
+        }
 
         transform.position = newPosition;
     }
@@ -49,7 +51,6 @@ public class CameraController : MonoBehaviour
     private void HandleCameraZoom(){
         float cameraZoomValue = playerInputController.GetCameraZoomValue();
         float baseZoom = cinemachineVirtualCamera.m_Lens.OrthographicSize;
-        zoomTarget = baseZoom;
 
         if(cameraZoomValue > 0) zoomTarget -=  zoomMultiplier;
         else if(cameraZoomValue < 0) zoomTarget +=  zoomMultiplier;
@@ -57,6 +58,4 @@ public class CameraController : MonoBehaviour
         zoomTarget = Mathf.Clamp(zoomTarget, minZoom, maxZoom);
         cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.SmoothDamp(baseZoom, zoomTarget, ref velocity, smoothTime);
     }
-
-
 }
