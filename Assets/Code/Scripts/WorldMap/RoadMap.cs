@@ -182,4 +182,41 @@ public class RoadMap
 
         return null; // No path found
     }
+
+    /// <summary> Finds a list of roads from a starting town to a target town in the road map.
+    /// </summary>
+    /// <param name="startTown">The starting town.</param>
+    /// <param name="targetTown">The target town.</param>
+    /// <returns>A list of road names representing the path from startTown to targetTown, or null if no path exists.</returns>
+    public List<string> FindRoadsBetweenTowns(List<string> path)
+    {
+        List<string> roads = new List<string>();
+
+        if (path == null)
+        {
+            return null; // No path exists.
+        }
+
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            string currentTown = path[i];
+            string nextTown = path[i + 1];
+
+            // Find the road between the current town and the next town
+            string road = GetRoadBetweenTowns(currentTown, nextTown);
+
+            if (road != null)
+            {
+                roads.Add(road);
+            }
+            else
+            {
+                // Handle cases where a road is missing (if needed)
+                Debug.LogError($"No road found between {currentTown} and {nextTown}.");
+            }
+        }
+
+        return roads;
+    }
+
 }
