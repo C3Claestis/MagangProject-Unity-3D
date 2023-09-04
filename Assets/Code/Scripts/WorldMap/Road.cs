@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Dreamteck.Splines;
 using UnityEngine;
 
@@ -6,9 +7,11 @@ public class Road : MonoBehaviour
 {
     [SerializeField] string roadName = "RoadName";
     private SplineComputer spline;
+    private List<string> townList;
 
     private void Awake() {
         spline = GetComponent<SplineComputer>();
+        townList = new List<string>();
     }
 
     private void Start() {
@@ -49,10 +52,16 @@ public class Road : MonoBehaviour
         else return spline.GetPoints().Length-1;
     }
 
-    public void SetNearestPointPoisition(Vector3 targetPosition){
+    public void SetNearestPointPosition(Vector3 targetPosition){
         int index = FindNearestPoint(targetPosition);
         spline.SetPointPosition(index, targetPosition);
     }
 
+    public void AddTown(string town) {
+        townList.Add(town);
+    }
 
+    public List<string> GetTownNames() => townList;
+    public string GetRoadName() => roadName;
+    public SplineComputer GetSpline() => spline;
 }

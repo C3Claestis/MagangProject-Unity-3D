@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8280101840905127965}
   - component: {fileID: 4398141766727841329}
-  m_Layer: 0
+  - component: {fileID: 4341884732517815979}
+  m_Layer: 7
   m_Name: PointOfInterest
-  m_TagString: Untagged
+  m_TagString: PointOfInterest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +49,51 @@ MonoBehaviour:
   icon: {fileID: 2869523009153536908}
   townName: TownName
   roadList: []
+--- !u!61 &4341884732517815979
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009664786186516883}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &6477770142898550558
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2869523009153536908}
   - component: {fileID: 5167296935141294912}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Menara Rumah 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
-
     private Vector2 cameraMovement;
     private float cameraZoom;
 

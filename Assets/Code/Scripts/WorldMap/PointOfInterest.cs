@@ -20,7 +20,7 @@ public class PointOfInterest : MonoBehaviour{
         cameraMaxZoom = CameraController.Instance.GetMaxZoom();
         cameraMinZoom = CameraController.Instance.GetMinZoom();
 
-        HadleNearestPointPoisition();
+        HadleRoadSetting();
     }
 
     private void Update() {
@@ -33,13 +33,24 @@ public class PointOfInterest : MonoBehaviour{
         icon.localScale = new Vector3(iconSize, iconSize, iconSize);
     }
 
-    private void HadleNearestPointPoisition(){
+    private void HadleRoadSetting(){
         if(roadList == null) return;
 
         foreach (Road road in roadList){
-            road.SetNearestPointPoisition(transform.position);
+            road.SetNearestPointPosition(transform.position);
+            road.AddTown(townName);
         }
     }
 
+    public Road GetRoad(string roadName){
+        foreach (Road road in roadList){
+            if (road.GetRoadName() == roadName){
+                return road;
+            }
+        }
+        return null;
+    }
     public Road[] GetRoadList() => roadList;
+
+    public string GetTownName() => townName;
 }
