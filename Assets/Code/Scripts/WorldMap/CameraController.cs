@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    
+    public static CameraController Instance { get; private set; }
+
     [SerializeField] private float cameraMoveSpeed = 50f;
     [SerializeField] private float smoothTime = 0.2f;
     [SerializeField] private float zoomMultiplier = 0.1f;
@@ -16,7 +19,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] Camera mainCamera;
     private PlayerInputController playerInputController;
 
-    private void Start() {
+    private void Awake() {
+        if(Instance != null){
+            Debug.LogError("There's more than one CameraController! " + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;  
+
         playerInputController = GetComponent<PlayerInputController>();
         zoomTarget = cinemachineVirtualCamera.m_Lens.OrthographicSize;
     }
@@ -58,4 +69,9 @@ public class CameraController : MonoBehaviour
         zoomTarget = Mathf.Clamp(zoomTarget, minZoom, maxZoom);
         cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.SmoothDamp(baseZoom, zoomTarget, ref velocity, smoothTime);
     }
+
+    public float GetMinZoom() => minZoom;
+    public float GetMaxZoom() => maxZoom;
+    public float GetZoomValue() => cinemachineVirtualCamera.m_Lens.OrthographicSize;
+
 }
