@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
- //   [HideInInspector]
+    [HideInInspector]
     public bool isInterect = false;
     float rotationSpeed = 5f;
     [SerializeField] GameObject bubbleText;
     Quaternion initialRotation;
     InteraksiNPC interaksiNPC;
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         initialRotation = transform.rotation;
         interaksiNPC = FindAnyObjectByType<InteraksiNPC>();
     }
@@ -23,9 +25,10 @@ public class NPC : MonoBehaviour
         //Jika NPC sedang interaksi
         if(interaksiNPC.isTalk != true)
         {
+            anim.SetBool("isTalk", false);
             bubbleText.SetActive(isInterect);
         }
-        else { bubbleText.SetActive(false); }
+        else { bubbleText.SetActive(false); anim.SetBool("isTalk", true);}
         
         //Jika sedang tidak ada player yang Raycast
         if (!isInterect)
