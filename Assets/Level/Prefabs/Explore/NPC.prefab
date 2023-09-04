@@ -84,7 +84,7 @@ Animator:
   m_GameObject: {fileID: 393460918820814005}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b5f71c859f9f9bf41badda8a4650082c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1c7ac547978b8924b9a75c06b5d39d5e, type: 2}
+  m_Controller: {fileID: 9100000, guid: b92c59060dd07f343b2b32f7782305f0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -130,8 +130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 195cc84ff99a2574892bb65db2c61502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInterect: 0
   bubbleText: {fileID: 8208378197546936701}
+  isPatrol: 0
+  isInterect: 0
 --- !u!1 &539233537314595393
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class InteraksiNPC : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
@@ -10,7 +11,7 @@ public class InteraksiNPC : MonoBehaviour
     RaycastHit raycast;
     float rotationSpeed = 5.0f;
     public Text interaksi;
-    public bool isTalk, isNPC;
+    private bool isTalk, isNPC;    
     private void Update()
     {
         Interaksi();   
@@ -31,25 +32,26 @@ public class InteraksiNPC : MonoBehaviour
             if (npc != null)
             {
                 //Jika NPC tidak sedang berinteraksi dengan player
-                if (!npc.isInterect)
+                if (npc.GetInterect() == false)
                 {
-                    npc.isInterect = true;
-                    text.text = raycast.collider.gameObject.name;
+                    npc.SetInterect(true);                    
+                    text.text = raycast.collider.gameObject.name;                    
                     isNPC = true;                    
                 }
             }
             //Kondisi untuk rotasi ketika di tekan button interaksi di keyboard
-            if (isTalk) { RotateTowardsPlayer(raycast.collider.gameObject); }
+            if (isTalk) { RotateTowardsPlayer(raycast.collider.gameObject); npc.SetTalk(true); }
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);
-            text.text = "";
+            text.text = "";            
             //Mengambil semua komponen NPC yang ada untuk mengembalikan nilai awalnya
             NPC[] npcs = FindObjectsOfType<NPC>();
             foreach (NPC npc in npcs)
             {
-                npc.isInterect = false;
+                npc.SetInterect(false);
+                npc.SetTalk(false);
                 isNPC = false;
             }
         }
@@ -64,5 +66,9 @@ public class InteraksiNPC : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(lookDirection);
             obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, rotation, Time.deltaTime * rotationSpeed);
         }
-    }   
+    }
+    public void SetIsTalk(bool istalk) => this.isTalk = istalk;
+    public bool GetIsTalk() => isTalk;
+    public void SetIsNPC(bool isnpc) => this.isNPC = isnpc;
+    public bool GetIsNPC() => isNPC;
 }

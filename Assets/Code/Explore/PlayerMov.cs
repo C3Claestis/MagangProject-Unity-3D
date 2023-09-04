@@ -20,7 +20,7 @@ public class PlayerMov : MonoBehaviour
 
     private void FixedUpdate()
     {        
-        if (!interaksiNPC.isTalk)
+        if (interaksiNPC.GetIsTalk() == false)
         {
             Move();
         }        

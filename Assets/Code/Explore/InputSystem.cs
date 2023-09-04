@@ -69,20 +69,20 @@ public class InputSystem : MonoBehaviour
 
     public void InteractionAction(InputAction.CallbackContext context)
     {
-        if (interaksiNPC.isNPC)
+        if (interaksiNPC.GetIsNPC() == true)
         {
-            if (context.performed && !interaksiNPC.isTalk)
-            {                
-                interaksiNPC.isTalk = true;
+            if (context.performed && interaksiNPC.GetIsTalk() == false)
+            {
+                interaksiNPC.SetIsTalk(true);
                 playerInput.SwitchCurrentActionMap("UI");
-                interaksiNPC.interaksi.text = "Sedang Interaksi";
+                interaksiNPC.interaksi.text = "Sedang Interaksi";                
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRun", false);
             }
-            else if (context.performed && interaksiNPC.isTalk)
+            else if (context.performed && interaksiNPC.GetIsTalk() == true)
             {             
                 interaksiNPC.interaksi.text = "";
-                interaksiNPC.isTalk = false;
+                interaksiNPC.SetIsTalk(false);
                 playerInput.SwitchCurrentActionMap("Player");
             }
         }        
@@ -90,12 +90,12 @@ public class InputSystem : MonoBehaviour
     //////////////////////////////
     private void SetAnimatorRunning(bool value)
     {
-        if(!interaksiNPC.isTalk)
+        if(interaksiNPC.GetIsTalk() == false)
             animator.SetBool("isRun", value);
     }
     private void SetAnimatorWalking(bool value)
     {
-        if (!interaksiNPC.isTalk)
+        if (interaksiNPC.GetIsTalk() == false )
             animator.SetBool("isWalking", value);
     }
     public Vector2 GetMovementValue() => movementValue;
