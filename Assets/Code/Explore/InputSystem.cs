@@ -3,8 +3,7 @@ using UnityEngine.InputSystem;
 
 public class InputSystem : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private PlayerMov playerMov;
+    [SerializeField] private Animator animator;    
     [SerializeField] private InteraksiNPC interaksiNPC;
     [SerializeField] PlayerInput playerInput;
     private Vector2 movementValue, insertValue;
@@ -88,22 +87,6 @@ public class InputSystem : MonoBehaviour
             }
         }        
     }
-
-    /*
-    public void JumpAction(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            Debug.Log("Loncat");
-            SetJumping(true);
-        }
-        if (context.canceled)
-        {
-            Debug.Log("Non Lompat");
-            SetJumping(false);
-        }
-    }
-    */
     //////////////////////////////
     private void SetAnimatorRunning(bool value)
     {
@@ -115,12 +98,6 @@ public class InputSystem : MonoBehaviour
         if (!interaksiNPC.isTalk)
             animator.SetBool("isWalking", value);
     }
-    /*
-    private void SetJumping(bool value)
-    {
-        if (!interaksiNPC.isTalk)
-            //playerMov.Jump(value);
-    }*/
     public Vector2 GetMovementValue() => movementValue;
     public bool CanRunning() => canRunning;    
 }
