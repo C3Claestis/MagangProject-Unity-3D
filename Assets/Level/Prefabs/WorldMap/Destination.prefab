@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4398141766727841329}
   - component: {fileID: 4341884732517815979}
   m_Layer: 7
-  m_Name: PointOfInterest
-  m_TagString: PointOfInterest
+  m_Name: Destination
+  m_TagString: Destinations
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 2869523009153536908}
   townName: TownName
-  roadList: []
 --- !u!61 &4341884732517815979
 BoxCollider2D:
   m_ObjectHideFlags: 0
