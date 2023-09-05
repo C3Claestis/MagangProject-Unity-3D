@@ -6,19 +6,39 @@ using UnityEngine;
 public class Road : MonoBehaviour
 {
     [SerializeField] string roadName = "RoadName";
+    [SerializeField] List<Destination> destinationList = new List<Destination>();
     private SplineComputer spline;
-    private List<string> townList;
 
     private void Awake() {
         spline = GetComponent<SplineComputer>();
-        townList = new List<string>();
     }
 
     private void Start() {
         gameObject.name = roadName;
+    
+        foreach (Destination town in destinationList){
+            SetNearestPointPosition(town.GetPosition());
+        }
     }
 
-    public void ReversePointOrder(){
+    private int FindNearestPoint(Vector3 targetPosition){
+        Vector3 firstPoint =  spline.GetPoint(0).position;
+        Vector3 LastPoint =  spline.GetPoint(spline.GetPoints().Length-1).position;
+        float distancePath1 = Vector3.Distance(targetPosition, firstPoint);
+
+
+        float distancePath2 = Vector3.Distance(targetPosition, LastPoint);        if (distancePath1 < distancePath2) return 0;
+        else return spline.GetPoints().Length-1;
+    }
+
+    private void SetNearestPointPosition(Vector3 targetPosition){
+        int index = FindNearestPoint(targetPosition);
+        spline.SetPointPosition(index, targetPosition);
+    }
+
+    public void ReversePointOrder(Vector3 targetPosition){
+        if(FindNearestPoint(targetPosition)==0) return;
+
         SplinePoint[] points = spline.GetPoints();
         for (int i = 0; i < Mathf.FloorToInt(points.Length / 2); i++){
             SplinePoint temp = points[i];
@@ -42,26 +62,11 @@ public class Road : MonoBehaviour
         spline.SetPoints(points);
     }
 
-    public int FindNearestPoint(Vector3 targetPosition){
-        Vector3 firstPoint =  spline.GetPoint(0).position;
-        Vector3 LastPoint =  spline.GetPoint(spline.GetPoints().Length-1).position;
-        float distancePath1 = Vector3.Distance(targetPosition, firstPoint);
-        float distancePath2 = Vector3.Distance(targetPosition, LastPoint);
-
-        if (distancePath1 < distancePath2) return 0;
-        else return spline.GetPoints().Length-1;
+    public bool CheckDestination(Destination target){
+        return destinationList.Contains(target);
     }
-
-    public void SetNearestPointPosition(Vector3 targetPosition){
-        int index = FindNearestPoint(targetPosition);
-        spline.SetPointPosition(index, targetPosition);
-    }
-
-    public void AddTown(string town) {
-        townList.Add(town);
-    }
-
-    public List<string> GetTownNames() => townList;
+    
     public string GetRoadName() => roadName;
+    public List<Destination> GetDestinationList() => destinationList;
     public SplineComputer GetSpline() => spline;
 }
