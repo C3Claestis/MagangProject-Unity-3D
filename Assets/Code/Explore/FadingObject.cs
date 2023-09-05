@@ -16,7 +16,8 @@ public class FadingObject : MonoBehaviour, IEquatable<FadingObject>
 
         if(Renderers.Count == 0)
         {
-            Renderers.AddRange(GetComponentsInChildren<Renderer>());
+            //Renderers.AddRange(GetComponentsInChildren<Renderer>());
+            Renderers.AddRange(GetComponents<Renderer>());
         }
         foreach (Renderer renderer in Renderers)
         {

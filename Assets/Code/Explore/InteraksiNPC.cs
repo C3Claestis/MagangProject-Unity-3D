@@ -68,7 +68,7 @@ public class InteraksiNPC : MonoBehaviour
         }
     }
     public void SetIsTalk(bool istalk) => this.isTalk = istalk;
-    public bool GetIsTalk() => isTalk;
     public void SetIsNPC(bool isnpc) => this.isNPC = isnpc;
+    public bool GetIsTalk() => isTalk;
     public bool GetIsNPC() => isNPC;
 }

@@ -23,10 +23,11 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bubbleText.SetActive(isInterect);
+        
         //Jika NPC sedang interaksi
         if (isTalk != false)
-        {                                 
+        {
+            bubbleText.SetActive(false);
             if (isPatrol)
             {
                 anim.SetBool("isTalk", true);
@@ -35,7 +36,8 @@ public class NPC : MonoBehaviour
         }
         //Jika NPC tidak sedang interaksi
         else 
-        {             
+        {
+            bubbleText.SetActive(isInterect);
             if (isPatrol)
             {
                 anim.SetBool("isTalk", false);
@@ -46,8 +48,8 @@ public class NPC : MonoBehaviour
         //Jika sedang tidak ada player yang Raycast
         if (!isInterect)
         {            
-            transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);            
-        }
+            transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
+        }        
     }
 
     public void SetTalk(bool talk) => this.isTalk = talk;

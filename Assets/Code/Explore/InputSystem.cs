@@ -6,6 +6,7 @@ public class InputSystem : MonoBehaviour
     [SerializeField] private Animator animator;    
     [SerializeField] private InteraksiNPC interaksiNPC;
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] GameObject _cameraMain, _cameraTalk;
     private Vector2 movementValue, insertValue;
     private bool isMoving = false;
     private bool canRunning = false;
@@ -78,12 +79,16 @@ public class InputSystem : MonoBehaviour
                 interaksiNPC.interaksi.text = "Sedang Interaksi";                
                 animator.SetBool("isWalking", false);
                 animator.SetBool("isRun", false);
+                _cameraTalk.SetActive(true);
+                _cameraMain.SetActive(false);
             }
             else if (context.performed && interaksiNPC.GetIsTalk() == true)
             {             
                 interaksiNPC.interaksi.text = "";
                 interaksiNPC.SetIsTalk(false);
                 playerInput.SwitchCurrentActionMap("Player");
+                _cameraTalk.SetActive(false);
+                _cameraMain.SetActive(true);
             }
         }        
     }

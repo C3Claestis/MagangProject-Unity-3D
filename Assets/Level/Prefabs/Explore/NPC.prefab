@@ -132,7 +132,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleText: {fileID: 8208378197546936701}
   isPatrol: 0
-  isInterect: 0
 --- !u!1 &539233537314595393
 GameObject:
   m_ObjectHideFlags: 0
