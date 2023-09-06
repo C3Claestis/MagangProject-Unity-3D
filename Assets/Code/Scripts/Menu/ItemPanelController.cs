@@ -1,4 +1,5 @@
-using System.Collections;
+namespace Nivandria.UI {
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,4 +33,6 @@ public class ItemPanelController : MonoBehaviour
         itemNameText.text = itemNames[currentItemIndex];
         // Mengatur daftar item sesuai dengan nama item yang baru
     }
+}
+
 }

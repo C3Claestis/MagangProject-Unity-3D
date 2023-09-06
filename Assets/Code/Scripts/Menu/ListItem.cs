@@ -1,38 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using System;
-
-public class ListItem : MonoBehaviour
+namespace Nivandria.UI
 {
-    [Serializable]
-    [SerializeField] private struct Items{
-        [SerializeField] public Sprite Icon;
-        [SerializeField] public string Name;
-        
-    }
-    [SerializeField] Items[] allItem;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using System;
 
-    void Start()
+    public class ListItem : MonoBehaviour
     {
-       ListItems();
-    }
+        [Serializable]
+        [SerializeField]
+        private struct Items
+        {
+            [SerializeField] public Sprite Icon;
+            [SerializeField] public string Name;
 
-    // Update is called once per frame
-    public void ListItems()
-    {
-        GameObject ItemTemplate = transform.GetChild(0).gameObject;
-        GameObject Item;
+        }
+        [SerializeField] Items[] allItem;
 
-        int CountItem = allItem.Length;
-
-        for (int i = 0; i < CountItem; i++) {
-            Item = Instantiate (ItemTemplate, transform);
-            Item.transform.GetChild(0).GetComponent <Image>().sprite = allItem[i].Icon;
-            Item.transform.GetChild(1).GetComponent <Text>().text = allItem[i].Name;
+        void Start()
+        {
+            ListItems();
         }
 
-        Destroy(ItemTemplate);
+        // Update is called once per frame
+        public void ListItems()
+        {
+            GameObject ItemTemplate = transform.GetChild(0).gameObject;
+            GameObject Item;
+
+            int CountItem = allItem.Length;
+
+            for (int i = 0; i < CountItem; i++)
+            {
+                Item = Instantiate(ItemTemplate, transform);
+                Item.transform.GetChild(0).GetComponent<Image>().sprite = allItem[i].Icon;
+                Item.transform.GetChild(1).GetComponent<Text>().text = allItem[i].Name;
+            }
+
+            Destroy(ItemTemplate);
+        }
     }
+
 }
