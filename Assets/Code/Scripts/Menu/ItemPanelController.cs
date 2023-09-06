@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class ItemPanelController : MonoBehaviour
 {
-    public Text itemNameText;
+    [SerializeField] public Text itemNameText;
     private List<string> itemNames = new List<string> { "Armors", "Swords", "Boots" };
-
     private int currentItemIndex = 0;
 
     private void Start()

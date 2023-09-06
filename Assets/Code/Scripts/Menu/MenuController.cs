@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    public GameObject panelMenu;
-    public GameObject panelQuest;
+    [SerializeField] public GameObject panelMenu;
+    [SerializeField] public GameObject panelQuest;
 
     
     public void Move()

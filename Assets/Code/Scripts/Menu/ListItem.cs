@@ -7,9 +7,9 @@ using System;
 public class ListItem : MonoBehaviour
 {
     [Serializable]
-    public struct Items{
-        public Sprite Icon;
-        public string Name;
+    [SerializeField] private struct Items{
+        [SerializeField] public Sprite Icon;
+        [SerializeField] public string Name;
         
     }
     [SerializeField] Items[] allItem;

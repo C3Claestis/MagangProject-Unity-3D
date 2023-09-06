@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class EquippedItem : MonoBehaviour
 {
-    public Image itemIcon;
-    public Text itemName;
+    [SerializeField] private Image itemIcon;
+    [SerializeField] private Text itemName;
 
     public void UpdateItemDetails(Sprite icon, string name)
     {
