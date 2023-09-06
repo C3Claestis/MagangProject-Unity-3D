@@ -3,19 +3,16 @@ namespace Nivandria.UI
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.UI;
+    using TMPro;
 
     public class QuestLog : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        [SerializeField] TextMeshProUGUI nameQuest;
+
+        public void SetNameQuestLog(string titleName)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            nameQuest.text = titleName;
         }
     }
 

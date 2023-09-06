@@ -1,38 +1,39 @@
-namespace Nivandria.UI {
-    using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class ItemPanelController : MonoBehaviour
+namespace Nivandria.UI
 {
-    [SerializeField] public Text itemNameText;
-    private List<string> itemNames = new List<string> { "Armors", "Swords", "Boots" };
-    private int currentItemIndex = 0;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    private void Start()
+    public class ItemPanelController : MonoBehaviour
     {
-        // Mengatur nama item awal ke "Armors"
-        itemNameText.text = itemNames[currentItemIndex];
-    }
+        [SerializeField] public Text itemNameText;
+        private List<string> itemNames = new List<string> { "Armors", "Swords", "Boots" };
+        private int currentItemIndex = 0;
 
-    public void OnLeftArrowClick()
-    {
-        // Mengurangi indeks item saat tombol kiri ditekan
-        currentItemIndex = (currentItemIndex - 1 + itemNames.Count) % itemNames.Count;
-        // Mengganti teks nama item
-        itemNameText.text = itemNames[currentItemIndex];
-        // Mengatur daftar item sesuai dengan nama item yang baru
-    }
+        private void Start()
+        {
+            // Mengatur nama item awal ke "Armors"
+            itemNameText.text = itemNames[currentItemIndex];
+        }
 
-    public void OnRightArrowClick()
-    {
-        // Menambah indeks item saat tombol kanan ditekan
-        currentItemIndex = (currentItemIndex + 1) % itemNames.Count;
-        // Mengganti teks nama item
-        itemNameText.text = itemNames[currentItemIndex];
-        // Mengatur daftar item sesuai dengan nama item yang baru
+        public void OnLeftArrowClick()
+        {
+            // Mengurangi indeks item saat tombol kiri ditekan
+            currentItemIndex = (currentItemIndex - 1 + itemNames.Count) % itemNames.Count;
+            // Mengganti teks nama item
+            itemNameText.text = itemNames[currentItemIndex];
+            // Mengatur daftar item sesuai dengan nama item yang baru
+        }
+
+        public void OnRightArrowClick()
+        {
+            // Menambah indeks item saat tombol kanan ditekan
+            currentItemIndex = (currentItemIndex + 1) % itemNames.Count;
+            // Mengganti teks nama item
+            itemNameText.text = itemNames[currentItemIndex];
+            // Mengatur daftar item sesuai dengan nama item yang baru
+        }
     }
-}
 
 }
