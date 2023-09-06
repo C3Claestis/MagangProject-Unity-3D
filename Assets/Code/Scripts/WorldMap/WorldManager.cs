@@ -1,6 +1,7 @@
 namespace WorldMap
 {
     using UnityEngine;
+    using WorldMap.MapSystem;
 
     public class WorldManager : MonoBehaviour
     {
@@ -10,7 +11,7 @@ namespace WorldMap
         [SerializeField] private LayerMask destinationMask;
         [SerializeField] private PlayerPointer playerPointer;
 
-        private DestinationMap worldMap = new DestinationMap();
+        private Map worldMap = new Map();
 
         private void Awake()
         {

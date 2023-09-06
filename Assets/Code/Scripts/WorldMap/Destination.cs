@@ -8,7 +8,7 @@ namespace WorldMap
 
         [SerializeField] private Transform icon;
         [SerializeField] private string destinationName;
-        private List<Destination> connectionList = new List<Destination>();
+        [SerializeField] private List<Destination> connectionList = new List<Destination>();
 
         private float iconSizeMin = 0.1f;
         private float iconSizeMax = 0.25f;

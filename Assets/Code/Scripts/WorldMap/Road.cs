@@ -21,11 +21,22 @@ namespace WorldMap
         {
             gameObject.name = roadName;
 
-            foreach (Destination town in destinationList)
+            foreach (Destination destination in destinationList)
             {
-                SetNearestPointPosition(town.GetPosition());
+                int index = destinationList.IndexOf(destination);
+                int targetIndex;
+
+                if (index == 0) targetIndex = 1;
+                else            targetIndex = 0;
+
+                destination.AddConnection(destinationList[targetIndex]);
+
+                SetNearestPointPosition(destination.GetPosition());
+
             }
+            
             distance = Vector3.Distance(destinationList[0].GetPosition(), destinationList[1].GetPosition());
+
         }
 
         private int FindNearestPoint(Vector3 targetPosition)

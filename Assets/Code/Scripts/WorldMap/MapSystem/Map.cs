@@ -1,10 +1,10 @@
-namespace WorldMap
+namespace WorldMap.MapSystem
 {
     using System.Collections.Generic;
     using Dreamteck.Splines;
     using UnityEngine;
 
-    public class DestinationMap
+    public class Map
     {
         private List<Road> roadList = new List<Road>();
 
@@ -81,6 +81,10 @@ namespace WorldMap
             return null;
         }
 
+        public List<Destination> ShortestPath(Destination currentDestination, Destination targetDestination){
+			
 
+            return null;
+        }
     }
 }
