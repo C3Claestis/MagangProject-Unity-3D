@@ -11,39 +11,48 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private LayerMask destinationMask;
     [SerializeField] private PlayerPointer playerPointer;
 
-    private WorldMap worldMap = new WorldMap();
+    private DestinationMap worldMap = new DestinationMap();
 
-    private void Awake() {
-        if(Instance != null){
+    private void Awake()
+    {
+        if (Instance != null)
+        {
             Debug.LogError("There's more than one WorldManager! " + transform + " - " + Instance);
             Destroy(gameObject);
             return;
         }
-        Instance = this;  
+        Instance = this;
     }
 
-    private void Start() {
+    private void Start()
+    {
         InitializeRoadMap();
     }
 
-    void Update(){
+    void Update()
+    {
         HandleRayCast();
     }
 
-    private void InitializeRoadMap(){
+    private void InitializeRoadMap()
+    {
         GameObject[] distanceGameObjects = GameObject.FindGameObjectsWithTag("Destinations");
-        foreach (GameObject item in distanceGameObjects){
-            worldMap.AddDestination(item.GetComponent<Destination>());
+        foreach (GameObject item in distanceGameObjects)
+        {
+            // worldMap.AddDestination(item.GetComponent<Destination>());
         }
     }
 
-    private void HandleRayCast(){
-        if (Input.GetMouseButtonDown(0)){
+    private void HandleRayCast()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
             Vector3 mousePosition = Input.mousePosition;
             Ray ray = mainCamera.ScreenPointToRay(mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, destinationMask);
 
-            if (hit.collider != null){
+            if (hit.collider != null)
+            {
                 GameObject hitObject = hit.collider.gameObject;
                 Debug.Log("Hit Object: " + hitObject.name);
                 // playerPointer.MoveTo(hitObject.GetComponent<Destination>());

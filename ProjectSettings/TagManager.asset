@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Units
-  - PointOfInterest
   - Roads
+  - Destinations
   layers:
   - Default
   - TransparentFX
@@ -15,7 +15,7 @@ TagManager:
   - Water
   - UI
   - MousePlane
-  - PointOfInterest
+  - Destination
   - 
   - 
   - 
