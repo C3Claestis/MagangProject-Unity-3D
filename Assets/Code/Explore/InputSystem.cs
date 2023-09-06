@@ -1,108 +1,110 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
-
-public class InputSystem : MonoBehaviour
+namespace Nivandria.Explore
 {
-    [SerializeField] private Animator animator;    
-    [SerializeField] private InteraksiNPC interaksiNPC;
-    [SerializeField] PlayerInput playerInput;
-    [SerializeField] GameObject _cameraMain, _cameraTalk;
-    private Vector2 movementValue, insertValue;
-    private bool isMoving = false;
-    private bool canRunning = false;
-    
-    public void UIAction(InputAction.CallbackContext context)
+    using UnityEngine;
+    using UnityEngine.InputSystem;
+    public class InputSystem : MonoBehaviour
     {
-        if (context.performed)
-        {
-            insertValue = context.ReadValue<Vector2>();
-        }
-    }
-    public void RunAction(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            canRunning = true;
+        [SerializeField] private Animator animator;
+        [SerializeField] private InteraksiNPC interaksiNPC;
+        [SerializeField] PlayerInput playerInput;
+        [SerializeField] GameObject _cameraMain, _cameraTalk;
+        private Vector2 movementValue, insertValue;
+        private bool isMoving = false;
+        private bool canRunning = false;
 
-            if (isMoving)
+        public void UIAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
             {
-                SetAnimatorRunning(true);
+                insertValue = context.ReadValue<Vector2>();
             }
         }
-
-        if (context.canceled)
+        public void RunAction(InputAction.CallbackContext context)
         {
-            canRunning = false;
-            SetAnimatorRunning(false);
-
-            if (isMoving)
+            if (context.performed)
             {
-                SetAnimatorWalking(true);                
+                canRunning = true;
+
+                if (isMoving)
+                {
+                    SetAnimatorRunning(true);
+                }
             }
-        }
-    }
 
-    public void MovingAction(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            movementValue = context.ReadValue<Vector2>();
-            isMoving = true;
+            if (context.canceled)
+            {
+                canRunning = false;
+                SetAnimatorRunning(false);
 
-            if (canRunning)
-            {
-                SetAnimatorRunning(true);
-            }
-            else
-            {
-                SetAnimatorWalking(true);
+                if (isMoving)
+                {
+                    SetAnimatorWalking(true);
+                }
             }
         }
 
-        if (context.canceled)
+        public void MovingAction(InputAction.CallbackContext context)
         {
-            movementValue = context.ReadValue<Vector2>();
-            isMoving = false;
-            SetAnimatorRunning(false);
-            SetAnimatorWalking(false);
-        }
-    }
-
-    public void InteractionAction(InputAction.CallbackContext context)
-    {
-        if (interaksiNPC.GetIsNPC() == true)
-        {
-            if (context.performed && interaksiNPC.GetIsTalk() == false)
+            if (context.performed)
             {
-                interaksiNPC.SetIsTalk(true);
-                playerInput.SwitchCurrentActionMap("UI");
-                interaksiNPC.interaksi.text = "Sedang Interaksi";                
-                animator.SetBool("isWalking", false);
-                animator.SetBool("isRun", false);
-                _cameraTalk.SetActive(true);
-                _cameraMain.SetActive(false);
+                movementValue = context.ReadValue<Vector2>();
+                isMoving = true;
+
+                if (canRunning)
+                {
+                    SetAnimatorRunning(true);
+                }
+                else
+                {
+                    SetAnimatorWalking(true);
+                }
             }
-            else if (context.performed && interaksiNPC.GetIsTalk() == true)
-            {             
-                interaksiNPC.interaksi.text = "";
-                interaksiNPC.SetIsTalk(false);
-                playerInput.SwitchCurrentActionMap("Player");
-                _cameraTalk.SetActive(false);
-                _cameraMain.SetActive(true);
+
+            if (context.canceled)
+            {
+                movementValue = context.ReadValue<Vector2>();
+                isMoving = false;
+                SetAnimatorRunning(false);
+                SetAnimatorWalking(false);
             }
-        }        
+        }
+
+        public void InteractionAction(InputAction.CallbackContext context)
+        {
+            if (interaksiNPC.GetIsNPC() == true)
+            {
+                if (context.performed && interaksiNPC.GetIsTalk() == false)
+                {
+                    interaksiNPC.SetIsTalk(true);
+                    playerInput.SwitchCurrentActionMap("UI");
+                    interaksiNPC.interaksi.text = "Sedang Interaksi";
+                    animator.SetBool("isWalking", false);
+                    animator.SetBool("isRun", false);
+                    _cameraTalk.SetActive(true);
+                    _cameraMain.SetActive(false);
+                }
+                else if (context.performed && interaksiNPC.GetIsTalk() == true)
+                {
+                    interaksiNPC.interaksi.text = "";
+                    interaksiNPC.SetIsTalk(false);
+                    playerInput.SwitchCurrentActionMap("Player");
+                    _cameraTalk.SetActive(false);
+                    _cameraMain.SetActive(true);
+                }
+            }
+        }
+        //////////////////////////////
+        private void SetAnimatorRunning(bool value)
+        {
+            if (interaksiNPC.GetIsTalk() == false)
+                animator.SetBool("isRun", value);
+        }
+        private void SetAnimatorWalking(bool value)
+        {
+            if (interaksiNPC.GetIsTalk() == false)
+                animator.SetBool("isWalking", value);
+        }
+        public Vector2 GetMovementValue() => movementValue;
+        public bool CanRunning() => canRunning;
     }
-    //////////////////////////////
-    private void SetAnimatorRunning(bool value)
-    {
-        if(interaksiNPC.GetIsTalk() == false)
-            animator.SetBool("isRun", value);
-    }
-    private void SetAnimatorWalking(bool value)
-    {
-        if (interaksiNPC.GetIsTalk() == false )
-            animator.SetBool("isWalking", value);
-    }
-    public Vector2 GetMovementValue() => movementValue;
-    public bool CanRunning() => canRunning;    
 }

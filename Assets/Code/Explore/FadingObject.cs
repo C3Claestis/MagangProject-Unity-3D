@@ -1,36 +1,40 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class FadingObject : MonoBehaviour, IEquatable<FadingObject>
+namespace Nivandria.Explore
 {
-    public List<Renderer> Renderers = new List<Renderer>();
-    public Vector3 pos;
-    public List<Material> Materials = new List<Material>();
-    [HideInInspector]
-    public float initialAlpha;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    private void Awake()
+    public class FadingObject : MonoBehaviour, IEquatable<FadingObject>
     {
-        pos = transform.position;
+        public List<Renderer> Renderers = new List<Renderer>();
+        public Vector3 pos;
+        public List<Material> Materials = new List<Material>();
+        [HideInInspector]
+        public float initialAlpha;
 
-        if(Renderers.Count == 0)
+        private void Awake()
         {
-            //Renderers.AddRange(GetComponentsInChildren<Renderer>());
-            Renderers.AddRange(GetComponents<Renderer>());
+            pos = transform.position;
+
+            if (Renderers.Count == 0)
+            {
+                //Renderers.AddRange(GetComponentsInChildren<Renderer>());
+                Renderers.AddRange(GetComponents<Renderer>());
+            }
+            foreach (Renderer renderer in Renderers)
+            {
+                Materials.AddRange(renderer.materials);
+            }
+            initialAlpha = Materials[0].color.a;
         }
-        foreach (Renderer renderer in Renderers)
+        public bool Equals(FadingObject fading)
         {
-            Materials.AddRange(renderer.materials);
+            return pos.Equals(fading.pos);
         }
-        initialAlpha = Materials[0].color.a;
+        public override int GetHashCode()
+        {
+            return pos.GetHashCode();
+        }
     }
-    public bool Equals(FadingObject fading)
-    {
-        return pos.Equals(fading.pos);
-    }
-    public override int GetHashCode()
-    {
-        return pos.GetHashCode();
-    }
+
 }

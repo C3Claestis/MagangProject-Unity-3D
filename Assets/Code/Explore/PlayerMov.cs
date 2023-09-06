@@ -1,50 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PlayerMov : MonoBehaviour
+namespace Nivandria.Explore
 {
-    [SerializeField] float walkSpeed = 4f;
-    [SerializeField] float runSpeed = 8f;
-    [SerializeField] float rotateSpeed = 30f;
-    [SerializeField] InteraksiNPC interaksiNPC;    
-    private InputSystem inputSystem;    
-    private Rigidbody rb;    
-    //private bool onGround;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;    
 
-    private void Awake()
+    public class PlayerMov : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-        inputSystem = GetComponent<InputSystem>();        
-    }
+        [SerializeField] float walkSpeed = 4f;
+        [SerializeField] float runSpeed = 8f;
+        [SerializeField] float rotateSpeed = 30f;
+        [SerializeField] InteraksiNPC interaksiNPC;
+        private InputSystem inputSystem;
+        private Rigidbody rb;
+        //private bool onGround;
 
-    private void FixedUpdate()
-    {        
-        if (interaksiNPC.GetIsTalk() == false)
+        private void Awake()
         {
-            Move();
-        }        
-    }
-   
-    private void Move()
-    {
-        Vector2 input = inputSystem.GetMovementValue();
-        Vector3 moveDirection = new Vector3(input.x, 0, input.y);
-        float moveSpeed = inputSystem.CanRunning() ? runSpeed : walkSpeed;
-
-        if (input == Vector2.zero)
-        {
-            rb.velocity = Vector3.zero;
-            return;
+            rb = GetComponent<Rigidbody>();
+            inputSystem = GetComponent<InputSystem>();
         }
 
-        if (moveDirection != Vector3.zero)
+        private void FixedUpdate()
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
-            rb.MoveRotation(Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.deltaTime));
+            if (interaksiNPC.GetIsTalk() == false)
+            {
+                Move();
+            }
         }
 
-        Vector3 velocity = moveDirection * moveSpeed;
-        rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);       
-    }    
+        private void Move()
+        {
+            Vector2 input = inputSystem.GetMovementValue();
+            Vector3 moveDirection = new Vector3(input.x, 0, input.y);
+            float moveSpeed = inputSystem.CanRunning() ? runSpeed : walkSpeed;
+
+            if (input == Vector2.zero)
+            {
+                rb.velocity = Vector3.zero;
+                return;
+            }
+
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+                rb.MoveRotation(Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.deltaTime));
+            }
+
+            Vector3 velocity = moveDirection * moveSpeed;
+            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
+        }
+    }
+
 }
