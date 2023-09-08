@@ -12,14 +12,14 @@ namespace Nivandria.Battle
         [SerializeField] private int currentHealth;
         [SerializeField] private int basePhysicalAttack = 12;
         [SerializeField] private int currentPhysicalAttack;
+        [SerializeField] private int baseAgility = 7;
+        [SerializeField] private int currentAgility;
         [SerializeField] private float baseMagicalAttack = 11;
         [SerializeField] private float currentMagicalAttack;
         [SerializeField] private float basePhysicalDefense = 7;
         [SerializeField] private float currentPhysicalDefense;
         [SerializeField] private float baseMagicalDefense = 6;
         [SerializeField] private float currentMagicalDefense;
-        [SerializeField] private int baseAgility = 7;
-        [SerializeField] private int currentAgility;
         [SerializeField] private bool hasMove = false;
         [SerializeField] private bool isSelected = false;
 
@@ -68,19 +68,19 @@ namespace Nivandria.Battle
         {
             GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             if (newGridPosition != gridPosition)
-            { // if unit change grid position
+            { 
                 LevelGrid.Instance.UnitMoveGridPosition(this, gridPosition, newGridPosition);
                 gridPosition = newGridPosition;
             }
         }
 
-        public int GetAgility() => currentAgility;
-        public bool GetMoveStatus() => hasMove;
-        public string GetCharacterName() => characterName;
-
         public MoveAction GetMoveAction() => moveAction;
         public SpinAction GetSpinAction() => spinAction;
         public GridPosition GetGridPosition() => gridPosition;
+
+        public int GetAgility() => currentAgility;
+        public bool GetMoveStatus() => hasMove;
+        public string GetCharacterName() => characterName;
 
         public void SetMoveStatus(bool hasMove) => this.hasMove = hasMove;
         public void SetSelectedStatus(bool isSelected) => this.isSelected = isSelected;

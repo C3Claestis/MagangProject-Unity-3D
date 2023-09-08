@@ -9,26 +9,23 @@ namespace Nivandria.Battle
         public static CameraController Instance { get; private set; }
 
         [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
+        [SerializeField] private float cameraMoveSpeed = 10f;
+        [SerializeField] private float cameraZoomSpeed = 3f;
+        [SerializeField] private float cameraFocusStoppingDistance = .1f;
+        [SerializeField] private float cameraFocusActiveMoveSpeed = 10f;
 
         private CinemachineTransposer cinemachineTransposer;
         private PlayerInputController playerInputController;
 
-        [SerializeField] private float cameraMoveSpeed = 10f;
-        [SerializeField] private float cameraZoomSpeed = 3f;
-
-        private float widthMoveLimit;
-        private float heighMoveLimit;
-
+        private Vector3 targetPosition = new Vector3(0, 0, 0);
+        private Vector3 targetFollowOffset;
+        
+        private float widthMoveLimit, heighMoveLimit;
         private float minZoomLimit = 2f;
         private float maxZoomLimit = 7f;
         private float zoomAmmount = 0.8f;
-
-        private Vector3 targetFollowOffset;
-
-        private Vector3 targetPosition = new Vector3(0, 0, 0);
-        [SerializeField] float cameraFocusStoppingDistance = .1f;
-        [SerializeField] float cameraFocusActiveMoveSpeed = 10f;
         private bool cameraFocusActive = false;
+
 
         private void Awake()
         {
