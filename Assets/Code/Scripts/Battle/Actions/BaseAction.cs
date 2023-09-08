@@ -8,11 +8,14 @@ namespace Nivandria.Battle.Action
         protected bool isActive;
         protected Unit unit;
         protected Action onActionComplete;
+        protected abstract string actionName { get; }
 
         protected virtual void Awake()
         {
             unit = GetComponent<Unit>();
         }
+
+        public string GetActionName() => actionName;
     }
 
 }

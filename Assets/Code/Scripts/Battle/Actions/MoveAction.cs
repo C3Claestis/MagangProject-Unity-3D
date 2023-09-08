@@ -7,10 +7,10 @@ namespace Nivandria.Battle.Action
 
     public class MoveAction : BaseAction
     {
+        protected override string actionName { get { return "Move"; } }
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private float rotateSpeed = 15f;
         [SerializeField] private Animator unitAnimator;
-
         [SerializeField] private int maxMoveDistance = 4;
 
         private float moveStoppingDistance = .1f;
@@ -98,5 +98,4 @@ namespace Nivandria.Battle.Action
             return validGridPositionList;
         }
     }
-
 }

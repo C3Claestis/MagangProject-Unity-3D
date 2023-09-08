@@ -26,11 +26,13 @@ namespace Nivandria.Battle
         private GridPosition gridPosition;
         private MoveAction moveAction;
         private SpinAction spinAction;
+        private BaseAction[] baseActionArray;
 
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
             spinAction = GetComponent<SpinAction>();
+            baseActionArray = GetComponents<BaseAction>(); //Store all the component attached to this unit that extend BaseAction;
         }
 
         private void Start()
@@ -77,6 +79,7 @@ namespace Nivandria.Battle
         public MoveAction GetMoveAction() => moveAction;
         public SpinAction GetSpinAction() => spinAction;
         public GridPosition GetGridPosition() => gridPosition;
+        public BaseAction[] GetBaseActionArray() => baseActionArray;
 
         public int GetAgility() => currentAgility;
         public bool GetMoveStatus() => hasMove;

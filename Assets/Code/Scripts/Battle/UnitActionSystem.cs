@@ -2,15 +2,18 @@ namespace Nivandria.Battle
 {
     using UnityEngine;
     using Nivandria.Battle.Grid;
-    using Nivandria.Battle.Action;
+    using System;
+    using Unity.VisualScripting;
 
     public class UnitActionSystem : MonoBehaviour
     {
         public static UnitActionSystem Instance { get; private set; }
-        private Unit selectedUnit;
+
+        public event EventHandler OnSelectedUnitChanged;
+
+        [SerializeField] private Unit selectedUnit;
 
         private string unitTag = "Units";
-
         private bool isBusy = false;
 
         private void Awake()
@@ -88,6 +91,8 @@ namespace Nivandria.Battle
                 selectedUnit = null;
                 Debug.Log("All units have already moved");
             }
+
+            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>Resets the selected unit's status and shading after it has been moved.
