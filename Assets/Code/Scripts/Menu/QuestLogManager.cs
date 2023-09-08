@@ -5,6 +5,7 @@ namespace Nivandria.UI
     using UnityEngine;
     using TMPro;
     using Unity.VisualScripting;
+    using UnityEngine.UI;
 
     public class QuestLogManager : MonoBehaviour
     {
@@ -45,13 +46,25 @@ namespace Nivandria.UI
             {
                 if (!(quest.GetQuestType() == questType)) continue;
                 index += 1;
+                int indexCopy = index;
                 GameObject newQuest = Instantiate(questLog, contentContainer);
-                newQuest.GetComponent<QuestLog>().SetNameQuestLog($"{index}. "+quest.GetTitle());
+                Button questButton = newQuest.GetComponent<Button>();
+                Quest currentQuest = quest;
+                questButton.onClick.AddListener(() => SetDescription(currentQuest));
+                newQuest.GetComponent<QuestLog>().SetNameQuestLog($"{index}. "+ quest.GetTitle());
 
                 if (index != 1) continue;
                 int indexList = questList.IndexOf(quest);
                 SetDescription(questList[indexList]);
+
+                if(index == 1)
+                {
+                    SetDescription(quest);
+                }
+                
             }
+
+
         }
 
         void RemoveQuestLog()
@@ -84,6 +97,8 @@ namespace Nivandria.UI
                 reward.text += rewardsList[i]+" <br>";
             }
         }
+
+
     }
 
 }

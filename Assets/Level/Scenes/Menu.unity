@@ -6230,7 +6230,7 @@ GameObject:
   - component: {fileID: 416903169}
   - component: {fileID: 416903168}
   m_Layer: 5
-  m_Name: PanelMainQuest
+  m_Name: Quest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

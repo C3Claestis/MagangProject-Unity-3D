@@ -8,7 +8,7 @@ namespace Nivandria.UI
     [Serializable]
     public class Quest
     {
-
+        
         [SerializeField] private string title;
         [SerializeField] private QuestType type;
         [SerializeField] private string giver;
