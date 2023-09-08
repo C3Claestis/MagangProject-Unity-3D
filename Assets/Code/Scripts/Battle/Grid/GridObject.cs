@@ -1,31 +1,37 @@
-using System.Collections.Generic;
-
-public class GridObject 
+namespace Nivandria.Battle.Grid
 {
-    private GridSystem gridSystem;
-    private GridPosition gridPosition;
-    private List<Unit> unitList;
+    using System.Collections.Generic;
 
-    public GridObject(GridSystem gridSystem, GridPosition gridPosition){
-        this.gridSystem = gridSystem;
-        this.gridPosition = gridPosition;
-        unitList = new List<Unit>();
-    }
+    public class GridObject
+    {
+        private GridSystem gridSystem;
+        private GridPosition gridPosition;
+        private List<Unit> unitList;
 
-    
-    public override string ToString(){
-        string unitString = "";
-
-        foreach (Unit unit in unitList)
+        public GridObject(GridSystem gridSystem, GridPosition gridPosition)
         {
-            unitString += unit + "\n";
+            this.gridSystem = gridSystem;
+            this.gridPosition = gridPosition;
+            unitList = new List<Unit>();
         }
 
-        return gridPosition.ToString() + "\n" + unitString;
+
+        public override string ToString()
+        {
+            string unitString = "";
+
+            foreach (Unit unit in unitList)
+            {
+                unitString += unit + "\n";
+            }
+
+            return gridPosition.ToString() + "\n" + unitString;
+        }
+
+        public void AddUnit(Unit unit) => unitList.Add(unit);
+        public void RemoveUnit(Unit unit) => unitList.Remove(unit);
+        public List<Unit> GetUnitList() => unitList;
+        public bool HasAnyUnit() => unitList.Count > 0;
     }
 
-    public void AddUnit(Unit unit) => unitList.Add(unit);
-    public void RemoveUnit(Unit unit) => unitList.Remove(unit);
-    public List<Unit> GetUnitList() =>  unitList;
-    public bool HasAnyUnit() => unitList.Count > 0;
 }

@@ -1,129 +1,144 @@
-using UnityEditor.Rendering;
-using UnityEngine;
-
-public class UnitActionSystem : MonoBehaviour
+namespace Nivandria.Battle
 {
-    public static UnitActionSystem Instance { get; private set; }
-    private Unit selectedUnit;
-    
-    private string unitTag = "Units";
+    using UnityEngine;
+    using Nivandria.Battle.Grid;
+    using Nivandria.Battle.Action;
 
-    private bool isBusy = false;
-
-    private void Awake(){
-        if(Instance != null){
-            Debug.LogError("There's more than one UnitActionSystem! " + transform + " - " + Instance);
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
-    
-    private void Start() {
-    }
-    
-    private void Update() {
-        if(isBusy) return;
-
-        if (Input.GetKeyUp(KeyCode.Space)){
-            SelectFastestUnit();
-        }
-
-        if (Input.GetMouseButtonDown(0)){
-            TryMoveAction();
-        }
-
-        if(Input.GetMouseButtonUp(1)){
-            TrySpinAction();
-        }
-    }
-
-    /// <summary> Handles the selection of the fastest unit that hasn't moved yet.
-    /// </summary>
-    private void SelectFastestUnit()
+    public class UnitActionSystem : MonoBehaviour
     {
-        GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
+        public static UnitActionSystem Instance { get; private set; }
+        private Unit selectedUnit;
 
-        Unit fastestUnit = null;
-        int fastestSpeed = int.MinValue;
+        private string unitTag = "Units";
 
-        foreach (GameObject unitObject in unitObjects)
+        private bool isBusy = false;
+
+        private void Awake()
         {
-            Unit unitComponent = unitObject.GetComponent<Unit>();
-
-            if (unitComponent == null) continue;
-            
-            int unitSpeed = unitComponent.GetAgility();
-            bool hasMoved = unitComponent.GetMoveStatus();
-
-            if (!hasMoved && unitSpeed > fastestSpeed)
+            if (Instance != null)
             {
-                fastestUnit = unitComponent;
-                fastestSpeed = unitSpeed;
+                Debug.LogError("There's more than one UnitActionSystem! " + transform + " - " + Instance);
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
+        private void Start()
+        {
+        }
+
+        private void Update()
+        {
+            if (isBusy) return;
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                SelectFastestUnit();
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                TryMoveAction();
+            }
+
+            if (Input.GetMouseButtonUp(1))
+            {
+                TrySpinAction();
             }
         }
 
-        if (selectedUnit != null)
+        /// <summary> Handles the selection of the fastest unit that hasn't moved yet.
+        /// </summary>
+        private void SelectFastestUnit()
         {
-            ResetSelectedUnit();
+            GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
+
+            Unit fastestUnit = null;
+            int fastestSpeed = int.MinValue;
+
+            foreach (GameObject unitObject in unitObjects)
+            {
+                Unit unitComponent = unitObject.GetComponent<Unit>();
+
+                if (unitComponent == null) continue;
+
+                int unitSpeed = unitComponent.GetAgility();
+                bool hasMoved = unitComponent.GetMoveStatus();
+
+                if (!hasMoved && unitSpeed > fastestSpeed)
+                {
+                    fastestUnit = unitComponent;
+                    fastestSpeed = unitSpeed;
+                }
+            }
+
+            if (selectedUnit != null)
+            {
+                ResetSelectedUnit();
+            }
+
+            if (fastestUnit != null)
+            {
+                CameraController.Instance.SetCameraFocusToPosition(fastestUnit.transform.position);
+                SelectUnit(fastestUnit);
+            }
+            else
+            {
+                selectedUnit = null;
+                Debug.Log("All units have already moved");
+            }
         }
 
-        if (fastestUnit != null)
+        /// <summary>Resets the selected unit's status and shading after it has been moved.
+        /// </summary>
+        private void ResetSelectedUnit()
         {
-            CameraController.Instance.SetCameraFocusToPosition(fastestUnit.transform.position);
-            SelectUnit(fastestUnit);
+            selectedUnit.SetSelectedStatus(false);
+            selectedUnit.ChangeUnitShade();
+            selectedUnit.SetMoveStatus(true);
         }
-        else
+
+        /// <summary>Tries to move the selected unit to the mouse cursor's grid position.
+        /// </summary>
+        private void TryMoveAction()
         {
-            selectedUnit = null;
-            Debug.Log("All units have already moved");
+            if (selectedUnit == null) return;
+
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
+            if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+            {
+                SetBusy();
+                selectedUnit.GetMoveAction().MoveTo(mouseGridPosition, ClearBusy);
+            }
         }
-    }
 
-    /// <summary>Resets the selected unit's status and shading after it has been moved.
-    /// </summary>
-    private void ResetSelectedUnit()
-    {
-        selectedUnit.SetSelectedStatus(false);
-        selectedUnit.ChangeUnitShade();
-        selectedUnit.SetMoveStatus(true);
-    }
-
-    /// <summary>Tries to move the selected unit to the mouse cursor's grid position.
-    /// </summary>
-    private void TryMoveAction(){
-        if (selectedUnit == null) return;
-
-        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-        
-        if(selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition)){
+        // ! Temporary Function, Will delete this later.
+        private void TrySpinAction()
+        {
+            if (selectedUnit == null) return;
             SetBusy();
-            selectedUnit.GetMoveAction().MoveTo(mouseGridPosition, ClearBusy);
+            selectedUnit.GetSpinAction().Spin(ClearBusy);
+
         }
+
+        /// <summary>Selects a unit and updates its status and shading.
+        /// </summary>
+        /// <param name="unit">The unit to be selected.</param>
+        private void SelectUnit(Unit unit)
+        {
+            selectedUnit = unit;
+            selectedUnit.SetMoveStatus(true);
+            selectedUnit.SetSelectedStatus(true);
+            selectedUnit.ChangeUnitShade();
+        }
+
+
+        private void ClearBusy() => isBusy = false;
+
+        private void SetBusy() => isBusy = true;
+        public Unit GetSelectedUnit() => selectedUnit;
     }
 
-    // ! Temporary Function, Will delete this later.
-    private void TrySpinAction(){
-        if (selectedUnit == null) return;
-        SetBusy();
-        selectedUnit.GetSpinAction().Spin(ClearBusy);
-
-    }
-
-    /// <summary>Selects a unit and updates its status and shading.
-    /// </summary>
-    /// <param name="unit">The unit to be selected.</param>
-    private void SelectUnit(Unit unit)
-    {
-        selectedUnit = unit;
-        selectedUnit.SetMoveStatus(true);
-        selectedUnit.SetSelectedStatus(true);
-        selectedUnit.ChangeUnitShade();
-    }
-
-            
-    private void ClearBusy() => isBusy = false; 
-
-    private void SetBusy() => isBusy = true;
-    public Unit GetSelectedUnit() => selectedUnit;
 }

@@ -1,13 +1,18 @@
-using System;
-using UnityEngine;
-
-public abstract class BaseAction : MonoBehaviour
+namespace Nivandria.Battle.Action
 {
-    protected bool isActive;
-    protected Unit unit;
-    protected Action onActionComplete;
+    using System;
+    using UnityEngine;
 
-    protected virtual void Awake() {
-        unit = GetComponent<Unit>();
+    public abstract class BaseAction : MonoBehaviour
+    {
+        protected bool isActive;
+        protected Unit unit;
+        protected Action onActionComplete;
+
+        protected virtual void Awake()
+        {
+            unit = GetComponent<Unit>();
+        }
     }
+
 }

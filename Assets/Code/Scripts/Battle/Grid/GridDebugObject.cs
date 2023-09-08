@@ -1,17 +1,22 @@
-using UnityEngine;
-using TMPro;
-
-public class GridDebugObject : MonoBehaviour
+namespace Nivandria.Battle.Grid
 {
-    [SerializeField] TextMeshPro textMeshPro;
-    private GridObject gridObject;
+    using UnityEngine;
+    using TMPro;
 
-    private void Update(){
-        textMeshPro.text = gridObject.ToString();
+    public class GridDebugObject : MonoBehaviour
+    {
+        [SerializeField] TextMeshPro textMeshPro;
+        private GridObject gridObject;
+
+        private void Update()
+        {
+            textMeshPro.text = gridObject.ToString();
+        }
+
+        /// <summary>Set the associated grid object for this entity.
+        /// </summary>
+        /// <param name="gridObject">The GridObject to associate with this entity.</param>
+        public void SetGridObject(GridObject gridObject) => this.gridObject = gridObject;
     }
 
-    /// <summary>Set the associated grid object for this entity.
-    /// </summary>
-    /// <param name="gridObject">The GridObject to associate with this entity.</param>
-    public void SetGridObject(GridObject gridObject) => this.gridObject = gridObject;
 }

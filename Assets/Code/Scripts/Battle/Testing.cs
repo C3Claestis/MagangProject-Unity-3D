@@ -1,14 +1,19 @@
-using UnityEngine;
-
-public class Testing : MonoBehaviour
+namespace Nivandria.Battle
 {
-    [SerializeField] private Unit unit;
+    using UnityEngine;
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.T)) {
+    public class Testing : MonoBehaviour
+    {
+        [SerializeField] private Unit unit;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+
+            }
 
         }
 
     }
-
 }

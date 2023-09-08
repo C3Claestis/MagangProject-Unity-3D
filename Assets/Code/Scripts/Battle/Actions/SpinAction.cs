@@ -1,25 +1,32 @@
-using System;
-using UnityEngine;
-
-public class SpinAction : BaseAction
+namespace Nivandria.Battle.Action
 {
-    private float totalSpinAmount;
+    using System;
+    using UnityEngine;
 
-    private void Update() {
-        if(!isActive) return;
+    public class SpinAction : BaseAction
+    {
+        private float totalSpinAmount;
 
-        float spinAddAmount = 360f * Time.deltaTime;
-        transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
-        totalSpinAmount += spinAddAmount;
-        if (totalSpinAmount >= 360f){
-            isActive = false;
-            onActionComplete();
+        private void Update()
+        {
+            if (!isActive) return;
+
+            float spinAddAmount = 360f * Time.deltaTime;
+            transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
+            totalSpinAmount += spinAddAmount;
+            if (totalSpinAmount >= 360f)
+            {
+                isActive = false;
+                onActionComplete();
+            }
+        }
+
+        public void Spin(Action onActionComplete)
+        {
+            this.onActionComplete = onActionComplete;
+            totalSpinAmount = 0f;
+            isActive = true;
         }
     }
 
-    public void Spin(Action onActionComplete){
-        this.onActionComplete = onActionComplete;
-        totalSpinAmount = 0f;
-        isActive = true;
-    }
 }
