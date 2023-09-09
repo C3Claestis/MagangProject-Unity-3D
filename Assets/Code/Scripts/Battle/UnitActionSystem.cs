@@ -13,6 +13,8 @@ namespace Nivandria.Battle.Action
         [SerializeField] private Unit selectedUnit;
 
         public event EventHandler OnSelectedUnitChanged;
+        public event EventHandler OnSelectedActionChanged;
+
         private BaseAction selectedAction;
 
         private string unitTag = "Units";
@@ -84,7 +86,6 @@ namespace Nivandria.Battle.Action
                 Debug.Log("All units have already moved");
             }
 
-            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>Resets the selected unit's status and shading after it has been moved.
@@ -108,6 +109,7 @@ namespace Nivandria.Battle.Action
             SetSelectedAction(unit.GetMoveAction());
             GridSystemVisual.Instance.UpdateGridVisual();
 
+            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void HandleSelectedAction()
@@ -118,16 +120,17 @@ namespace Nivandria.Battle.Action
 
                 GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-                if (selectedAction.IsValidActionGridPosition(mouseGridPosition)){
+                if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
+                {
                     SetBusy();
                     selectedAction.TakeAction(mouseGridPosition, OnActionComplete);
                 }
-                
+
             }
         }
 
-        
-        private void OnActionComplete(){
+        private void OnActionComplete()
+        {
             GridSystemVisual.Instance.UpdateGridVisual();
             ClearBusy();
         }
@@ -136,9 +139,15 @@ namespace Nivandria.Battle.Action
         private void SetBusy() => isBusy = true;
 
         public Unit GetSelectedUnit() => selectedUnit;
-        public BaseAction GetSelectedAction() =>  selectedAction;
-        
-        public void SetSelectedAction(BaseAction baseAction) => selectedAction = baseAction;
+        public BaseAction GetSelectedAction() => selectedAction;
+
+        public void SetSelectedAction(BaseAction baseAction)
+        {
+            selectedAction = baseAction;
+
+            OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
+            GridSystemVisual.Instance.UpdateGridVisual();
+        }
     }
 
 }

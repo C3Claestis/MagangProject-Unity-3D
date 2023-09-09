@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.UI
 {
     using System;
+    using System.Collections.Generic;
     using Nivandria.Battle.Action;
     using UnityEngine;
     using UnityEngine.UI;
@@ -10,10 +11,21 @@ namespace Nivandria.Battle.UI
         [SerializeField] private Transform actionButtonPrefab;
         [SerializeField] private Transform actionButtonContainerTransform;
 
+        private List<ActionButtonUI> actionButtonUIList;
+
+        private void Awake()
+        {
+            actionButtonUIList = new List<ActionButtonUI>();
+        }
+
         private void Start()
         {
             UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+            UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+
+
             CreateUnitActionButtons();
+            UpdateSelectedVisual();
         }
 
         private void CreateUnitActionButtons()
@@ -22,6 +34,8 @@ namespace Nivandria.Battle.UI
             {
                 Destroy(buttonTransform.gameObject);
             }
+
+            actionButtonUIList.Clear();
 
             Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
 
@@ -32,12 +46,32 @@ namespace Nivandria.Battle.UI
                 Transform actionButtonTransform = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
                 ActionButtonUI actionButtonUI = actionButtonTransform.GetComponent<ActionButtonUI>();
                 actionButtonUI.SetBaseAction(baseAction);
+
+                actionButtonUIList.Add(actionButtonUI);
             }
         }
 
-        private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e){
-            CreateUnitActionButtons();
+        private void UpdateSelectedVisual()
+        {
+            foreach (ActionButtonUI actionButtonUI in actionButtonUIList)
+            {
+                actionButtonUI.UpdateSelectedVisual();
+            }
         }
+
+        private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        {
+            CreateUnitActionButtons();
+            UpdateSelectedVisual();
+        }
+
+        private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
+        {
+            UpdateSelectedVisual();
+        }
+
+
+
     }
 
 }

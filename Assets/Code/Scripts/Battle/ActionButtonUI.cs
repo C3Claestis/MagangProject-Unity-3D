@@ -10,16 +10,30 @@ namespace Nivandria.Battle.UI
     {
         [SerializeField] private TextMeshProUGUI textMeshPro;
         [SerializeField] private Button button;
+        [SerializeField] private Outline outline;
+
+        private BaseAction baseAction;
 
         public void SetBaseAction(BaseAction baseAction)
         {
+            this.baseAction = baseAction;
             textMeshPro.text = baseAction.GetActionName().ToUpper();
 
-            button.onClick.AddListener(() => {
+            button.onClick.AddListener(() =>
+            {
                 UnitActionSystem.Instance.SetSelectedAction(baseAction);
                 GridSystemVisual.Instance.UpdateGridVisual();
             });
+
+            UpdateSelectedVisual();
         }
+
+        public void UpdateSelectedVisual()
+        {
+            BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
+	        outline.enabled = (baseAction == selectedBaseAction);
+        }
+
     }
 
 }
