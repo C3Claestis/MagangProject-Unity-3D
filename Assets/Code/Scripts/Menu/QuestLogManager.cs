@@ -38,30 +38,62 @@ namespace Nivandria.UI
             QuestLogInitialization();
         }
 
-        void QuestLogInitialization()
+        public void QuestLogInitialization()
         {
             int index = 0;
-            
+            Image selectedImage = null;
+            TextMeshProUGUI selectedText = null;
+
             foreach (Quest quest in questList)
             {
                 if (!(quest.GetQuestType() == questType)) continue;
                 index += 1;
-                int indexCopy = index;
                 GameObject newQuest = Instantiate(questLog, contentContainer);
                 Button questButton = newQuest.GetComponent<Button>();
                 Quest currentQuest = quest;
-                questButton.onClick.AddListener(() => SetDescription(currentQuest));
-                newQuest.GetComponent<QuestLog>().SetNameQuestLog($"{index}. "+ quest.GetTitle());
+                TextMeshProUGUI questText = newQuest.GetComponentInChildren<TextMeshProUGUI>();
+                Image questImage = newQuest.GetComponent<Image>();
+                questButton.onClick.AddListener(() => 
+                {
+                    SetDescription(currentQuest);
 
-                if (index != 1) continue;
+                    if(selectedImage != null)
+                    {
+                        selectedImage.color = new Color(1f, 1f, 1f, 0f);
+                    }
+                    
+                    questImage.color = new Color(1f, 1f, 1f, 1f);
+
+                    if (selectedText != null)
+                    {
+                        selectedText.fontStyle &= ~FontStyles.Bold;
+                    }
+
+                    questText.fontStyle |= FontStyles.Bold;
+
+                    selectedImage = questImage;
+                    selectedText = questText;
+                });
+                newQuest.GetComponent<QuestLog>().SetNameQuestLog($" {index}. "+ quest.GetTitle());
+
+                /*if (index != 1) continue;
                 int indexList = questList.IndexOf(quest);
                 SetDescription(questList[indexList]);
+                questText.fontStyle = FontStyles.Bold;
+                */
 
                 if(index == 1)
                 {
-                    SetDescription(quest);
+                    questImage.color = new Color(1f, 1f, 1f, 1f); // Ubah alpha menjadi 255
+                    questText.fontStyle |= FontStyles.Bold; // Aktifkan bold pada teks
+                    selectedImage = questImage; // Simpan gambar yang dipilih saat ini
+                    selectedText = questText; // Simpan teks yang dipilih saat ini
                 }
-                
+                else
+                {
+                    // Nonaktifkan gambar pada game objek kecuali yang pertama
+                    questImage.color = new Color(1f, 1f, 1f, 0f); // Ubah alpha menjadi 0
+                }
             }
 
 
