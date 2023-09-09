@@ -33,7 +33,7 @@ namespace Nivandria.Battle
             if (context.performed) cameraCanMove = true;
             else cameraCanMove = false;
         }
-
+        
         public void CameraZoomAction(InputAction.CallbackContext context)
         {
             if (context.started) return;

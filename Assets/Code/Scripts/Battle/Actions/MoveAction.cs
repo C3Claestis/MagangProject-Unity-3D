@@ -56,27 +56,17 @@ namespace Nivandria.Battle.Action
         /// <summary>Set the target position for movement.
         /// </summary>
         /// <param name="targetPosition">The target position to move to.</param>
-        public void MoveTo(GridPosition gridPosition, Action onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             this.onActionComplete = onActionComplete;
             isActive = true;
             this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         }
 
-        /// <summary>Checks whether the given grid position is a valid action grid position for the unit.
-        /// </summary>
-        /// <param name="gridPosition">The grid position to be checked.</param>
-        /// <returns>True if the grid position is a valid action grid position, otherwise false.</returns>
-        public bool IsValidActionGridPosition(GridPosition gridPosition)
-        {
-            List<GridPosition> validGridPositionList = GetValidActionGridPosition();
-            return validGridPositionList.Contains(gridPosition);
-        }
-
         /// <summary>Retrieves a list of valid grid positions that the unit can move to.
         /// </summary>
         /// <returns>A list of valid grid positions for the unit's movement.</returns>
-        public List<GridPosition> GetValidActionGridPosition()
+        public override List<GridPosition> GetValidActionGridPosition()
         {
             List<GridPosition> validGridPositionList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();

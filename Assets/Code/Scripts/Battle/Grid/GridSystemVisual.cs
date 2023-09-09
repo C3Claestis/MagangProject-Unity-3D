@@ -1,11 +1,16 @@
 namespace Nivandria.Battle.Grid
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using Nivandria.Battle.Action;
 
     public class GridSystemVisual : MonoBehaviour
     {
         public static GridSystemVisual Instance { get; private set; }
+
+        public event EventHandler OnGridVisualUpdated;
+
 
         [SerializeField] private Transform gridSystemVisualSinglePrefab;
         private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
@@ -25,11 +30,6 @@ namespace Nivandria.Battle.Grid
         {
             InstantiateGrid();
             HideAllGridPosition();
-        }
-
-        private void Update()
-        {
-            UpdateGridVisual(); //! TEMPORARY
         }
 
         private void InstantiateGrid()
@@ -69,13 +69,17 @@ namespace Nivandria.Battle.Grid
 
         public void UpdateGridVisual()
         {
-            Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
             HideAllGridPosition();
 
-            if (selectedUnit == null) return;
+            BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();         
+
+            if (selectedAction == null) return;
+
             ShowGridPositionList(
-                selectedUnit.GetMoveAction().GetValidActionGridPosition()
+                selectedAction.GetValidActionGridPosition()
             );
+
+            OnGridVisualUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 

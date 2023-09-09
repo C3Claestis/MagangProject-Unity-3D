@@ -1,6 +1,8 @@
 namespace Nivandria.Battle.Action
 {
     using System;
+    using System.Collections.Generic;
+    using Nivandria.Battle.Grid;
     using UnityEngine;
 
     public class SpinAction : BaseAction
@@ -22,11 +24,17 @@ namespace Nivandria.Battle.Action
             }
         }
 
-        public void Spin(Action onActionComplete)
+        public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             this.onActionComplete = onActionComplete;
             totalSpinAmount = 0f;
             isActive = true;
+        }
+
+        public override List<GridPosition> GetValidActionGridPosition()
+        {
+            GridPosition unitGridPosition = unit.GetGridPosition();
+            return new List<GridPosition> { unitGridPosition };
         }
     }
 

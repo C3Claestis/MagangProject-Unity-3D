@@ -22,7 +22,7 @@ namespace Nivandria.Battle.Grid
 
             foreach (Unit unit in unitList)
             {
-                unitString += unit + "\n";
+                unitString += unit.GetCharacterName() + "\n";
             }
 
             return gridPosition.ToString() + "\n" + unitString;

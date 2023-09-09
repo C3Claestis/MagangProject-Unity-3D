@@ -37,15 +37,16 @@ namespace Nivandria.Battle
 
         private void Start()
         {
-            gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-            LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
-
-            currentHealth = baseHealth;
+			currentHealth = baseHealth;
             currentPhysicalAttack = basePhysicalAttack;
             currentMagicalAttack = baseMagicalAttack;
             currentPhysicalDefense = basePhysicalDefense;
             currentMagicalDefense = baseMagicalDefense;
             currentAgility = baseAgility;
+
+			gameObject.name = characterName;
+            gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+            LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
             ChangeUnitShade();
         }

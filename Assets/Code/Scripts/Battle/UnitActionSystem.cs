@@ -1,17 +1,19 @@
-namespace Nivandria.Battle
+namespace Nivandria.Battle.Action
 {
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle;
     using System;
-    using Unity.VisualScripting;
 
     public class UnitActionSystem : MonoBehaviour
     {
         public static UnitActionSystem Instance { get; private set; }
 
-        public event EventHandler OnSelectedUnitChanged;
-
         [SerializeField] private Unit selectedUnit;
+
+        public event EventHandler OnSelectedUnitChanged;
+        private BaseAction selectedAction;
 
         private string unitTag = "Units";
         private bool isBusy = false;
@@ -27,28 +29,18 @@ namespace Nivandria.Battle
             Instance = this;
         }
 
-        private void Start()
-        {
-        }
-
         private void Update()
         {
             if (isBusy) return;
+
+            if (EventSystem.current.IsPointerOverGameObject()) return;
 
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 SelectFastestUnit();
             }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                TryMoveAction();
-            }
-
-            if (Input.GetMouseButtonUp(1))
-            {
-                TrySpinAction();
-            }
+            HandleSelectedAction();
         }
 
         /// <summary> Handles the selection of the fastest unit that hasn't moved yet.
@@ -104,30 +96,6 @@ namespace Nivandria.Battle
             selectedUnit.SetMoveStatus(true);
         }
 
-        /// <summary>Tries to move the selected unit to the mouse cursor's grid position.
-        /// </summary>
-        private void TryMoveAction()
-        {
-            if (selectedUnit == null) return;
-
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-
-            if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-            {
-                SetBusy();
-                selectedUnit.GetMoveAction().MoveTo(mouseGridPosition, ClearBusy);
-            }
-        }
-
-        // ! Temporary Function, Will delete this later.
-        private void TrySpinAction()
-        {
-            if (selectedUnit == null) return;
-            SetBusy();
-            selectedUnit.GetSpinAction().Spin(ClearBusy);
-
-        }
-
         /// <summary>Selects a unit and updates its status and shading.
         /// </summary>
         /// <param name="unit">The unit to be selected.</param>
@@ -137,13 +105,40 @@ namespace Nivandria.Battle
             selectedUnit.SetMoveStatus(true);
             selectedUnit.SetSelectedStatus(true);
             selectedUnit.ChangeUnitShade();
+            SetSelectedAction(unit.GetMoveAction());
+            GridSystemVisual.Instance.UpdateGridVisual();
+
         }
 
+        private void HandleSelectedAction()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (selectedUnit == null) return;
+
+                GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
+                if (selectedAction.IsValidActionGridPosition(mouseGridPosition)){
+                    SetBusy();
+                    selectedAction.TakeAction(mouseGridPosition, OnActionComplete);
+                }
+                
+            }
+        }
+
+        
+        private void OnActionComplete(){
+            GridSystemVisual.Instance.UpdateGridVisual();
+            ClearBusy();
+        }
 
         private void ClearBusy() => isBusy = false;
-
         private void SetBusy() => isBusy = true;
+
         public Unit GetSelectedUnit() => selectedUnit;
+        public BaseAction GetSelectedAction() =>  selectedAction;
+        
+        public void SetSelectedAction(BaseAction baseAction) => selectedAction = baseAction;
     }
 
 }
