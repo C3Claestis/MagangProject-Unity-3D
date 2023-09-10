@@ -24,6 +24,9 @@ namespace Nivandria.Battle.Action
             }
         }
 
+        /// <summary>Performs a spin action at the specified grid position and invokes a callback upon completion.</summary>
+        /// <param name="gridPosition">The target grid position for the spin action.</param>
+        /// <param name="onActionComplete">Callback function to execute when the spin action is complete.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             this.onActionComplete = onActionComplete;
@@ -37,5 +40,4 @@ namespace Nivandria.Battle.Action
             return new List<GridPosition> { unitGridPosition };
         }
     }
-
 }

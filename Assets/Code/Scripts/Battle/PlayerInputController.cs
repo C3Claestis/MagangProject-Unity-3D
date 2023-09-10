@@ -24,6 +24,8 @@ namespace Nivandria.Battle
             Instance = this;
         }
 
+        /// <summary> Handles camera movement input actions. </summary>
+        /// <param name="context">The input action context.</param>
         public void CameraMovementAction(InputAction.CallbackContext context)
         {
             if (context.started) return;
@@ -33,7 +35,9 @@ namespace Nivandria.Battle
             if (context.performed) cameraCanMove = true;
             else cameraCanMove = false;
         }
-        
+
+        /// <summary> Handles camera zoom input actions. </summary>
+        /// <param name="context">The input action context.</param>
         public void CameraZoomAction(InputAction.CallbackContext context)
         {
             if (context.started) return;
@@ -41,11 +45,12 @@ namespace Nivandria.Battle
             cameraZoom = context.ReadValue<float>();
         }
 
+
+        #region Getter Setter
         public Vector2 GetCameraMovementValue() => cameraMovement;
         public float GetCameraZoomValue() => cameraZoom;
-
         public bool GetCameraMovementStatus() => cameraCanMove;
         public bool GetCameraZoomStatus() => cameraCanZoom;
+        #endregion
     }
-
 }

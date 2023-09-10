@@ -10,8 +10,8 @@ namespace Nivandria.Battle.Action
         protected override string actionName { get { return "Move"; } }
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private float rotateSpeed = 15f;
-        [SerializeField] private Animator unitAnimator;
         [SerializeField] private int maxMoveDistance = 4;
+        [SerializeField] private Animator unitAnimator;
 
         private float moveStoppingDistance = .1f;
 
@@ -30,32 +30,9 @@ namespace Nivandria.Battle.Action
             HandleMoving();
         }
 
-        /// <summary>Moves unit towards a target position. 
-        /// </summary>
-        /// <remarks> Adjusting its position, orientation, and animation. </remarks>
-        private void HandleMoving()
-        {
-            if (Vector3.Distance(transform.position, moveTargetPosition) > moveStoppingDistance)
-            {
-                Vector3 moveDirection = (moveTargetPosition - transform.position).normalized;
-                transform.position += moveDirection * Time.deltaTime * moveSpeed;
-
-                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
-                unitAnimator.SetBool("isWalking", true);
-            }
-            else
-            {
-                unitAnimator.SetBool("isWalking", false);
-                isActive = false;
-                onActionComplete();
-            }
-
-        }
-
-        /// <summary>Set the target position for movement.
-        /// </summary>
-        /// <param name="targetPosition">The target position to move to.</param>
+        /// <summary>Initiates a move action to the specified grid position and triggers a callback when the movement is finished.</summary>
+        /// <param name="gridPosition">The target grid position to move to.</param>
+        /// <param name="onActionComplete">Callback function to call upon completing the move action.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             this.onActionComplete = onActionComplete;
@@ -63,9 +40,6 @@ namespace Nivandria.Battle.Action
             this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         }
 
-        /// <summary>Retrieves a list of valid grid positions that the unit can move to.
-        /// </summary>
-        /// <returns>A list of valid grid positions for the unit's movement.</returns>
         public override List<GridPosition> GetValidActionGridPosition()
         {
             List<GridPosition> validGridPositionList = new List<GridPosition>();
@@ -86,6 +60,28 @@ namespace Nivandria.Battle.Action
                 }
             }
             return validGridPositionList;
+        }
+
+        /// <summary>Moves unit towards a target position.</summary>
+        /// <remarks> Adjusting its position, orientation, and animation. </remarks>
+        private void HandleMoving()
+        {
+            if (Vector3.Distance(transform.position, moveTargetPosition) > moveStoppingDistance)
+            {
+                Vector3 moveDirection = (moveTargetPosition - transform.position).normalized;
+                transform.position += moveDirection * Time.deltaTime * moveSpeed;
+
+                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
+                unitAnimator.SetBool("isWalking", true);
+            }
+            else
+            {
+                unitAnimator.SetBool("isWalking", false);
+                isActive = false;
+                onActionComplete();
+            }
+
         }
     }
 }

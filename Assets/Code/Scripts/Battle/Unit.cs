@@ -3,10 +3,11 @@ namespace Nivandria.Battle
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
+    using Unity.VisualScripting;
 
     public class Unit : MonoBehaviour
     {
-        [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+        #region  Character Status Variables
         [SerializeField] private string characterName = "Base Unit";
         [SerializeField] private int baseHealth = 100;
         [SerializeField] private int currentHealth;
@@ -22,7 +23,9 @@ namespace Nivandria.Battle
         [SerializeField] private float currentMagicalDefense;
         [SerializeField] private bool hasMove = false;
         [SerializeField] private bool isSelected = false;
+        #endregion
 
+        [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
         private GridPosition gridPosition;
         private MoveAction moveAction;
         private SpinAction spinAction;
@@ -37,14 +40,14 @@ namespace Nivandria.Battle
 
         private void Start()
         {
-			currentHealth = baseHealth;
+            currentHealth = baseHealth;
             currentPhysicalAttack = basePhysicalAttack;
             currentMagicalAttack = baseMagicalAttack;
             currentPhysicalDefense = basePhysicalDefense;
             currentMagicalDefense = baseMagicalDefense;
             currentAgility = baseAgility;
 
-			gameObject.name = characterName;
+            gameObject.name = characterName;
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
@@ -56,8 +59,7 @@ namespace Nivandria.Battle
             UpdateUnitGridPosition();
         }
 
-        /// <summary>Change unit material shading based on the selection status.
-        /// </summary>
+        /// <summary>Change unit material shading based on the selection status.</summary>
         public void ChangeUnitShade()
         {
             Material newMaterial = skinnedMeshRenderer.material;
@@ -65,18 +67,19 @@ namespace Nivandria.Battle
             skinnedMeshRenderer.material = newMaterial;
         }
 
-        /// <summary>Updates the grid position of the unit based on its current world position.
-        /// </summary>
+        /// <summary>Updates the grid position of the unit based on its current world position.</summary>
         private void UpdateUnitGridPosition()
         {
             GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             if (newGridPosition != gridPosition)
-            { 
+            {
                 LevelGrid.Instance.UnitMoveGridPosition(this, gridPosition, newGridPosition);
                 gridPosition = newGridPosition;
             }
         }
 
+
+        #region Getter Setter
         public MoveAction GetMoveAction() => moveAction;
         public SpinAction GetSpinAction() => spinAction;
         public GridPosition GetGridPosition() => gridPosition;
@@ -88,7 +91,6 @@ namespace Nivandria.Battle
 
         public void SetMoveStatus(bool hasMove) => this.hasMove = hasMove;
         public void SetSelectedStatus(bool isSelected) => this.isSelected = isSelected;
-
+        #endregion
     }
-
 }

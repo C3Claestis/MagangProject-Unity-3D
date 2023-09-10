@@ -25,9 +25,10 @@ namespace Nivandria.Battle.UI
 
 
             CreateUnitActionButtons();
-            UpdateSelectedVisual();
+            UpdateUISelectedVisual();
         }
 
+        /// <summary> Creates unit action buttons based on the selected unit's available actions. </summary>
         private void CreateUnitActionButtons()
         {
             foreach (Transform buttonTransform in actionButtonContainerTransform)
@@ -51,27 +52,27 @@ namespace Nivandria.Battle.UI
             }
         }
 
-        private void UpdateSelectedVisual()
+        /// <summary> Updates the UI selected visual state for all action buttons. </summary>
+        private void UpdateUISelectedVisual()
         {
             foreach (ActionButtonUI actionButtonUI in actionButtonUIList)
             {
-                actionButtonUI.UpdateSelectedVisual();
+                actionButtonUI.UpdateUISelectedVisual();
             }
         }
 
+
+        //EVENT FUNCTION
         private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             CreateUnitActionButtons();
-            UpdateSelectedVisual();
+            UpdateUISelectedVisual();
         }
 
         private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
         {
-            UpdateSelectedVisual();
+            UpdateUISelectedVisual();
         }
 
-
-
     }
-
 }

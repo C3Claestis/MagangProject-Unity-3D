@@ -19,13 +19,12 @@ namespace Nivandria.Battle
 
         private Vector3 targetPosition = new Vector3(0, 0, 0);
         private Vector3 targetFollowOffset;
-        
+
         private float widthMoveLimit, heighMoveLimit;
         private float minZoomLimit = 2f;
         private float maxZoomLimit = 7f;
         private float zoomAmmount = 0.8f;
         private bool cameraFocusActive = false;
-
 
         private void Awake()
         {
@@ -58,8 +57,7 @@ namespace Nivandria.Battle
             HandleCameraFocusToPosition();
         }
 
-        /// <summary>Handles camera movement based on player input.
-        /// </summary>
+        /// <summary>Handles camera movement based on player input.</summary>
         private void HandleCameraMovement()
         {
             if (!playerInputController.GetCameraMovementStatus()) return;
@@ -75,8 +73,7 @@ namespace Nivandria.Battle
             transform.position = newPosition;
         }
 
-        /// <summary>Handles camera zoom based on player input.
-        /// </summary>
+        /// <summary>Handles camera zoom based on player input.</summary>
         private void HandleCameraZoom()
         {
             if (!playerInputController.GetCameraZoomStatus()) return;
@@ -97,8 +94,7 @@ namespace Nivandria.Battle
             cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * cameraZoomSpeed);
         }
 
-        /// <summary>Handles the camera focusing to a specific position.
-        /// </summary>
+        /// <summary>Handles the camera focusing to a specific position.</summary>
         private void HandleCameraFocusToPosition()
         {
             if (!cameraFocusActive) return;
@@ -112,12 +108,13 @@ namespace Nivandria.Battle
             }
             else cameraFocusActive = false;
         }
-
+        
+        /// <summary> Sets the camera's focus to a specific position. </summary>
+        /// <param name="targetPosition">The position to focus the camera on.</param>
         public void SetCameraFocusToPosition(Vector3 targetPosition)
         {
             this.targetPosition = targetPosition;
             cameraFocusActive = true;
         }
     }
-
 }

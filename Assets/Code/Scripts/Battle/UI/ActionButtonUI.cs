@@ -14,10 +14,12 @@ namespace Nivandria.Battle.UI
 
         private BaseAction baseAction;
 
+        /// <summary> Sets the base action and updates the UI accordingly. </summary>
+        /// <param name="baseAction">The base action to set.</param>
         public void SetBaseAction(BaseAction baseAction)
         {
             this.baseAction = baseAction;
-            textMeshPro.text = baseAction.GetActionName().ToUpper();
+            textMeshPro.text = baseAction.GetName().ToUpper();
 
             button.onClick.AddListener(() =>
             {
@@ -25,15 +27,15 @@ namespace Nivandria.Battle.UI
                 GridSystemVisual.Instance.UpdateGridVisual();
             });
 
-            UpdateSelectedVisual();
+            UpdateUISelectedVisual();
         }
 
-        public void UpdateSelectedVisual()
+        /// <summary> Updates the visual state of the UI based on the selected base action. </summary>
+        public void UpdateUISelectedVisual()
         {
             BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
-	        outline.enabled = (baseAction == selectedBaseAction);
+            outline.enabled = (baseAction == selectedBaseAction);
         }
 
     }
-
 }

@@ -27,8 +27,7 @@ namespace Nivandria.Battle.Grid
             }
         }
 
-        /// <summary>Creates debug objects for visualizing the grid.
-        /// </summary>
+        /// <summary>Creates debug objects for visualizing the grid.</summary>
         /// <param name="debugPrefab">The prefab used for debug visualization.</param>
         public void CreateDebugObjects(Transform debugPrefab)
         {
@@ -45,6 +44,9 @@ namespace Nivandria.Battle.Grid
             }
         }
 
+        /// <summary>Checks if a given grid position is within the valid boundaries of the grid.</summary>
+        /// <param name="gridPosition">The grid position to check.</param>
+        /// <returns>True if the grid position is valid; otherwise, false.</returns>
         public bool IsValidGridPosition(GridPosition gridPosition)
         {
             return gridPosition.x >= 0 &&
@@ -53,8 +55,9 @@ namespace Nivandria.Battle.Grid
                     gridPosition.z < height;
         }
 
-        /// <summary>Retrieves the grid object at the specified grid position.
-        /// </summary>
+
+        #region Getter Setter
+        /// <summary>Retrieves the grid object at the specified grid position.</summary>
         /// <param name="gridPosition">The grid position to query.</param>
         /// <returns>The grid object at the specified grid position.</returns>
         public GridObject GetGridObject(GridPosition gridPosition)
@@ -62,8 +65,7 @@ namespace Nivandria.Battle.Grid
             return gridObjectArray[gridPosition.x, gridPosition.z];
         }
 
-        /// <summary>Converts a grid position to world space.
-        /// </summary>
+        /// <summary>Converts a grid position to world space.</summary>
         /// <param name="gridPosition">The grid position to convert.</param>
         /// <returns>The corresponding world position.</returns>
         public Vector3 GetWorldPosition(GridPosition gridPosition)
@@ -71,8 +73,7 @@ namespace Nivandria.Battle.Grid
             return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
         }
 
-        /// <summary>Converts a world position to a grid position.
-        /// </summary>
+        /// <summary>Converts a world position to a grid position.</summary>
         /// <param name="worldPosition">The world position to convert.</param>
         /// <returns>The corresponding grid position.</returns>
         public GridPosition GetGridPosition(Vector3 worldPosition)
@@ -85,6 +86,7 @@ namespace Nivandria.Battle.Grid
 
         public int GetWidth() => width;
         public int GetHeight() => height;
-    }
 
+        #endregion
+    }
 }

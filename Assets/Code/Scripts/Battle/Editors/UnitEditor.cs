@@ -2,41 +2,23 @@ namespace Nivandria.Battle.Editor
 {
     using UnityEngine;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     using UnityEditor;
-    #endif
+#endif
 
     [CustomEditor(typeof(Unit))]
     public class UnitEditor : Editor
     {
-        #region 
         SerializedProperty characterName;
-
-        SerializedProperty baseHealth;
-        SerializedProperty currentHealth;
-
-        SerializedProperty basePhysicalAttack;
-        SerializedProperty currentPhysicalAttack;
-
-        SerializedProperty baseMagicalAttack;
-        SerializedProperty currentMagicalAttack;
-
-        SerializedProperty basePhysicalDefense;
-        SerializedProperty currentPhysicalDefense;
-
-        SerializedProperty baseMagicalDefense;
-        SerializedProperty currentMagicalDefense;
-
-        SerializedProperty baseAgility;
-        SerializedProperty currentAgility;
-
+        SerializedProperty baseHealth, currentHealth;
+        SerializedProperty basePhysicalAttack, currentPhysicalAttack;
+        SerializedProperty baseMagicalAttack, currentMagicalAttack;
+        SerializedProperty basePhysicalDefense, currentPhysicalDefense;
+        SerializedProperty baseMagicalDefense, currentMagicalDefense;
+        SerializedProperty baseAgility, currentAgility;
         SerializedProperty hasMove;
         SerializedProperty isSelected;
-
-        SerializedProperty unitAnimator;
         SerializedProperty skinnedMeshRenderer;
-
-        #endregion
 
         private bool showHealth = false;
         private bool showAttack = false;
@@ -73,7 +55,6 @@ namespace Nivandria.Battle.Editor
             hasMove = serializedObject.FindProperty("hasMove");
             isSelected = serializedObject.FindProperty("isSelected");
 
-            unitAnimator = serializedObject.FindProperty("unitAnimator");
             skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
 
         }
@@ -216,5 +197,4 @@ namespace Nivandria.Battle.Editor
             serializedObject.ApplyModifiedProperties();
         }
     }
-
 }

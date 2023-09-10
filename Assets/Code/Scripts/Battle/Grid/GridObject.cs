@@ -15,7 +15,6 @@ namespace Nivandria.Battle.Grid
             unitList = new List<Unit>();
         }
 
-
         public override string ToString()
         {
             string unitString = "";
@@ -28,10 +27,12 @@ namespace Nivandria.Battle.Grid
             return gridPosition.ToString() + "\n" + unitString;
         }
 
+        
+        #region Getter Setter
         public void AddUnit(Unit unit) => unitList.Add(unit);
         public void RemoveUnit(Unit unit) => unitList.Remove(unit);
         public List<Unit> GetUnitList() => unitList;
         public bool HasAnyUnit() => unitList.Count > 0;
+        #endregion
     }
-
 }
