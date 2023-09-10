@@ -19,6 +19,7 @@ namespace Nivandria.Battle.Editor
         SerializedProperty hasMove;
         SerializedProperty isSelected;
         SerializedProperty skinnedMeshRenderer;
+        SerializedProperty moveType;
 
         private bool showHealth = false;
         private bool showAttack = false;
@@ -57,6 +58,7 @@ namespace Nivandria.Battle.Editor
 
             skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
 
+            moveType = serializedObject.FindProperty("moveType");
         }
 
         public override void OnInspectorGUI()
@@ -65,7 +67,7 @@ namespace Nivandria.Battle.Editor
 
             EditorGUILayout.PropertyField(characterName);
 
-            #region 
+            #region Health, Attack & Defense Variables
             showHealth = EditorGUILayout.Foldout(showHealth, "Health");
             if (showHealth)
             {
@@ -187,8 +189,12 @@ namespace Nivandria.Battle.Editor
             showStatus = EditorGUILayout.Foldout(showStatus, "Status");
             if (showStatus)
             {
+                string isSelectedString = isSelected.boolValue ? "True" : "False";
+
+                EditorGUILayout.LabelField("Is Selected:", isSelectedString);
                 EditorGUILayout.PropertyField(hasMove);
-                EditorGUILayout.PropertyField(isSelected);
+                EditorGUILayout.PropertyField(moveType);
+                
                 GUILayout.Space(5);
             }
 

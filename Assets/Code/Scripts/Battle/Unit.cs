@@ -3,7 +3,6 @@ namespace Nivandria.Battle
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
-    using Unity.VisualScripting;
 
     public class Unit : MonoBehaviour
     {
@@ -26,6 +25,7 @@ namespace Nivandria.Battle
         #endregion
 
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+        [SerializeField] private MoveType moveType = MoveType.Normal;
         private GridPosition gridPosition;
         private MoveAction moveAction;
         private SpinAction spinAction;
@@ -50,6 +50,7 @@ namespace Nivandria.Battle
             gameObject.name = characterName;
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+            moveAction.SetMoveType(moveType);
 
             ChangeUnitShade();
         }
