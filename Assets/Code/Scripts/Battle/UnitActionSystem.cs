@@ -63,8 +63,10 @@ namespace Nivandria.Battle.Action
 			}
 
 			selectedUnit = null;
+			selectedAction = null;
 			Debug.Log("All units have already moved");
-
+			GridSystemVisual.Instance.UpdateGridVisual();
+			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private Unit SelectFastestUnit()
@@ -109,7 +111,6 @@ namespace Nivandria.Battle.Action
 			selectedUnit.SetSelectedStatus(true);
 			selectedUnit.ChangeUnitShade();
 			SetSelectedAction(unit.GetMoveAction());
-			GridSystemVisual.Instance.UpdateGridVisual();
 
 			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}

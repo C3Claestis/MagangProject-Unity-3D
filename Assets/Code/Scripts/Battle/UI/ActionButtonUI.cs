@@ -34,7 +34,7 @@ namespace Nivandria.Battle.UI
         public void UpdateUISelectedVisual()
         {
             BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
-            outline.enabled = (baseAction == selectedBaseAction);
+            outline.enabled = baseAction == selectedBaseAction;
         }
 
     }

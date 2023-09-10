@@ -35,6 +35,11 @@ namespace Nivandria.Battle.Action
         /// <returns>A list of valid grid positions for the action.</returns>
         public abstract List<GridPosition> GetValidActionGridPosition();
 
+        public virtual List<GridPosition> GetRangeActionGridPosition()
+        {
+            return null;
+        }
+        
         /// <summary>Get the action class name.</summary>
         public string GetName() => actionName;
     }

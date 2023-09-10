@@ -6,5 +6,8 @@ namespace Nivandria.Battle.Action
         King,
         Tiger,
         Bull,
+        Snake
     }
+
+    
 }

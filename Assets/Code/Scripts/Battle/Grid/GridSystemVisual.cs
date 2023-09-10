@@ -10,8 +10,8 @@ namespace Nivandria.Battle.Grid
         public static GridSystemVisual Instance { get; private set; }
 
         [SerializeField] private Transform gridSystemVisualSinglePrefab;
+        [SerializeField] private List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
         private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
-
         public event EventHandler OnGridVisualUpdated;
 
         private void Awake()
@@ -56,34 +56,68 @@ namespace Nivandria.Battle.Grid
         {
             foreach (GridSystemVisualSingle grid in gridSystemVisualSingleArray)
             {
-                grid.HideGrid();
+                grid.Hide();
             }
         }
 
         /// <summary>Shows the visual representation of specific grid positions.</summary>
         /// <param name="gridPositionList">The list of grid positions to show.</param>
-        public void ShowGridPositionList(List<GridPosition> gridPositinList)
+        public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualType gridVisualType)
         {
-            foreach (GridPosition gridPosition in gridPositinList)
+            if (gridPositionList == null) return;
+
+            foreach (GridPosition gridPosition in gridPositionList)
             {
-                gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].ShowGrid();
+                gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(GetGridVisualTypeMaterial(gridVisualType));
             }
         }
 
         /// <summary>Updates the visual representation of the grid based on the selected action's valid grid positions.</summary>
         public void UpdateGridVisual()
         {
+            BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+            GridVisualType validVisualType;
+            GridVisualType invalidVisualType;
+
             HideAllGridPosition();
 
-            BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-
             if (selectedAction == null) return;
+            
+            switch (selectedAction)
+            {
+                default:
+                case MoveAction:
+                    validVisualType = GridVisualType.White;
+                    invalidVisualType = GridVisualType.Grey;
+                    break;
+                case SpinAction:
+                    validVisualType = GridVisualType.Blue;
+                    invalidVisualType = GridVisualType.Blue;
+                    break;
+            }
 
             ShowGridPositionList(
-                selectedAction.GetValidActionGridPosition()
+                selectedAction.GetRangeActionGridPosition(),
+                invalidVisualType
+            );
+
+            ShowGridPositionList(
+                selectedAction.GetValidActionGridPosition(),
+                validVisualType
             );
 
             OnGridVisualUpdated?.Invoke(this, EventArgs.Empty);
         }
-    }
+    
+        private Material GetGridVisualTypeMaterial(GridVisualType gridVisualType){
+            foreach (GridVisualTypeMaterial gridVisualTypeMaterial in gridVisualTypeMaterialList)
+            {
+                if (gridVisualTypeMaterial.gridVisualType != gridVisualType) continue;
+                return gridVisualTypeMaterial.material;
+            }
+
+            Debug.LogError("Couldn't find GridVisualTypeMaterial for GridVisualType : " + gridVisualType);
+            return null;
+        }
+    }   
 }

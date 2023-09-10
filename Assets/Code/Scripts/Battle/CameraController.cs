@@ -11,8 +11,8 @@ namespace Nivandria.Battle
         [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
         [SerializeField] private float cameraMoveSpeed = 10f;
         [SerializeField] private float cameraZoomSpeed = 3f;
-        [SerializeField] private float cameraFocusStoppingDistance = .1f;
-        [SerializeField] private float cameraFocusActiveMoveSpeed = 10f;
+        [SerializeField] private float cameraFocusStoppingDistance = .3f;
+        [SerializeField] private float cameraFocusActiveMoveSpeed = 30f;
 
         private CinemachineTransposer cinemachineTransposer;
         private PlayerInputController playerInputController;
@@ -98,6 +98,8 @@ namespace Nivandria.Battle
         private void HandleCameraFocusToPosition()
         {
             if (!cameraFocusActive) return;
+            
+            
 
             if (Vector3.Distance(transform.position, targetPosition) > cameraFocusStoppingDistance)
             {
@@ -106,7 +108,10 @@ namespace Nivandria.Battle
 
                 transform.position = Vector3.Lerp(transform.position, moveDirection, Time.deltaTime);
             }
-            else cameraFocusActive = false;
+            else {
+                cameraFocusActive = false;
+                transform.position = targetPosition;
+            }
         }
         
         /// <summary> Sets the camera's focus to a specific position. </summary>

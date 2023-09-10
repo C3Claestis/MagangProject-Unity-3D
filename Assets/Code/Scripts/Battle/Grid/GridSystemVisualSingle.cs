@@ -8,9 +8,11 @@ namespace Nivandria.Battle.Grid
     {
         [SerializeField] private MeshRenderer meshRenderer;
 
+        public void Show(Material material){
+            meshRenderer.enabled = true;
+            meshRenderer.material = material;
+        }
 
-        //Getter Setter
-        public void ShowGrid() => meshRenderer.enabled = true;
-        public void HideGrid() => meshRenderer.enabled = false;
+        public void Hide() => meshRenderer.enabled = false;
     }
 }

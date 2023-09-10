@@ -43,23 +43,28 @@ namespace Nivandria.Battle.Action
         public override List<GridPosition> GetValidActionGridPosition()
         {
             List<GridPosition> validGridPositionList = new List<GridPosition>();
+            MoveLibrary moveLibrary = new MoveLibrary(unit, maxMoveDistance);
 
             switch (moveType)
             {
                 case MoveType.Normal:
-                    validGridPositionList = NormalMoveGridPositions();
+                    validGridPositionList = moveLibrary.NormalMoveValidGrids();
                     break;
 
                 case MoveType.King:
-                    validGridPositionList = KingMoveGridPositions();
+                    validGridPositionList = moveLibrary.KingMoveValidGrids();
                     break;
 
                 case MoveType.Tiger:
-                    validGridPositionList = TigerMoveGridPositions();
+                    validGridPositionList = moveLibrary.TigerMoveValidGrids();
                     break;
 
                 case MoveType.Bull:
-                    validGridPositionList = BullMoveGridPositions();
+                    validGridPositionList = moveLibrary.BullMoveValidGrids();
+                    break;
+
+                case MoveType.Snake:
+                    validGridPositionList = moveLibrary.SnakeMoveValidGrids();
                     break;
 
                 default:
@@ -70,137 +75,40 @@ namespace Nivandria.Battle.Action
             return validGridPositionList;
         }
 
-        private List<GridPosition> NormalMoveGridPositions()
+        public override List<GridPosition> GetRangeActionGridPosition()
         {
-            List<GridPosition> normalMoveList = new List<GridPosition>();
-            GridPosition unitGridPosition = unit.GetGridPosition();
+            List<GridPosition> rangeActionGridPosition = new List<GridPosition>();
+            MoveLibrary moveLibrary = new MoveLibrary(unit, maxMoveDistance);
 
-            for (int x = -maxMoveDistance; x <= maxMoveDistance; x++)
+            switch (moveType)
             {
-                for (int z = -maxMoveDistance; z <= maxMoveDistance; z++)
-                {
-                    GridPosition offsetGridPosition = new GridPosition(x, z);
-                    GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                case MoveType.Normal:
+                    rangeActionGridPosition = moveLibrary.NormalMoveRangeGrids();
+                    break;
 
-                    if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
-                    if (unitGridPosition == testGridPosition) continue;
-                    if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
+                case MoveType.King:
+                    rangeActionGridPosition = moveLibrary.KingMoveRangeGrids();
+                    break;
 
-                    normalMoveList.Add(testGridPosition);
-                }
+                case MoveType.Tiger:
+                    rangeActionGridPosition = moveLibrary.TigerMoveRangeGrids();
+                    break;
+
+                case MoveType.Bull:
+                    rangeActionGridPosition = moveLibrary.BullMoveRangeGrids();
+                    break;
+
+                case MoveType.Snake:
+                    rangeActionGridPosition = moveLibrary.SnakeMoveRangeGrids();
+                    break;
+
+                default:
+                    rangeActionGridPosition = null;
+                    break;
             }
 
-            return normalMoveList;
+            return rangeActionGridPosition;
         }
-
-        private List<GridPosition> KingMoveGridPositions()
-        {
-            List<GridPosition> kingMoveList = new List<GridPosition>();
-            GridPosition unitGridPosition = unit.GetGridPosition();
-            int maxMoveDistance = 1;
-
-            for (int x = -maxMoveDistance; x <= maxMoveDistance; x++)
-            {
-                for (int z = -maxMoveDistance; z <= maxMoveDistance; z++)
-                {
-                    GridPosition offsetGridPosition = new GridPosition(x, z);
-                    GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
-
-                    if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
-                    if (unitGridPosition == testGridPosition) continue;
-                    if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
-
-                    kingMoveList.Add(testGridPosition);
-                }
-            }
-
-            return kingMoveList;
-        }
-
-        private List<GridPosition> TigerMoveGridPositions()
-        {
-            List<GridPosition> tigerMoveList = new List<GridPosition>();
-            GridPosition unitGridPosition = unit.GetGridPosition();
-
-            int[][] tigerMoves = new int[][]
-            {
-                new int[] { 2, 1 },
-                new int[] { 2, -1 },
-                new int[] { -2, 1 },
-                new int[] { -2, -1 },
-                new int[] { 1, 2 },
-                new int[] { 1, -2 },
-                new int[] { -1, 2 },
-                new int[] { -1, -2 }
-            };
-
-            foreach (var move in tigerMoves)
-            {
-                int xOffset = move[0];
-                int zOffset = move[1];
-                GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z + zOffset);
-
-                if (LevelGrid.Instance.IsValidGridPosition(testGridPosition) && !LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
-                {
-                    tigerMoveList.Add(testGridPosition);
-                }
-            }
-
-            return tigerMoveList;
-        }
-
-        private List<GridPosition> BullMoveGridPositions()
-        {
-            List<GridPosition> towerMoveList = new List<GridPosition>();
-            GridPosition unitGridPosition = unit.GetGridPosition();
-
-            // Horizontal movement to the right
-            for (int xOffset = 1; xOffset < LevelGrid.Instance.GetGridWidth(); xOffset++)
-            {
-                GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
-
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break; // Stop if out of bounds
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break; // Stop if obstacle
-
-                towerMoveList.Add(testGridPosition);
-            }
-
-            // Horizontal movement to the left
-            for (int xOffset = -1; xOffset >= -LevelGrid.Instance.GetGridWidth(); xOffset--)
-            {
-                GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
-
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break; // Stop if out of bounds
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break; // Stop if obstacle
-
-                towerMoveList.Add(testGridPosition);
-            }
-
-            // Vertical movement upwards
-            for (int zOffset = 1; zOffset < LevelGrid.Instance.GetGridHeight(); zOffset++)
-            {
-                GridPosition testGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
-
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break; // Stop if out of bounds
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break; // Stop if obstacle
-
-                towerMoveList.Add(testGridPosition);
-            }
-
-            // Vertical movement downwards
-            for (int zOffset = -1; zOffset >= -LevelGrid.Instance.GetGridHeight(); zOffset--)
-            {
-                GridPosition testGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
-
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break; // Stop if out of bounds
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break; // Stop if obstacle
-
-                towerMoveList.Add(testGridPosition);
-            }
-
-            return towerMoveList;
-        }
-
 
         /// <summary>Moves unit towards a target position.</summary>
         /// <remarks> Adjusting its position, orientation, and animation. </remarks>

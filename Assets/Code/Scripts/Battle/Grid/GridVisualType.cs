@@ -4,7 +4,9 @@ namespace Nivandria.Battle.Grid
     {
         White,
         Blue,
+        BlueSoft,
         Red,
+        RedSoft,
         Grey
     }
 }
