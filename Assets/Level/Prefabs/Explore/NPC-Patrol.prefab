@@ -133,7 +133,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbleText: {fileID: 8208378197546936701}
   isPatrol: 1
-  isInterect: 0
 --- !u!114 &6370008733560486859
 MonoBehaviour:
   m_ObjectHideFlags: 0

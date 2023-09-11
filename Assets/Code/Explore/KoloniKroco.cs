@@ -11,6 +11,21 @@ namespace Nivandria.Explore
         private bool IsFollow = false;
         private bool IsDeteksi = false;
         private float range, wait;
+
+        #region Getter Setter
+        public void SetJarak(float jarak) => this.range = jarak;
+        public float GetJarak() => _jarak;
+        public void SetJarakKaliDua(float duakali) => this._jarak_kali_dua = duakali;
+        public float GetJarakKaliDua() => _jarak_kali_dua;
+        public void SetIsFollow(bool isfollow) => this.IsFollow = isfollow;
+        public bool GetIsFollow() => IsFollow;
+        public void SetFollow(Transform follow) => this.follow = follow;
+        public Transform GetFollow() => follow;
+        public void SetIsDeteksi(bool isdetek) => this.IsDeteksi = isdetek;
+        public bool GetIsDeteksi() => IsDeteksi;
+        public float GetTimeWait() => wait;
+        public float GetDurasi() => durasi;
+        #endregion
         // Start is called before the first frame update
         void Start()
         {            
@@ -49,19 +64,6 @@ namespace Nivandria.Explore
         {
             Gizmos.DrawWireSphere(transform.position, range);
             Gizmos.color = Color.red;
-        }
-        public void SetJarak(float jarak) => this.range = jarak;
-        public float GetJarak() => _jarak;
-        public void SetJarakKaliDua(float duakali) => this._jarak_kali_dua = duakali;
-        public float GetJarakKaliDua() => _jarak_kali_dua;
-        public void SetIsFollow(bool isfollow) => this.IsFollow = isfollow;
-        public bool GetIsFollow() => IsFollow;
-        public void SetFollow(Transform follow) => this.follow = follow;
-        public Transform GetFollow() => follow;
-        public void SetIsDeteksi(bool isdetek) => this.IsDeteksi = isdetek;
-        public bool GetIsDeteksi() => IsDeteksi;
-        public float GetTimeWait() => wait;
-        public float GetDurasi() => durasi;
+        }       
     }
-
 }

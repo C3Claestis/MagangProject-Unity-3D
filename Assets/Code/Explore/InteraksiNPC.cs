@@ -7,6 +7,7 @@ namespace Nivandria.Explore
 
     public class InteraksiNPC : MonoBehaviour
     {
+        #region Variabel
         [SerializeField] LayerMask layerMask;
         [SerializeField] Text text;
         [SerializeField] Transform player;
@@ -14,6 +15,13 @@ namespace Nivandria.Explore
         float rotationSpeed = 5.0f;
         public Text interaksi;
         private bool isTalk, isNPC;
+        #endregion
+        #region Getter Setter
+        public void SetIsTalk(bool istalk) => this.isTalk = istalk;
+        public void SetIsNPC(bool isnpc) => this.isNPC = isnpc;
+        public bool GetIsTalk() => isTalk;
+        public bool GetIsNPC() => isNPC;
+        #endregion
         private void Update()
         {
             Interaksi();
@@ -68,11 +76,6 @@ namespace Nivandria.Explore
                 Quaternion rotation = Quaternion.LookRotation(lookDirection);
                 obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, rotation, Time.deltaTime * rotationSpeed);
             }
-        }
-        public void SetIsTalk(bool istalk) => this.isTalk = istalk;
-        public void SetIsNPC(bool isnpc) => this.isNPC = isnpc;
-        public bool GetIsTalk() => isTalk;
-        public bool GetIsNPC() => isNPC;
+        }        
     }
-
 }

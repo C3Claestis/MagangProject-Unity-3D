@@ -53,6 +53,11 @@ namespace Nivandria.Explore
             {                      
                 anim.SetBool("IsWalk", false);
             }
+            
+            if (IsRandomly)
+            {
+                MoveRandomly();
+            }
             Follow(koloni.GetFollow());
         }
         void BarCircle()
@@ -62,10 +67,11 @@ namespace Nivandria.Explore
         public void Follow(Transform follow)
         {
             if (koloni.GetIsFollow() == true)
-            {
+            {                
                 IsRandomly = false;
                 dangerIcon.SetActive(true);
-                agent.enabled = true;
+                //agent.enabled = true;
+                agent.speed = 3;
                 koloni.SetJarak(GetJarakDuaKaliKoloni());
 
                 // Menghitung arah menuju target
@@ -82,10 +88,11 @@ namespace Nivandria.Explore
                 if (Quaternion.Angle(transform.rotation, targetRotation) < rotationThreshold)
                 {
                     anim.SetBool("IsFollow", true);
-                    agent.enabled = true;
+                    //agent.enabled = true;
+                    agent.speed = 3;
                     koloni.SetJarak(GetJarakDuaKaliKoloni());
-                    agent.SetDestination(follow.position);                   
-                }                
+                    agent.SetDestination(follow.position);
+                }
             }
             else
             {
@@ -94,18 +101,14 @@ namespace Nivandria.Explore
                 {
                     anim.SetBool("IsFollow", false);
                     IsRandomly = true;
-                    agent.enabled = false;                                
-                }                
+                    agent.speed = 0;
+                    //agent.enabled = false;
+                }
                 else
                 {
                     koloni.SetJarak(GetJarakKoloni());
                     agent.SetDestination(koloni.transform.position);
                 }
-            }
-
-            if (IsRandomly)
-            {
-                MoveRandomly();
             }
         }
         private void MoveRandomly()

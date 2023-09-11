@@ -11,7 +11,7 @@ namespace Nivandria.Explore
         private Vector2 movementValue, insertValue;
         private bool isMoving = false;
         private bool canRunning = false;
-
+        private bool isChest = false;
         public void UIAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -71,6 +71,19 @@ namespace Nivandria.Explore
 
         public void InteractionAction(InputAction.CallbackContext context)
         {
+            if (context.performed)
+            {
+                Chest[] chest = FindObjectsOfType<Chest>();
+
+                foreach (Chest ces in chest)
+                {
+                    if(ces.GetOpen() == false && ces.GetIsPlayer() == true)
+                    {
+                        ces.SetOpenChest(true);
+                    }
+                }                
+            }
+            
             if (interaksiNPC.GetIsNPC() == true)
             {
                 if (context.performed && interaksiNPC.GetIsTalk() == false)
@@ -91,6 +104,18 @@ namespace Nivandria.Explore
                     _cameraTalk.SetActive(false);
                     _cameraMain.SetActive(true);
                 }
+            }            
+        }
+        private void OnTriggerStay(Collider other)
+        {
+            if(other.gameObject.tag == "Player")
+            {
+                Chest chest = other.gameObject.GetComponent<Chest>();
+                if (isChest)
+                {
+                    chest.SetOpenChest(true);
+                    isChest = false;
+                }                                               
             }
         }
         //////////////////////////////

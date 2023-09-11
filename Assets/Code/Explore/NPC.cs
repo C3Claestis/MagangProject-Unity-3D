@@ -14,6 +14,12 @@ namespace Nivandria.Explore
         Animator anim;
         private bool isTalk = false;
         private bool isInterect = false;
+
+        #region Getter Setter
+        public void SetTalk(bool talk) => this.isTalk = talk;
+        public void SetInterect(bool interect) => this.isInterect = interect;
+        public bool GetInterect() => isInterect;
+        #endregion
         // Start is called before the first frame update
         void Start()
         {
@@ -52,12 +58,6 @@ namespace Nivandria.Explore
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
             }
-        }
-
-        public void SetTalk(bool talk) => this.isTalk = talk;
-        public void SetInterect(bool interect) => this.isInterect = interect;
-
-        public bool GetInterect() => isInterect;
+        }      
     }
-
 }
