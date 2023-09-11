@@ -13,7 +13,7 @@ namespace Nivandria.Battle
         private bool cameraCanMove = false;
         private bool cameraCanZoom = true;
 
-        private void Start()
+        private void Awake()
         {
             if (Instance != null)
             {
