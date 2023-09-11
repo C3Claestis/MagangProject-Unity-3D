@@ -3,6 +3,7 @@ namespace Nivandria.Battle
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
+    using System;
 
     public class Unit : MonoBehaviour
     {
@@ -27,14 +28,10 @@ namespace Nivandria.Battle
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
         [SerializeField] private MoveType moveType = MoveType.Normal;
         private GridPosition gridPosition;
-        private MoveAction moveAction;
-        private SpinAction spinAction;
         private BaseAction[] baseActionArray;
 
         private void Awake()
         {
-            moveAction = GetComponent<MoveAction>();
-            spinAction = GetComponent<SpinAction>();
             baseActionArray = GetComponents<BaseAction>(); //Store all the component attached to this unit that extend BaseAction;
         }
 
@@ -50,14 +47,9 @@ namespace Nivandria.Battle
             gameObject.name = characterName;
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
-            moveAction.SetMoveType(moveType);
+            GetAction<MoveAction>().SetMoveType(moveType);
 
             ChangeUnitShade();
-        }
-
-        private void Update()
-        {
-            UpdateUnitGridPosition();
         }
 
         /// <summary>Change unit material shading based on the selection status.</summary>
@@ -69,7 +61,7 @@ namespace Nivandria.Battle
         }
 
         /// <summary>Updates the grid position of the unit based on its current world position.</summary>
-        private void UpdateUnitGridPosition()
+        public void UpdateUnitGridPosition()
         {
             GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             if (newGridPosition != gridPosition)
@@ -79,10 +71,19 @@ namespace Nivandria.Battle
             }
         }
 
-
         #region Getter Setter
-        public MoveAction GetMoveAction() => moveAction;
-        public SpinAction GetSpinAction() => spinAction;
+        public T GetAction<T>() where T : BaseAction
+        {
+            foreach (BaseAction baseAction in baseActionArray)
+            {
+                if (baseAction is T)
+                {
+                    return (T)baseAction;
+                }
+            }
+
+            return null;
+        }
         public GridPosition GetGridPosition() => gridPosition;
         public BaseAction[] GetBaseActionArray() => baseActionArray;
 

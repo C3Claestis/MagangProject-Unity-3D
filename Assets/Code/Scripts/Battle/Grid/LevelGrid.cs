@@ -12,7 +12,7 @@ namespace Nivandria.Battle.Grid
         [SerializeField] private int gridHeight = 4;
         [SerializeField] private float cellSize = 2;
 
-        private GridSystem gridSystem;
+        private GridSystem<GridObject> gridSystem;
 
         private void Awake()
         {
@@ -24,7 +24,8 @@ namespace Nivandria.Battle.Grid
             }
             Instance = this;
 
-            gridSystem = new GridSystem(gridWidth, gridHeight, cellSize);
+            gridSystem = new GridSystem<GridObject>(gridWidth, gridHeight, cellSize, 
+                        (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
             gridSystem.CreateDebugObjects(gridObjectDebug);
         }
 
