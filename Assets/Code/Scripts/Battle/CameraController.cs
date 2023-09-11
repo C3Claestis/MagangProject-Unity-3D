@@ -98,8 +98,6 @@ namespace Nivandria.Battle
         private void HandleCameraFocusToPosition()
         {
             if (!cameraFocusActive) return;
-            
-            
 
             if (Vector3.Distance(transform.position, targetPosition) > cameraFocusStoppingDistance)
             {

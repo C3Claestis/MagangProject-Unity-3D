@@ -23,7 +23,6 @@ namespace Nivandria.Battle.UI
             UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
 
-
             CreateUnitActionButtons();
             UpdateUISelectedVisual();
         }

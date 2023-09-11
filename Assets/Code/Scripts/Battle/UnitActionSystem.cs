@@ -35,19 +35,15 @@ namespace Nivandria.Battle.Action
 		{
 			if (isBusy) return;
 
-			if (EventSystem.current.IsPointerOverGameObject()) return;
-
-			if (Input.GetKeyUp(KeyCode.Space))
-			{
-				HandleUnitSelection();
-			}
-
+			HandleUnitSelection();
 			HandleSelectedAction();
 		}
 
 		/// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
 		private void HandleUnitSelection()
 		{
+			if (!Input.GetKeyUp(KeyCode.Space)) return;
+
 			Unit fastestUnit = SelectFastestUnit();
 
 			if (selectedUnit != null)
@@ -110,7 +106,7 @@ namespace Nivandria.Battle.Action
 			selectedUnit.SetMoveStatus(true);
 			selectedUnit.SetSelectedStatus(true);
 			selectedUnit.ChangeUnitShade();
-			SetSelectedAction(unit.GetMoveAction());
+			SetSelectedAction(unit.GetAction<MoveAction>());
 
 			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}
@@ -120,13 +116,13 @@ namespace Nivandria.Battle.Action
 			if (Input.GetMouseButtonDown(0))
 			{
 				if (selectedUnit == null) return;
+				if (EventSystem.current.IsPointerOverGameObject()) return;
 
 				GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
 				if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
 				{
 					SetBusy();
-
 					selectedAction.TakeAction(mouseGridPosition, OnActionComplete);
 				}
 
@@ -136,6 +132,7 @@ namespace Nivandria.Battle.Action
 		/// <summary>Function that will be called after Action Completed.</summary>
 		private void OnActionComplete()
 		{
+			selectedUnit.UpdateUnitGridPosition();
 			GridSystemVisual.Instance.UpdateGridVisual();
 			ClearBusy();
 		}

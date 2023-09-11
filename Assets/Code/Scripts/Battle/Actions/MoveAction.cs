@@ -36,8 +36,8 @@ namespace Nivandria.Battle.Action
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             this.onActionComplete = onActionComplete;
-            isActive = true;
             this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            isActive = true;
         }
 
         public override List<GridPosition> GetValidActionGridPosition()

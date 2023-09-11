@@ -12,6 +12,11 @@ namespace Nivandria.Battle.Action
 
         private void Update()
         {
+            HandleSpin();
+        }
+
+        private void HandleSpin()
+        {
             if (!isActive) return;
 
             float spinAddAmount = 360f * Time.deltaTime;

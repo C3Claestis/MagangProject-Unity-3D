@@ -4,7 +4,6 @@ namespace Nivandria.Battle.Editor
 
 #if UNITY_EDITOR
     using UnityEditor;
-#endif
 
     [CustomEditor(typeof(Unit))]
     public class UnitEditor : Editor
@@ -203,4 +202,6 @@ namespace Nivandria.Battle.Editor
             serializedObject.ApplyModifiedProperties();
         }
     }
+#endif
+
 }
