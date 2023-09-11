@@ -7,7 +7,7 @@ namespace Nivandria.Battle.Grid
     {
         public static LevelGrid Instance { get; private set; }
 
-        [SerializeField] private Transform gridObjectDebug;
+        [SerializeField] private Transform gridObjectDebugPrefab;
         [SerializeField] private int gridWidth = 8;
         [SerializeField] private int gridHeight = 4;
         [SerializeField] private float cellSize = 2;
@@ -26,7 +26,7 @@ namespace Nivandria.Battle.Grid
 
             gridSystem = new GridSystem<GridObject>(gridWidth, gridHeight, cellSize, 
                         (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
-            gridSystem.CreateDebugObjects(gridObjectDebug);
+            // gridSystem.CreateDebugObjects(gridObjectDebugPrefab);
         }
 
         /// <summary>Adds a unit at the specified grid position.</summary>
@@ -87,6 +87,7 @@ namespace Nivandria.Battle.Grid
 
         public int GetGridWidth() => gridWidth;
         public int GetGridHeight() => gridHeight;
+        public float GetCellSize() => cellSize;
         #endregion
     }
 }
