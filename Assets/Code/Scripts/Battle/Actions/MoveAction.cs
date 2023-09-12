@@ -30,7 +30,7 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to call upon completing the move action.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition);
+            List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
             currentPositionIndex = 0;
             positionList = new List<Vector3>();
 

@@ -69,7 +69,7 @@ namespace Nivandria.Battle.PathfindingSystem
                     );
         }
 
-        public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition)
+        public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLength)
         {
             List<PathNode> openList = new List<PathNode>();
             List<PathNode> closedList = new List<PathNode>();
@@ -103,6 +103,7 @@ namespace Nivandria.Battle.PathfindingSystem
                 if (currentNode == endNode)
                 {
                     // Reached final node
+                    pathLength = endNode.GetFCost();
                     return CalculatePath(endNode);
                 }
 
@@ -141,6 +142,7 @@ namespace Nivandria.Battle.PathfindingSystem
             }
 
             // No path found
+            pathLength = 0;
             return null;
         }
 
@@ -246,6 +248,20 @@ namespace Nivandria.Battle.PathfindingSystem
             return gridPositionList;
         }
 
+        public bool IsWalkableGridPosition(GridPosition gridPosition)
+        {
+            return gridSystem.GetGridObject(gridPosition).IsWalkable();
+        }
 
+        public bool HasPath(GridPosition startGridPosition, GridPosition endGridPosition)
+        {
+            return FindPath(startGridPosition, endGridPosition, out int pathLength) != null;
+        }
+
+        public int GetPathLength(GridPosition startGridPosition, GridPosition endGridPosition)
+        {
+            FindPath(startGridPosition, endGridPosition, out int pathLength);
+            return pathLength;
+        }
     }
 }

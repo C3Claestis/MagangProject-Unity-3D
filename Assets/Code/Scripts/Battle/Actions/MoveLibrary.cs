@@ -2,6 +2,7 @@ namespace Nivandria.Battle.Action
 {
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.PathfindingSystem;
     using UnityEngine;
 
     public class MoveLibrary
@@ -26,10 +27,19 @@ namespace Nivandria.Battle.Action
                 {
                     GridPosition offsetGridPosition = new GridPosition(x, z);
                     GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                    int PathfindingDistanceMultiplier = 10;
 
                     if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
                     if (unitGridPosition == testGridPosition) continue;
                     if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
+                    if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) continue;
+                    if (!Pathfinding.Instance.HasPath(unitGridPosition, testGridPosition)) continue;
+
+                    if (Pathfinding.Instance.GetPathLength(unitGridPosition, testGridPosition)
+                        > maxMoveDistance * PathfindingDistanceMultiplier)
+                    {
+                        continue;
+                    }
 
                     normalMoveList.Add(testGridPosition);
                 }
@@ -212,11 +222,7 @@ namespace Nivandria.Battle.Action
                     if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
                     if (unitGridPosition == testGridPosition) continue;
 
-                    if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
-                    {
-                        normalMoveList.Add(testGridPosition);
-                    }
-
+                    normalMoveList.Add(testGridPosition);
                 }
             }
 
