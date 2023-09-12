@@ -4,6 +4,7 @@ namespace Nivandria.Battle.Action
     using System.Collections.Generic;
     using UnityEngine;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.PathfindingSystem;
 
     public class MoveAction : BaseAction
     {
@@ -14,15 +15,9 @@ namespace Nivandria.Battle.Action
         [SerializeField] private Animator unitAnimator;
 
         private float moveStoppingDistance = .1f;
-        private Vector3 moveTargetPosition;
+        private int currentPositionIndex;
+        private List<Vector3> positionList;
         private MoveType moveType;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            moveTargetPosition = transform.position;
-            unit = GetComponent<Unit>();
-        }
 
         private void Update()
         {
@@ -35,9 +30,17 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to call upon completing the move action.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
+            List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition);
+            currentPositionIndex = 0;
+            positionList = new List<Vector3>();
+
+            foreach (GridPosition pathGridPosition in pathGridPositionList)
+            {
+                positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+            }
+
             this.onActionComplete = onActionComplete;
-            this.moveTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-            isActive = true;
+            SetActive(true);
         }
 
         public override List<GridPosition> GetValidActionGridPosition()
@@ -114,20 +117,29 @@ namespace Nivandria.Battle.Action
         /// <remarks> Adjusting its position, orientation, and animation. </remarks>
         private void HandleMoving()
         {
-            if (Vector3.Distance(transform.position, moveTargetPosition) > moveStoppingDistance)
-            {
-                Vector3 moveDirection = (moveTargetPosition - transform.position).normalized;
-                transform.position += moveDirection * Time.deltaTime * moveSpeed;
+            Vector3 targetPosition = positionList[currentPositionIndex];
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
+            if (Vector3.Distance(transform.position, targetPosition) > moveStoppingDistance)
+            {
                 transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
+                transform.position += moveDirection * Time.deltaTime * moveSpeed;
 
                 unitAnimator.SetBool("isWalking", true);
             }
             else
             {
-                unitAnimator.SetBool("isWalking", false);
-                isActive = false;
-                onActionComplete();
+                currentPositionIndex++;
+
+                if (currentPositionIndex >= positionList.Count)
+                {
+                    SetActive(false);
+                    unitAnimator.SetBool("isWalking", false);
+                    onActionComplete();
+                }
+
+
             }
 
         }

@@ -42,5 +42,7 @@ namespace Nivandria.Battle.Action
         
         /// <summary>Get the action class name.</summary>
         public string GetName() => actionName;
+        
+        public void SetActive(bool status) => isActive = status;
     }
 }
