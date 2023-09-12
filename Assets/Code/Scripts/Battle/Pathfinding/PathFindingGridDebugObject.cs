@@ -9,6 +9,8 @@ namespace Nivandria.Battle.PathfindingSystem
         [SerializeField] TextMeshPro gCostText;
         [SerializeField] TextMeshPro hCostText;
         [SerializeField] TextMeshPro fCostText;
+        [SerializeField] GameObject unWalkablePlane;
+        [SerializeField] GameObject walkablePlane;
 
         private PathNode pathNode;
 
@@ -18,11 +20,33 @@ namespace Nivandria.Battle.PathfindingSystem
             pathNode = (PathNode)gridObject;
         }
 
-        protected override void Update(){
+        protected override void Update()
+        {
             base.Update();
+
             gCostText.text = pathNode.GetGCost().ToString();
             hCostText.text = pathNode.GetHCost().ToString();
             fCostText.text = pathNode.GetFCost().ToString();
+
+            if (LevelGrid.Instance.WalkableGridDebugStatus())
+            {
+                if (pathNode.IsWalkable())
+                {
+                    walkablePlane.SetActive(true);
+                }
+                else
+                {
+                    unWalkablePlane.SetActive(true);
+                }
+
+            }
+            else
+            {
+                walkablePlane.SetActive(false);
+                unWalkablePlane.SetActive(false);
+            }
+
+
         }
 
     }

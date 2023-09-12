@@ -12,6 +12,7 @@ namespace Nivandria.Battle.Grid
         [SerializeField] private int gridWidth = 8;
         [SerializeField] private int gridHeight = 4;
         [SerializeField] private float cellSize = 2;
+        [SerializeField] bool showWalkableGrid = false;
 
         private GridSystem<GridObject> gridSystem;
 
@@ -93,6 +94,7 @@ namespace Nivandria.Battle.Grid
         public int GetGridWidth() => gridWidth;
         public int GetGridHeight() => gridHeight;
         public float GetCellSize() => cellSize;
+        public bool WalkableGridDebugStatus() => showWalkableGrid;
         #endregion
     }
 }
