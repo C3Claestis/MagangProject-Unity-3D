@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Grid
 {
     using System.Collections.Generic;
+    using Nivandria.Battle.PathfindingSystem;
     using UnityEngine;
 
     public class LevelGrid : MonoBehaviour
@@ -27,6 +28,10 @@ namespace Nivandria.Battle.Grid
             gridSystem = new GridSystem<GridObject>(gridWidth, gridHeight, cellSize, 
                         (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
             // gridSystem.CreateDebugObjects(gridObjectDebugPrefab);
+        }
+
+        private void Start() {
+            Pathfinding.Instance.Setup(gridWidth, gridHeight, cellSize);
         }
 
         /// <summary>Adds a unit at the specified grid position.</summary>

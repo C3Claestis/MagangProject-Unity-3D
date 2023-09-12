@@ -1,8 +1,6 @@
-namespace Nivandria.Battle
+namespace Nivandria.Battle.PathfindingSystem
 {
     using Nivandria.Battle.Grid;
-    using Nivandria.Battle.PathfindingSystem;
-
 
     public class PathNode
     {
@@ -11,6 +9,7 @@ namespace Nivandria.Battle
         private int hCost;
         private int fCost;
         private PathNode cameFromPathNode;
+        private bool isWalkable = true;
 
         public PathNode(GridPosition gridPosition)
         {
@@ -42,9 +41,11 @@ namespace Nivandria.Battle
         public int GetGCost() => gCost;
         public int GetHCost() => hCost;
         public int GetFCost() => fCost;
+        public bool IsWalkable() => isWalkable;
 
         public void SetGCost(int gCost) => this.gCost = gCost;
         public void SetHCost(int hCost) => this.hCost = hCost;
+        public void SetIsWalkable(bool isWalkable) => this.isWalkable = isWalkable;
         public void CalculateFCost() => fCost = gCost + hCost;
 
     }

@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.PathfindingSystem
 {
     using Nivandria.Battle.Grid;
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -8,16 +9,16 @@ namespace Nivandria.Battle.PathfindingSystem
     {
         public static Pathfinding Instance { get; private set; }
 
+        [SerializeField] private Transform gridDebugObjectPrefab;
+        [SerializeField] private LayerMask obstaclesLayerMask;
 
         private const int MOVE_STRAIGHT_COST = 10;
         private const int MOVE_DIAGONAL_COST = 14;
 
-        [SerializeField] private Transform gridDebugObjectPrefab;
-
-
         private int width;
         private int height;
         private float cellSize;
+
         private GridSystem<PathNode> gridSystem;
 
         private void Awake()
@@ -30,9 +31,42 @@ namespace Nivandria.Battle.PathfindingSystem
             }
             Instance = this;
 
-            gridSystem = new GridSystem<PathNode>(10, 10, 2f,
+
+        }
+
+        public void Setup(int width, int height, float cellSize)
+        {
+            this.width = width;
+            this.height = height;
+            this.cellSize = cellSize;
+
+            gridSystem = new GridSystem<PathNode>(width, height, cellSize,
                 (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
             gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int z = 0; z < height; z++)
+                {
+                    GridPosition gridPosition = new GridPosition(x, z);
+                    Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                    if (IsObstacleOnGrid(worldPosition))
+                    {
+                        GetNode(x, z).SetIsWalkable(false);
+                    }
+                }
+            }
+        }
+
+        private bool IsObstacleOnGrid(Vector3 worldPosition)
+        {
+            float raycastOffsetDistance = 5f;
+            return Physics.Raycast(
+                        worldPosition + Vector3.down * raycastOffsetDistance,
+                        Vector3.up,
+                        raycastOffsetDistance * 2,
+                        obstaclesLayerMask
+                    );
         }
 
         public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition)
@@ -79,6 +113,12 @@ namespace Nivandria.Battle.PathfindingSystem
                 {
                     if (closedList.Contains(neighbourNode))
                     {
+                        continue;
+                    }
+
+                    if (!neighbourNode.IsWalkable())
+                    {
+                        closedList.Add(neighbourNode);
                         continue;
                     }
 
