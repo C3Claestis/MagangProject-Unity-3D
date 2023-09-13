@@ -1,4 +1,4 @@
-namespace Nivandria.UI
+namespace Nivandria.UI.Quest
 {
     using System.Collections;
     using System.Collections.Generic;

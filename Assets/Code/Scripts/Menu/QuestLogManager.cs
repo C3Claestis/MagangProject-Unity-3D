@@ -1,4 +1,4 @@
-namespace Nivandria.UI
+namespace Nivandria.UI.Quest
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -38,11 +38,13 @@ namespace Nivandria.UI
             QuestLogInitialization();
         }
 
+        private bool isFullTextShown = false;
         public void QuestLogInitialization()
         {
             int index = 0;
             Image selectedImage = null;
             TextMeshProUGUI selectedText = null;
+            //Quest firstQuest = null;
 
             foreach (Quest quest in questList)
             {
@@ -67,6 +69,19 @@ namespace Nivandria.UI
                     if (selectedText != null)
                     {
                         selectedText.fontStyle &= ~FontStyles.Bold;
+
+                        if (isFullTextShown)
+                        {
+                            int maxTitleLenght = 25;
+                            string questTitle = currentQuest.GetTitle();
+                            if (questTitle.Length > maxTitleLenght)
+                            {
+                                questTitle = questTitle.Substring(0, maxTitleLenght) + "...";
+                            }
+
+                            selectedText.text = $" {index}. " + questTitle;
+                            isFullTextShown = false;
+                        }
                     }
 
                     questText.fontStyle |= FontStyles.Bold;
