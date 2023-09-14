@@ -1,5 +1,6 @@
 namespace Nivandria.Battle
 {
+    using Nivandria.Battle.Grid;
     using UnityEngine;
 
     public class MouseWorld : MonoBehaviour
@@ -10,11 +11,6 @@ namespace Nivandria.Battle
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Update()
-        {
-            transform.position = MouseWorld.GetPosition();
         }
 
         /// <summary>Gets the world position in 3D space corresponding to the current mouse cursor position on the screen.</summary>
