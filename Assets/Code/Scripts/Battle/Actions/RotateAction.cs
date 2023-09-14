@@ -67,8 +67,9 @@ namespace Nivandria.Battle.Action
             else if (Input.GetKeyDown(KeyCode.L))
             {
                 if (!doneRotating) return;
-                onActionComplete();
+                unit.CalculateUnitDirection();
                 SetRotateVisualActive(false);
+                onActionComplete();
             }
 
         }

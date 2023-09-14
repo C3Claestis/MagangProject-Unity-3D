@@ -10,6 +10,7 @@ namespace Nivandria.Battle.Action
         protected Unit unit;
         protected Action onActionComplete;
         protected bool isActive;
+        protected bool hasActionBeenTaken;
         protected abstract string actionName { get; }
 
         protected virtual void Awake()
@@ -20,7 +21,8 @@ namespace Nivandria.Battle.Action
         /// <summary>Executes an action at a specified grid position and calls a callback function upon completion.</summary>
         /// <param name="gridPosition">The target grid position for the action.</param>
         /// <param name="onActionComplete">Callback function to invoke when the action is complete.</param>
-        public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete){
+        public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
+        {
             this.onActionComplete = onActionComplete;
             SetActive(true);
         }
@@ -38,14 +40,11 @@ namespace Nivandria.Battle.Action
         /// <returns>A list of valid grid positions for the action.</returns>
         public abstract List<GridPosition> GetValidActionGridPosition();
 
-        public virtual List<GridPosition> GetRangeActionGridPosition()
-        {
-            return null;
-        }
-        
         /// <summary>Get the action class name.</summary>
         public string GetName() => actionName;
-        
+        public bool HasActionBeenTaken() => hasActionBeenTaken;
+
+        public void SetHasActionBeenTaken(bool hasActionBeenTaken) => this.hasActionBeenTaken = hasActionBeenTaken;
         public void SetActive(bool status) => isActive = status;
     }
 }

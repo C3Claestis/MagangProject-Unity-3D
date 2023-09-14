@@ -109,8 +109,8 @@ namespace Nivandria.Battle.Action
 			selectedUnit.SetMoveStatus(true);
 			selectedUnit.SetSelectedStatus(true);
 			selectedUnit.ChangeUnitShade();
+			selectedUnit.ResetActionsStatus();
 			SetSelectedAction(unit.GetAction<MoveAction>());
-
 			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}
 
@@ -120,7 +120,7 @@ namespace Nivandria.Battle.Action
 			{
 				if (selectedUnit == null) return;
 				if (EventSystem.current.IsPointerOverGameObject()) return;
-
+				if (selectedAction.HasActionBeenTaken()) return;
 				GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
 				if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
@@ -141,6 +141,7 @@ namespace Nivandria.Battle.Action
 		private void OnActionComplete()
 		{
 			selectedUnit.UpdateUnitGridPosition();
+			selectedAction.SetHasActionBeenTaken(true);
 			selectedUnit.CalculateUnitDirection();
 			selectedAction.SetActive(false);
 			GridSystemVisual.Instance.UpdateGridVisual();

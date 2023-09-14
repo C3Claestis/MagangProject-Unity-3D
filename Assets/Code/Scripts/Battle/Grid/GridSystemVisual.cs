@@ -78,40 +78,39 @@ namespace Nivandria.Battle.Grid
         public void UpdateGridVisual()
         {
             BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-            GridVisualType validVisualType;
-            GridVisualType invalidVisualType;
+            GridVisualType visualType;
+            GridVisualType invalidVisualType = GridVisualType.Grey;
 
             HideAllGridPosition();
 
             if (selectedAction == null) return;
-            
+
             switch (selectedAction)
             {
                 default:
                 case MoveAction:
-                    validVisualType = GridVisualType.White;
-                    invalidVisualType = GridVisualType.Grey;
+                    visualType = GridVisualType.White;
                     break;
                 case SpinAction:
-                    validVisualType = GridVisualType.Blue;
-                    invalidVisualType = GridVisualType.Blue;
+                    visualType = GridVisualType.Blue;
                     break;
             }
 
-            ShowGridPositionList(
-                selectedAction.GetRangeActionGridPosition(),
-                invalidVisualType
-            );
+            if (selectedAction.HasActionBeenTaken())
+            {
+                visualType = invalidVisualType;
+            }
 
             ShowGridPositionList(
                 selectedAction.GetValidActionGridPosition(),
-                validVisualType
+                visualType
             );
 
             OnGridVisualUpdated?.Invoke(this, EventArgs.Empty);
         }
-    
-        private Material GetGridVisualTypeMaterial(GridVisualType gridVisualType){
+
+        private Material GetGridVisualTypeMaterial(GridVisualType gridVisualType)
+        {
             foreach (GridVisualTypeMaterial gridVisualTypeMaterial in gridVisualTypeMaterialList)
             {
                 if (gridVisualTypeMaterial.gridVisualType != gridVisualType) continue;
@@ -121,5 +120,5 @@ namespace Nivandria.Battle.Grid
             Debug.LogError("Couldn't find GridVisualTypeMaterial for GridVisualType : " + gridVisualType);
             return null;
         }
-    }   
+    }
 }

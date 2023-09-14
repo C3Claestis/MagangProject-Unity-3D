@@ -17,7 +17,7 @@ namespace Nivandria.Battle.Action
         private float moveStoppingDistance = .1f;
         private int currentPositionIndex;
         private List<Vector3> positionList;
-        private MoveType moveType;
+        [SerializeField] private MoveType moveType; // ! Temporary [serializefield]
 
         private void Update()
         {
@@ -75,41 +75,6 @@ namespace Nivandria.Battle.Action
             }
 
             return validGridPositionList;
-        }
-
-        public override List<GridPosition> GetRangeActionGridPosition()
-        {
-            List<GridPosition> rangeActionGridPosition = new List<GridPosition>();
-            MoveLibrary moveLibrary = new MoveLibrary(unit, maxMoveDistance);
-
-            switch (moveType)
-            {
-                case MoveType.Normal:
-                    rangeActionGridPosition = moveLibrary.NormalMoveRangeGrids();
-                    break;
-
-                case MoveType.King:
-                    rangeActionGridPosition = moveLibrary.KingMoveRangeGrids();
-                    break;
-
-                case MoveType.Tiger:
-                    rangeActionGridPosition = moveLibrary.TigerMoveRangeGrids();
-                    break;
-
-                case MoveType.Bull:
-                    rangeActionGridPosition = moveLibrary.BullMoveRangeGrids();
-                    break;
-
-                case MoveType.Snake:
-                    rangeActionGridPosition = moveLibrary.SnakeMoveRangeGrids();
-                    break;
-
-                default:
-                    rangeActionGridPosition = null;
-                    break;
-            }
-
-            return rangeActionGridPosition;
         }
 
         /// <summary>Moves unit towards a target position.</summary>

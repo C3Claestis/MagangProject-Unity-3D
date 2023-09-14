@@ -113,6 +113,7 @@ namespace Nivandria.Battle
         }
 
         #region Getter Setter
+
         public T GetAction<T>() where T : BaseAction
         {
             foreach (BaseAction baseAction in baseActionArray)
@@ -133,6 +134,13 @@ namespace Nivandria.Battle
         public bool GetMoveStatus() => hasMove;
         public string GetCharacterName() => characterName;
 
+        public void ResetActionsStatus()
+        {
+            foreach (BaseAction baseAction in baseActionArray)
+            {
+                baseAction.SetHasActionBeenTaken(false);
+            }
+        }
         public void SetMoveStatus(bool hasMove) => this.hasMove = hasMove;
         public void SetSelectedStatus(bool isSelected) => this.isSelected = isSelected;
         #endregion
