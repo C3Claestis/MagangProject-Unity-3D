@@ -1,8 +1,10 @@
 namespace Nivandria.Battle.PathfindingSystem
 {
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.Action;
     using UnityEngine;
     using TMPro;
+    using System;
 
     public class PathFindingGridDebugObject : GridDebugObject
     {
@@ -14,15 +16,21 @@ namespace Nivandria.Battle.PathfindingSystem
 
         private PathNode pathNode;
 
+        private void Start() {
+            UnitActionSystem.Instance.OnMoveActionPerformed += UnitActionSystem_OnMoveActionPerformed;
+        }
+
         public override void SetGridObject(object gridObject)
         {
             base.SetGridObject(gridObject);
             pathNode = (PathNode)gridObject;
         }
 
-        protected override void Update()
+        protected override void UpdateGridDebugText()
         {
-            base.Update();
+            base.UpdateGridDebugText();
+
+            Debug.Log("Pathfinding Updated");
 
             gCostText.text = pathNode.GetGCost().ToString();
             hCostText.text = pathNode.GetHCost().ToString();
@@ -45,8 +53,10 @@ namespace Nivandria.Battle.PathfindingSystem
                 walkablePlane.SetActive(false);
                 unWalkablePlane.SetActive(false);
             }
+        }
 
-
+        private void UnitActionSystem_OnMoveActionPerformed(object sender, EventArgs e){
+            UpdateGridDebugText();
         }
 
     }

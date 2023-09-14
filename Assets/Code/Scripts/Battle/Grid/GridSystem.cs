@@ -30,7 +30,7 @@ namespace Nivandria.Battle.Grid
 
         /// <summary>Creates debug objects for visualizing the grid.</summary>
         /// <param name="debugPrefab">The prefab used for debug visualization.</param>
-        public void CreateDebugObjects(Transform debugPrefab)
+        public void CreateDebugObjects(Transform debugPrefab, Transform parent)
         {
             for (int x = 0; x < width; x++)
             {
@@ -39,6 +39,7 @@ namespace Nivandria.Battle.Grid
                     GridPosition gridPosition = new GridPosition(x, z);
                     Transform debugTransform =
                         GameObject.Instantiate(debugPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
+                    debugTransform.SetParent(parent);
                     GridDebugObject gridDebugObject = debugTransform.GetComponent<GridDebugObject>();
                     gridDebugObject.SetGridObject(GetGridObject(gridPosition));
                 }

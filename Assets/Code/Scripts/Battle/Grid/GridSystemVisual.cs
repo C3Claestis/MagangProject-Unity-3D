@@ -10,6 +10,7 @@ namespace Nivandria.Battle.Grid
         public static GridSystemVisual Instance { get; private set; }
 
         [SerializeField] private Transform gridSystemVisualSinglePrefab;
+        [SerializeField] private Transform gridVisualParent;
         [SerializeField] private List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
         private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
         public event EventHandler OnGridVisualUpdated;
@@ -47,6 +48,7 @@ namespace Nivandria.Battle.Grid
                     Transform gridSystemVisualSinglTransform =
                         Instantiate(gridSystemVisualSinglePrefab, LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
                     gridSystemVisualSingleArray[x, z] = gridSystemVisualSinglTransform.GetComponent<GridSystemVisualSingle>();
+                    gridSystemVisualSinglTransform.SetParent(gridVisualParent);
                 }
             }
         }

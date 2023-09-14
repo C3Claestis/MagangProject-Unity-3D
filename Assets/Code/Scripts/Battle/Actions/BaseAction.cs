@@ -20,7 +20,10 @@ namespace Nivandria.Battle.Action
         /// <summary>Executes an action at a specified grid position and calls a callback function upon completion.</summary>
         /// <param name="gridPosition">The target grid position for the action.</param>
         /// <param name="onActionComplete">Callback function to invoke when the action is complete.</param>
-        public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
+        public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete){
+            this.onActionComplete = onActionComplete;
+            SetActive(true);
+        }
 
         /// <summary>Checks whether the given grid position is a valid action grid position for the unit.</summary>
         /// <param name="gridPosition">The grid position to be checked.</param>

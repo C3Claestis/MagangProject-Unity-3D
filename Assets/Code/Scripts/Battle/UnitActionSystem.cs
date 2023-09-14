@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Action
 {
 	using UnityEngine;
+	using UnityEngine.UI;
 	using UnityEngine.EventSystems;
 	using Nivandria.Battle.Grid;
 	using Nivandria.Battle;
@@ -11,9 +12,11 @@ namespace Nivandria.Battle.Action
 		public static UnitActionSystem Instance { get; private set; }
 
 		[SerializeField] private Unit selectedUnit;
+		[SerializeField] private Image busyUI;
 
 		public event EventHandler OnSelectedUnitChanged;
 		public event EventHandler OnSelectedActionChanged;
+		public event EventHandler OnMoveActionPerformed;
 
 		private BaseAction selectedAction;
 
@@ -124,6 +127,11 @@ namespace Nivandria.Battle.Action
 				{
 					SetBusy();
 					selectedAction.TakeAction(mouseGridPosition, OnActionComplete);
+
+					if (selectedAction == selectedUnit.GetAction<MoveAction>())
+					{
+						OnMoveActionPerformed?.Invoke(this, EventArgs.Empty);
+					}
 				}
 
 			}
@@ -133,10 +141,11 @@ namespace Nivandria.Battle.Action
 		private void OnActionComplete()
 		{
 			selectedUnit.UpdateUnitGridPosition();
+			selectedUnit.CalculateUnitDirection();
+			selectedAction.SetActive(false);
 			GridSystemVisual.Instance.UpdateGridVisual();
 			ClearBusy();
 		}
-
 
 		#region Getter Setter
 		public void SetSelectedAction(BaseAction baseAction)
@@ -146,8 +155,16 @@ namespace Nivandria.Battle.Action
 			OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void ClearBusy() => isBusy = false;
-		private void SetBusy() => isBusy = true;
+		private void ClearBusy()
+		{
+			busyUI.gameObject.SetActive(false);
+			isBusy = false;
+		}
+		private void SetBusy()
+		{
+			busyUI.gameObject.SetActive(true);
+			isBusy = true;
+		}
 
 		public Unit GetSelectedUnit() => selectedUnit;
 		public BaseAction GetSelectedAction() => selectedAction;

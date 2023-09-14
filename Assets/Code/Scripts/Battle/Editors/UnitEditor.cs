@@ -19,6 +19,7 @@ namespace Nivandria.Battle.Editor
         SerializedProperty isSelected;
         SerializedProperty skinnedMeshRenderer;
         SerializedProperty moveType;
+        SerializedProperty facingDirection;
 
         private bool showHealth = false;
         private bool showAttack = false;
@@ -58,6 +59,8 @@ namespace Nivandria.Battle.Editor
             skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
 
             moveType = serializedObject.FindProperty("moveType");
+
+            facingDirection = serializedObject.FindProperty("facingDirection");
         }
 
         public override void OnInspectorGUI()
@@ -190,7 +193,8 @@ namespace Nivandria.Battle.Editor
             {
                 string isSelectedString = isSelected.boolValue ? "True" : "False";
 
-                EditorGUILayout.LabelField("Is Selected:", isSelectedString);
+                EditorGUILayout.LabelField("Is Selected : ", isSelectedString);
+                EditorGUILayout.PropertyField(facingDirection);
                 EditorGUILayout.PropertyField(hasMove);
                 EditorGUILayout.PropertyField(moveType);
                 

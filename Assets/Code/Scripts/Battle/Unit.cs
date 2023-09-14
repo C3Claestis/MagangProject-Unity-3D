@@ -23,6 +23,7 @@ namespace Nivandria.Battle
         [SerializeField] private float currentMagicalDefense;
         [SerializeField] private bool hasMove = false;
         [SerializeField] private bool isSelected = false;
+        [SerializeField] private FacingDirection facingDirection;
         #endregion
 
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
@@ -33,6 +34,12 @@ namespace Nivandria.Battle
         private void Awake()
         {
             baseActionArray = GetComponents<BaseAction>(); //Store all the component attached to this unit that extend BaseAction;
+        }
+
+        private void Update()
+        {
+
+
         }
 
         private void Start()
@@ -50,6 +57,7 @@ namespace Nivandria.Battle
             GetAction<MoveAction>().SetMoveType(moveType);
 
             ChangeUnitShade();
+            CalculateUnitDirection();
         }
 
         /// <summary>Change unit material shading based on the selection status.</summary>
@@ -71,6 +79,39 @@ namespace Nivandria.Battle
             }
         }
 
+        public void CalculateUnitDirection()
+        {
+            Vector3 forwardDirection = transform.forward;
+
+            float angleToUp = Vector3.Angle(forwardDirection, Vector3.forward);
+            float angleToLeft = Vector3.Angle(forwardDirection, Vector3.left);
+            float angleToRight = Vector3.Angle(forwardDirection, Vector3.right);
+            float angleToDown = Vector3.Angle(forwardDirection, Vector3.back);
+
+            float angleThreshold = 45.0f;
+
+            if (angleToUp < angleThreshold)
+            {
+                facingDirection = FacingDirection.UP;
+            }
+            else if (angleToLeft < angleThreshold)
+            {
+                facingDirection = FacingDirection.LEFT;
+            }
+            else if (angleToRight < angleThreshold)
+            {
+                facingDirection = FacingDirection.RIGHT;
+            }
+            else if (angleToDown < angleThreshold)
+            {
+                facingDirection = FacingDirection.DOWN;
+            }
+            else
+            {
+                Debug.Log("The object is facing a custom direction.");
+            }
+        }
+
         #region Getter Setter
         public T GetAction<T>() where T : BaseAction
         {
@@ -86,6 +127,7 @@ namespace Nivandria.Battle
         }
         public GridPosition GetGridPosition() => gridPosition;
         public BaseAction[] GetBaseActionArray() => baseActionArray;
+        public FacingDirection GetFacingDirection() => facingDirection;
 
         public int GetAgility() => currentAgility;
         public bool GetMoveStatus() => hasMove;

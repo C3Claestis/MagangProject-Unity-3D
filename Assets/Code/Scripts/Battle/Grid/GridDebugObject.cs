@@ -14,14 +14,9 @@ namespace Nivandria.Battle.Grid
             // GridSystemVisual.Instance.OnGridVisualUpdated += GridSystemVisual_OnGridVisualUpdated;
         }
 
-        protected virtual void Update()
-        {
-            UpdateGridDebugText();
-
-        }
 
         /// <summary>Updates the debug text of the grid with information from the associated grid object.</summary>
-        private void UpdateGridDebugText()
+        protected virtual void UpdateGridDebugText()
         {
             textMeshPro.text = gridObject.ToString();
         }
@@ -29,13 +24,6 @@ namespace Nivandria.Battle.Grid
         /// <summary>Set the associated grid object for this entity.</summary>
         /// <param name="gridObject">The GridObject to associate with this entity.</param>
         public virtual void SetGridObject(object gridObject) => this.gridObject = gridObject;
-
-        // //EVENT FUNCTION
-        // private void GridSystemVisual_OnGridVisualUpdated(object sender, EventArgs e)
-        // {
-        //     UpdateGridDebugText();
-        // }
-
 
     }
 }

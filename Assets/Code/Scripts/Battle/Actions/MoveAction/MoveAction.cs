@@ -39,8 +39,7 @@ namespace Nivandria.Battle.Action
                 positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
             }
 
-            this.onActionComplete = onActionComplete;
-            SetActive(true);
+            base.TakeAction(gridPosition, onActionComplete);
         }
 
         public override List<GridPosition> GetValidActionGridPosition()
@@ -134,7 +133,6 @@ namespace Nivandria.Battle.Action
 
                 if (currentPositionIndex >= positionList.Count)
                 {
-                    SetActive(false);
                     unitAnimator.SetBool("isWalking", false);
                     onActionComplete();
                 }

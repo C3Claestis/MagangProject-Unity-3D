@@ -11,6 +11,7 @@ namespace Nivandria.Battle.PathfindingSystem
 
         [SerializeField] private Transform gridDebugObjectPrefab;
         [SerializeField] private LayerMask obstaclesLayerMask;
+        [SerializeField] private Transform debugParent;
 
         private const int MOVE_STRAIGHT_COST = 10;
         private const int MOVE_DIAGONAL_COST = 14;
@@ -42,7 +43,7 @@ namespace Nivandria.Battle.PathfindingSystem
 
             gridSystem = new GridSystem<PathNode>(width, height, cellSize,
                 (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
-            gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
+            gridSystem.CreateDebugObjects(gridDebugObjectPrefab, debugParent);
 
             for (int x = 0; x < width; x++)
             {
