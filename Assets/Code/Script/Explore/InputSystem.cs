@@ -1,9 +1,13 @@
 namespace Nivandria.Explore
 {
+    using System;
     using UnityEngine;
     using UnityEngine.InputSystem;
+        
     public class InputSystem : MonoBehaviour
     {
+        [SerializeField] ExploreManager exploreManager;
+        [SerializeField] GameObject[] objekPlayer;
         [SerializeField] private Animator animator;
         [SerializeField] private InteraksiNPC interaksiNPC;
         [SerializeField] PlayerInput playerInput;
@@ -11,7 +15,18 @@ namespace Nivandria.Explore
         private Vector2 movementValue, insertValue;
         private bool isMoving = false;
         private bool canRunning = false;
-        private bool isChest = false;
+
+        private void Start()
+        {
+            GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);         
+        }
+        private void Update()
+        {
+            if(animator == null)
+            {
+                animator = GameObject.FindGameObjectWithTag("Karakter").GetComponent<Animator>();
+            }            
+        }
         public void UIAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -106,18 +121,7 @@ namespace Nivandria.Explore
                 }
             }            
         }
-        private void OnTriggerStay(Collider other)
-        {
-            if(other.gameObject.tag == "Player")
-            {
-                Chest chest = other.gameObject.GetComponent<Chest>();
-                if (isChest)
-                {
-                    chest.SetOpenChest(true);
-                    isChest = false;
-                }                                               
-            }
-        }
+        
         //////////////////////////////
         private void SetAnimatorRunning(bool value)
         {

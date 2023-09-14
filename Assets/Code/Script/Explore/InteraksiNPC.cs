@@ -11,6 +11,7 @@ namespace Nivandria.Explore
         [SerializeField] LayerMask layerMask;
         [SerializeField] Text text;
         [SerializeField] Transform player;
+        [SerializeField] GameObject panel_interaksi;
         RaycastHit raycast;
         float rotationSpeed = 5.0f;
         public Text interaksi;
@@ -33,7 +34,7 @@ namespace Nivandria.Explore
             Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward));
 
             if (Physics.Raycast(ray, out raycast, 1f, layerMask, QueryTriggerInteraction.Ignore))
-            {
+            {                
                 //Untuk membuat line 
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycast.distance, Color.red);
                 //Mengambil komponen script NPCnya
@@ -50,12 +51,13 @@ namespace Nivandria.Explore
                     }
                 }
                 //Kondisi untuk rotasi ketika di tekan button interaksi di keyboard
-                if (isTalk) { RotateTowardsPlayer(raycast.collider.gameObject); npc.SetTalk(true); }
+                if (isTalk) { panel_interaksi.SetActive(false); RotateTowardsPlayer(raycast.collider.gameObject); npc.SetTalk(true); }
             }
             else
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);
                 text.text = "";
+                panel_interaksi.SetActive(true);
                 //Mengambil semua komponen NPC yang ada untuk mengembalikan nilai awalnya
                 NPC[] npcs = FindObjectsOfType<NPC>();
                 foreach (NPC npc in npcs)

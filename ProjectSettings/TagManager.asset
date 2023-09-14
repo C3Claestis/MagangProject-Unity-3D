@@ -7,6 +7,8 @@ TagManager:
   - Units
   - NPC
   - Buiding
+  - Card
+  - Karakter
   layers:
   - Default
   - TransparentFX
