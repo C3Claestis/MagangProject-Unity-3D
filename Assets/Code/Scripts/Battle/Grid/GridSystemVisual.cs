@@ -96,7 +96,7 @@ namespace Nivandria.Battle.Grid
                     break;
             }
 
-            if (selectedAction.HasActionBeenTaken())
+            if (selectedAction.GetActionStatus())
             {
                 visualType = invalidVisualType;
             }

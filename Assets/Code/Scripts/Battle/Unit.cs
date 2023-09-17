@@ -21,13 +21,15 @@ namespace Nivandria.Battle
         [SerializeField] private float currentPhysicalDefense;
         [SerializeField] private float baseMagicalDefense = 6;
         [SerializeField] private float currentMagicalDefense;
-        [SerializeField] private bool hasMove = false;
+        [SerializeField] private bool hasCompletedTurn = false;
         [SerializeField] private bool isSelected = false;
         [SerializeField] private FacingDirection facingDirection;
         #endregion
 
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
         [SerializeField] private MoveType moveType = MoveType.Normal;
+        private bool hasMoved;
+        private bool hasUseSkill;
         private GridPosition gridPosition;
         private BaseAction[] baseActionArray;
 
@@ -129,20 +131,52 @@ namespace Nivandria.Battle
         public GridPosition GetGridPosition() => gridPosition;
         public BaseAction[] GetBaseActionArray() => baseActionArray;
         public FacingDirection GetFacingDirection() => facingDirection;
+        public RotateAction GetRotateAction() => GetComponent<RotateAction>();
 
         public int GetAgility() => currentAgility;
-        public bool GetMoveStatus() => hasMove;
+        public bool GetTurnStatus() => hasCompletedTurn;
         public string GetCharacterName() => characterName;
 
-        public void ResetActionsStatus()
+        public bool GetActionStatus(ActionType actionType)
         {
-            foreach (BaseAction baseAction in baseActionArray)
+            switch (actionType)
             {
-                baseAction.SetHasActionBeenTaken(false);
+                case ActionType.Skill:
+                    return hasUseSkill;
+
+                case ActionType.Move:
+                    return hasMoved;
             }
+
+            Debug.LogError("CAN'T DEFINE ACTTION TYPE : " + actionType);
+            return false;
         }
-        public void SetMoveStatus(bool hasMove) => this.hasMove = hasMove;
-        public void SetSelectedStatus(bool isSelected) => this.isSelected = isSelected;
+
+        public void ResetActionStatus()
+        {
+            hasMoved = false;
+            hasUseSkill = false;
+        }
+
+        public void SetActionStatus(ActionType actionType, bool status)
+        {
+            switch (actionType)
+            {
+                case ActionType.Skill:
+                    hasUseSkill = status;
+                    return;
+
+                case ActionType.Move:
+                    hasMoved = status;
+                    return;
+            }
+
+            Debug.LogError("CAN'T DEFINE ACTTION TYPE : " + actionType);
+            return;
+        }
+
+        public void SetTurnStatus(bool status) => hasCompletedTurn = status;
+        public void SetSelectedStatus(bool status) => isSelected = status;
         #endregion
     }
 }

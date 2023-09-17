@@ -8,6 +8,7 @@ namespace Nivandria.Battle.Action
     public class SpinAction : BaseAction
     {
         protected override string actionName { get { return "Spin"; } }
+        protected override ActionType actionType {get {return ActionType.Skill;}}
         private float totalSpinAmount;
 
         private void Update()

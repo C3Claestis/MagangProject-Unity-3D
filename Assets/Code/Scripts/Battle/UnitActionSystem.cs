@@ -81,7 +81,7 @@ namespace Nivandria.Battle.Action
 				if (unitComponent == null) continue;
 
 				int unitSpeed = unitComponent.GetAgility();
-				bool hasMoved = unitComponent.GetMoveStatus();
+				bool hasMoved = unitComponent.GetTurnStatus();
 
 				if (!hasMoved && unitSpeed > fastestSpeed)
 				{
@@ -98,7 +98,7 @@ namespace Nivandria.Battle.Action
 		{
 			selectedUnit.SetSelectedStatus(false);
 			selectedUnit.ChangeUnitShade();
-			selectedUnit.SetMoveStatus(true);
+			selectedUnit.SetTurnStatus(true);
 		}
 
 		/// <summary>Selects a unit and updates its status and shading.</summary>
@@ -106,10 +106,10 @@ namespace Nivandria.Battle.Action
 		private void SelectUnit(Unit unit)
 		{
 			selectedUnit = unit;
-			selectedUnit.SetMoveStatus(true);
+			selectedUnit.SetTurnStatus(true);
 			selectedUnit.SetSelectedStatus(true);
 			selectedUnit.ChangeUnitShade();
-			selectedUnit.ResetActionsStatus();
+			selectedUnit.ResetActionStatus();
 			SetSelectedAction(unit.GetAction<MoveAction>());
 			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}
@@ -120,7 +120,7 @@ namespace Nivandria.Battle.Action
 			{
 				if (selectedUnit == null) return;
 				if (EventSystem.current.IsPointerOverGameObject()) return;
-				if (selectedAction.HasActionBeenTaken()) return;
+				if (selectedUnit.GetActionStatus(selectedAction.GetActionType())) return;
 				GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
 				if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
@@ -141,7 +141,7 @@ namespace Nivandria.Battle.Action
 		private void OnActionComplete()
 		{
 			selectedUnit.UpdateUnitGridPosition();
-			selectedAction.SetHasActionBeenTaken(true);
+			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
 			selectedUnit.CalculateUnitDirection();
 			selectedAction.SetActive(false);
 			GridSystemVisual.Instance.UpdateGridVisual();

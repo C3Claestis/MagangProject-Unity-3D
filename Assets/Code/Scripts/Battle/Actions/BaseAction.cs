@@ -10,8 +10,8 @@ namespace Nivandria.Battle.Action
         protected Unit unit;
         protected Action onActionComplete;
         protected bool isActive;
-        protected bool hasActionBeenTaken;
         protected abstract string actionName { get; }
+        protected abstract ActionType actionType { get; }
 
         protected virtual void Awake()
         {
@@ -42,9 +42,11 @@ namespace Nivandria.Battle.Action
 
         /// <summary>Get the action class name.</summary>
         public string GetName() => actionName;
-        public bool HasActionBeenTaken() => hasActionBeenTaken;
 
-        public void SetHasActionBeenTaken(bool hasActionBeenTaken) => this.hasActionBeenTaken = hasActionBeenTaken;
+        public bool GetActionStatus() => unit.GetActionStatus(actionType);
+
+
+        public ActionType GetActionType() => actionType;
         public void SetActive(bool status) => isActive = status;
     }
 }
