@@ -23,13 +23,13 @@ namespace Nivandria.Battle
         [SerializeField] private float currentMagicalDefense;
         [SerializeField] private bool hasCompletedTurn = false;
         [SerializeField] private bool isSelected = false;
+        [SerializeField] private bool hasMoved;
+        [SerializeField] private bool hasUseSkill;
         [SerializeField] private FacingDirection facingDirection;
         #endregion
 
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
         [SerializeField] private MoveType moveType = MoveType.Normal;
-        private bool hasMoved;
-        private bool hasUseSkill;
         private GridPosition gridPosition;
         private BaseAction[] baseActionArray;
 

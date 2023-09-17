@@ -15,11 +15,13 @@ namespace Nivandria.Battle.Editor
         SerializedProperty basePhysicalDefense, currentPhysicalDefense;
         SerializedProperty baseMagicalDefense, currentMagicalDefense;
         SerializedProperty baseAgility, currentAgility;
-        SerializedProperty hasMove;
+        SerializedProperty hasCompletedTurn;
         SerializedProperty isSelected;
         SerializedProperty skinnedMeshRenderer;
         SerializedProperty moveType;
         SerializedProperty facingDirection;
+        SerializedProperty hasMoved;
+        SerializedProperty hasUseSkill;
 
         private bool showHealth = false;
         private bool showAttack = false;
@@ -53,8 +55,10 @@ namespace Nivandria.Battle.Editor
             baseAgility = serializedObject.FindProperty("baseAgility");
             currentAgility = serializedObject.FindProperty("currentAgility");
 
-            hasMove = serializedObject.FindProperty("hasMove");
+            hasCompletedTurn = serializedObject.FindProperty("hasCompletedTurn");
             isSelected = serializedObject.FindProperty("isSelected");
+            hasMoved = serializedObject.FindProperty("hasMoved");
+            hasUseSkill = serializedObject.FindProperty("hasUseSkill");
 
             skinnedMeshRenderer = serializedObject.FindProperty("skinnedMeshRenderer");
 
@@ -191,11 +195,11 @@ namespace Nivandria.Battle.Editor
             showStatus = EditorGUILayout.Foldout(showStatus, "Status");
             if (showStatus)
             {
-                string isSelectedString = isSelected.boolValue ? "True" : "False";
-
-                EditorGUILayout.LabelField("Is Selected : ", isSelectedString);
+                EditorGUILayout.LabelField("Is Selected: ", isSelected.boolValue.ToString());
+                EditorGUILayout.LabelField("Has Moved : ", hasMoved.boolValue.ToString());
+                EditorGUILayout.LabelField("Has Use Skill : ", hasUseSkill.boolValue.ToString());
                 EditorGUILayout.PropertyField(facingDirection);
-                EditorGUILayout.PropertyField(hasMove);
+                EditorGUILayout.PropertyField(hasCompletedTurn);
                 EditorGUILayout.PropertyField(moveType);
                 
                 GUILayout.Space(5);
