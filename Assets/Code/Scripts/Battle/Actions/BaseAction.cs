@@ -40,12 +40,8 @@ namespace Nivandria.Battle.Action
         /// <returns>A list of valid grid positions for the action.</returns>
         public abstract List<GridPosition> GetValidActionGridPosition();
 
-        /// <summary>Get the action class name.</summary>
         public string GetName() => actionName;
-
         public bool GetActionStatus() => unit.GetActionStatus(actionType);
-
-
         public ActionType GetActionType() => actionType;
         public void SetActive(bool status) => isActive = status;
     }

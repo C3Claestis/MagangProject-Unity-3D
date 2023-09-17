@@ -18,12 +18,22 @@ namespace Nivandria.Battle.UI
 
         private void Update()
         {
+            HandlePointer();
+        }
+
+        private void LateUpdate()
+        {
+            LookAtBackwards(mainCamera.position);
+        }
+
+        /// <summary>Handles the pointer's behavior.</summary>
+        private void HandlePointer()
+        {
             GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             float pointerHeight = 1.0f;
 
-            pointerCircle.position = new Vector3(transform.position.x, 0.005f , transform.position.z);
+            pointerCircle.position = new Vector3(transform.position.x, 0.005f, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * moveSpeed);
-
 
             if (!LevelGrid.Instance.IsValidGridPosition(gridPosition)) return;
             if (!Pathfinding.Instance.IsWalkableGridPosition(gridPosition)) return;
@@ -32,13 +42,6 @@ namespace Nivandria.Battle.UI
             Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(mousePosition.x, pointerHeight, mousePosition.z);
         }
-
-
-        private void LateUpdate()
-        {
-            LookAtBackwards(mainCamera.position);
-        }
-
 
         private void LookAtBackwards(Vector3 targetPos)
         {

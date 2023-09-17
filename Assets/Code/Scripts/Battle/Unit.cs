@@ -137,6 +137,9 @@ namespace Nivandria.Battle
         public bool GetTurnStatus() => hasCompletedTurn;
         public string GetCharacterName() => characterName;
 
+        /// <summary>Gets the status of a specific action type for the unit.</summary>
+        /// <param name="actionType">The type of action to check (e.g., Skill or Move).</param>
+        /// <returns>True if the unit has performed the specified action type; otherwise, false.</returns>
         public bool GetActionStatus(ActionType actionType)
         {
             switch (actionType)
@@ -152,12 +155,16 @@ namespace Nivandria.Battle
             return false;
         }
 
+        /// <summary>Resets the status of all actions for the unit.</summary>
         public void ResetActionStatus()
         {
             hasMoved = false;
             hasUseSkill = false;
         }
 
+        /// <summary>Sets the status of a specific action type for the unit.</summary>
+        /// <param name="actionType">The type of action to set (e.g., Skill or Move).</param>
+        /// <param name="status">Set status for that action type.</param>
         public void SetActionStatus(ActionType actionType, bool status)
         {
             switch (actionType)

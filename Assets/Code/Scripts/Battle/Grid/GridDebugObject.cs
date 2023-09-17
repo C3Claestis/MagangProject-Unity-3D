@@ -14,7 +14,6 @@ namespace Nivandria.Battle.Grid
             // GridSystemVisual.Instance.OnGridVisualUpdated += GridSystemVisual_OnGridVisualUpdated;
         }
 
-
         /// <summary>Updates the debug text of the grid with information from the associated grid object.</summary>
         protected virtual void UpdateGridDebugText()
         {

@@ -22,6 +22,9 @@ namespace Nivandria.Battle.Action
             IsRotating();
         }
 
+        /// <summary>Initiates the rotation of the object.</summary>
+        /// <param name="unit">The unit to be rotated.</param>
+        /// <param name="onActionComplete">Callback action to be executed when the rotation is complete.</param>
         public void StartRotating(Unit unit, Action onActionComplete)
         {
             currentDirection = unit.GetFacingDirection();
@@ -33,6 +36,7 @@ namespace Nivandria.Battle.Action
             IsActive(true);
         }
 
+        /// <summary>Handles the rotation of the character based on user input.</summary>
         private void HandleRotate()
         {
             // Rotate the character counterclockwise
@@ -60,6 +64,7 @@ namespace Nivandria.Battle.Action
 
         }
 
+        /// <summary>Checks if the object is currently rotating and manages the rotation process. </summary>
         private void IsRotating()
         {
             if (Quaternion.Angle(transform.rotation, target) < rotationTolerance)
@@ -73,6 +78,8 @@ namespace Nivandria.Battle.Action
             }
         }
 
+        /// <summary>Rotates the character to the specified facing direction.</summary>
+        /// <param name="state">The desired facing direction.</param>
         private void RotateCharacter(FacingDirection state)
         {
             switch (state)

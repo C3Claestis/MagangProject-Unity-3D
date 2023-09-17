@@ -35,6 +35,10 @@ namespace Nivandria.Battle.PathfindingSystem
 
         }
 
+        /// <summary>Sets up the grid system for the pathfindingh with specified width, height, and cell size.</summary>
+        /// <param name="width">The width of the grid.</param>
+        /// <param name="height">The height of the grid.</param>
+        /// <param name="cellSize">The size of each grid cell.</param>
         public void Setup(int width, int height, float cellSize)
         {
             this.width = width;
@@ -59,6 +63,9 @@ namespace Nivandria.Battle.PathfindingSystem
             }
         }
 
+        /// <summary>Checks if there is an obstacle at the given world position.</summary>
+        /// <param name="worldPosition">The world position to check for obstacles.</param>
+        /// <returns>True if an obstacle is present; otherwise, false.</returns>
         private bool IsObstacleOnGrid(Vector3 worldPosition)
         {
             float raycastOffsetDistance = 5f;
@@ -70,6 +77,11 @@ namespace Nivandria.Battle.PathfindingSystem
                     );
         }
 
+        /// <summary>Finds a path from the start grid position to the end grid position.</summary>
+        /// <param name="startGridPosition">The starting grid position.</param>
+        /// <param name="endGridPosition">The ending grid position.</param>
+        /// <param name="pathLength">The length of the found path (output).</param>
+        /// <returns>A list of grid positions representing the path, or null if no path is found.</returns>
         public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLength)
         {
             List<PathNode> openList = new List<PathNode>();
@@ -147,6 +159,10 @@ namespace Nivandria.Battle.PathfindingSystem
             return null;
         }
 
+        /// <summary>Calculates the distance between two grid positions.</summary>
+        /// <param name="gridPositionA">The first grid position.</param>
+        /// <param name="gridPositionB">The second grid position.</param>
+        /// <returns>The calculated distance between the two grid positions.</returns>
         public int CalculateDistance(GridPosition gridPositionA, GridPosition gridPositionB)
         {
             GridPosition gridPositionDistance = gridPositionA - gridPositionB;
@@ -156,6 +172,9 @@ namespace Nivandria.Battle.PathfindingSystem
             return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
         }
 
+        /// <summary>Gets the lowest FCost path node from a list.</summary>
+        /// <param name="pathNodeList">The list of path nodes to search.</param>
+        /// <returns>The path node with the lowest FCost.</returns>
         private PathNode GetLowestFCostPathNode(List<PathNode> pathNodeList)
         {
             PathNode lowestFCostPathNode = pathNodeList[0];
@@ -169,11 +188,18 @@ namespace Nivandria.Battle.PathfindingSystem
             return lowestFCostPathNode;
         }
 
+        /// <summary>Gets the node at the specified grid position.</summary>
+        /// <param name="x">The X-coordinate of the grid position.</param>
+        /// <param name="z">The Z-coordinate of the grid position.</param>
+        /// <returns>The path node at the specified grid position.</returns>
         private PathNode GetNode(int x, int z)
         {
             return gridSystem.GetGridObject(new GridPosition(x, z));
         }
 
+        /// <summary>Gets a list of neighboring nodes for the given node.</summary>
+        /// <param name="currentNode">The node for which to find neighbors.</param>
+        /// <returns>A list of neighboring path nodes.</returns>
         private List<PathNode> GetNeighbourList(PathNode currentNode)
         {
             List<PathNode> neighbourList = new List<PathNode>();
@@ -227,6 +253,9 @@ namespace Nivandria.Battle.PathfindingSystem
             return neighbourList;
         }
 
+        /// <summary>Calculates the path from the end node to the start node.</summary>
+        /// <param name="endNode">The end node of the path.</param>
+        /// <returns>A list of grid positions representing the path.</returns>
         private List<GridPosition> CalculatePath(PathNode endNode)
         {
             List<PathNode> pathNodeList = new List<PathNode>();
@@ -249,16 +278,27 @@ namespace Nivandria.Battle.PathfindingSystem
             return gridPositionList;
         }
 
+        /// <summary>Checks if a grid position is walkable.</summary>
+        /// <param name="gridPosition">The grid position to check for walkability.</param>
+        /// <returns>True if the grid position is walkable; otherwise, false.</returns>
         public bool IsWalkableGridPosition(GridPosition gridPosition)
         {
             return gridSystem.GetGridObject(gridPosition).IsWalkable();
         }
 
+        /// <summary>Checks if a path exists between two grid positions.</summary>
+        /// <param name="startGridPosition">The starting grid position.</param>
+        /// <param name="endGridPosition">The ending grid position.</param>
+        /// <returns>True if a path exists between the two grid positions; otherwise, false.</returns>
         public bool HasPath(GridPosition startGridPosition, GridPosition endGridPosition)
         {
             return FindPath(startGridPosition, endGridPosition, out int pathLength) != null;
         }
 
+        /// <summary>Gets the length of the path between two grid positions.</summary>
+        /// <param name="startGridPosition">The starting grid position.</param>
+        /// <param name="endGridPosition">The ending grid position.</param>
+        /// <returns>The length of the path between the two grid positions.</returns>
         public int GetPathLength(GridPosition startGridPosition, GridPosition endGridPosition)
         {
             FindPath(startGridPosition, endGridPosition, out int pathLength);

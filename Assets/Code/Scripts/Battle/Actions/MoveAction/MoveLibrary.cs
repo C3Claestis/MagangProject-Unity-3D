@@ -16,6 +16,8 @@ namespace Nivandria.Battle.Action
             this.maxMoveDistance = maxMoveDistance;
         }
 
+        /// <summary>Generates a list of valid grid positions for a normal move. </summary>
+        /// <returns>A list of GridPosition objects representing valid move positions.</returns>
         public List<GridPosition> NormalMoveValidGrids()
         {
             List<GridPosition> normalMoveList = new List<GridPosition>();
@@ -48,6 +50,8 @@ namespace Nivandria.Battle.Action
             return normalMoveList;
         }
 
+        /// <summary>Generates a list of valid grid positions for a king move. </summary>
+        /// <returns>A list of GridPosition objects representing valid move positions.</returns>
         public List<GridPosition> KingMoveValidGrids()
         {
             List<GridPosition> kingMoveList = new List<GridPosition>();
@@ -73,10 +77,11 @@ namespace Nivandria.Battle.Action
             return kingMoveList;
         }
 
+        /// <summary>Generates a list of valid grid positions for a tiger move. </summary>
+        /// <returns>A list of GridPosition objects representing valid move positions.</returns>
         public List<GridPosition> TigerMoveValidGrids()
         {
             List<GridPosition> tigerMoveList = new List<GridPosition>();
-            List<GridPosition> knightMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
 
             // Define the possible knight move offsets
@@ -100,13 +105,15 @@ namespace Nivandria.Battle.Action
                     !LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition) &&
                     Pathfinding.Instance.IsWalkableGridPosition(testGridPosition))
                 {
-                    knightMoveList.Add(testGridPosition);
+                    tigerMoveList.Add(testGridPosition);
                 }
             }
 
-            return knightMoveList;
+            return tigerMoveList;
         }
 
+        /// <summary>Generates a list of valid grid positions for a bull move. </summary>
+        /// <returns>A list of GridPosition objects representing valid move positions.</returns>
         public List<GridPosition> BullMoveValidGrids()
         {
             List<GridPosition> bullMoveList = new List<GridPosition>();
@@ -164,6 +171,8 @@ namespace Nivandria.Battle.Action
             return bullMoveList;
         }
 
+        /// <summary>Generates a list of valid grid positions for a snake move. </summary>
+        /// <returns>A list of GridPosition objects representing valid move positions.</returns>
         public List<GridPosition> SnakeMoveValidGrids()
         {
             List<GridPosition> snakeMoveList = new List<GridPosition>();

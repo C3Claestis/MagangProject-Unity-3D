@@ -114,6 +114,7 @@ namespace Nivandria.Battle.Action
 			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}
 
+		/// <summary>Handles the selected action when the left mouse button is clicked on the valid grid.</summary>
 		private void HandleSelectedAction()
 		{
 			if (Input.GetMouseButtonDown(0))
