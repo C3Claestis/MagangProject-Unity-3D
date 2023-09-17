@@ -9,6 +9,7 @@ namespace Nivandria.Battle.Action
     public class MoveAction : BaseAction
     {
         protected override string actionName { get { return "Move"; } }
+        protected override ActionType actionType {get {return ActionType.Move;}}
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private float rotateSpeed = 15f;
         [SerializeField] private int maxMoveDistance = 4;
@@ -99,10 +100,10 @@ namespace Nivandria.Battle.Action
                 if (currentPositionIndex >= positionList.Count)
                 {
                     unitAnimator.SetBool("isWalking", false);
-                    onActionComplete();
+                    SetActive(false);
+                    GridSystemVisual.Instance.HideAllGridPosition();
+                    unit.GetRotateAction().StartRotating(unit, onActionComplete);
                 }
-
-
             }
 
         }

@@ -1,27 +1,67 @@
 namespace Nivandria.Battle.Action
 {
     using System;
-    using System.Collections.Generic;
-    using Nivandria.Battle.Grid;
-    using Unity.VisualScripting;
     using UnityEngine;
 
-    public class RotateAction : BaseAction
+    public class RotateAction : MonoBehaviour
     {
         [SerializeField] Transform rotateVisual;
-        protected override string actionName { get { return "Rotate"; } }
-        private float smooth = 5.0f;
-        private float rotationTolerance = 5f;
         private FacingDirection currentDirection = FacingDirection.UP;
+        private Action onActionComplete;
         private Quaternion target;
+        private Unit unit;
+        private float rotationTolerance = 5f;
+        private float smooth = 5.0f;
         private bool doneRotating;
-
+        private bool isActive;
 
         private void Update()
         {
             if (!isActive) return;
             HandleRotate();
+            IsRotating();
+        }
 
+        public void StartRotating(Unit unit, Action onActionComplete)
+        {
+            currentDirection = unit.GetFacingDirection();
+            this.unit = unit;
+            this.onActionComplete = onActionComplete;
+
+            RotateCharacter(currentDirection);
+            SetRotateVisualActive(true);
+            IsActive(true);
+        }
+
+        private void HandleRotate()
+        {
+            // Rotate the character counterclockwise
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                currentDirection = (FacingDirection)(((int)currentDirection + 1) % 4);
+                RotateCharacter(currentDirection);
+            }
+
+            // Rotate the character clockwise
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                currentDirection = (FacingDirection)(((int)currentDirection + 3) % 4);
+                RotateCharacter(currentDirection);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                if (!doneRotating) return;
+                unit.CalculateUnitDirection();
+                SetRotateVisualActive(false);
+                IsActive(false);
+                onActionComplete();
+            }
+
+        }
+
+        private void IsRotating()
+        {
             if (Quaternion.Angle(transform.rotation, target) < rotationTolerance)
             {
                 doneRotating = true;
@@ -31,47 +71,6 @@ namespace Nivandria.Battle.Action
                 transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * smooth);
                 doneRotating = false;
             }
-
-
-        }
-
-        public override List<GridPosition> GetValidActionGridPosition()
-        {
-            GridPosition unitGridPosition = unit.GetGridPosition();
-            return new List<GridPosition> { unitGridPosition };
-        }
-
-        public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
-        {
-            base.TakeAction(gridPosition, onActionComplete);
-            currentDirection = unit.GetFacingDirection();
-            rotateVisual.gameObject.SetActive(true);
-            RotateCharacter(currentDirection);
-            SetRotateVisualActive(true);
-        }
-
-        private void HandleRotate()
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                // Rotate the character counterclockwise
-                currentDirection = (FacingDirection)(((int)currentDirection + 1) % 4);
-                RotateCharacter(currentDirection);
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                // Rotate the character clockwise
-                currentDirection = (FacingDirection)(((int)currentDirection + 3) % 4);
-                RotateCharacter(currentDirection);
-            }
-            else if (Input.GetKeyDown(KeyCode.L))
-            {
-                if (!doneRotating) return;
-                unit.CalculateUnitDirection();
-                SetRotateVisualActive(false);
-                onActionComplete();
-            }
-
         }
 
         private void RotateCharacter(FacingDirection state)
@@ -94,6 +93,7 @@ namespace Nivandria.Battle.Action
         }
 
         private void SetRotateVisualActive(bool status) => rotateVisual.gameObject.SetActive(status);
+        private void IsActive(bool status) => isActive = status;
     }
 
 }
