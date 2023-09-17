@@ -17,9 +17,11 @@ namespace Nivandria.Battle.Action
 
         private void Update()
         {
+            if(doneRotating && !isActive) return;
+            IsRotating();
+
             if (!isActive) return;
             HandleRotate();
-            IsRotating();
         }
 
         /// <summary>Initiates the rotation of the object.</summary>
@@ -27,9 +29,14 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback action to be executed when the rotation is complete.</param>
         public void StartRotating(Unit unit, Action onActionComplete)
         {
-            currentDirection = unit.GetFacingDirection();
             this.unit = unit;
             this.onActionComplete = onActionComplete;
+            
+            unit.UpdateUnitGridPosition();
+            unit.UpdateUnitDirection();
+
+            currentDirection = unit.GetFacingDirection();
+            Pointer.Instance.SetPointerOnGrid(unit.GetGridPosition());
 
             RotateCharacter(currentDirection);
             SetRotateVisualActive(true);
@@ -55,8 +62,6 @@ namespace Nivandria.Battle.Action
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                if (!doneRotating) return;
-                unit.CalculateUnitDirection();
                 SetRotateVisualActive(false);
                 IsActive(false);
                 onActionComplete();
@@ -70,6 +75,7 @@ namespace Nivandria.Battle.Action
             if (Quaternion.Angle(transform.rotation, target) < rotationTolerance)
             {
                 doneRotating = true;
+                unit.UpdateUnitDirection();
             }
             else
             {
