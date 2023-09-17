@@ -2,6 +2,7 @@ namespace Nivandria.Battle.Action
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using Nivandria.Battle.Grid;
     using UnityEngine;
 
@@ -23,7 +24,11 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to invoke when the action is complete.</param>
         public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
+            CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
+            CameraController.Instance.SetActive(false);
             this.onActionComplete = onActionComplete;
+            Pointer.Instance.SetPointerOnGrid(gridPosition);
+            Pointer.Instance.SetActive(false);
             SetActive(true);
         }
 

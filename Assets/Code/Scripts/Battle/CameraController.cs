@@ -22,9 +22,11 @@ namespace Nivandria.Battle
 
         private float widthMoveLimit, heighMoveLimit;
         private float minZoomLimit = 2f;
-        private float maxZoomLimit = 7f;
+        private float maxZoomLimit = 8f;
         private float zoomAmmount = 0.8f;
+
         private bool cameraFocusActive = false;
+        private bool isActive = true;
 
         private void Awake()
         {
@@ -52,15 +54,19 @@ namespace Nivandria.Battle
 
         void Update()
         {
+            HandleCameraFocusToPosition();
+            
+            if (!isActive) return;
+
             HandleCameraMovement();
             HandleCameraZoom();
-            HandleCameraFocusToPosition();
         }
 
         /// <summary>Handles camera movement based on player input.</summary>
         private void HandleCameraMovement()
         {
             if (!playerInputController.GetCameraMovementStatus()) return;
+            if (cameraFocusActive) return;
 
             Vector2 cameraMovement = playerInputController.GetCameraMovementValue();
             Vector3 inputMoveDir = new Vector3(cameraMovement.x, 0, cameraMovement.y);
@@ -119,5 +125,7 @@ namespace Nivandria.Battle
             this.targetPosition = targetPosition;
             cameraFocusActive = true;
         }
+    
+        public void SetActive(bool status) => isActive = status;
     }
 }

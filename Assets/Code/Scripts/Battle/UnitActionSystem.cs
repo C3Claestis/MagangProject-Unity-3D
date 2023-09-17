@@ -141,11 +141,14 @@ namespace Nivandria.Battle.Action
 		/// <summary>Function that will be called after Action Completed.</summary>
 		private void OnActionComplete()
 		{
-			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
-			selectedUnit.CalculateUnitDirection();
+			selectedUnit.UpdateUnitGridPosition();
+			selectedUnit.UpdateUnitDirection();
 			selectedAction.SetActive(false);
+
+            CameraController.Instance.SetActive(true);
 			GridSystemVisual.Instance.UpdateGridVisual();
+			Pointer.Instance.SetActive(true);
 			ClearBusy();
 		}
 

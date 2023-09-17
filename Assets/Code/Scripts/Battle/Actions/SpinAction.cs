@@ -36,9 +36,8 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to execute when the spin action is complete.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            this.onActionComplete = onActionComplete;
+            base.TakeAction(gridPosition, onActionComplete);
             totalSpinAmount = 0f;
-            isActive = true;
         }
 
         public override List<GridPosition> GetValidActionGridPosition()

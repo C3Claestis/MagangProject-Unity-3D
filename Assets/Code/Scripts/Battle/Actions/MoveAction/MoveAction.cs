@@ -32,8 +32,8 @@ namespace Nivandria.Battle.Action
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
-            currentPositionIndex = 0;
             positionList = new List<Vector3>();
+            currentPositionIndex = 0;
 
             foreach (GridPosition pathGridPosition in pathGridPositionList)
             {
@@ -99,8 +99,8 @@ namespace Nivandria.Battle.Action
 
                 if (currentPositionIndex >= positionList.Count)
                 {
-                    unitAnimator.SetBool("isWalking", false);
                     SetActive(false);
+                    unitAnimator.SetBool("isWalking", false);
                     GridSystemVisual.Instance.HideAllGridPosition();
                     unit.GetRotateAction().StartRotating(unit, onActionComplete);
                 }
