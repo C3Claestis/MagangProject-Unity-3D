@@ -14,6 +14,7 @@ namespace Nivandria.UI.Keys
         [SerializeField] TextMeshProUGUI totalKey;
 
         private Keys key;
+        public Keys GetKeys() => key;
 
         public void SetKeyDetail(Keys key)
         {
@@ -38,15 +39,14 @@ namespace Nivandria.UI.Keys
             if (status)
             {
                 nameKey.fontStyle = FontStyles.Bold;
-                GetComponent<Outline>().enabled = true;
+                SetImageAlpha(255);
                 GetComponent<Button>().Select();
             }
             else
             {
                 nameKey.fontStyle = FontStyles.Normal;
-                // tambahin off outline
-                GetComponent<Outline>().enabled = false;
-                
+                SetImageAlpha(0);
+
             }
         }
 
@@ -54,10 +54,15 @@ namespace Nivandria.UI.Keys
         {
             KeysLogManager.Instance.SetSelectedKeyLog(this);
             KeysLogManager.Instance.UpdateVisualKeyLog();
-
         }
 
-        public Keys GetKeys() => key;
+        public void SetImageAlpha(float alpha)
+        {
+            Image image = GetComponent<Image>();
+            Color color = image.color;
+            color.a = alpha;
+            image.color = color;
+        }
 
     }
 
