@@ -33,13 +33,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Mouse",
-                    "type": "Value",
-                    "id": "1960ee6b-8180-4aea-8248-e11be6421ff6",
-                    "expectedControlType": "Vector2",
+                    "name": "PartySetup",
+                    "type": "Button",
+                    "id": "252d7d87-d58c-4dde-8edb-28e8b39ceff6",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -122,12 +122,12 @@
                 },
                 {
                     "name": "",
-                    "id": "cae8018b-bdb0-4c0e-95d0-64c02295fcfe",
-                    "path": "<Mouse>/delta",
+                    "id": "de384bbb-291a-4c0a-857b-c9e654333889",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Mouse",
+                    "action": "PartySetup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -7,15 +7,17 @@ namespace Nivandria.Explore
     public class InputSystem : MonoBehaviour
     {
         [SerializeField] ExploreManager exploreManager;
-        [SerializeField] GameObject[] objekPlayer;
-        [SerializeField] private Animator animator;
+        [SerializeField] GameObject[] objekPlayer;        
         [SerializeField] private InteraksiNPC interaksiNPC;
         [SerializeField] PlayerInput playerInput;
         [SerializeField] GameObject _cameraMain, _cameraTalk;
+        private Animator animator;
         private Vector2 movementValue, insertValue;
         private bool isMoving = false;
         private bool canRunning = false;
-
+        private bool isSpawn = false;
+        private bool isSetup = true;
+        
         private void Start()
         {
             GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);         
@@ -25,7 +27,13 @@ namespace Nivandria.Explore
             if(animator == null)
             {
                 animator = GameObject.FindGameObjectWithTag("Karakter").GetComponent<Animator>();
-            }            
+            }
+            if (isSpawn)
+            {
+                Destroy(transform.GetChild(3).gameObject);               
+                GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
+                isSpawn = false;
+            }
         }
         public void UIAction(InputAction.CallbackContext context)
         {
@@ -34,6 +42,10 @@ namespace Nivandria.Explore
                 insertValue = context.ReadValue<Vector2>();
             }
         }
+        /// <summary>
+        /// Untuk Lari Menggunakan Left Shift
+        /// </summary>
+        /// <param name="context"></param>
         public void RunAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -58,6 +70,10 @@ namespace Nivandria.Explore
             }
         }
 
+        /// <summary>
+        /// Untuk Bergerak Sesuai WASD
+        /// </summary>
+        /// <param name="context"></param>
         public void MovingAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -84,6 +100,10 @@ namespace Nivandria.Explore
             }
         }
 
+        /// <summary>
+        /// Untuk Interaksi Menggunakan F
+        /// </summary>
+        /// <param name="context"></param>
         public void InteractionAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -110,6 +130,7 @@ namespace Nivandria.Explore
                     animator.SetBool("isRun", false);
                     _cameraTalk.SetActive(true);
                     _cameraMain.SetActive(false);
+                    isSetup = false;
                 }
                 else if (context.performed && interaksiNPC.GetIsTalk() == true)
                 {
@@ -118,7 +139,21 @@ namespace Nivandria.Explore
                     playerInput.SwitchCurrentActionMap("Player");
                     _cameraTalk.SetActive(false);
                     _cameraMain.SetActive(true);
+                    isSetup = true;
                 }
+            }            
+        }
+
+        /// <summary>
+        /// Untuk Masuk Panel UI Party Setup Menggunakan J
+        /// </summary>
+        /// <param name="context"></param>
+        public void PartySetup(InputAction.CallbackContext context)
+        {
+            if (context.performed && isSetup)
+            {
+                exploreManager.PanelParty();
+                playerInput.SwitchCurrentActionMap("UI");
             }            
         }
         
@@ -135,5 +170,6 @@ namespace Nivandria.Explore
         }
         public Vector2 GetMovementValue() => movementValue;
         public bool CanRunning() => canRunning;
+        public bool SetIsSpawn(bool spawn) => this.isSpawn = spawn;
     }
 }

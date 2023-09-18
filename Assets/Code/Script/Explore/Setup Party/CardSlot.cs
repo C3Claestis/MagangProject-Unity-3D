@@ -6,7 +6,7 @@ namespace Nivandria.Explore
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
     public class CardSlot : MonoBehaviour, IPointerClickHandler
-    {
+    {        
         private bool IsActive = false; //Cek kondisi ketika ada kartu yang di interect
         private bool IsIn = false; //Cek kondisi ketika ada isi kartunya
         private bool Iswait = false; //Delay animasi dari kartu
@@ -14,7 +14,7 @@ namespace Nivandria.Explore
         [SerializeField] GameObject[] cards;
 
         public void SetNumbers(int no) => this.Numbers = no;
-        public void SetActive(bool aktif) => this.IsActive = aktif;
+        public void SetActive(bool aktif) => this.IsActive = aktif;     
         // Update is called once per frame
         void Update()
         {

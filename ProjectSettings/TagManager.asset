@@ -9,6 +9,7 @@ TagManager:
   - Buiding
   - Card
   - Karakter
+  - PantulanLazer
   layers:
   - Default
   - TransparentFX

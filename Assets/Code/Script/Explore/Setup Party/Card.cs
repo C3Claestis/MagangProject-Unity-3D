@@ -29,19 +29,22 @@ namespace Nivandria.Explore
         void Update()
         {
             if (!IsClear)
-            {
+            {                
                 if (IsHighlight)
                 {
-                    rectTransform.localScale = new Vector2(0.5f, 0.5f);                    
+                    rectTransform.localScale = new Vector2(0.5f, 0.5f);
+                    rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 150);
                 }
                 else
                 {
                     rectTransform.localScale = new Vector2(0.25f, 0.25f);
+                    rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 100);
                 }
             }
             else
             {
                 rectTransform.localScale = new Vector2(0.25f, 0.25f);
+                rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, 100);
                 image.raycastTarget = false;
                 SetCanvasGroupAlpha(.2f);
             }            
