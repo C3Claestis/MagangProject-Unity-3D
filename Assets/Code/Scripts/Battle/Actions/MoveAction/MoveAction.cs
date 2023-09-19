@@ -12,17 +12,16 @@ namespace Nivandria.Battle.Action
         public event EventHandler OnJump;
         public event EventHandler OnStopMoving;
 
-        [SerializeField] private float moveSpeed = 4f;
-        [SerializeField] private float jumpSpeed = 2f;
-        [SerializeField] private float rotateSpeed = 15f;
         [SerializeField] private int maxMoveDistance = 4;
-        [SerializeField] private MoveType moveType; // ! Temporary [serializefield]
         [SerializeField] private LayerMask obstacleLayer;
 
-        private float moveStoppingDistance = .1f;
-        private int currentPositionIndex;
+        private float moveStoppingDistance = 0.1f;
+        private float rotateSpeed = 30f;
+        private float moveSpeed = 4f;
         private bool isJumping = false;
         private bool startJumping = false;
+        private int currentPositionIndex;
+        
         private List<Vector3> positionList;
         private Vector3 jumpTargetPosition;
 
@@ -44,7 +43,7 @@ namespace Nivandria.Battle.Action
         {
             base.TakeAction(gridPosition, onActionComplete);
 
-            if (moveType == MoveType.Tiger)
+            if (unit.GetMoveType() == MoveType.Tiger)
             {
                 jumpTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
                 isJumping = true;
@@ -65,6 +64,7 @@ namespace Nivandria.Battle.Action
 
         public override List<GridPosition> GetValidActionGridPosition()
         {
+            MoveType moveType = unit.GetMoveType();
             List<GridPosition> validGridPositionList = new List<GridPosition>();
             MoveLibrary moveLibrary = new MoveLibrary(unit, maxMoveDistance);
 
@@ -131,6 +131,8 @@ namespace Nivandria.Battle.Action
 
         private void HandleJumping()
         {
+            float jumpSpeed = 4f;
+
             if (startJumping)
             {
                 OnJump?.Invoke(this, EventArgs.Empty);
@@ -153,8 +155,5 @@ namespace Nivandria.Battle.Action
                 unit.GetRotateAction().StartRotating(unit, onActionComplete);
             }
         }
-
-
-        public void SetMoveType(MoveType moveType) => this.moveType = moveType;
     }
 }

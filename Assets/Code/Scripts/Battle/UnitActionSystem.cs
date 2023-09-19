@@ -80,7 +80,7 @@ namespace Nivandria.Battle.Action
 
 				if (unitComponent == null) continue;
 
-				int unitSpeed = unitComponent.GetAgility();
+				int unitSpeed = unitComponent.GetCurrentAgility();
 				bool hasMoved = unitComponent.GetTurnStatus();
 
 				if (!hasMoved && unitSpeed > fastestSpeed)

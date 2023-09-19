@@ -3,24 +3,37 @@ namespace Nivandria.Battle
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
-    using System;
 
     public class Unit : MonoBehaviour
     {
         #region  Character Status Variables
         [SerializeField] private string characterName = "Base Unit";
+        [SerializeField] private UnitType unitType = UnitType.Ground;
+
         [SerializeField] private int baseHealth = 100;
         [SerializeField] private int currentHealth;
+
         [SerializeField] private int basePhysicalAttack = 12;
         [SerializeField] private int currentPhysicalAttack;
+
+        [SerializeField] private int baseMagicalAttack = 11;
+        [SerializeField] private int currentMagicalAttack;
+
+        [SerializeField] private int basePhysicalDefense = 7;
+        [SerializeField] private int currentPhysicalDefense;
+
+        [SerializeField] private int baseMagicalDefense = 6;
+        [SerializeField] private int currentMagicalDefense;
+
         [SerializeField] private int baseAgility = 7;
         [SerializeField] private int currentAgility;
-        [SerializeField] private float baseMagicalAttack = 11;
-        [SerializeField] private float currentMagicalAttack;
-        [SerializeField] private float basePhysicalDefense = 7;
-        [SerializeField] private float currentPhysicalDefense;
-        [SerializeField] private float baseMagicalDefense = 6;
-        [SerializeField] private float currentMagicalDefense;
+
+        [SerializeField] private float baseEvasion = 1;
+        [SerializeField] private float currentEvasion;
+
+        [SerializeField] private float baseAttackAccuracy = 2;
+        [SerializeField] private float currentAttackAccuracy;
+
         [SerializeField] private bool hasCompletedTurn = false;
         [SerializeField] private bool isSelected = false;
         [SerializeField] private bool hasMoved;
@@ -46,11 +59,12 @@ namespace Nivandria.Battle
             currentPhysicalDefense = basePhysicalDefense;
             currentMagicalDefense = baseMagicalDefense;
             currentAgility = baseAgility;
+            currentEvasion = baseEvasion;
+            currentAttackAccuracy = baseAttackAccuracy;
 
             gameObject.name = characterName;
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
-            GetAction<MoveAction>().SetMoveType(moveType);
 
             ChangeUnitShade();
             UpdateUnitDirection();
@@ -128,9 +142,29 @@ namespace Nivandria.Battle
         public FacingDirection GetFacingDirection() => currentDirection;
         public RotateAction GetRotateAction() => GetComponent<RotateAction>();
 
-        public int GetAgility() => currentAgility;
+        public int GetCurrentHealth() => currentHealth;
+        public int GetCurrentPhysicalAttack() => currentPhysicalAttack;
+        public int GetCurrentMagicalAttack() => currentMagicalAttack;
+        public int GetCurrentPhysicalDefense() => currentPhysicalDefense;
+        public int GetCurrentMagicalDefense() => currentMagicalDefense;
+        public int GetCurrentAgility() => currentAgility;
+        public float GetCurrentAttackAccuracy() => currentAttackAccuracy;
+        public float GetCurrentEvasion() => currentEvasion;
+
+        public int GetBaseHealth() => baseHealth;
+        public int GetBasePhysicalAttack() => basePhysicalAttack;
+        public int GetBaseMagicalAttack() => baseMagicalAttack;
+        public int GetBasePhysicalDefense() => basePhysicalDefense;
+        public int GetBaseMagicalDefense() => baseMagicalDefense;
+        public int GetBaseAgility() => baseAgility;
+        public float GetBaseAttackAccuracy() => baseEvasion;
+        public float GetBaseEvasion() => baseAttackAccuracy;
+
         public bool GetTurnStatus() => hasCompletedTurn;
         public string GetCharacterName() => characterName;
+        public MoveType GetMoveType() => moveType;
+        public UnitType GetUnitType() => unitType;
+
 
         /// <summary>Gets the status of a specific action type for the unit.</summary>
         /// <param name="actionType">The type of action to check (e.g., Skill or Move).</param>
@@ -178,6 +212,9 @@ namespace Nivandria.Battle
         }
         public void SetTurnStatus(bool status) => hasCompletedTurn = status;
         public void SetSelectedStatus(bool status) => isSelected = status;
+        public void SetMoveType(MoveType newType) => moveType = newType;
+        public void SetUnitType(UnitType newType) => unitType = newType;
+
         #endregion
     }
 }
