@@ -6,8 +6,9 @@ namespace Nivandria.Battle.Action
 	using Nivandria.Battle.Grid;
 	using Nivandria.Battle;
 	using System;
+    using Nivandria.Battle.PathfindingSystem;
 
-	public class UnitActionSystem : MonoBehaviour
+    public class UnitActionSystem : MonoBehaviour
 	{
 		public static UnitActionSystem Instance { get; private set; }
 
@@ -110,6 +111,7 @@ namespace Nivandria.Battle.Action
 			selectedUnit.SetSelectedStatus(true);
 			selectedUnit.ChangeUnitShade();
 			selectedUnit.ResetActionStatus();
+			Pathfinding.Instance.SetupPath(selectedUnit.GetUnitType());
 			SetSelectedAction(unit.GetAction<MoveAction>());
 			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
 		}

@@ -32,7 +32,7 @@ namespace Nivandria.Battle.Grid
         }
 
         private void Start() {
-            Pathfinding.Instance.Setup(gridWidth, gridHeight, cellSize);
+            Pathfinding.Instance.SetupGrid(gridWidth, gridHeight, cellSize);
         }
 
         /// <summary>Adds a unit at the specified grid position.</summary>

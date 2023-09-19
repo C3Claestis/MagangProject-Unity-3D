@@ -74,7 +74,10 @@ namespace Nivandria.Battle
         public void ChangeUnitShade()
         {
             Material newMaterial = skinnedMeshRenderer.material;
-            newMaterial.color = isSelected ? new Color(0.9f, 0.9f, 0.9f, 1f) : new Color(0.4f, 0.4f, 0.4f, 1f);
+            Color lightShade = new Color(0.9f, 0.9f, 0.9f, 1f);
+            Color darkShade = new Color(0.4f, 0.4f, 0.4f, 1f);
+
+            newMaterial.color = isSelected ? lightShade : darkShade;
             skinnedMeshRenderer.material = newMaterial;
         }
 

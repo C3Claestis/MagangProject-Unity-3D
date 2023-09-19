@@ -16,12 +16,12 @@ namespace Nivandria.Battle.Action
         [SerializeField] private LayerMask obstacleLayer;
 
         private float moveStoppingDistance = 0.1f;
-        private float rotateSpeed = 30f;
+        private float rotateSpeed = 20f;
         private float moveSpeed = 4f;
         private bool isJumping = false;
         private bool startJumping = false;
         private int currentPositionIndex;
-        
+
         private List<Vector3> positionList;
         private Vector3 jumpTargetPosition;
 
@@ -104,7 +104,14 @@ namespace Nivandria.Battle.Action
         {
 
             Vector3 targetPosition = positionList[currentPositionIndex];
+            
+            if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out string objectTag) && objectTag == "Obstacle")
+            {
+                targetPosition.y = 0.75f;
+            }
+
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
 
             if (Vector3.Distance(transform.position, targetPosition) > moveStoppingDistance)
             {

@@ -10,8 +10,10 @@ namespace Nivandria.Battle
 
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Transform pointerCircle;
+
         private Vector3 target;
         private Transform mainCamera;
+        private GridPosition currentGrid;
         private bool isActive = true;
 
 
@@ -46,9 +48,10 @@ namespace Nivandria.Battle
 
             GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
+            if (gridPosition == currentGrid) return;
             if (!LevelGrid.Instance.IsValidGridPosition(gridPosition)) return;
-            if (!Pathfinding.Instance.IsWalkableGridPosition(gridPosition)) return;
 
+            currentGrid = gridPosition;
             Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(mousePosition.x, GetPointerHeight(gridPosition), mousePosition.z);
         }
@@ -68,7 +71,11 @@ namespace Nivandria.Battle
         private float GetPointerHeight(GridPosition gridPosition)
         {
             float pointerHeight = 1.0f;
+
             if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.4f;
+            if (Pathfinding.Instance.IsObstacleOnGrid(LevelGrid.Instance.GetWorldPosition(currentGrid), out string objectTag)) pointerHeight = 3.5f;
+            if (objectTag == "Obstacle") pointerHeight = 1.75f;
+            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition) && objectTag == "Obstacle") pointerHeight = 2.9f;
 
             return pointerHeight;
         }

@@ -39,11 +39,17 @@ namespace Nivandria.Battle.PathfindingSystem
         /// <param name="width">The width of the grid.</param>
         /// <param name="height">The height of the grid.</param>
         /// <param name="cellSize">The size of each grid cell.</param>
-        public void Setup(int width, int height, float cellSize)
+        public void SetupGrid(int width, int height, float cellSize)
         {
             this.width = width;
             this.height = height;
             this.cellSize = cellSize;
+
+            SetupPath(UnitType.Ground);
+        }
+
+        public void SetupPath(UnitType unitType)
+        {
 
             gridSystem = new GridSystem<PathNode>(width, height, cellSize,
                 (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
@@ -55,30 +61,36 @@ namespace Nivandria.Battle.PathfindingSystem
                 {
                     GridPosition gridPosition = new GridPosition(x, z);
                     Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-                    if (IsObstacleOnGrid(worldPosition))
-                    {
-                        GetNode(x, z).SetIsWalkable(false);
-                    }
+
+                    if (!IsObstacleOnGrid(worldPosition, out string objectTag)) continue;
+                    if (unitType == UnitType.Aerial && objectTag == "Obstacle") continue;
+
+                    GetNode(x, z).SetIsWalkable(false);
+
                 }
             }
-        }
-
-        public void ReSetup(){
-            Setup(width, height, cellSize);
         }
 
         /// <summary>Checks if there is an obstacle at the given world position.</summary>
         /// <param name="worldPosition">The world position to check for obstacles.</param>
         /// <returns>True if an obstacle is present; otherwise, false.</returns>
-        private bool IsObstacleOnGrid(Vector3 worldPosition)
+        public bool IsObstacleOnGrid(Vector3 worldPosition, out string objectTag)
         {
             float raycastOffsetDistance = 5f;
-            return Physics.Raycast(
+            if (Physics.Raycast(
                         worldPosition + Vector3.down * raycastOffsetDistance,
                         Vector3.up,
+                        out RaycastHit hit,
                         raycastOffsetDistance * 2,
                         obstaclesLayerMask
-                    );
+                    ))
+            {
+                objectTag = hit.transform.gameObject.tag;
+                return true;
+            }
+
+            objectTag = "";
+            return false;
         }
 
         /// <summary>Finds a path from the start grid position to the end grid position.</summary>
