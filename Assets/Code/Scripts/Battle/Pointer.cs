@@ -8,7 +8,7 @@ namespace Nivandria.Battle
     {
         public static Pointer Instance { get; private set; }
 
-        [SerializeField] private float moveSpeed = 10.0f;
+        [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Transform pointerCircle;
         private Vector3 target;
         private Transform mainCamera;
@@ -55,7 +55,7 @@ namespace Nivandria.Battle
 
         private void MovePointer()
         {
-            pointerCircle.position = new Vector3(transform.position.x, 0.005f, transform.position.z);
+            pointerCircle.position = new Vector3(transform.position.x, pointerCircle.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * moveSpeed);
         }
 

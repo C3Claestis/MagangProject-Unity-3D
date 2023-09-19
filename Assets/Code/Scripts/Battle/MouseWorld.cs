@@ -1,6 +1,5 @@
 namespace Nivandria.Battle
 {
-    using Nivandria.Battle.Grid;
     using UnityEngine;
 
     public class MouseWorld : MonoBehaviour

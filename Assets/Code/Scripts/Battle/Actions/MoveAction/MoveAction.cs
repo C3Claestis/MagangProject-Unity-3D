@@ -8,22 +8,33 @@ namespace Nivandria.Battle.Action
 
     public class MoveAction : BaseAction
     {
-        protected override string actionName { get { return "Move"; } }
-        protected override ActionType actionType {get {return ActionType.Move;}}
+        public event EventHandler OnStartMoving;
+        public event EventHandler OnJump;
+        public event EventHandler OnStopMoving;
+
         [SerializeField] private float moveSpeed = 4f;
+        [SerializeField] private float jumpSpeed = 2f;
         [SerializeField] private float rotateSpeed = 15f;
         [SerializeField] private int maxMoveDistance = 4;
-        [SerializeField] private Animator unitAnimator;
+        [SerializeField] private MoveType moveType; // ! Temporary [serializefield]
+        [SerializeField] private LayerMask obstacleLayer;
 
         private float moveStoppingDistance = .1f;
         private int currentPositionIndex;
+        private bool isJumping = false;
+        private bool startJumping = false;
         private List<Vector3> positionList;
-        [SerializeField] private MoveType moveType; // ! Temporary [serializefield]
+        private Vector3 jumpTargetPosition;
+
+        protected override ActionType actionType { get { return ActionType.Move; } }
+        protected override string actionName { get { return "Move"; } }
 
         private void Update()
         {
             if (!isActive) return;
-            HandleMoving();
+
+            if (isJumping) HandleJumping();
+            else HandleMoving();
         }
 
         /// <summary>Initiates a move action to the specified grid position and triggers a callback when the movement is finished.</summary>
@@ -31,6 +42,16 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to call upon completing the move action.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
+            base.TakeAction(gridPosition, onActionComplete);
+
+            if (moveType == MoveType.Tiger)
+            {
+                jumpTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                isJumping = true;
+                startJumping = true;
+                return;
+            }
+
             List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
             positionList = new List<Vector3>();
             currentPositionIndex = 0;
@@ -40,7 +61,6 @@ namespace Nivandria.Battle.Action
                 positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
             }
 
-            base.TakeAction(gridPosition, onActionComplete);
         }
 
         public override List<GridPosition> GetValidActionGridPosition()
@@ -59,7 +79,7 @@ namespace Nivandria.Battle.Action
                     break;
 
                 case MoveType.Tiger:
-                    validGridPositionList = moveLibrary.TigerMoveValidGrids();
+                    validGridPositionList = moveLibrary.TigerMoveValidGrids(obstacleLayer);
                     break;
 
                 case MoveType.Bull:
@@ -82,6 +102,7 @@ namespace Nivandria.Battle.Action
         /// <remarks> Adjusting its position, orientation, and animation. </remarks>
         private void HandleMoving()
         {
+
             Vector3 targetPosition = positionList[currentPositionIndex];
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
@@ -91,7 +112,7 @@ namespace Nivandria.Battle.Action
 
                 transform.position += moveDirection * Time.deltaTime * moveSpeed;
 
-                unitAnimator.SetBool("isWalking", true);
+                OnStartMoving?.Invoke(this, EventArgs.Empty);
             }
             else
             {
@@ -99,14 +120,40 @@ namespace Nivandria.Battle.Action
 
                 if (currentPositionIndex >= positionList.Count)
                 {
+                    OnStopMoving?.Invoke(this, EventArgs.Empty);
                     SetActive(false);
-                    unitAnimator.SetBool("isWalking", false);
                     GridSystemVisual.Instance.HideAllGridPosition();
                     unit.GetRotateAction().StartRotating(unit, onActionComplete);
                 }
             }
 
         }
+
+        private void HandleJumping()
+        {
+            if (startJumping)
+            {
+                OnJump?.Invoke(this, EventArgs.Empty);
+                startJumping = false;
+            }
+
+            if (Vector3.Distance(transform.position, jumpTargetPosition) > moveStoppingDistance)
+            {
+                Vector3 moveDirection = (jumpTargetPosition - transform.position).normalized;
+                transform.position += moveDirection * Time.deltaTime * jumpSpeed;
+
+                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 50f);
+
+            }
+            else
+            {
+                isJumping = false;
+                SetActive(false);
+                GridSystemVisual.Instance.HideAllGridPosition();
+                unit.GetRotateAction().StartRotating(unit, onActionComplete);
+            }
+        }
+
 
         public void SetMoveType(MoveType moveType) => this.moveType = moveType;
     }

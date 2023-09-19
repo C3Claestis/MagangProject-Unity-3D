@@ -63,6 +63,10 @@ namespace Nivandria.Battle.PathfindingSystem
             }
         }
 
+        public void ReSetup(){
+            Setup(width, height, cellSize);
+        }
+
         /// <summary>Checks if there is an obstacle at the given world position.</summary>
         /// <param name="worldPosition">The world position to check for obstacles.</param>
         /// <returns>True if an obstacle is present; otherwise, false.</returns>
