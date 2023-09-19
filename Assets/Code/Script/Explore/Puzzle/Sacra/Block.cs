@@ -5,42 +5,45 @@ namespace Nivandria.Explore.Puzzle
     using UnityEngine;
 
     public class Block : MonoBehaviour
-    {
-        RaycastHit raycast;
-        [SerializeField] char char1, char2, char3, char4; 
+    {        
+        [SerializeField] string char1, char2, char3, char4; 
         [SerializeField] TeksBlock teks;
-        [SerializeField] LayerMask layerMask;
-        [SerializeField] float range;
-        [SerializeField] Transform blok;
-        [SerializeField] int count;
+        [SerializeField] LayerMask layerMask;        
+        [SerializeField] Transform blok;        
         [SerializeField] GameObject material;
+        RaycastHit raycast;
+        int count = 0;
+        float range = 2;
         private bool isRotating = false;
+        private bool isReset = false;
         private float targetRotation = 0f;
         private float rotationSpeed = 90f;
-        // Start is called before the first frame update
-        void Start()
-        {
 
-
-        }
-
+        public void SetCount(int count) => this.count = count;
+        public void SetIsReset(bool reset) => this.isReset = reset;
         // Update is called once per frame
         void Update()
         {
             Scan();
-
+            if (isReset)
+            {
+                blok.rotation = Quaternion.Euler(0, 0, 0);
+                teks.SetHuruf("");
+                teks.SetHuruf(null);
+                isReset = false;
+                count = 0;
+            }
             if (isRotating)
             {
                 Mutar();
             }
-
             
             if(targetRotation == 360)
             {
                 targetRotation = 0;
             }
             switch (count)
-            {
+            {                
                 case 1:
                     teks.SetHuruf(char1);
                     break;
