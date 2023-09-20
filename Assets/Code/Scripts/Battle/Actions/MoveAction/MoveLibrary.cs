@@ -83,6 +83,7 @@ namespace Nivandria.Battle.Action
         {
             List<GridPosition> tigerMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
+            Pathfinding.Instance.SetupPath(UnitType.Aerial);
 
             // Define the possible knight move offsets
             GridPosition[] knightMoveOffsets =

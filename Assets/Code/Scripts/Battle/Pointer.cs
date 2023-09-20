@@ -10,6 +10,7 @@ namespace Nivandria.Battle
 
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Transform pointerCircle;
+        [SerializeField] private Transform rotateVisual;
 
         private Vector3 target;
         private Transform mainCamera;
@@ -98,6 +99,9 @@ namespace Nivandria.Battle
             Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(mousePosition.x, GetPointerHeight(gridPosition), mousePosition.z);
         }
+
+        public GridPosition GetCurrentGrid() => currentGrid;
+        public RotateVisual GetRotateVisual() => rotateVisual.GetComponent<RotateVisual>();
 
         public void SetActive(bool status) => isActive = status;
     }

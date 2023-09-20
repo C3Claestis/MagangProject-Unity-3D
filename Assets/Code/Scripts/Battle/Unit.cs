@@ -144,6 +144,8 @@ namespace Nivandria.Battle
         public BaseAction[] GetBaseActionArray() => baseActionArray;
         public FacingDirection GetFacingDirection() => currentDirection;
         public RotateAction GetRotateAction() => GetComponent<RotateAction>();
+        public MoveType GetMoveType() => moveType;
+        public UnitType GetUnitType() => unitType;
 
         public int GetCurrentHealth() => currentHealth;
         public int GetCurrentPhysicalAttack() => currentPhysicalAttack;
@@ -165,8 +167,7 @@ namespace Nivandria.Battle
 
         public bool GetTurnStatus() => hasCompletedTurn;
         public string GetCharacterName() => characterName;
-        public MoveType GetMoveType() => moveType;
-        public UnitType GetUnitType() => unitType;
+        public Quaternion GetUnitRotation() => transform.rotation;
 
 
         /// <summary>Gets the status of a specific action type for the unit.</summary>

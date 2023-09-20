@@ -5,19 +5,19 @@ namespace Nivandria.Battle.Action
 
     public class RotateAction : MonoBehaviour
     {
-        [SerializeField] Transform rotateVisual;
         private FacingDirection currentDirection = FacingDirection.UP;
         private Action onActionComplete;
         private Quaternion target;
         private Unit unit;
         private float rotationTolerance = 5f;
         private float smooth = 5.0f;
-        private bool doneRotating;
-        private bool isActive;
+        private bool doneRotating = true;
+        private bool isActive = false;
+        private Transform rotateVisualTransform;
 
         private void Update()
         {
-            if(doneRotating && !isActive) return;
+            if (doneRotating && !isActive) return;
             IsRotating();
 
             if (!isActive) return;
@@ -31,13 +31,17 @@ namespace Nivandria.Battle.Action
         {
             this.unit = unit;
             this.onActionComplete = onActionComplete;
-            
+
             unit.UpdateUnitGridPosition();
             unit.UpdateUnitDirection();
 
             currentDirection = unit.GetFacingDirection();
             Pointer.Instance.SetPointerOnGrid(unit.GetGridPosition());
 
+            Pointer.Instance.GetRotateVisual().ResetPosition();
+            rotateVisualTransform = Pointer.Instance.GetRotateVisual().GetTransform();
+
+            doneRotating = true;
             RotateCharacter(currentDirection);
             SetRotateVisualActive(true);
             IsActive(true);
@@ -80,6 +84,10 @@ namespace Nivandria.Battle.Action
             else
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * smooth);
+
+                Quaternion xzRotation = Quaternion.Euler(rotateVisualTransform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, rotateVisualTransform.rotation.eulerAngles.z);
+                rotateVisualTransform.rotation = xzRotation;
+                
                 doneRotating = false;
             }
         }
@@ -105,7 +113,7 @@ namespace Nivandria.Battle.Action
             }
         }
 
-        private void SetRotateVisualActive(bool status) => rotateVisual.gameObject.SetActive(status);
+        private void SetRotateVisualActive(bool status) => Pointer.Instance.GetRotateVisual().SetActive(status);
         private void IsActive(bool status) => isActive = status;
     }
 

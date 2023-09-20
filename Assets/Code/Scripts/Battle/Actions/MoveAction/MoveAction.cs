@@ -15,15 +15,20 @@ namespace Nivandria.Battle.Action
         [SerializeField] private int maxMoveDistance = 4;
         [SerializeField] private LayerMask obstacleLayer;
 
+        private List<Vector3> positionList;
+        private int currentPositionIndex;
         private float moveStoppingDistance = 0.1f;
         private float rotateSpeed = 20f;
         private float moveSpeed = 4f;
-        private bool isJumping = false;
-        private bool startJumping = false;
-        private int currentPositionIndex;
 
-        private List<Vector3> positionList;
+
         private Vector3 jumpTargetPosition;
+        private bool startJumping = false;
+        private bool isJumping = false;
+        private Vector3 startPosition;
+        private Vector3 controlPoint;
+        public float duration = 2.0f;
+        private float elapsedTime = 0.0f;
 
         protected override ActionType actionType { get { return ActionType.Move; } }
         protected override string actionName { get { return "Move"; } }
@@ -104,7 +109,7 @@ namespace Nivandria.Battle.Action
         {
 
             Vector3 targetPosition = positionList[currentPositionIndex];
-            
+
             if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out string objectTag) && objectTag == "Obstacle")
             {
                 targetPosition.y = 0.75f;
