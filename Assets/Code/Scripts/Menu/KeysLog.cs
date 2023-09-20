@@ -1,7 +1,5 @@
 namespace Nivandria.UI.Keys
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
     using TMPro;
@@ -30,7 +28,6 @@ namespace Nivandria.UI.Keys
             {
                 totalKey.text = "";
             }
-
         }
 
         public void UpdateVisual()

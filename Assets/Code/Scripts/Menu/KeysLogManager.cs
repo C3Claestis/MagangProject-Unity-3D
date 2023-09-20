@@ -1,13 +1,9 @@
 namespace Nivandria.UI.Keys
 {
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
     using TMPro;
-    using Unity.VisualScripting;
-    using UnityEngine.InputSystem;
-    using Nivandria.UI.Archive;
 
     public class KeysLogManager : MonoBehaviour
     {
@@ -41,6 +37,17 @@ namespace Nivandria.UI.Keys
         }
         void Start()
         {
+            IntializeKeyLogs();
+        }
+
+        
+        void Update()
+        {
+
+        }
+
+        public void IntializeKeyLogs()
+        {
             GameObject newKey;
             keyLogList = new List<KeysLog>();
 
@@ -64,13 +71,6 @@ namespace Nivandria.UI.Keys
             }
 
             SetSelectedKeyLog(keyLogList[0]);
-            
-        }
-
-        
-        void Update()
-        {
-
         }
 
         public void UpdateVisualKeyLog()

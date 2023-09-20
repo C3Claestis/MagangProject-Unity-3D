@@ -1,6 +1,5 @@
 namespace Nivandria.UI.Archive
 {
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
