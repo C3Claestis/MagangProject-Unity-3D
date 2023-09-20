@@ -89,6 +89,7 @@ namespace Nivandria.Battle.Grid
 
         #region Getter Setter
         public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
+        
         public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
 
         public int GetGridWidth() => gridWidth;

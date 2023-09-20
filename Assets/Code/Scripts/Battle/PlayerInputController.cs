@@ -1,5 +1,6 @@
 namespace Nivandria.Battle
 {
+    using Nivandria.Battle.Action;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -7,11 +8,13 @@ namespace Nivandria.Battle
     {
         public static PlayerInputController Instance { get; private set; }
 
-        private Vector2 cameraMovement;
-        private float cameraZoom;
+        public delegate void ActionMapChangedEventHandler(object sender, string actionMap);
+        public event ActionMapChangedEventHandler OnActionMapChanged;
 
-        private bool cameraCanMove = false;
-        private bool cameraCanZoom = true;
+        private PlayerInput playerInput;
+        private Vector2 cameraMovementInputValue;
+        private float cameraZoomInputValue;
+        private bool isCurrentControllerGamepad;
 
         private void Awake()
         {
@@ -21,36 +24,109 @@ namespace Nivandria.Battle
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this;
+
+            playerInput = GetComponent<PlayerInput>();
         }
 
-        /// <summary> Handles camera movement input actions. </summary>
-        /// <param name="context">The input action context.</param>
-        public void CameraMovementAction(InputAction.CallbackContext context)
+
+        ///============================ROTATE UNIT============================///
+
+        public void RotateUnit_Confirm(InputAction.CallbackContext context)
         {
-            if (context.started) return;
-
-            cameraMovement = context.ReadValue<Vector2>();
-
-            if (context.performed) cameraCanMove = true;
-            else cameraCanMove = false;
+            if (!context.performed) return;
+            Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
+            unit.GetRotateAction().ConfirmRotation();
         }
 
-        /// <summary> Handles camera zoom input actions. </summary>
-        /// <param name="context">The input action context.</param>
-        public void CameraZoomAction(InputAction.CallbackContext context)
+        public void RotateUnit_Rotate(InputAction.CallbackContext context)
         {
-            if (context.started) return;
+            if (!context.performed) return;
 
-            cameraZoom = context.ReadValue<float>();
+            float rotateValue = context.ReadValue<float>();
+            Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
+
+            if (rotateValue > 0) unit.GetRotateAction().RotateRight();
+            else if (rotateValue < 0) unit.GetRotateAction().RotateLeft();
         }
 
+        ///============================SELECT GRID============================///
 
-        #region Getter Setter
-        public Vector2 GetCameraMovementValue() => cameraMovement;
-        public float GetCameraZoomValue() => cameraZoom;
-        public bool GetCameraMovementStatus() => cameraCanMove;
-        public bool GetCameraZoomStatus() => cameraCanZoom;
-        #endregion
+        public void GridMap_SelectGrid(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            UnitActionSystem.Instance.HandleSelectedAction();
+        }
+
+        ///============================NEXT UNIT============================///
+
+        public void GridMap_NextUnit(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            UnitActionSystem.Instance.HandleUnitSelection();
+        }
+
+        ///============================CAMERA ZOOM============================///
+
+        public void GridMap_CameraZoom(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                float zoomValue = context.ReadValue<float>();
+
+                if (zoomValue > 0) cameraZoomInputValue = 1f;
+                else if (zoomValue < 0) cameraZoomInputValue = -1f;
+            }
+
+            if (!context.canceled) return;
+            cameraZoomInputValue = 0;
+
+        }
+
+        ///============================CAMERA MOVEMENT============================///
+
+        public void GridMap_CameraMovement(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                cameraMovementInputValue = context.ReadValue<Vector2>();
+            }
+
+            if (!context.canceled) return;
+            cameraMovementInputValue = context.ReadValue<Vector2>();
+        }
+
+        ///============================OnControlsChanged============================///
+
+        public void PlayerInput_onControlsChanged(PlayerInput input)
+        {
+            switch (input.currentControlScheme)
+            {
+                case "Keyboard":
+                    Debug.Log("Current controller is now Keyboard.");
+                    isCurrentControllerGamepad = false;
+                    break;
+
+                case "Gamepad":
+                    Debug.Log("Current controller is now Gamepad.");
+                    isCurrentControllerGamepad = true;
+                    break;
+            }
+        }
+
+        ///========================================================================///
+
+
+        public void SetActionMap(string actionMap)
+        {
+            playerInput.SwitchCurrentActionMap(actionMap);
+            OnActionMapChanged?.Invoke(this, actionMap);
+        }
+
+        public Vector2 GetCameraMovementInputValue() => cameraMovementInputValue;
+        public float GetCameraZoomInputValue() => cameraZoomInputValue;
+        public bool IsCurrentControllerGamepad() => isCurrentControllerGamepad;
+
     }
 }

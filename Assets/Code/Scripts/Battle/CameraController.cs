@@ -23,7 +23,7 @@ namespace Nivandria.Battle
         private float widthMoveLimit, heighMoveLimit;
         private float minZoomLimit = 2f;
         private float maxZoomLimit = 8f;
-        private float zoomAmmount = 0.8f;
+        private float zoomSpeed = 0.8f;
 
         private bool cameraFocusActive = false;
         private bool isActive = true;
@@ -50,12 +50,14 @@ namespace Nivandria.Battle
 
             transform.position = new Vector3(widthMoveLimit / 2, 0, 1);
             targetFollowOffset.y = maxZoomLimit;
+
+            PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
         }
 
         void Update()
         {
             HandleCameraFocusToPosition();
-            
+
             if (!isActive) return;
 
             HandleCameraMovement();
@@ -65,10 +67,9 @@ namespace Nivandria.Battle
         /// <summary>Handles camera movement based on player input.</summary>
         private void HandleCameraMovement()
         {
-            if (!playerInputController.GetCameraMovementStatus()) return;
             if (cameraFocusActive) return;
 
-            Vector2 cameraMovement = playerInputController.GetCameraMovementValue();
+            Vector2 cameraMovement = playerInputController.GetCameraMovementInputValue();
             Vector3 inputMoveDir = new Vector3(cameraMovement.x, 0, cameraMovement.y);
             Vector3 moveVector = transform.forward * inputMoveDir.z + transform.right * inputMoveDir.x;
             Vector3 newPosition = transform.position + moveVector * cameraMoveSpeed * Time.deltaTime;
@@ -82,22 +83,14 @@ namespace Nivandria.Battle
         /// <summary>Handles camera zoom based on player input.</summary>
         private void HandleCameraZoom()
         {
-            if (!playerInputController.GetCameraZoomStatus()) return;
-
-            float cameraZoomValue = playerInputController.GetCameraZoomValue();
-
-            if (cameraZoomValue > 0)
-            {
-                targetFollowOffset.y -= zoomAmmount;
-            }
-
-            if (cameraZoomValue < 0)
-            {
-                targetFollowOffset.y += zoomAmmount;
-            }
-
+            float cameraZoomValue = playerInputController.GetCameraZoomInputValue();
+            targetFollowOffset.y += zoomSpeed * cameraZoomValue;
             targetFollowOffset.y = Mathf.Clamp(targetFollowOffset.y, minZoomLimit, maxZoomLimit);
-            cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * cameraZoomSpeed);
+
+            if (Vector3.Distance(cinemachineTransposer.m_FollowOffset, targetFollowOffset) > 0.01f)
+            {
+                cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * cameraZoomSpeed);
+            }
         }
 
         /// <summary>Handles the camera focusing to a specific position.</summary>
@@ -112,12 +105,13 @@ namespace Nivandria.Battle
 
                 transform.position = Vector3.Lerp(transform.position, moveDirection, Time.deltaTime);
             }
-            else {
+            else
+            {
                 cameraFocusActive = false;
                 transform.position = targetPosition;
             }
         }
-        
+
         /// <summary> Sets the camera's focus to a specific position. </summary>
         /// <param name="targetPosition">The position to focus the camera on.</param>
         public void SetCameraFocusToPosition(Vector3 targetPosition)
@@ -125,7 +119,21 @@ namespace Nivandria.Battle
             this.targetPosition = targetPosition;
             cameraFocusActive = true;
         }
-    
+
+        private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
+        {
+            if (actionMap == "Gridmap")
+            {
+                SetActive(true);
+            }
+            else
+            {
+                SetActive(false);
+            }
+        }
+
         public void SetActive(bool status) => isActive = status;
+
+        public GridPosition GetCurrentGridPosition() => LevelGrid.Instance.GetGridPosition(transform.position);
     }
 }

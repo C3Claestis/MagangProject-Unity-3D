@@ -47,7 +47,16 @@ namespace Nivandria.Battle
         {
             if (!isActive) return;
 
-            GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            GridPosition gridPosition = new GridPosition();
+
+            if (PlayerInputController.Instance.IsCurrentControllerGamepad())
+            {
+                gridPosition = CameraController.Instance.GetCurrentGridPosition();
+            }
+            else
+            {
+                gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            }
 
             if (gridPosition == currentGrid) return;
             if (!LevelGrid.Instance.IsValidGridPosition(gridPosition)) return;

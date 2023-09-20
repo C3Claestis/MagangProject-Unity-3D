@@ -118,6 +118,7 @@ namespace Nivandria.Battle.Action
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) continue;
                 if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
+                if (Pathfinding.Instance.IsObstacleOnGrid(LevelGrid.Instance.GetWorldPosition(testGridPosition), out string objectName)) continue;
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) continue;
                 if (HasAnyObstacleOnPath(unitGridPosition, offsetGridPosition, specificOffsets)) continue;
 

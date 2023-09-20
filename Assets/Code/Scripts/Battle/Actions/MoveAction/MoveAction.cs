@@ -25,10 +25,6 @@ namespace Nivandria.Battle.Action
         private Vector3 jumpTargetPosition;
         private bool startJumping = false;
         private bool isJumping = false;
-        private Vector3 startPosition;
-        private Vector3 controlPoint;
-        public float duration = 2.0f;
-        private float elapsedTime = 0.0f;
 
         protected override ActionType actionType { get { return ActionType.Move; } }
         protected override string actionName { get { return "Move"; } }
@@ -133,9 +129,7 @@ namespace Nivandria.Battle.Action
                 if (currentPositionIndex >= positionList.Count)
                 {
                     OnStopMoving?.Invoke(this, EventArgs.Empty);
-                    SetActive(false);
-                    GridSystemVisual.Instance.HideAllGridPosition();
-                    unit.GetRotateAction().StartRotating(unit, onActionComplete);
+                    DoneMoving();
                 }
             }
 
@@ -143,7 +137,7 @@ namespace Nivandria.Battle.Action
 
         private void HandleJumping()
         {
-            float jumpSpeed = 4f;
+            float jumpSpeed = 3.8f;
 
             if (startJumping)
             {
@@ -161,11 +155,18 @@ namespace Nivandria.Battle.Action
             }
             else
             {
-                isJumping = false;
-                SetActive(false);
-                GridSystemVisual.Instance.HideAllGridPosition();
-                unit.GetRotateAction().StartRotating(unit, onActionComplete);
+                DoneMoving();
             }
+        }
+
+
+        private void DoneMoving()
+        {
+            isJumping = false;
+            SetActive(false);
+            GridSystemVisual.Instance.HideAllGridPosition();
+            unit.GetRotateAction().StartRotating(unit, onActionComplete);
+            PlayerInputController.Instance.SetActionMap("RotateUnit");
         }
     }
 }

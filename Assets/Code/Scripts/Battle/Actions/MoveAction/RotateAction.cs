@@ -19,9 +19,6 @@ namespace Nivandria.Battle.Action
         {
             if (doneRotating && !isActive) return;
             IsRotating();
-
-            if (!isActive) return;
-            HandleRotate();
         }
 
         /// <summary>Initiates the rotation of the object.</summary>
@@ -47,30 +44,23 @@ namespace Nivandria.Battle.Action
             IsActive(true);
         }
 
-        /// <summary>Handles the rotation of the character based on user input.</summary>
-        private void HandleRotate()
+        public void RotateLeft()
         {
-            // Rotate the character counterclockwise
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                currentDirection = (FacingDirection)(((int)currentDirection + 1) % 4);
-                RotateCharacter(currentDirection);
-            }
+            currentDirection = (FacingDirection)(((int)currentDirection + 1) % 4);
+            RotateCharacter(currentDirection);
+        }
 
-            // Rotate the character clockwise
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                currentDirection = (FacingDirection)(((int)currentDirection + 3) % 4);
-                RotateCharacter(currentDirection);
-            }
+        public void RotateRight()
+        {
+            currentDirection = (FacingDirection)(((int)currentDirection + 3) % 4);
+            RotateCharacter(currentDirection);
+        }
 
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                SetRotateVisualActive(false);
-                IsActive(false);
-                onActionComplete();
-            }
-
+        public void ConfirmRotation()
+        {
+            SetRotateVisualActive(false);
+            IsActive(false);
+            onActionComplete();
         }
 
         /// <summary>Checks if the object is currently rotating and manages the rotation process. </summary>
@@ -87,7 +77,7 @@ namespace Nivandria.Battle.Action
 
                 Quaternion xzRotation = Quaternion.Euler(rotateVisualTransform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, rotateVisualTransform.rotation.eulerAngles.z);
                 rotateVisualTransform.rotation = xzRotation;
-                
+
                 doneRotating = false;
             }
         }

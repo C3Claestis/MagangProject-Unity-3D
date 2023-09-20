@@ -6,9 +6,9 @@ namespace Nivandria.Battle.Action
 	using Nivandria.Battle.Grid;
 	using Nivandria.Battle;
 	using System;
-    using Nivandria.Battle.PathfindingSystem;
+	using Nivandria.Battle.PathfindingSystem;
 
-    public class UnitActionSystem : MonoBehaviour
+	public class UnitActionSystem : MonoBehaviour
 	{
 		public static UnitActionSystem Instance { get; private set; }
 
@@ -35,18 +35,10 @@ namespace Nivandria.Battle.Action
 			Instance = this;
 		}
 
-		private void Update()
+		/// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
+		public void HandleUnitSelection()
 		{
 			if (isBusy) return;
-
-			HandleUnitSelection();
-			HandleSelectedAction();
-		}
-
-		/// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
-		private void HandleUnitSelection()
-		{
-			if (!Input.GetKeyUp(KeyCode.Space)) return;
 
 			Unit fastestUnit = SelectFastestUnit();
 
@@ -117,26 +109,23 @@ namespace Nivandria.Battle.Action
 		}
 
 		/// <summary>Handles the selected action when the left mouse button is clicked on the valid grid.</summary>
-		private void HandleSelectedAction()
+		public void HandleSelectedAction()
 		{
-			if (Input.GetMouseButtonDown(0))
+			if (isBusy) return;
+			if (selectedUnit == null) return;
+			if (EventSystem.current.IsPointerOverGameObject()) return;
+			if (selectedUnit.GetActionStatus(selectedAction.GetActionType())) return;
+			GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid(); 
+
+			if (selectedAction.IsValidActionGridPosition(pointerGridPosition))
 			{
-				if (selectedUnit == null) return;
-				if (EventSystem.current.IsPointerOverGameObject()) return;
-				if (selectedUnit.GetActionStatus(selectedAction.GetActionType())) return;
-				GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+				SetBusy();
+				selectedAction.TakeAction(pointerGridPosition, OnActionComplete);
 
-				if (selectedAction.IsValidActionGridPosition(mouseGridPosition))
+				if (selectedAction == selectedUnit.GetAction<MoveAction>())
 				{
-					SetBusy();
-					selectedAction.TakeAction(mouseGridPosition, OnActionComplete);
-
-					if (selectedAction == selectedUnit.GetAction<MoveAction>())
-					{
-						OnMoveActionPerformed?.Invoke(this, EventArgs.Empty);
-					}
+					OnMoveActionPerformed?.Invoke(this, EventArgs.Empty);
 				}
-
 			}
 		}
 
@@ -144,11 +133,12 @@ namespace Nivandria.Battle.Action
 		private void OnActionComplete()
 		{
 			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
+            PlayerInputController.Instance.SetActionMap("Gridmap");
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();
 			selectedAction.SetActive(false);
 
-            CameraController.Instance.SetActive(true);
+			CameraController.Instance.SetActive(true);
 			GridSystemVisual.Instance.UpdateGridVisual();
 			Pointer.Instance.SetActive(true);
 			ClearBusy();
