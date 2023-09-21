@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Units
   - Obstacle
+  - Holes
   layers:
   - Default
   - TransparentFX

@@ -99,9 +99,10 @@ namespace Nivandria.Battle
         {
             float pointerHeight = 1.0f;
 
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.4f;
             if (Pathfinding.Instance.IsObstacleOnGrid(LevelGrid.Instance.GetWorldPosition(currentGrid), out string objectTag)) pointerHeight = 3.5f;
             if (objectTag == "Obstacle") pointerHeight = 1.75f;
+            if (objectTag == "Holes") pointerHeight = 1.0f;
+            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.4f;
             if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition) && objectTag == "Obstacle") pointerHeight = 2.9f;
 
             return pointerHeight;

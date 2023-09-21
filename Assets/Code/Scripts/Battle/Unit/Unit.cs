@@ -43,7 +43,7 @@ namespace Nivandria.Battle.UnitSystem
         #endregion
 
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
-        [SerializeField] private Image unitImage;
+        [SerializeField] private Sprite unitIcon;
         [SerializeField] private MoveType moveType = MoveType.Normal;
         private GridPosition gridPosition;
         private BaseAction[] baseActionArray;
@@ -144,8 +144,9 @@ namespace Nivandria.Battle.UnitSystem
 
             return null;
         }
-        public GridPosition GetGridPosition() => gridPosition;
         public BaseAction[] GetBaseActionArray() => baseActionArray;
+        public Sprite GetUnitIcon() => unitIcon;
+        public GridPosition GetGridPosition() => gridPosition;
         public FacingDirection GetFacingDirection() => currentDirection;
         public RotateAction GetRotateAction() => GetComponent<RotateAction>();
         public MoveType GetMoveType() => moveType;

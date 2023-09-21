@@ -5,7 +5,6 @@ namespace Nivandria.Battle.Editor
 
 #if UNITY_EDITOR
     using UnityEditor;
-    using UnityEditor.Rendering;
 
     [CustomEditor(typeof(Unit))]
     public class UnitEditor : Editor
@@ -29,6 +28,7 @@ namespace Nivandria.Battle.Editor
         SerializedProperty currentEvasion;
         SerializedProperty baseAttackAccuracy;
         SerializedProperty currentAttackAccuracy;
+        SerializedProperty unitIcon;
 
         private bool showHealth = false;
         private bool showAttack = false;
@@ -69,6 +69,7 @@ namespace Nivandria.Battle.Editor
             currentEvasion = serializedObject.FindProperty("currentEvasion");
             baseAttackAccuracy = serializedObject.FindProperty("baseAttackAccuracy");
             currentAttackAccuracy = serializedObject.FindProperty("currentAttackAccuracy");
+            unitIcon = serializedObject.FindProperty("unitIcon");
         }
 
         public override void OnInspectorGUI()
@@ -246,6 +247,7 @@ namespace Nivandria.Battle.Editor
             }
 
             EditorGUILayout.PropertyField(skinnedMeshRenderer);
+            EditorGUILayout.PropertyField(unitIcon);
 
             serializedObject.ApplyModifiedProperties();
         }

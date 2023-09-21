@@ -64,6 +64,7 @@ namespace Nivandria.Battle.PathfindingSystem
 
                     if (!IsObstacleOnGrid(worldPosition, out string objectTag)) continue;
                     if (unitType == UnitType.Aerial && objectTag == "Obstacle") continue;
+                    if (unitType == UnitType.Aerial && objectTag == "Holes") continue;
 
                     GetNode(x, z).SetIsWalkable(false);
 

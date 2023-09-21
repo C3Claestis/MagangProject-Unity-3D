@@ -3,10 +3,10 @@ namespace Nivandria.Battle.UnitSystem
     using System;
     using UnityEngine;
     using Nivandria.Battle.PathfindingSystem;
-    using Nivandria.Battle.Grid;
     using Nivandria.Battle.Action;
     using System.Collections.Generic;
     using System.Linq;
+    using TMPro;
 
     public class UnitTurnSystem : MonoBehaviour
     {
@@ -14,6 +14,7 @@ namespace Nivandria.Battle.UnitSystem
 
         public event EventHandler OnSelectedUnitChanged;
 
+        [SerializeField] TextMeshProUGUI turnCountUI;
         private List<Unit> waitingUnitList;
         private List<Unit> movedUnitList;
         private Unit selectedUnit;
@@ -38,6 +39,7 @@ namespace Nivandria.Battle.UnitSystem
             movedUnitList = new List<Unit>();
 
             waitingUnitList = SortFromFastestUnit();
+            SetTurnCount(turnRounds);
         }
 
         /// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
@@ -78,14 +80,13 @@ namespace Nivandria.Battle.UnitSystem
 
             unitList = unitList.OrderByDescending(unit => unit.GetCurrentAgility()).ToList();
 
-            IEnumerable<string> unitNames = unitList.Select(unit => unit.GetCharacterName());
-            Debug.Log(string.Join(" || ", unitNames));
             return unitList;
         }
 
         /// <summary>Resets the selected unit's status and shading after it's turn has ended.</summary>
         private void ResetSelectedUnit()
         {
+            movedUnitList.Add(selectedUnit);
             selectedUnit.SetSelectedStatus(false);
             selectedUnit.ChangeUnitShade();
             selectedUnit.SetTurnStatus(true);
@@ -110,7 +111,6 @@ namespace Nivandria.Battle.UnitSystem
             if (waitingUnitList.Count == 0) return null;
 
             Unit firstUnit = waitingUnitList[0];
-            movedUnitList.Add(firstUnit);
             waitingUnitList.RemoveAt(0);
 
             return firstUnit;
@@ -122,14 +122,20 @@ namespace Nivandria.Battle.UnitSystem
             movedUnitList.Clear();
             selectedUnit = null;
             turnRounds++;
-            UnitActionSystem.Instance.SetSelectedAction(null);
-            GridSystemVisual.Instance.UpdateGridVisual();
             Debug.Log("All units have already moved! Next Round : " + turnRounds);
-            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+            SetTurnCount(turnRounds);
+            HandleUnitSelection();
+            // UnitActionSystem.Instance.SetSelectedAction(null);
+            // GridSystemVisual.Instance.UpdateGridVisual();
+            // OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public Unit GetSelectedUnit() => selectedUnit;
+        public List<Unit> GetWaitingUnitList() => waitingUnitList;
+        public List<Unit> GetMovedUnitList() => movedUnitList;
         public int GetTurnNumber() => turnRounds;
+
+        private void SetTurnCount(int number) => turnCountUI.text = $"TURN {number}";
     }
 
 }
