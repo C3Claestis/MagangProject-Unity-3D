@@ -2,6 +2,7 @@ namespace Nivandria.Battle.UI
 {
     using UnityEngine;
     using UnityEngine.UI;
+    using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
     using TMPro;

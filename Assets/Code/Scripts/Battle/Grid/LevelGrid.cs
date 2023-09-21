@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Grid
 {
     using System.Collections.Generic;
+    using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.PathfindingSystem;
     using UnityEngine;
 

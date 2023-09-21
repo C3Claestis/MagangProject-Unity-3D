@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Grid
 {
     using System.Collections.Generic;
+    using Nivandria.Battle.UnitSystem;
 
     public class GridObject
     {

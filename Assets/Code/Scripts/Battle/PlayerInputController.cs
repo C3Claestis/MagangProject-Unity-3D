@@ -1,6 +1,6 @@
 namespace Nivandria.Battle
 {
-    using Nivandria.Battle.Action;
+    using Nivandria.Battle.UnitSystem;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -36,7 +36,7 @@ namespace Nivandria.Battle
         public void RotateUnit_Confirm(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
+            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
             unit.GetRotateAction().ConfirmRotation();
         }
 
@@ -45,7 +45,7 @@ namespace Nivandria.Battle
             if (!context.performed) return;
 
             float rotateValue = context.ReadValue<float>();
-            Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
+            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
 
             if (rotateValue > 0) unit.GetRotateAction().RotateRight();
             else if (rotateValue < 0) unit.GetRotateAction().RotateLeft();
@@ -64,7 +64,7 @@ namespace Nivandria.Battle
         public void GridMap_NextUnit(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            UnitActionSystem.Instance.HandleUnitSelection();
+            UnitTurnSystem.Instance.HandleUnitSelection();
         }
 
         ///============================CAMERA ZOOM============================///

@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Editor
 {
     using UnityEngine;
+    using Nivandria.Battle.UnitSystem;
 
 #if UNITY_EDITOR
     using UnityEditor;

@@ -1,6 +1,7 @@
-namespace Nivandria.Battle.Action
+namespace Nivandria.Battle.UnitSystem
 {
     using System;
+    using Nivandria.Battle.Action;
     using UnityEngine;
 
     public class UnitAnimator : MonoBehaviour

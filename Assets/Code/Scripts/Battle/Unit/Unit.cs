@@ -1,8 +1,9 @@
-namespace Nivandria.Battle
+namespace Nivandria.Battle.UnitSystem
 {
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
+    using Microsoft.Unity.VisualStudio.Editor;
 
     public class Unit : MonoBehaviour
     {
@@ -42,6 +43,7 @@ namespace Nivandria.Battle
         #endregion
 
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+        [SerializeField] private Image unitImage;
         [SerializeField] private MoveType moveType = MoveType.Normal;
         private GridPosition gridPosition;
         private BaseAction[] baseActionArray;
@@ -49,10 +51,7 @@ namespace Nivandria.Battle
         private void Awake()
         {
             baseActionArray = GetComponents<BaseAction>(); //Store all the component attached to this unit that extend BaseAction;
-        }
 
-        private void Start()
-        {
             currentHealth = baseHealth;
             currentPhysicalAttack = basePhysicalAttack;
             currentMagicalAttack = baseMagicalAttack;
@@ -63,6 +62,11 @@ namespace Nivandria.Battle
             currentAttackAccuracy = baseAttackAccuracy;
 
             gameObject.name = characterName;
+        }
+
+        private void Start()
+        {
+
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 

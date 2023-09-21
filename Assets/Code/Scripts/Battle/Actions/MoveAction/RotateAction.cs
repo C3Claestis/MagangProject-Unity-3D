@@ -2,6 +2,7 @@ namespace Nivandria.Battle.Action
 {
     using System;
     using UnityEngine;
+    using Nivandria.Battle.UnitSystem;
 
     public class RotateAction : MonoBehaviour
     {

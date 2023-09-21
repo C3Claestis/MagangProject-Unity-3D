@@ -2,6 +2,7 @@ namespace Nivandria.Battle
 {
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.PathfindingSystem;
     using UnityEngine;
 

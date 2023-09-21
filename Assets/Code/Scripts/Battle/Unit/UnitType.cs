@@ -1,4 +1,4 @@
-namespace Nivandria.Battle
+namespace Nivandria.Battle.UnitSystem
 {
     public enum UnitType
     {

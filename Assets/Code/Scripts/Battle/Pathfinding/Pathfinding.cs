@@ -1,7 +1,7 @@
 namespace Nivandria.Battle.PathfindingSystem
 {
     using Nivandria.Battle.Grid;
-    using System;
+    using Nivandria.Battle.UnitSystem;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -321,4 +321,4 @@ namespace Nivandria.Battle.PathfindingSystem
             return pathLength;
         }
     }
-}
+    }

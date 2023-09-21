@@ -2,9 +2,9 @@ namespace Nivandria.Battle.UI
 {
     using System;
     using System.Collections.Generic;
+    using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.Action;
     using UnityEngine;
-    using UnityEngine.UI;
 
     public class UnitActionSystemUI : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace Nivandria.Battle.UI
 
         private void Start()
         {
-            UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
 
             CreateUnitActionButtons();
@@ -38,7 +38,7 @@ namespace Nivandria.Battle.UI
 
             actionButtonUIList.Clear();
             actionButtonBackground.gameObject.SetActive(false);
-            Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+            Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
 
             if (selectedUnit == null) return;
 
@@ -65,7 +65,7 @@ namespace Nivandria.Battle.UI
 
 
         //EVENT FUNCTION
-        private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             CreateUnitActionButtons();
             UpdateUISelectedVisual();

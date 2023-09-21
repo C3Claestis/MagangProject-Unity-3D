@@ -1,27 +1,23 @@
-namespace Nivandria.Battle.Action
+namespace Nivandria.Battle.UnitSystem
 {
-	using UnityEngine;
-	using UnityEngine.UI;
-	using UnityEngine.EventSystems;
 	using Nivandria.Battle.Grid;
+	using Nivandria.Battle.Action;
 	using Nivandria.Battle;
+	using UnityEngine.UI;
+	using UnityEngine;
 	using System;
-	using Nivandria.Battle.PathfindingSystem;
 
 	public class UnitActionSystem : MonoBehaviour
 	{
 		public static UnitActionSystem Instance { get; private set; }
 
-		[SerializeField] private Unit selectedUnit;
 		[SerializeField] private Image busyUI;
 
-		public event EventHandler OnSelectedUnitChanged;
 		public event EventHandler OnSelectedActionChanged;
 		public event EventHandler OnMoveActionPerformed;
 
 		private BaseAction selectedAction;
 
-		private string unitTag = "Units";
 		private bool isBusy = false;
 
 		private void Awake()
@@ -35,83 +31,13 @@ namespace Nivandria.Battle.Action
 			Instance = this;
 		}
 
-		/// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
-		public void HandleUnitSelection()
-		{
-			if (isBusy) return;
-
-			Unit fastestUnit = SelectFastestUnit();
-
-			if (selectedUnit != null)
-			{
-				ResetSelectedUnit();
-			}
-
-			if (fastestUnit != null)
-			{
-				CameraController.Instance.SetCameraFocusToPosition(fastestUnit.transform.position);
-				SelectUnit(fastestUnit);
-				return;
-			}
-
-			selectedUnit = null;
-			selectedAction = null;
-			Debug.Log("All units have already moved");
-			GridSystemVisual.Instance.UpdateGridVisual();
-			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
-		}
-
-		private Unit SelectFastestUnit()
-		{
-			GameObject[] unitObjects = GameObject.FindGameObjectsWithTag(unitTag);
-			Unit fastestUnit = null;
-			int fastestSpeed = int.MinValue;
-
-			foreach (GameObject unitObject in unitObjects)
-			{
-				Unit unitComponent = unitObject.GetComponent<Unit>();
-
-				if (unitComponent == null) continue;
-
-				int unitSpeed = unitComponent.GetCurrentAgility();
-				bool hasMoved = unitComponent.GetTurnStatus();
-
-				if (!hasMoved && unitSpeed > fastestSpeed)
-				{
-					fastestUnit = unitComponent;
-					fastestSpeed = unitSpeed;
-				}
-			}
-
-			return fastestUnit;
-		}
-
-		/// <summary>Resets the selected unit's status and shading after it's turn has ended.</summary>
-		private void ResetSelectedUnit()
-		{
-			selectedUnit.SetSelectedStatus(false);
-			selectedUnit.ChangeUnitShade();
-			selectedUnit.SetTurnStatus(true);
-		}
-
-		/// <summary>Selects a unit and updates its status and shading.</summary>
-		/// <param name="unit">The unit to be selected.</param>
-		private void SelectUnit(Unit unit)
-		{
-			selectedUnit = unit;
-			selectedUnit.SetTurnStatus(true);
-			selectedUnit.SetSelectedStatus(true);
-			selectedUnit.ChangeUnitShade();
-			selectedUnit.ResetActionStatus();
-			Pathfinding.Instance.SetupPath(selectedUnit.GetUnitType());
-			SetSelectedAction(unit.GetAction<MoveAction>());
-			OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
-		}
 
 		/// <summary>Handles the selected action when the left mouse button is clicked on the valid grid.</summary>
 		public void HandleSelectedAction(string controller)
 		{
 			if (isBusy) return;
+			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
+
 			if (controller == "leftButton")
 			{
 				if (MouseWorld.IsPointerOnUI()) return;
@@ -135,7 +61,9 @@ namespace Nivandria.Battle.Action
 		/// <summary>Function that will be called after Action Completed.</summary>
 		private void OnActionComplete()
 		{
+			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
 			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
+
 			PlayerInputController.Instance.SetActionMap("Gridmap");
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();
@@ -160,13 +88,15 @@ namespace Nivandria.Battle.Action
 			busyUI.gameObject.SetActive(false);
 			isBusy = false;
 		}
+
 		private void SetBusy()
 		{
 			busyUI.gameObject.SetActive(true);
 			isBusy = true;
 		}
 
-		public Unit GetSelectedUnit() => selectedUnit;
+		public bool GetBusyStatus() => isBusy;
+
 		public BaseAction GetSelectedAction() => selectedAction;
 		#endregion
 	}
