@@ -56,7 +56,7 @@ namespace Nivandria.Battle
         public void GridMap_SelectGrid(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            UnitActionSystem.Instance.HandleSelectedAction();
+            UnitActionSystem.Instance.HandleSelectedAction(context.control.name);
         }
 
         ///============================NEXT UNIT============================///

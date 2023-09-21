@@ -31,6 +31,11 @@ namespace Nivandria.Battle
             mainCamera = Camera.main.transform;
         }
 
+        private void Start()
+        {
+            PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
+        }
+
         private void Update()
         {
             HandlePointerPosition();
@@ -76,6 +81,18 @@ namespace Nivandria.Battle
         {
             Vector3 offset = transform.position - targetPos;
             transform.LookAt(transform.position + offset);
+        }
+
+        private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
+        {
+            if (actionMap == "Gridmap")
+            {
+                SetActive(true);
+            }
+            else
+            {
+                SetActive(false);
+            }
         }
 
         private float GetPointerHeight(GridPosition gridPosition)

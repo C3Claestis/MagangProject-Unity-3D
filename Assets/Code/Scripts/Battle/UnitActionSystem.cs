@@ -109,13 +109,16 @@ namespace Nivandria.Battle.Action
 		}
 
 		/// <summary>Handles the selected action when the left mouse button is clicked on the valid grid.</summary>
-		public void HandleSelectedAction()
+		public void HandleSelectedAction(string controller)
 		{
 			if (isBusy) return;
+			if (controller == "leftButton")
+			{
+				if (MouseWorld.IsPointerOnUI()) return;
+			}
 			if (selectedUnit == null) return;
-			if (EventSystem.current.IsPointerOverGameObject()) return;
 			if (selectedUnit.GetActionStatus(selectedAction.GetActionType())) return;
-			GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid(); 
+			GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid();
 
 			if (selectedAction.IsValidActionGridPosition(pointerGridPosition))
 			{
@@ -133,7 +136,7 @@ namespace Nivandria.Battle.Action
 		private void OnActionComplete()
 		{
 			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
-            PlayerInputController.Instance.SetActionMap("Gridmap");
+			PlayerInputController.Instance.SetActionMap("Gridmap");
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();
 			selectedAction.SetActive(false);

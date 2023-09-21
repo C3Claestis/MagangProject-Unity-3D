@@ -10,6 +10,7 @@ namespace Nivandria.Battle.UI
     {
         [SerializeField] private Transform actionButtonPrefab;
         [SerializeField] private Transform actionButtonContainerTransform;
+        [SerializeField] private Transform actionButtonBackground;
 
         private List<ActionButtonUI> actionButtonUIList;
 
@@ -36,7 +37,7 @@ namespace Nivandria.Battle.UI
             }
 
             actionButtonUIList.Clear();
-
+            actionButtonBackground.gameObject.SetActive(false);
             Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
 
             if (selectedUnit == null) return;
@@ -49,6 +50,8 @@ namespace Nivandria.Battle.UI
 
                 actionButtonUIList.Add(actionButtonUI);
             }
+
+            actionButtonBackground.gameObject.SetActive(true);
         }
 
         /// <summary> Updates the UI selected visual state for all action buttons. </summary>
