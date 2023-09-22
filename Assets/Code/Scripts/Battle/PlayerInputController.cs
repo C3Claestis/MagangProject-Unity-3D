@@ -1,5 +1,6 @@
 namespace Nivandria.Battle
 {
+    using System;
     using Nivandria.Battle.UnitSystem;
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ namespace Nivandria.Battle
 
         public delegate void ActionMapChangedEventHandler(object sender, string actionMap);
         public event ActionMapChangedEventHandler OnActionMapChanged;
+        public event EventHandler OnCancelPressed;
 
         private PlayerInput playerInput;
         private Vector2 cameraMovementInputValue;
@@ -30,6 +32,11 @@ namespace Nivandria.Battle
             playerInput = GetComponent<PlayerInput>();
         }
 
+        public void UI_Cancel(InputAction.CallbackContext context){
+            if(!context.performed) return;
+            OnCancelPressed?.Invoke(this, EventArgs.Empty);
+            Debug.Log("Cancel Test");
+        }
 
         ///============================ROTATE UNIT============================///
 

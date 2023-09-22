@@ -126,6 +126,7 @@ namespace Nivandria.Battle
             Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(mousePosition.x, GetPointerHeight(gridPosition), mousePosition.z);
         }
+        
 
         public GridPosition GetCurrentGrid() => currentGrid;
         public RotateVisual GetRotateVisual() => rotateVisual.GetComponent<RotateVisual>();

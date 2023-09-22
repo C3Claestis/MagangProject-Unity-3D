@@ -3,7 +3,6 @@ namespace Nivandria.Battle.UnitSystem
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
-    using Microsoft.Unity.VisualStudio.Editor;
 
     public class Unit : MonoBehaviour
     {

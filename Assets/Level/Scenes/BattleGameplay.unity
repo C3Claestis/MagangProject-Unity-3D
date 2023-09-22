@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 7.990158, z: -6}
+  m_FollowOffset: {x: 0, y: 7.990101, z: -6}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -961,7 +961,19 @@ MonoBehaviour:
     m_ActionId: c7b02926-806a-4681-b11a-1d19118058b1
     m_ActionName: UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: UI_Cancel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ed7ed1fa-bd85-48f5-bcf9-54db2aad7e68
     m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
@@ -1430,7 +1442,7 @@ GameObject:
   - component: {fileID: 484122681}
   m_Layer: 5
   m_Name: UI
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1892,6 +1904,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: dialogueConfirmationPrefab
+      value: 
+      objectReference: {fileID: 1880736793165282418, guid: 87cbcc288952bdc4b9b40421fe9b7a12, type: 3}
     - target: {fileID: 8240321862663793904, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -3465,8 +3481,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412894876}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44694927, y: 0.000000021769734, z: -0.000000010876826, w: 0.8945593}
-  m_LocalPosition: {x: 8.09, y: 7.990158, z: -6}
+  m_LocalRotation: {x: 0.44694778, y: -1e-45, z: 1e-45, w: 0.8945601}
+  m_LocalPosition: {x: 8.09, y: 7.990101, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4155,7 +4171,7 @@ MonoBehaviour:
   m_ScrollWheelAction: {fileID: 2019581437}
   m_TrackedDevicePositionAction: {fileID: 0}
   m_TrackedDeviceOrientationAction: {fileID: 0}
-  m_DeselectOnBackgroundClick: 1
+  m_DeselectOnBackgroundClick: 0
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
 --- !u!1 &1789260467
@@ -4493,8 +4509,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975823979}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44694927, y: 0.000000021769734, z: -0.000000010876826, w: 0.8945593}
-  m_LocalPosition: {x: 8.09, y: 7.990158, z: -6}
+  m_LocalRotation: {x: 0.44694778, y: -1e-45, z: 1e-45, w: 0.8945601}
+  m_LocalPosition: {x: 8.09, y: 7.990101, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

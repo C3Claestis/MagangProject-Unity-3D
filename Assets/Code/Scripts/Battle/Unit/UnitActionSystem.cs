@@ -83,7 +83,7 @@ namespace Nivandria.Battle.UnitSystem
 			OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void ClearBusy()
+		public void ClearBusy()
 		{
 			busyUI.gameObject.SetActive(false);
 			isBusy = false;

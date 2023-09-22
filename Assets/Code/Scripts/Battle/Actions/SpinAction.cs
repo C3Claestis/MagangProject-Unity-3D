@@ -38,12 +38,25 @@ namespace Nivandria.Battle.Action
         {
             base.TakeAction(gridPosition, onActionComplete);
             totalSpinAmount = 0f;
+            SetActive(false);
+            
+            InitializeConfirmationButton(YesButtonAction, NoButtonAction);
         }
 
         public override List<GridPosition> GetValidActionGridPosition()
         {
             GridPosition unitGridPosition = unit.GetGridPosition();
             return new List<GridPosition> { unitGridPosition };
+        }
+
+        protected override void YesButtonAction()
+        {
+            SetActive(true);
+        }
+
+        protected override void NoButtonAction()
+        {
+            base.NoButtonAction();
         }
     }
 }

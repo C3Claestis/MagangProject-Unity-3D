@@ -13,6 +13,7 @@ namespace Nivandria.Battle.Action
         protected bool isActive;
         protected abstract string actionName { get; }
         protected abstract ActionType actionType { get; }
+        [SerializeField] protected Transform dialogueConfirmationPrefab;
 
         protected virtual void Awake()
         {
@@ -24,11 +25,12 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to invoke when the action is complete.</param>
         public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
+            PlayerInputController.Instance.OnCancelPressed += PlayerInputController_OnCancelPressed;
             CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
-            CameraController.Instance.SetActive(false);
-            this.onActionComplete = onActionComplete;
             Pointer.Instance.SetPointerOnGrid(gridPosition);
+            CameraController.Instance.SetActive(false);
             Pointer.Instance.SetActive(false);
+            this.onActionComplete = onActionComplete;
             SetActive(true);
         }
 
@@ -41,6 +43,34 @@ namespace Nivandria.Battle.Action
             return validGridPositionList.Contains(gridPosition);
         }
 
+        protected virtual void InitializeConfirmationButton(Action onYesButtonSelected, Action onNoButtonSelected)
+        {
+            Transform uiTransform = GameObject.FindGameObjectWithTag("UI").transform;
+            Transform confirmationTranform = Instantiate(dialogueConfirmationPrefab, uiTransform);
+            confirmationTranform.GetComponent<UI.ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
+            PlayerInputController.Instance.SetActionMap("BattleUI");
+        }
+
+        protected abstract void YesButtonAction();
+
+        protected virtual void NoButtonAction()
+        {
+            UnitActionSystem.Instance.ClearBusy();
+            PlayerInputController.Instance.SetActionMap("Gridmap");
+        }
+
+        protected virtual void CancelAction()
+        {
+            GridSystemVisual.Instance.HideAllGridPosition();
+            PlayerInputController.Instance.OnCancelPressed -= PlayerInputController_OnCancelPressed;
+        }
+
+        protected virtual void PlayerInputController_OnCancelPressed(object sender, EventArgs e)
+        {
+            if (isActive) return;
+            CancelAction();
+        }
+
         /// <summary>Gets a list of allowable grid positions for the action.</summary>
         /// <returns>A list of valid grid positions for the action.</returns>
         public abstract List<GridPosition> GetValidActionGridPosition();
@@ -48,6 +78,6 @@ namespace Nivandria.Battle.Action
         public string GetName() => actionName;
         public bool GetActionStatus() => unit.GetActionStatus(actionType);
         public ActionType GetActionType() => actionType;
-        public void SetActive(bool status) => isActive = status;
+        public virtual void SetActive(bool status) => isActive = status;
     }
 }

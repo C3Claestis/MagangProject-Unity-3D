@@ -5,6 +5,7 @@ namespace Nivandria.Battle.Action
     using UnityEngine;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
+    using Nivandria.Battle.UnitSystem;
 
     public class MoveAction : BaseAction
     {
@@ -15,12 +16,17 @@ namespace Nivandria.Battle.Action
         [SerializeField] private int maxMoveDistance = 4;
         [SerializeField] private LayerMask obstacleLayer;
 
+        private Vector3 startPosition;
+        private Quaternion startRotation;
+        private GridPosition targetPosition;
+
         private List<Vector3> positionList;
         private int currentPositionIndex;
         private float moveStoppingDistance = 0.1f;
         private float rotateSpeed = 20f;
         private float moveSpeed = 4f;
 
+        private bool destinationReached;
 
         private Vector3 jumpTargetPosition;
         private bool startJumping = false;
@@ -42,17 +48,22 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to call upon completing the move action.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            base.TakeAction(gridPosition, onActionComplete);
+
+            startPosition = transform.position;
+            startRotation = transform.rotation;
+            targetPosition = gridPosition;
+
+            base.TakeAction(targetPosition, onActionComplete);
 
             if (unit.GetMoveType() == MoveType.Tiger)
             {
-                jumpTargetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                jumpTargetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
                 isJumping = true;
                 startJumping = true;
                 return;
             }
 
-            List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
+            List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), targetPosition, out int pathLength);
             positionList = new List<Vector3>();
             currentPositionIndex = 0;
 
@@ -151,7 +162,6 @@ namespace Nivandria.Battle.Action
                 transform.position += moveDirection * Time.deltaTime * jumpSpeed;
 
                 transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 50f);
-
             }
             else
             {
@@ -162,11 +172,40 @@ namespace Nivandria.Battle.Action
 
         private void DoneMoving()
         {
+            destinationReached = true;
             isJumping = false;
             SetActive(false);
+
+            unit.UpdateUnitGridPosition();
+            Pointer.Instance.SetPointerOnGrid(targetPosition);
+
+            InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+        }
+
+        protected override void NoButtonAction()
+        {
+            transform.position = startPosition;
+            transform.rotation = startRotation;
+            destinationReached = false;
+
+            unit.UpdateUnitGridPosition();
+            Pointer.Instance.SetPointerOnGrid(LevelGrid.Instance.GetGridPosition(startPosition));
+
+            base.NoButtonAction();
+        }
+
+        protected override void YesButtonAction()
+        {
             GridSystemVisual.Instance.HideAllGridPosition();
             unit.GetRotateAction().StartRotating(unit, onActionComplete);
             PlayerInputController.Instance.SetActionMap("RotateUnit");
         }
+
+        protected override void PlayerInputController_OnCancelPressed(object sender, EventArgs e)
+        {
+            if(destinationReached) return;
+            base.PlayerInputController_OnCancelPressed(sender, e);
+        }
+
     }
 }
