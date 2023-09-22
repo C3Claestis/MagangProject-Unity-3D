@@ -12,6 +12,7 @@ namespace Nivandria.Battle
         public delegate void ActionMapChangedEventHandler(object sender, string actionMap);
         public event ActionMapChangedEventHandler OnActionMapChanged;
         public event EventHandler OnCancelPressed;
+        public event EventHandler OnInputControlChanged;
 
         private PlayerInput playerInput;
         private Vector2 cameraMovementInputValue;
@@ -32,10 +33,10 @@ namespace Nivandria.Battle
             playerInput = GetComponent<PlayerInput>();
         }
 
-        public void UI_Cancel(InputAction.CallbackContext context){
-            if(!context.performed) return;
+        public void UI_Cancel(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
             OnCancelPressed?.Invoke(this, EventArgs.Empty);
-            Debug.Log("Cancel Test");
         }
 
         ///============================ROTATE UNIT============================///
@@ -86,9 +87,10 @@ namespace Nivandria.Battle
                 else if (zoomValue < 0) cameraZoomInputValue = -1f;
             }
 
-            if (!context.canceled) return;
-            cameraZoomInputValue = 0;
-
+            if (context.canceled)
+            {
+                cameraZoomInputValue = 0;
+            }
         }
 
         ///============================CAMERA MOVEMENT============================///
@@ -108,18 +110,14 @@ namespace Nivandria.Battle
 
         public void PlayerInput_onControlsChanged(PlayerInput input)
         {
-            switch (input.currentControlScheme)
-            {
-                case "Keyboard":
-                    Debug.Log("Current controller is now Keyboard.");
-                    isCurrentControllerGamepad = false;
-                    break;
 
-                case "Gamepad":
-                    Debug.Log("Current controller is now Gamepad.");
-                    isCurrentControllerGamepad = true;
-                    break;
-            }
+            string inputControl = input.currentControlScheme;
+
+            isCurrentControllerGamepad = inputControl == "Gamepad";
+
+            Debug.Log("Current input is now : " + inputControl);
+
+            OnInputControlChanged?.Invoke(this, EventArgs.Empty);
         }
 
         ///========================================================================///

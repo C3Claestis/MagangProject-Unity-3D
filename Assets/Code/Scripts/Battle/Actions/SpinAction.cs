@@ -52,11 +52,7 @@ namespace Nivandria.Battle.Action
         protected override void YesButtonAction()
         {
             SetActive(true);
-        }
-
-        protected override void NoButtonAction()
-        {
-            base.NoButtonAction();
+            base.YesButtonAction();
         }
     }
 }

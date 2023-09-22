@@ -6,6 +6,7 @@ namespace Nivandria.Battle.UI
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
     using TMPro;
+    using UnityEngine.EventSystems;
 
     public class ActionButtonUI : MonoBehaviour
     {
@@ -20,22 +21,31 @@ namespace Nivandria.Battle.UI
         public void SetBaseAction(BaseAction baseAction)
         {
             this.baseAction = baseAction;
+            EventSystem eventSystem = EventSystem.current;
             textMeshPro.text = baseAction.GetName().ToUpper();
 
             button.onClick.AddListener(() =>
             {
                 UnitActionSystem.Instance.SetSelectedAction(baseAction);
+                UnitActionSystem.Instance.SetBusyUI();
                 GridSystemVisual.Instance.UpdateGridVisual();
+                baseAction.InitializeCancel();
+                PlayerInputController.Instance.SetActionMap("Gridmap");
+                Pointer.Instance.SetActive(true);
+                eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
             });
-
-            UpdateUISelectedVisual();
         }
+
+        public BaseAction GetBaseAction() => baseAction;
 
         /// <summary> Updates the visual state of the UI based on the selected base action. </summary>
         public void UpdateUISelectedVisual()
         {
             BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
+            EventSystem eventSystem = EventSystem.current;
+
             outline.enabled = baseAction == selectedBaseAction;
+            eventSystem.SetSelectedGameObject(transform.gameObject, new BaseEventData(eventSystem));
         }
 
     }

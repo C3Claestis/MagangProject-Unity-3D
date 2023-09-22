@@ -1,7 +1,9 @@
 namespace Nivandria.Battle
 {
+    using System;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
+    using Nivandria.Battle.UnitSystem;
     using UnityEngine;
 
     public class Pointer : MonoBehaviour
@@ -34,6 +36,7 @@ namespace Nivandria.Battle
         private void Start()
         {
             PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
+            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
         }
 
         private void Update()
@@ -95,6 +98,11 @@ namespace Nivandria.Battle
             }
         }
 
+        private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        {
+            SetPointerOnGrid(UnitTurnSystem.Instance.GetSelectedUnit().GetGridPosition());
+        }
+
         private float GetPointerHeight(GridPosition gridPosition)
         {
             float pointerHeight = 1.0f;
@@ -126,7 +134,7 @@ namespace Nivandria.Battle
             Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(mousePosition.x, GetPointerHeight(gridPosition), mousePosition.z);
         }
-        
+
 
         public GridPosition GetCurrentGrid() => currentGrid;
         public RotateVisual GetRotateVisual() => rotateVisual.GetComponent<RotateVisual>();

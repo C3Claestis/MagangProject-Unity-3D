@@ -3,16 +3,16 @@ namespace Nivandria.Battle
     using Cinemachine;
     using UnityEngine;
     using Nivandria.Battle.Grid;
+    using System;
 
     public class CameraController : MonoBehaviour
     {
         public static CameraController Instance { get; private set; }
 
         [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
-        [SerializeField] private float cameraMoveSpeed = 10f;
-        [SerializeField] private float cameraZoomSpeed = 3f;
-        [SerializeField] private float cameraFocusStoppingDistance = .3f;
-        [SerializeField] private float cameraFocusActiveMoveSpeed = 30f;
+        [SerializeField] private float moveSpeed = 10f;
+        [SerializeField] private float moveFocusStoppingDistance = .3f;
+        [SerializeField] private float focusActiveMoveSpeed = 30f;
 
         private CinemachineTransposer cinemachineTransposer;
         private PlayerInputController playerInputController;
@@ -23,7 +23,8 @@ namespace Nivandria.Battle
         private float widthMoveLimit, heighMoveLimit;
         private float minZoomLimit = 2f;
         private float maxZoomLimit = 8f;
-        private float zoomSpeed = 0.8f;
+        private float zoomSmoothSpeed = 5f;
+        private float zoomSpeed = 0.4f;
 
         private bool cameraFocusActive = false;
         private bool isActive = true;
@@ -51,8 +52,10 @@ namespace Nivandria.Battle
             transform.position = new Vector3(widthMoveLimit / 2, 0, 1);
             targetFollowOffset.y = maxZoomLimit;
 
-            PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
+            playerInputController.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
+            playerInputController.OnInputControlChanged += PlayerInputController_OnInputControlChanged;
         }
+
 
         void Update()
         {
@@ -72,7 +75,7 @@ namespace Nivandria.Battle
             Vector2 cameraMovement = playerInputController.GetCameraMovementInputValue();
             Vector3 inputMoveDir = new Vector3(cameraMovement.x, 0, cameraMovement.y);
             Vector3 moveVector = transform.forward * inputMoveDir.z + transform.right * inputMoveDir.x;
-            Vector3 newPosition = transform.position + moveVector * cameraMoveSpeed * Time.deltaTime;
+            Vector3 newPosition = transform.position + moveVector * moveSpeed * Time.deltaTime;
 
             newPosition.x = Mathf.Clamp(newPosition.x, -1f, widthMoveLimit); // Restrict x movement between -1 and 15
             newPosition.z = Mathf.Clamp(newPosition.z, -1f, heighMoveLimit); // Restrict z movement between -1 and 7
@@ -89,7 +92,7 @@ namespace Nivandria.Battle
 
             if (Vector3.Distance(cinemachineTransposer.m_FollowOffset, targetFollowOffset) > 0.01f)
             {
-                cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * cameraZoomSpeed);
+                cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, targetFollowOffset, Time.deltaTime * zoomSmoothSpeed);
             }
         }
 
@@ -98,10 +101,10 @@ namespace Nivandria.Battle
         {
             if (!cameraFocusActive) return;
 
-            if (Vector3.Distance(transform.position, targetPosition) > cameraFocusStoppingDistance)
+            if (Vector3.Distance(transform.position, targetPosition) > moveFocusStoppingDistance)
             {
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
-                transform.position += moveDirection * Time.deltaTime * cameraFocusActiveMoveSpeed;
+                transform.position += moveDirection * Time.deltaTime * focusActiveMoveSpeed;
 
                 transform.position = Vector3.Lerp(transform.position, moveDirection, Time.deltaTime);
             }
@@ -110,14 +113,6 @@ namespace Nivandria.Battle
                 cameraFocusActive = false;
                 transform.position = targetPosition;
             }
-        }
-
-        /// <summary> Sets the camera's focus to a specific position. </summary>
-        /// <param name="targetPosition">The position to focus the camera on.</param>
-        public void SetCameraFocusToPosition(Vector3 targetPosition)
-        {
-            this.targetPosition = targetPosition;
-            cameraFocusActive = true;
         }
 
         private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
@@ -130,6 +125,22 @@ namespace Nivandria.Battle
             {
                 SetActive(false);
             }
+        }
+
+        private void PlayerInputController_OnInputControlChanged(object sender, EventArgs e)
+        {
+            bool isCurrentControllerGamepad = playerInputController.IsCurrentControllerGamepad();
+
+            if (isCurrentControllerGamepad) zoomSpeed = 0.15f;
+            else zoomSpeed = 0.4f;
+        }
+
+        /// <summary> Sets the camera's focus to a specific position. </summary>
+        /// <param name="targetPosition">The position to focus the camera on.</param>
+        public void SetCameraFocusToPosition(Vector3 targetPosition)
+        {
+            this.targetPosition = targetPosition;
+            cameraFocusActive = true;
         }
 
         public void SetActive(bool status) => isActive = status;

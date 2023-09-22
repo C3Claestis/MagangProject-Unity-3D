@@ -5,7 +5,6 @@ namespace Nivandria.Battle.Action
     using UnityEngine;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
-    using Nivandria.Battle.UnitSystem;
 
     public class MoveAction : BaseAction
     {
@@ -196,6 +195,7 @@ namespace Nivandria.Battle.Action
 
         protected override void YesButtonAction()
         {
+            base.YesButtonAction();
             GridSystemVisual.Instance.HideAllGridPosition();
             unit.GetRotateAction().StartRotating(unit, onActionComplete);
             PlayerInputController.Instance.SetActionMap("RotateUnit");

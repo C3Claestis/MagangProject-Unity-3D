@@ -6,6 +6,7 @@ namespace Nivandria.Battle.UnitSystem
 	using UnityEngine.UI;
 	using UnityEngine;
 	using System;
+	using Nivandria.Battle.UI;
 
 	public class UnitActionSystem : MonoBehaviour
 	{
@@ -49,6 +50,7 @@ namespace Nivandria.Battle.UnitSystem
 			if (selectedAction.IsValidActionGridPosition(pointerGridPosition))
 			{
 				SetBusy();
+				SetBusyUI();
 				selectedAction.TakeAction(pointerGridPosition, OnActionComplete);
 
 				if (selectedAction == selectedUnit.GetAction<MoveAction>())
@@ -64,36 +66,42 @@ namespace Nivandria.Battle.UnitSystem
 			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
 			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
 
-			PlayerInputController.Instance.SetActionMap("Gridmap");
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();
+
 			selectedAction.SetActive(false);
 
+			Pointer.Instance.SetActive(false);
+
+			UnitActionSystemUI.Instance.SetSelectedUI();
 			CameraController.Instance.SetActive(true);
-			GridSystemVisual.Instance.UpdateGridVisual();
-			Pointer.Instance.SetActive(true);
+			GridSystemVisual.Instance.HideAllGridPosition();
+			
 			ClearBusy();
+			ClearBusyUI();
+
+			PlayerInputController.Instance.SetActionMap("BattleUI");
 		}
 
 		#region Getter Setter
 		public void SetSelectedAction(BaseAction baseAction)
 		{
 			selectedAction = baseAction;
-			GridSystemVisual.Instance.UpdateGridVisual();
 			OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void ClearBusy()
 		{
-			busyUI.gameObject.SetActive(false);
 			isBusy = false;
 		}
 
 		private void SetBusy()
 		{
-			busyUI.gameObject.SetActive(true);
 			isBusy = true;
 		}
+
+		public void SetBusyUI() => busyUI.gameObject.SetActive(true);
+		public void ClearBusyUI() => busyUI.gameObject.SetActive(false);
 
 		public bool GetBusyStatus() => isBusy;
 

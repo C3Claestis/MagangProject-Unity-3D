@@ -4,6 +4,7 @@ namespace Nivandria.Battle.Action
     using System.Collections.Generic;
     using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.UI;
     using UnityEngine;
 
     public abstract class BaseAction : MonoBehaviour
@@ -25,7 +26,6 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to invoke when the action is complete.</param>
         public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            PlayerInputController.Instance.OnCancelPressed += PlayerInputController_OnCancelPressed;
             CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
             Pointer.Instance.SetPointerOnGrid(gridPosition);
             CameraController.Instance.SetActive(false);
@@ -51,7 +51,10 @@ namespace Nivandria.Battle.Action
             PlayerInputController.Instance.SetActionMap("BattleUI");
         }
 
-        protected abstract void YesButtonAction();
+        protected virtual void YesButtonAction()
+        {
+            PlayerInputController.Instance.OnCancelPressed -= PlayerInputController_OnCancelPressed;
+        }
 
         protected virtual void NoButtonAction()
         {
@@ -62,7 +65,15 @@ namespace Nivandria.Battle.Action
         protected virtual void CancelAction()
         {
             GridSystemVisual.Instance.HideAllGridPosition();
+            UnitActionSystemUI.Instance.SetSelectedUI();
+            UnitActionSystem.Instance.ClearBusyUI();
+            PlayerInputController.Instance.SetActionMap("BattleUI");
             PlayerInputController.Instance.OnCancelPressed -= PlayerInputController_OnCancelPressed;
+        }
+
+        public void InitializeCancel()
+        {
+            PlayerInputController.Instance.OnCancelPressed += PlayerInputController_OnCancelPressed;
         }
 
         protected virtual void PlayerInputController_OnCancelPressed(object sender, EventArgs e)

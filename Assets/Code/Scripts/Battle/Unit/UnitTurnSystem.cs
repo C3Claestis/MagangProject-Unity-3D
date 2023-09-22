@@ -40,6 +40,7 @@ namespace Nivandria.Battle.UnitSystem
 
             waitingUnitList = SortFromFastestUnit();
             SetTurnCount(turnRounds);
+            HandleUnitSelection();
         }
 
         /// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
