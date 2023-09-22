@@ -3,7 +3,7 @@ namespace Nivandria.Explore.Puzzle
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-
+    using UnityEngine.InputSystem;
     public class RotateGaard : MonoBehaviour
     {        
         [SerializeField] float rotationAngle;
@@ -11,25 +11,27 @@ namespace Nivandria.Explore.Puzzle
         private void Start()
         {
             count = 0;
-        }
-        // Update is called once per frame
-        void Update()
-        {          
-            if (Input.GetKeyDown(KeyCode.A))
+        }     
+        public void RotasiKanan(InputAction.CallbackContext context)
+        {
+            if (context.performed)
             {
-                if(count < 2)
-                {
-                    count++;
-                    RotateObject(+rotationAngle);
-                }                    
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                if(count > -2)
+                if (count > -2)
                 {
                     count--;
                     RotateObject(-rotationAngle);
-                }                    
+                }
+            }            
+        }
+        public void RotasiKiri(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (count < 2)
+                {
+                    count++;
+                    RotateObject(+rotationAngle);
+                }
             }            
         }
         void RotateObject(float angle)

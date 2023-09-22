@@ -33,15 +33,16 @@ namespace Nivandria.Explore.Puzzle
             {             
                 Debug.Log("SUDAH TERISI SEMUA");
                 IsEnter = true;
-            }
-
-            if (IsEnter)
-            {
-                if(Input.GetKey(KeyCode.Space))
-                    Kondisi();
-            }
+            }            
         }
 
+        public void InputKondisi()
+        {
+            if (IsEnter)
+            {
+                Kondisi();
+            }
+        }
         void Kondisi()
         {            
             switch (Jangkauan)

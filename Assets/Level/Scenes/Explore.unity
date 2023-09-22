@@ -3711,10 +3711,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8c280b4eb84b04fa4c51daae9b36e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sacra: {fileID: 1590300071}
-  vana: {fileID: 1921934394}
-  lin: {fileID: 1698786041}
-  guard: {fileID: 1538907706}
+  inputSystem: {fileID: 1345703583}
+  playerInput: {fileID: 0}
+  slot_leader: {fileID: 0}
+  panel_party: {fileID: 0}
 --- !u!1 &582170096
 GameObject:
   m_ObjectHideFlags: 0
@@ -5982,11 +5982,6 @@ PrefabInstance:
 --- !u!4 &928233361 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4927815602188952, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
-  m_PrefabInstance: {fileID: 928233360}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &928233362 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95485627480488536, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
   m_PrefabInstance: {fileID: 928233360}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &933453040
@@ -8581,8 +8576,16 @@ MonoBehaviour:
     m_ActionName: UI/Interaction[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 1960ee6b-8180-4aea-8248-e11be6421ff6
-    m_ActionName: Player/Mouse[/Mouse/delta]
+    m_ActionId: 252d7d87-d58c-4dde-8edb-28e8b39ceff6
+    m_ActionName: Player/PartySetup[/Keyboard/j]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 54fa8061-a210-4997-a331-d6c7b93fdd28
+    m_ActionName: Puzzle/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 71a7f947-6393-4fb0-aa79-737e7606b834
+    m_ActionName: Puzzle/Running[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -8600,7 +8603,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed259b79b279294aa9b61ec1d677417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 928233362}
+  exploreManager: {fileID: 578125165}
+  objekPlayer: []
   interaksiNPC: {fileID: 127464732}
   playerInput: {fileID: 1345703582}
   _cameraMain: {fileID: 20052360}
@@ -10382,11 +10386,6 @@ Transform:
   - {fileID: 514565755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!1 &1538907706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1648213985480036, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
-  m_PrefabInstance: {fileID: 928233360}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1561722295
 GameObject:
   m_ObjectHideFlags: 0
@@ -10487,11 +10486,6 @@ Transform:
   - {fileID: 342656153}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1590300071 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1092001472203630, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
-  m_PrefabInstance: {fileID: 928233360}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1617665908
 GameObject:
   m_ObjectHideFlags: 0
@@ -11195,11 +11189,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7979196013395532419, guid: cefda5744f2acb54d8f08973a10bee1e, type: 3}
   m_PrefabInstance: {fileID: 1684111764}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1698786041 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1820743823237564, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
-  m_PrefabInstance: {fileID: 928233360}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1709752204
 GameObject:
@@ -12786,11 +12775,6 @@ Transform:
   - {fileID: 850388605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 180, z: 0}
---- !u!1 &1921934394 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1201828536575622, guid: 8dbb22b9d53a7664b8619d4c6888d92f, type: 3}
-  m_PrefabInstance: {fileID: 928233360}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1926082727
 PrefabInstance:
   m_ObjectHideFlags: 0

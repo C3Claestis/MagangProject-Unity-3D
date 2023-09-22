@@ -1,0 +1,170 @@
+{
+    "name": "PuzzleInput",
+    "maps": [
+        {
+            "name": "Sacra",
+            "id": "1aed4d5f-d808-40b9-9e40-142750d25109",
+            "actions": [
+                {
+                    "name": "InteraksiBox",
+                    "type": "Button",
+                    "id": "babc35c2-9ea1-4829-99e9-f9f0b24c0b43",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InputBox",
+                    "type": "Button",
+                    "id": "8d187f35-87bf-43ee-94c6-a5faedf45a64",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4e93d016-402c-4f04-adb0-b9a678467247",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteraksiBox",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9f7275c-bc13-42e7-b994-828d011409b0",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InputBox",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Gaard",
+            "id": "4f1beb00-990e-4952-9d83-0522b8d50fc4",
+            "actions": [
+                {
+                    "name": "LockPosition",
+                    "type": "Button",
+                    "id": "bb1bf958-9158-4a93-8850-4af170af2a60",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveRotasiKanan",
+                    "type": "Button",
+                    "id": "9ef56da7-ff8d-4364-b7bc-252314c462be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveRotasiKiri",
+                    "type": "Button",
+                    "id": "9a36869b-344b-439b-8539-c79b08ebb3da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2146641e-cf9c-4d97-aee0-4b4af0a5b882",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LockPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6239314f-02df-4afa-9190-7e80c959ab2c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveRotasiKanan",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9383041-7b2d-4237-81eb-c175bd69af0e",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveRotasiKiri",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Vana",
+            "id": "946aebf1-1c89-4a81-abeb-59e1271269c2",
+            "actions": [
+                {
+                    "name": "ActionVanaBroken",
+                    "type": "Button",
+                    "id": "3b395043-0c2d-40ae-8eb4-caf2842208ed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActivePanel",
+                    "type": "Button",
+                    "id": "7e9a8c5e-6209-4110-8fb6-f62ab8ddfc10",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d0512799-43eb-4de4-9adc-ce81c9942255",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionVanaBroken",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d029a2f6-7471-49df-8be8-044a9a434f54",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActivePanel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

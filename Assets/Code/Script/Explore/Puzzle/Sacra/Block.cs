@@ -16,6 +16,7 @@ namespace Nivandria.Explore.Puzzle
         float range = 2;
         private bool isRotating = false;
         private bool isReset = false;
+        private bool isDeteksi = false;
         private float targetRotation = 0f;
         private float rotationSpeed = 90f;
 
@@ -58,6 +59,18 @@ namespace Nivandria.Explore.Puzzle
                     break;
             }
         }
+        public void InputScan()
+        {
+            if (isDeteksi)
+            {
+                if (!isRotating)
+                {
+                    // Mengatur target rotasi 90 derajat lebih tinggi dari rotasi saat ini
+                    targetRotation = blok.eulerAngles.y + 90f;
+                    isRotating = true;
+                }
+            }            
+        }
         /// <summary>
         /// Untuk Scan Jika Ada Player Maka Bisa Melakukan Interaksi
         /// </summary>
@@ -71,15 +84,12 @@ namespace Nivandria.Explore.Puzzle
                 //Untuk membuat line 
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward * -1) * raycast.distance, Color.red);
                 material.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.L) && !isRotating)
-                {
-                    // Mengatur target rotasi 90 derajat lebih tinggi dari rotasi saat ini
-                    targetRotation = blok.eulerAngles.y + 90f;
-                    isRotating = true;
-                }
+                isDeteksi = true;
+
             }
             else
             {
+                isDeteksi = false;
                 material.SetActive(false);
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward * -1) * range, Color.green);
             }

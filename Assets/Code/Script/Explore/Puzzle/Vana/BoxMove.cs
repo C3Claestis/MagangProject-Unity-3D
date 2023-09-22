@@ -9,8 +9,33 @@ namespace Nivandria.Explore.Puzzle
         [SerializeField] float magnitudeMove;
         [SerializeField] float raycastDistance = 1.0f; // Jarak raycast
         [SerializeField] LayerMask raycastLayerMask; // Layer mask untuk raycast
+        public bool isDestroy = false;
 
         private void Update()
+        {
+            ScanRaycast();
+
+            if (isDestroy)
+            {
+                ObjectDiDestroy();
+                isDestroy = false;
+            }
+        }
+        void ObjectDiDestroy()
+        {
+            ObstacleBroke[] obstacle = FindObjectsOfType<ObstacleBroke>();
+            foreach (ObstacleBroke obs in obstacle)
+            {
+                if (obs.GetIsBroke())
+                {
+                    Destroy(obs.gameObject.transform.parent.gameObject, 4f);
+                }
+            }
+        }
+        /// <summary>
+        /// Untuk Mengecek Apakah Ada Box Didepannya
+        /// </summary>
+        void ScanRaycast()
         {
             // Membuat raycast ke depan dari posisi objek
             Ray ray = new Ray(transform.position, transform.forward);
@@ -18,7 +43,7 @@ namespace Nivandria.Explore.Puzzle
 
             // Lakukan raycast
             if (Physics.Raycast(ray, out hit, raycastDistance, raycastLayerMask))
-            {               
+            {
                 // Jika raycast mengenai objek "Boks", gerakkan objek tersebut
                 if (hit.collider.gameObject.name == "Boks")
                 {

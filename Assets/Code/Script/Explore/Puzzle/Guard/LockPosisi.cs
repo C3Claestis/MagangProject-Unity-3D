@@ -7,34 +7,25 @@ namespace Nivandria.Explore.Puzzle
         [SerializeField] GameObject player, clone;
         private bool isLocked = false;
         private bool isActive = false;
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
+     
+        public void InputKondisi()
         {
             if (isActive)
             {
-                if (Input.GetKeyDown(KeyCode.O))
+                if (isLocked)
                 {
-                    if (isLocked)
-                    {
-                        clone.SetActive(false);
-                        player.SetActive(true);
-                        isLocked = false;
-                    }
-                    else
-                    {
-                        player.transform.position = transform.position;
-                        clone.SetActive(true);
-                        player.SetActive(false);
-                        isLocked = true;
-                    }
+                    clone.SetActive(false);
+                    player.SetActive(true);
+                    isLocked = false;
                 }
-            }            
+                else
+                {
+                    player.transform.position = transform.position;
+                    clone.SetActive(true);
+                    player.SetActive(false);
+                    isLocked = true;
+                }
+            }
         }
         private void OnTriggerStay(Collider other)
         {
