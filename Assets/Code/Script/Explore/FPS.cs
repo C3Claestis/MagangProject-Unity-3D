@@ -7,7 +7,7 @@ namespace Nivandria.Explore
     {
         public Text fpsText;
         float deltaTime;
-
+        
         void Update()
         {
             deltaTime += (Time.deltaTime - deltaTime) * 0.1f;

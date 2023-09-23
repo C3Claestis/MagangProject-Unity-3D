@@ -1718,6 +1718,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 252d7d87-d58c-4dde-8edb-28e8b39ceff6
     m_ActionName: Player/PartySetup[/Keyboard/j]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 54fa8061-a210-4997-a331-d6c7b93fdd28
+    m_ActionName: Puzzle/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 71a7f947-6393-4fb0-aa79-737e7606b834
+    m_ActionName: Puzzle/Running[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -10420,7 +10428,7 @@ Transform:
   m_GameObject: {fileID: 1578874516}
   serializedVersion: 2
   m_LocalRotation: {x: 0.12059043, y: -0.37940952, z: 0.049950182, w: 0.9159757}
-  m_LocalPosition: {x: 3, y: 0, z: -2}
+  m_LocalPosition: {x: 3, y: 0, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10512,7 +10520,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1593423439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14531,7 +14539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2003990820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15574,7 +15582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2129979078
 MonoBehaviour:
   m_ObjectHideFlags: 0
