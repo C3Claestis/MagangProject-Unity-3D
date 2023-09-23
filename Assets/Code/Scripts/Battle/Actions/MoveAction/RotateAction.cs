@@ -30,11 +30,7 @@ namespace Nivandria.Battle.Action
             this.unit = unit;
             this.onActionComplete = onActionComplete;
 
-            unit.UpdateUnitGridPosition();
-            unit.UpdateUnitDirection();
-
             currentDirection = unit.GetFacingDirection();
-            Pointer.Instance.SetPointerOnGrid(unit.GetGridPosition());
 
             Pointer.Instance.GetRotateVisual().ResetPosition();
             rotateVisualTransform = Pointer.Instance.GetRotateVisual().GetTransform();
@@ -59,9 +55,9 @@ namespace Nivandria.Battle.Action
 
         public void ConfirmRotation()
         {
+            onActionComplete();
             SetRotateVisualActive(false);
             IsActive(false);
-            onActionComplete();
         }
 
         /// <summary>Checks if the object is currently rotating and manages the rotation process. </summary>

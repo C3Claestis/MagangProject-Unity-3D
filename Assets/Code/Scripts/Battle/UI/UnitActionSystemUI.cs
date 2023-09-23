@@ -37,7 +37,6 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
 
             CreateUnitActionButtons();
-            UpdateUISelectedVisual();
         }
 
         /// <summary> Creates unit action buttons based on the selected unit's available actions. </summary>
@@ -106,22 +105,14 @@ namespace Nivandria.Battle.UI
 
                 button.navigation = newNavigation;
             }
-                turnButton.navigation = turnButtonNavigation;
+            turnButton.navigation = turnButtonNavigation;
 
-            SetSelectedUI();
+            SelectUIBaseOnSelectedAction();
             actionButtonBackground.gameObject.SetActive(true);
         }
 
-        /// <summary> Updates the UI selected visual state for all action buttons. </summary>
-        private void UpdateUISelectedVisual()
-        {
-            foreach (ActionButtonUI actionButtonUI in actionButtonUIList)
-            {
-                actionButtonUI.UpdateUISelectedVisual();
-            }
-        }
 
-        public void SetSelectedUI()
+        public void SelectUIBaseOnSelectedAction()
         {
             var eventSystem = EventSystem.current;
             var selectedAction = UnitActionSystem.Instance.GetSelectedAction();
@@ -147,9 +138,7 @@ namespace Nivandria.Battle.UI
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             CreateUnitActionButtons();
-            UpdateUISelectedVisual();
+            SelectUIBaseOnSelectedAction();
         }
-
-
     }
 }

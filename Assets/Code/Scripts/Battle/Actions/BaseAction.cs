@@ -27,7 +27,6 @@ namespace Nivandria.Battle.Action
         public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
-            Pointer.Instance.SetPointerOnGrid(gridPosition);
             CameraController.Instance.SetActive(false);
             Pointer.Instance.SetActive(false);
             this.onActionComplete = onActionComplete;
@@ -47,13 +46,13 @@ namespace Nivandria.Battle.Action
         {
             Transform uiTransform = GameObject.FindGameObjectWithTag("UI").transform;
             Transform confirmationTranform = Instantiate(dialogueConfirmationPrefab, uiTransform);
-            confirmationTranform.GetComponent<UI.ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
-            PlayerInputController.Instance.SetActionMap("BattleUI");
+            PlayerInputController.Instance.SetActionMap("ConfirmationUI");
+            confirmationTranform.GetComponent<ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
         }
 
         protected virtual void YesButtonAction()
         {
-            PlayerInputController.Instance.OnCancelPressed -= PlayerInputController_OnCancelPressed;
+            PlayerInputController.Instance.OnCancelActionPressed -= PlayerInputController_OnCancelPressed;
         }
 
         protected virtual void NoButtonAction()
@@ -64,16 +63,20 @@ namespace Nivandria.Battle.Action
 
         protected virtual void CancelAction()
         {
+            GridPosition gridPosition = unit.GetGridPosition();
+
             GridSystemVisual.Instance.HideAllGridPosition();
-            UnitActionSystemUI.Instance.SetSelectedUI();
+            UnitActionSystemUI.Instance.SelectUIBaseOnSelectedAction();
             UnitActionSystem.Instance.ClearBusyUI();
+            Pointer.Instance.SetPointerOnGrid(gridPosition);
             PlayerInputController.Instance.SetActionMap("BattleUI");
-            PlayerInputController.Instance.OnCancelPressed -= PlayerInputController_OnCancelPressed;
+            CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
+            PlayerInputController.Instance.OnCancelActionPressed -= PlayerInputController_OnCancelPressed;
         }
 
         public void InitializeCancel()
         {
-            PlayerInputController.Instance.OnCancelPressed += PlayerInputController_OnCancelPressed;
+            PlayerInputController.Instance.OnCancelActionPressed += PlayerInputController_OnCancelPressed;
         }
 
         protected virtual void PlayerInputController_OnCancelPressed(object sender, EventArgs e)

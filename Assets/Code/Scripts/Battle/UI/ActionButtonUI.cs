@@ -27,8 +27,11 @@ namespace Nivandria.Battle.UI
             button.onClick.AddListener(() =>
             {
                 UnitActionSystem.Instance.SetSelectedAction(baseAction);
-                UnitActionSystem.Instance.SetBusyUI();
                 GridSystemVisual.Instance.UpdateGridVisual();
+
+                if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(baseAction.GetActionType())) return;
+
+                UnitActionSystem.Instance.SetBusyUI();
                 baseAction.InitializeCancel();
                 PlayerInputController.Instance.SetActionMap("Gridmap");
                 Pointer.Instance.SetActive(true);
@@ -41,11 +44,7 @@ namespace Nivandria.Battle.UI
         /// <summary> Updates the visual state of the UI based on the selected base action. </summary>
         public void UpdateUISelectedVisual()
         {
-            BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
-            EventSystem eventSystem = EventSystem.current;
 
-            outline.enabled = baseAction == selectedBaseAction;
-            eventSystem.SetSelectedGameObject(transform.gameObject, new BaseEventData(eventSystem));
         }
 
     }

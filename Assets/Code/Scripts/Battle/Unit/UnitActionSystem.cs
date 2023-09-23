@@ -63,6 +63,7 @@ namespace Nivandria.Battle.UnitSystem
 		/// <summary>Function that will be called after Action Completed.</summary>
 		private void OnActionComplete()
 		{
+			PlayerInputController.Instance.SetActionMap("BattleUI");
 			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
 			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
 
@@ -71,16 +72,13 @@ namespace Nivandria.Battle.UnitSystem
 
 			selectedAction.SetActive(false);
 
-			Pointer.Instance.SetActive(false);
-
-			UnitActionSystemUI.Instance.SetSelectedUI();
 			CameraController.Instance.SetActive(true);
 			GridSystemVisual.Instance.HideAllGridPosition();
-			
+
 			ClearBusy();
 			ClearBusyUI();
 
-			PlayerInputController.Instance.SetActionMap("BattleUI");
+			UnitActionSystemUI.Instance.SelectUIBaseOnSelectedAction();
 		}
 
 		#region Getter Setter
@@ -90,19 +88,10 @@ namespace Nivandria.Battle.UnitSystem
 			OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
-		public void ClearBusy()
-		{
-			isBusy = false;
-		}
-
-		private void SetBusy()
-		{
-			isBusy = true;
-		}
-
+		public void ClearBusy() => isBusy = false;
+		public void SetBusy() => isBusy = true;
 		public void SetBusyUI() => busyUI.gameObject.SetActive(true);
 		public void ClearBusyUI() => busyUI.gameObject.SetActive(false);
-
 		public bool GetBusyStatus() => isBusy;
 
 		public BaseAction GetSelectedAction() => selectedAction;

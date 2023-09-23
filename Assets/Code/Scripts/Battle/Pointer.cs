@@ -37,6 +37,7 @@ namespace Nivandria.Battle
         {
             PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
             UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
+            SetActive(false);
         }
 
         private void Update()

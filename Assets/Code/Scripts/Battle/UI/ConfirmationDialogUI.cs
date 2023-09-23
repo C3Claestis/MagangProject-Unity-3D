@@ -16,12 +16,12 @@ namespace Nivandria.Battle.UI
         {
             var eventSystem = EventSystem.current;
             eventSystem.SetSelectedGameObject(firstButton.gameObject, new BaseEventData(eventSystem));
-            PlayerInputController.Instance.OnCancelPressed += PlayerInputController_OnCancelPressed;
+            PlayerInputController.Instance.OnCancelUIPressed += PlayerInputController_OnCancelPressed;
         }
 
         private void OnDestroy()
         {
-            PlayerInputController.Instance.OnCancelPressed -= PlayerInputController_OnCancelPressed;
+            PlayerInputController.Instance.OnCancelUIPressed -= PlayerInputController_OnCancelPressed;
         }
 
         public void InitializeConfirmationButton(Action onYesButtonSelected, Action onNoButtonSelected)

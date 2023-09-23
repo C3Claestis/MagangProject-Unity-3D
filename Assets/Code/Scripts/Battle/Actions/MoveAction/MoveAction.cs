@@ -47,7 +47,6 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to call upon completing the move action.</param>
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-
             startPosition = transform.position;
             startRotation = transform.rotation;
             targetPosition = gridPosition;
@@ -147,7 +146,7 @@ namespace Nivandria.Battle.Action
 
         private void HandleJumping()
         {
-            float jumpSpeed = 3.8f;
+            float jumpSpeed = 3.7f;
 
             if (startJumping)
             {

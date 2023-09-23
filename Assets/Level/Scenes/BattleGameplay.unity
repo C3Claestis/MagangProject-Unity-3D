@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 8, z: -6}
+  m_FollowOffset: {x: 0, y: 7.990263, z: -6}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -688,6 +688,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 806160373}
     m_Modifications:
+    - target: {fileID: 1571451231678672421, guid: 4c64aedb9344d184498d91d255c2ad35, type: 3}
+      propertyPath: m_Transition
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4053367654058515031, guid: 4c64aedb9344d184498d91d255c2ad35, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -885,26 +889,6 @@ MonoBehaviour:
     m_ActionId: 9dffd3c1-fa00-4998-8040-b75c7da4f798
     m_ActionName: Battle/CameraZoom[/Mouse/scroll/y]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 92b48f0c-07dd-4e97-af42-18e8a3e81590
-    m_ActionName: UI/New action
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 351467059}
-        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
-        m_MethodName: GridMap_NextUnit
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c667282d-502e-40b3-aa9d-f9cab5663bce
-    m_ActionName: Gridmap/NextUnit[/Keyboard/space,/XInputControllerWindows/buttonNorth]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 351467059}
         m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
@@ -961,19 +945,7 @@ MonoBehaviour:
     m_ActionId: c7b02926-806a-4681-b11a-1d19118058b1
     m_ActionName: UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 351467059}
-        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
-        m_MethodName: UI_Cancel
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: ed7ed1fa-bd85-48f5-bcf9-54db2aad7e68
     m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
@@ -996,6 +968,94 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3e045613-6fd7-47e8-a20b-dc71c43f36ad
     m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: Cancel_Action
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ecf30591-1997-4d2b-b336-212fe427f0b1
+    m_ActionName: Gridmap/CancelAction[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 30117f33-74f1-467b-bf7d-b06b41ac3682
+    m_ActionName: Gridmap/PauseGame[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0d1a7328-ff24-4c19-8081-a15cd21b6c9c
+    m_ActionName: BattleUI/Help[/Keyboard/ctrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4378090b-134b-495d-ab31-ebd00e6fd7ef
+    m_ActionName: BattleUI/RoamingMode[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 64f1f128-9e61-4f7f-bfc0-a5387b457384
+    m_ActionName: RotateUnit/PauseGame[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6af83924-c05a-4308-830e-f1f3e966c857
+    m_ActionName: BattleUI/PauseGame[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: ConfimationUI_Cancel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1d870bd7-d71f-4c80-b0c4-eac2de9b2327
+    m_ActionName: ConfirmationUI/CancelAction[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: BattleUI
@@ -1802,13 +1862,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 23.03
+  m_fontSizeBase: 23.03
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3617,8 +3677,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412894876}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44721362, y: -0.000000015535587, z: 0.0000000077677935, w: 0.89442724}
-  m_LocalPosition: {x: 8.09, y: 8, z: -6}
+  m_LocalRotation: {x: 0.4469521, y: -0.000000021767722, z: 0.000000010875909, w: 0.8945579}
+  m_LocalPosition: {x: 8.09, y: 7.990263, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4778,8 +4838,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975823979}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44721362, y: -0.000000015535587, z: 0.0000000077677935, w: 0.89442724}
-  m_LocalPosition: {x: 8.09, y: 8, z: -6}
+  m_LocalRotation: {x: 0.4469521, y: -0.000000021767722, z: 0.000000010875909, w: 0.8945579}
+  m_LocalPosition: {x: 8.09, y: 7.990263, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

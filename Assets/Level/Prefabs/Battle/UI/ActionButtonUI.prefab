@@ -74,8 +74,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4281940289
+  m_fontColor: {r: 0.254717, g: 0.22467962, b: 0.22467962, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 3560202908509285664}
   - component: {fileID: 133583292197339845}
   - component: {fileID: 1571451231678672421}
-  - component: {fileID: 7722270808236620904}
   - component: {fileID: 2501499533180268903}
   - component: {fileID: 3986097824606233814}
   m_Layer: 5
@@ -197,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -258,21 +257,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7722270808236620904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7413341074036226968}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 1, b: 0.12640262, a: 1}
-  m_EffectDistance: {x: 2, y: 2}
-  m_UseGraphicAlpha: 1
 --- !u!114 &2501499533180268903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,4 +286,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 4627728205174568490}
   button: {fileID: 1571451231678672421}
-  outline: {fileID: 7722270808236620904}
+  outline: {fileID: 0}

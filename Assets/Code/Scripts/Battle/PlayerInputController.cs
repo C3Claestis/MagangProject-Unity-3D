@@ -11,8 +11,9 @@ namespace Nivandria.Battle
 
         public delegate void ActionMapChangedEventHandler(object sender, string actionMap);
         public event ActionMapChangedEventHandler OnActionMapChanged;
-        public event EventHandler OnCancelPressed;
+        public event EventHandler OnCancelActionPressed;
         public event EventHandler OnInputControlChanged;
+        public event EventHandler OnCancelUIPressed;
 
         private PlayerInput playerInput;
         private Vector2 cameraMovementInputValue;
@@ -33,10 +34,24 @@ namespace Nivandria.Battle
             playerInput = GetComponent<PlayerInput>();
         }
 
-        public void UI_Cancel(InputAction.CallbackContext context)
+        public void Cancel_Action(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            OnCancelPressed?.Invoke(this, EventArgs.Empty);
+            OnCancelActionPressed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void PauseGame(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            Debug.Log("Pause Game");
+        }
+
+        ///============================CANCEL CONFIRMATION============================///
+
+        public void ConfimationUI_Cancel(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            OnCancelUIPressed?.Invoke(this, EventArgs.Empty);
         }
 
         ///============================ROTATE UNIT============================///
@@ -46,6 +61,7 @@ namespace Nivandria.Battle
             if (!context.performed) return;
             Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
             unit.GetRotateAction().ConfirmRotation();
+            Debug.Log("Rotate Confirm");
         }
 
         public void RotateUnit_Rotate(InputAction.CallbackContext context)
@@ -127,6 +143,15 @@ namespace Nivandria.Battle
         {
             playerInput.SwitchCurrentActionMap(actionMap);
             OnActionMapChanged?.Invoke(this, actionMap);
+
+            if (actionMap == "BattleUI" || actionMap == "ConfirmationUI")
+            {
+                playerInput.uiInputModule.enabled = true;
+            }
+            else
+            {
+                playerInput.uiInputModule.enabled = false;
+            }
         }
 
         public Vector2 GetCameraMovementInputValue() => cameraMovementInputValue;
