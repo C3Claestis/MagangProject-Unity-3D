@@ -6,6 +6,7 @@ namespace Nivandria.Battle.Action
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
     using Nivandria.Battle.UI;
+    using Nivandria.Battle.UnitSystem;
 
     public class MoveAction : BaseAction
     {
@@ -18,11 +19,13 @@ namespace Nivandria.Battle.Action
 
         private Vector3 startPosition;
         private Quaternion startRotation;
+        private Quaternion targetRotation;
+
         private GridPosition targetPosition;
 
         private List<Vector3> positionList;
         private int currentPositionIndex;
-        private float moveStoppingDistance = 0.1f;
+        private float moveStoppingDistance = 0.01f;
         private float rotateSpeed = 20f;
         private float moveSpeed = 4f;
 
@@ -31,16 +34,23 @@ namespace Nivandria.Battle.Action
         private Vector3 jumpTargetPosition;
         private bool startJumping = false;
         private bool isJumping = false;
+        private bool doneRotating;
 
         protected override ActionType actionType { get { return ActionType.Move; } }
         protected override string actionName { get { return "Move"; } }
 
         private void Update()
         {
+            if (!doneRotating)
+            {
+                IsRotating();
+            }
+
             if (!isActive) return;
 
             if (isJumping) HandleJumping();
             else HandleMoving();
+
         }
 
         /// <summary>Initiates a move action to the specified grid position and triggers a callback when the movement is finished.</summary>
@@ -51,6 +61,7 @@ namespace Nivandria.Battle.Action
             startPosition = transform.position;
             startRotation = transform.rotation;
             targetPosition = gridPosition;
+            doneRotating = true;
 
             base.TakeAction(targetPosition, onActionComplete);
 
@@ -176,9 +187,49 @@ namespace Nivandria.Battle.Action
             SetActive(false);
 
             unit.UpdateUnitGridPosition();
+            unit.UpdateUnitDirection();
+            RotateCharacter(unit.GetFacingDirection());
             Pointer.Instance.SetPointerOnGrid(targetPosition);
 
             UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            doneRotating = false;
+        }
+
+        private void IsRotating()
+        {
+
+            if (Quaternion.Angle(transform.rotation, targetRotation) < 5f)
+            {
+                doneRotating = true;
+                unit.UpdateUnitDirection();
+                Debug.Log("Done rotating");
+            }
+            else
+            {
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+
+                doneRotating = false;
+            }
+        }
+
+        private void RotateCharacter(FacingDirection state)
+        {
+            switch (state)
+            {
+                case FacingDirection.UP:
+                    targetRotation = Quaternion.Euler(0, 0, 0);
+                    break;
+                case FacingDirection.RIGHT:
+                    targetRotation = Quaternion.Euler(0, 90, 0);
+                    break;
+                case FacingDirection.DOWN:
+                    targetRotation = Quaternion.Euler(0, 180, 0);
+                    break;
+                case FacingDirection.LEFT:
+                    targetRotation = Quaternion.Euler(0, 270, 0);
+                    break;
+            }
         }
 
         protected override void NoButtonAction()
@@ -186,6 +237,7 @@ namespace Nivandria.Battle.Action
             transform.position = startPosition;
             transform.rotation = startRotation;
             destinationReached = false;
+            doneRotating = true;
 
             unit.UpdateUnitGridPosition();
 
@@ -202,7 +254,7 @@ namespace Nivandria.Battle.Action
 
         protected override void PlayerInputController_OnCancelPressed(object sender, EventArgs e)
         {
-            if(destinationReached) return;
+            if (destinationReached) return;
             base.PlayerInputController_OnCancelPressed(sender, e);
         }
 
