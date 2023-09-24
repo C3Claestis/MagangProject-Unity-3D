@@ -16,7 +16,7 @@ namespace Nivandria.Battle.UI
         [SerializeField] private Transform actionButtonContainerTransform;
         [SerializeField] private Transform actionButtonBackground;
         [SerializeField] private Transform turnSystemButton;
-        [SerializeField] protected Transform dialogueConfirmationPrefab;
+        [SerializeField] private Transform dialogueConfirmationPrefab;
 
 
         private List<ActionButtonUI> actionButtonUIList;
@@ -113,7 +113,6 @@ namespace Nivandria.Battle.UI
             actionButtonBackground.gameObject.SetActive(true);
         }
 
-
         public void SelectUIBaseOnSelectedAction()
         {
             var selectedAction = UnitActionSystem.Instance.GetSelectedAction();
@@ -131,7 +130,6 @@ namespace Nivandria.Battle.UI
             }
 
             Debug.LogError("Action button not found!");
-
         }
 
         public void SetSelectedGameObject(GameObject selectedObject)
@@ -140,16 +138,12 @@ namespace Nivandria.Battle.UI
             eventSystem.SetSelectedGameObject(selectedObject, new BaseEventData(eventSystem));
         }
 
-
         //EVENT FUNCTION
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             CreateUnitActionButtons();
             SelectUIBaseOnSelectedAction();
         }
-
-        public Transform GetTurnSystemButton() => turnSystemButton;
-
 
         public virtual void InitializeConfirmationButton(Action onYesButtonSelected, Action onNoButtonSelected)
         {
@@ -159,5 +153,7 @@ namespace Nivandria.Battle.UI
             PlayerInputController.Instance.SetActionMap("ConfirmationUI");
             confirmationTranform.GetComponent<ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
         }
+
+        public Transform GetTurnSystemButton() => turnSystemButton;
     }
 }

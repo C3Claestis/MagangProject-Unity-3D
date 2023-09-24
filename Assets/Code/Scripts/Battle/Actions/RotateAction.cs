@@ -4,6 +4,7 @@ namespace Nivandria.Battle.Action
     using UnityEngine;
     using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.UI;
+    using Nivandria.Battle.Grid;
 
     public class RotateAction : MonoBehaviour
     {
@@ -33,6 +34,7 @@ namespace Nivandria.Battle.Action
             PlayerInputController.Instance.SetActionMap("RotateUnit");
 
             currentDirection = unit.GetFacingDirection();
+            GridSystemVisual.Instance.HideAllGridPosition();
 
             Pointer.Instance.GetRotateVisual().ResetPosition();
             rotateVisualTransform = Pointer.Instance.GetRotateVisual().GetTransform();

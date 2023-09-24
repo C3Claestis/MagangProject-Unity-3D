@@ -12,7 +12,7 @@ namespace Nivandria.Battle.UnitSystem
 	{
 		public static UnitActionSystem Instance { get; private set; }
 
-		[SerializeField] private Image busyUI;
+		[SerializeField] private CanvasGroup actionSystemUIGroup;
 
 		public event EventHandler OnSelectedActionChanged;
 		public event EventHandler OnMoveActionPerformed;
@@ -88,10 +88,21 @@ namespace Nivandria.Battle.UnitSystem
 			OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
+		public void SetBusyUI()
+		{
+			actionSystemUIGroup.alpha = 0;
+			actionSystemUIGroup.interactable = false;
+		}
+
+		public void ClearBusyUI()
+		{
+			actionSystemUIGroup.alpha = 1;
+			actionSystemUIGroup.interactable = true;
+		}
+
 		public void ClearBusy() => isBusy = false;
 		public void SetBusy() => isBusy = true;
-		public void SetBusyUI() => busyUI.gameObject.SetActive(true);
-		public void ClearBusyUI() => busyUI.gameObject.SetActive(false);
+
 		public bool GetBusyStatus() => isBusy;
 
 		public BaseAction GetSelectedAction() => selectedAction;

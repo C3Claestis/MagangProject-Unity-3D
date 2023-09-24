@@ -1374,6 +1374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 435279438}
   - component: {fileID: 435279439}
+  - component: {fileID: 435279440}
   m_Layer: 5
   m_Name: UnitActionSystemUI
   m_TagString: Untagged
@@ -1397,7 +1398,6 @@ RectTransform:
   - {fileID: 806160373}
   - {fileID: 1575719714}
   - {fileID: 1554916720}
-  - {fileID: 1641468866}
   m_Father: {fileID: 484122684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1422,6 +1422,18 @@ MonoBehaviour:
   actionButtonBackground: {fileID: 25264421}
   turnSystemButton: {fileID: 1575719714}
   dialogueConfirmationPrefab: {fileID: 1880736793165282418, guid: 87cbcc288952bdc4b9b40421fe9b7a12, type: 3}
+--- !u!225 &435279440
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435279437}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &456390732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1602,6 +1614,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1641468866}
   - {fileID: 435279438}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3694,7 +3707,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412894876}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44695792, y: -0.000000015392054, z: 0.000000007690527, w: 0.89455503}
+  m_LocalRotation: {x: 0.44695792, y: 0.000000015392054, z: -0.000000007690527, w: 0.89455503}
   m_LocalPosition: {x: 8.09, y: 7.990479, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4293,7 +4306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e629c9c923eff42a044fa41f7b08c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busyUI: {fileID: 1554916721}
+  actionSystemUIGroup: {fileID: 435279440}
 --- !u!4 &1602922283
 Transform:
   m_ObjectHideFlags: 0
@@ -4350,7 +4363,7 @@ RectTransform:
   m_Children:
   - {fileID: 276876853}
   - {fileID: 1496120263}
-  m_Father: {fileID: 435279438}
+  m_Father: {fileID: 484122684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4869,7 +4882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975823979}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44695792, y: -0.000000015392054, z: 0.000000007690527, w: 0.89455503}
+  m_LocalRotation: {x: 0.44695792, y: 0.000000015392054, z: -0.000000007690527, w: 0.89455503}
   m_LocalPosition: {x: 8.09, y: 7.990479, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
