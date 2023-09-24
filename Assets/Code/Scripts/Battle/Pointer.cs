@@ -132,8 +132,9 @@ namespace Nivandria.Battle
                 return;
             }
 
-            Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-            target = new Vector3(mousePosition.x, GetPointerHeight(gridPosition), mousePosition.z);
+            Vector3 pointerPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            target = new Vector3(pointerPosition.x, GetPointerHeight(gridPosition), pointerPosition.z);
+            currentGrid = gridPosition;
         }
 
 

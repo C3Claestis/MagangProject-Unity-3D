@@ -1,6 +1,8 @@
 namespace Nivandria.Battle
 {
     using System;
+    using Nivandria.Battle.Action;
+    using Nivandria.Battle.UI;
     using Nivandria.Battle.UnitSystem;
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -59,20 +61,22 @@ namespace Nivandria.Battle
         public void RotateUnit_Confirm(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
-            unit.GetRotateAction().ConfirmRotation();
-            Debug.Log("Rotate Confirm");
+            Transform turnButton = UnitActionSystemUI.Instance.GetTurnSystemButton();
+            RotateAction rotateAction = turnButton.GetComponent<RotateAction>();
+
+            rotateAction.ConfirmRotation();
         }
 
         public void RotateUnit_Rotate(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
 
+            Transform turnButton = UnitActionSystemUI.Instance.GetTurnSystemButton();
+            RotateAction rotateAction = turnButton.GetComponent<RotateAction>();
             float rotateValue = context.ReadValue<float>();
-            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
 
-            if (rotateValue > 0) unit.GetRotateAction().RotateRight();
-            else if (rotateValue < 0) unit.GetRotateAction().RotateLeft();
+            if (rotateValue > 0) rotateAction.RotateRight();
+            else if (rotateValue < 0) rotateAction.RotateLeft();
         }
 
         ///============================SELECT GRID============================///

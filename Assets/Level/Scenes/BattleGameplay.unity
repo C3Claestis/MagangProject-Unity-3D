@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 7.990263, z: -6}
+  m_FollowOffset: {x: 0, y: 6.390874, z: -6}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -1056,6 +1056,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1d870bd7-d71f-4c80-b0c4-eac2de9b2327
     m_ActionName: ConfirmationUI/CancelAction[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 351467059}
+        m_TargetAssemblyTypeName: Nivandria.Battle.PlayerInputController, Assembly-CSharp
+        m_MethodName: Cancel_Action
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f938302a-cab7-4195-a601-bd52d6c9eedf
+    m_ActionName: RotateUnit/CancelAction[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: BattleUI
@@ -1405,6 +1421,7 @@ MonoBehaviour:
   actionButtonContainerTransform: {fileID: 806160373}
   actionButtonBackground: {fileID: 25264421}
   turnSystemButton: {fileID: 1575719714}
+  dialogueConfirmationPrefab: {fileID: 1880736793165282418, guid: 87cbcc288952bdc4b9b40421fe9b7a12, type: 3}
 --- !u!1001 &456390732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3677,8 +3694,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412894876}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4469521, y: -0.000000021767722, z: 0.000000010875909, w: 0.8945579}
-  m_LocalPosition: {x: 8.09, y: 7.990263, z: -6}
+  m_LocalRotation: {x: 0.39720246, y: 0.000000016341517, z: -0.00000000707276, w: 0.91773105}
+  m_LocalPosition: {x: 8.09, y: 6.390874, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4052,8 +4069,9 @@ GameObject:
   - component: {fileID: 1575719717}
   - component: {fileID: 1575719716}
   - component: {fileID: 1575719715}
+  - component: {fileID: 1575719719}
   m_Layer: 5
-  m_Name: NextTurnButton
+  m_Name: NextTurnButtonUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4123,9 +4141,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1836309313}
-        m_TargetAssemblyTypeName: Nivandria.Battle.UnitSystem.UnitTurnSystem, Assembly-CSharp
-        m_MethodName: HandleUnitSelection
+      - m_Target: {fileID: 1575719719}
+        m_TargetAssemblyTypeName: Nivandria.Battle.Action.RotateAction, Assembly-CSharp
+        m_MethodName: StartRotating
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4173,6 +4191,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575719713}
   m_CullTransparentMesh: 1
+--- !u!114 &1575719719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575719713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fc222a6e0df62c41839e1f1b35c9f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1583121452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4838,8 +4868,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975823979}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4469521, y: -0.000000021767722, z: 0.000000010875909, w: 0.8945579}
-  m_LocalPosition: {x: 8.09, y: 7.990263, z: -6}
+  m_LocalRotation: {x: 0.39720246, y: 0.000000016341517, z: -0.00000000707276, w: 0.91773105}
+  m_LocalPosition: {x: 8.09, y: 6.390874, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

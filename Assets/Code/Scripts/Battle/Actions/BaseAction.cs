@@ -14,7 +14,6 @@ namespace Nivandria.Battle.Action
         protected bool isActive;
         protected abstract string actionName { get; }
         protected abstract ActionType actionType { get; }
-        [SerializeField] protected Transform dialogueConfirmationPrefab;
 
         protected virtual void Awake()
         {
@@ -40,14 +39,6 @@ namespace Nivandria.Battle.Action
         {
             List<GridPosition> validGridPositionList = GetValidActionGridPosition();
             return validGridPositionList.Contains(gridPosition);
-        }
-
-        protected virtual void InitializeConfirmationButton(Action onYesButtonSelected, Action onNoButtonSelected)
-        {
-            Transform uiTransform = GameObject.FindGameObjectWithTag("UI").transform;
-            Transform confirmationTranform = Instantiate(dialogueConfirmationPrefab, uiTransform);
-            PlayerInputController.Instance.SetActionMap("ConfirmationUI");
-            confirmationTranform.GetComponent<ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
         }
 
         protected virtual void YesButtonAction()

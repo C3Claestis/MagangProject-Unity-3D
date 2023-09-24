@@ -13,6 +13,7 @@ namespace Nivandria.Battle.UI
         [SerializeField] private TextMeshProUGUI textMeshPro;
         [SerializeField] private Button button;
         [SerializeField] private Outline outline;
+        
 
         private BaseAction baseAction;
 

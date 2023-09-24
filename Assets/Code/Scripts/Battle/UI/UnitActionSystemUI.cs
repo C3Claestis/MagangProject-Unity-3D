@@ -16,6 +16,8 @@ namespace Nivandria.Battle.UI
         [SerializeField] private Transform actionButtonContainerTransform;
         [SerializeField] private Transform actionButtonBackground;
         [SerializeField] private Transform turnSystemButton;
+        [SerializeField] protected Transform dialogueConfirmationPrefab;
+
 
         private List<ActionButtonUI> actionButtonUIList;
 
@@ -114,7 +116,6 @@ namespace Nivandria.Battle.UI
 
         public void SelectUIBaseOnSelectedAction()
         {
-            var eventSystem = EventSystem.current;
             var selectedAction = UnitActionSystem.Instance.GetSelectedAction();
 
             foreach (ActionButtonUI actionButtonUI in actionButtonUIList)
@@ -124,7 +125,7 @@ namespace Nivandria.Battle.UI
                 if (selectedAction == baseAction)
                 {
                     var selectButton = actionButtonUI;
-                    eventSystem.SetSelectedGameObject(selectButton.gameObject, new BaseEventData(eventSystem));
+                    SetSelectedGameObject(selectButton.gameObject);
                     return;
                 }
             }
@@ -133,12 +134,30 @@ namespace Nivandria.Battle.UI
 
         }
 
+        public void SetSelectedGameObject(GameObject selectedObject)
+        {
+            var eventSystem = EventSystem.current;
+            eventSystem.SetSelectedGameObject(selectedObject, new BaseEventData(eventSystem));
+        }
+
 
         //EVENT FUNCTION
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             CreateUnitActionButtons();
             SelectUIBaseOnSelectedAction();
+        }
+
+        public Transform GetTurnSystemButton() => turnSystemButton;
+
+
+        public virtual void InitializeConfirmationButton(Action onYesButtonSelected, Action onNoButtonSelected)
+        {
+            Transform uiTransform = GameObject.FindGameObjectWithTag("UI").transform;
+            Transform confirmationTranform = Instantiate(dialogueConfirmationPrefab, uiTransform);
+
+            PlayerInputController.Instance.SetActionMap("ConfirmationUI");
+            confirmationTranform.GetComponent<ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
         }
     }
 }

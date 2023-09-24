@@ -148,6 +148,7 @@ namespace Nivandria.Battle.UnitSystem
         public GridPosition GetGridPosition() => gridPosition;
         public FacingDirection GetFacingDirection() => currentDirection;
         public RotateAction GetRotateAction() => GetComponent<RotateAction>();
+        public Transform GetUnitTransform() => transform;
         public MoveType GetMoveType() => moveType;
         public UnitType GetUnitType() => unitType;
 

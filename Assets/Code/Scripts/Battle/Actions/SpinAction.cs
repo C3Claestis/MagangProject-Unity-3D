@@ -3,6 +3,7 @@ namespace Nivandria.Battle.Action
     using System;
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.UI;
     using UnityEngine;
 
     public class SpinAction : BaseAction
@@ -40,7 +41,7 @@ namespace Nivandria.Battle.Action
             totalSpinAmount = 0f;
             SetActive(false);
             
-            InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
         }
 
         public override List<GridPosition> GetValidActionGridPosition()

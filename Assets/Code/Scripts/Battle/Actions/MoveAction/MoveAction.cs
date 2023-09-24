@@ -5,6 +5,7 @@ namespace Nivandria.Battle.Action
     using UnityEngine;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
+    using Nivandria.Battle.UI;
 
     public class MoveAction : BaseAction
     {
@@ -177,7 +178,7 @@ namespace Nivandria.Battle.Action
             unit.UpdateUnitGridPosition();
             Pointer.Instance.SetPointerOnGrid(targetPosition);
 
-            InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
         }
 
         protected override void NoButtonAction()
@@ -187,7 +188,6 @@ namespace Nivandria.Battle.Action
             destinationReached = false;
 
             unit.UpdateUnitGridPosition();
-            Pointer.Instance.SetPointerOnGrid(LevelGrid.Instance.GetGridPosition(startPosition));
 
             base.NoButtonAction();
         }
@@ -196,8 +196,8 @@ namespace Nivandria.Battle.Action
         {
             base.YesButtonAction();
             GridSystemVisual.Instance.HideAllGridPosition();
-            unit.GetRotateAction().StartRotating(unit, onActionComplete);
-            PlayerInputController.Instance.SetActionMap("RotateUnit");
+
+            onActionComplete();
         }
 
         protected override void PlayerInputController_OnCancelPressed(object sender, EventArgs e)
