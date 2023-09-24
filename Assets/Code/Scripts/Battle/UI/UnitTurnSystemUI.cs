@@ -11,6 +11,7 @@ namespace Nivandria.Battle.UI
         [SerializeField] Transform UnitIconPrefab;
         [SerializeField] Transform waitingListContainer;
         [SerializeField] Transform nowTurnContainer;
+        [SerializeField] TextMeshProUGUI turnText;
 
         private List<Transform> unitTurnSystemList;
 
@@ -33,9 +34,8 @@ namespace Nivandria.Battle.UI
 
         public void UpdateTurnSystemVisual()
         {
-            Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
             List<Unit> waitingUnitList = UnitTurnSystem.Instance.GetWaitingUnitList();
-            List<Unit> movedUnitList = UnitTurnSystem.Instance.GetMovedUnitList();
+            turnText.enabled = true;
 
             foreach (Transform iconTransform in unitTurnSystemList)
             {
@@ -44,34 +44,36 @@ namespace Nivandria.Battle.UI
 
             unitTurnSystemList.Clear();
 
-            if (selectedUnit == null) return;
+            if (waitingUnitList.Count == 0)
+            {
+                turnText.enabled = false;
+                return;
+            }
 
+            Unit nextUnit = waitingUnitList[0];
+
+            if (nextUnit == null) return;
             Transform nowUnitTurnIconTransform = Instantiate(UnitIconPrefab, nowTurnContainer);
             UnitIconUI selectedUnitIcon = nowUnitTurnIconTransform.GetComponent<UnitIconUI>();
             unitTurnSystemList.Add(nowUnitTurnIconTransform);
-            selectedUnitIcon.SetIconName(selectedUnit.GetCharacterName());
-            selectedUnitIcon.SetIcon(selectedUnit.GetUnitIcon());
-            selectedUnitIcon.ShadeStatus(false);
+            selectedUnitIcon.SetIconName(nextUnit.GetCharacterName());
+            selectedUnitIcon.SetIcon(nextUnit.GetUnitIcon());
 
-            foreach (Unit unit in waitingUnitList)
+
+            for (int i = 1; i < waitingUnitList.Count; i++)
             {
+                Unit unit = waitingUnitList[i];
+
+                if (unit == null) break;
+
                 Transform waitingUnitTurnIconTransform = Instantiate(UnitIconPrefab, waitingListContainer);
                 UnitIconUI waitingUnitIcon = waitingUnitTurnIconTransform.GetComponent<UnitIconUI>();
+
                 unitTurnSystemList.Add(waitingUnitTurnIconTransform);
                 waitingUnitIcon.SetIconName(unit.GetCharacterName());
                 waitingUnitIcon.SetIcon(unit.GetUnitIcon());
-                waitingUnitIcon.ShadeStatus(false);
             }
 
-            foreach (Unit unit in movedUnitList)
-            {
-                Transform movedUnitTurnIconTransform = Instantiate(UnitIconPrefab, waitingListContainer);
-                UnitIconUI movedUnitIcon = movedUnitTurnIconTransform.GetComponent<UnitIconUI>();
-                unitTurnSystemList.Add(movedUnitTurnIconTransform);
-                movedUnitIcon.SetIconName(unit.GetCharacterName());
-                movedUnitIcon.SetIcon(unit.GetUnitIcon());
-                movedUnitIcon.ShadeStatus(true);
-            }
 
             for (int i = 1; i < unitTurnSystemList.Count; i++)
             {

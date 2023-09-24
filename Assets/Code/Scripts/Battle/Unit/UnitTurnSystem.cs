@@ -16,7 +16,6 @@ namespace Nivandria.Battle.UnitSystem
 
         [SerializeField] TextMeshProUGUI turnCountUI;
         private List<Unit> waitingUnitList;
-        private List<Unit> movedUnitList;
         private Unit selectedUnit;
 
         private string unitTag = "Units";
@@ -36,7 +35,6 @@ namespace Nivandria.Battle.UnitSystem
         private void Start()
         {
             waitingUnitList = new List<Unit>();
-            movedUnitList = new List<Unit>();
 
             waitingUnitList = SortFromFastestUnit();
             SetTurnCount(turnRounds);
@@ -87,7 +85,6 @@ namespace Nivandria.Battle.UnitSystem
         /// <summary>Resets the selected unit's status and shading after it's turn has ended.</summary>
         private void ResetSelectedUnit()
         {
-            movedUnitList.Add(selectedUnit);
             selectedUnit.SetSelectedStatus(false);
             selectedUnit.ChangeUnitShade();
             selectedUnit.SetTurnStatus(true);
@@ -120,7 +117,6 @@ namespace Nivandria.Battle.UnitSystem
         private void NextTurn()
         {
             waitingUnitList = SortFromFastestUnit();
-            movedUnitList.Clear();
             selectedUnit = null;
             turnRounds++;
             Debug.Log("All units have already moved! Next Round : " + turnRounds);
@@ -133,7 +129,6 @@ namespace Nivandria.Battle.UnitSystem
 
         public Unit GetSelectedUnit() => selectedUnit;
         public List<Unit> GetWaitingUnitList() => waitingUnitList;
-        public List<Unit> GetMovedUnitList() => movedUnitList;
         public int GetTurnNumber() => turnRounds;
 
         private void SetTurnCount(int number) => turnCountUI.text = $"TURN {number}";
