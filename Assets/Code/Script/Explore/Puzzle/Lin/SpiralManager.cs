@@ -16,10 +16,7 @@ namespace Nivandria.Explore.Puzzle
         // Update is called once per frame
         void Update()
         {
-            if (rotateGlass.GetKondisi())
-            {
-                Debug.Log("GET");
-            }
+            
         }
     }
 }

@@ -3,51 +3,104 @@ namespace Nivandria.Explore
     using System;
     using UnityEngine;
     using UnityEngine.InputSystem;
-        
+    
     public class InputSystem : MonoBehaviour
     {
         [SerializeField] ExploreManager exploreManager;
-        [SerializeField] GameObject[] objekPlayer;        
+        [SerializeField] GameObject[] objekPlayer;
         [SerializeField] private InteraksiNPC interaksiNPC;
         [SerializeField] PlayerInput playerInput;
         [SerializeField] GameObject _cameraMain, _cameraTalk;
         private Animator animator;
-        private Vector2 movementValue, insertValue;
+        private Vector2 movementValue;
         private bool isMoving = false;
         private bool canRunning = false;
         private bool isSpawn = false;
         private bool isSetup = true;
-        
+
+        [SerializeField] RectTransform staminaBarRectTransform;     
+        private float initialStaminaBarWidth;   
+        private float maxStamina = 50f;
+        private float currentStamina;
+        private float staminaRegenRate = 10f;
+        private float staminaCostPerRun = 5f;
         private void Start()
         {
-            GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);         
+            currentStamina = maxStamina;
+            initialStaminaBarWidth = staminaBarRectTransform.sizeDelta.x;
+            GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
         }
         private void Update()
         {
-            if(animator == null)
+            SpawnKarakter();
+            HandleRun();
+        }
+        void HandleRun()
+        {
+            if (canRunning && isMoving && currentStamina >= staminaCostPerRun)
+            {
+                SetAnimatorRunning(true);
+                currentStamina -= staminaCostPerRun * Time.deltaTime;
+                UpdateStaminaBar();
+            }
+            else
+            {
+                canRunning = false;
+                SetAnimatorRunning(false);
+            }
+
+            if (!canRunning && isMoving)
+            {
+                SetAnimatorWalking(true);
+            }
+
+            // Regenerasi stamina jika tidak berlari
+            if (!canRunning && currentStamina < maxStamina)
+            {
+                currentStamina += staminaRegenRate * Time.deltaTime;
+                currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+                UpdateStaminaBar();
+            }
+        }
+        private void UpdateStaminaBar()
+        {
+            float fillAmount = currentStamina / maxStamina;
+            staminaBarRectTransform.sizeDelta = new Vector2(fillAmount * initialStaminaBarWidth, staminaBarRectTransform.sizeDelta.y);
+        }
+
+        /// <summary>
+        /// Fungsi untuk memanggil 3D karakter
+        /// </summary>
+        void SpawnKarakter()
+        {
+            if (animator == null)
             {
                 animator = GameObject.FindGameObjectWithTag("Karakter").GetComponent<Animator>();
             }
             if (isSpawn)
             {
-                Destroy(transform.GetChild(3).gameObject);               
+                Destroy(transform.GetChild(3).gameObject);
                 GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
                 isSpawn = false;
             }
         }
-        public void UIAction(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                insertValue = context.ReadValue<Vector2>();
-            }
-        }
+
         /// <summary>
         /// Untuk Lari Menggunakan Left Shift
         /// </summary>
         /// <param name="context"></param>
         public void RunAction(InputAction.CallbackContext context)
         {
+            if (context.performed)
+            {
+                canRunning = true;
+            }
+
+            if (context.canceled)
+            {
+                canRunning = false;
+            }
+            /*
             if (context.performed)
             {
                 canRunning = true;
@@ -67,7 +120,7 @@ namespace Nivandria.Explore
                 {
                     SetAnimatorWalking(true);
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -112,13 +165,13 @@ namespace Nivandria.Explore
 
                 foreach (Chest ces in chest)
                 {
-                    if(ces.GetOpen() == false && ces.GetIsPlayer() == true)
+                    if (ces.GetOpen() == false && ces.GetIsPlayer() == true)
                     {
                         ces.SetOpenChest(true);
                     }
-                }                
+                }
             }
-            
+
             if (interaksiNPC.GetIsNPC() == true)
             {
                 if (context.performed && interaksiNPC.GetIsTalk() == false)
@@ -141,7 +194,7 @@ namespace Nivandria.Explore
                     _cameraMain.SetActive(true);
                     isSetup = true;
                 }
-            }            
+            }
         }
 
         /// <summary>
@@ -154,9 +207,9 @@ namespace Nivandria.Explore
             {
                 exploreManager.PanelParty();
                 playerInput.SwitchCurrentActionMap("UI");
-            }            
+            }
         }
-        
+
         //////////////////////////////
         private void SetAnimatorRunning(bool value)
         {
