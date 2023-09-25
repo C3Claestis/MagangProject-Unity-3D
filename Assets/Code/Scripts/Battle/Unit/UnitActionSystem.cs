@@ -3,19 +3,18 @@ namespace Nivandria.Battle.UnitSystem
 	using Nivandria.Battle.Grid;
 	using Nivandria.Battle.Action;
 	using Nivandria.Battle;
-	using UnityEngine.UI;
 	using UnityEngine;
 	using System;
-	using Nivandria.Battle.UI;
+    using Nivandria.Battle.UI;
 
-	public class UnitActionSystem : MonoBehaviour
+    public class UnitActionSystem : MonoBehaviour
 	{
 		public static UnitActionSystem Instance { get; private set; }
 
 		[SerializeField] private CanvasGroup actionSystemUIGroup;
 
-		public event EventHandler OnSelectedActionChanged;
 		public event EventHandler OnMoveActionPerformed;
+		public event EventHandler OnActionCompleted;
 
 		private BaseAction selectedAction;
 
@@ -78,6 +77,7 @@ namespace Nivandria.Battle.UnitSystem
 			ClearBusy();
 			ClearBusyUI();
 
+			OnActionCompleted?.Invoke(this, EventArgs.Empty);
 			UnitActionSystemUI.Instance.SelectUIBaseOnSelectedAction();
 		}
 
@@ -85,7 +85,6 @@ namespace Nivandria.Battle.UnitSystem
 		public void SetSelectedAction(BaseAction baseAction)
 		{
 			selectedAction = baseAction;
-			OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void SetBusyUI()

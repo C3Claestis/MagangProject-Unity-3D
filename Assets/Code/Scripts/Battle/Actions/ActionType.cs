@@ -4,6 +4,7 @@ namespace Nivandria.Battle.Action
     {
         NULL,
         Skill,
-        Move
+        Move,
+        Item
     }
 }

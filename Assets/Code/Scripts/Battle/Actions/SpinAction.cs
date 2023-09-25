@@ -6,7 +6,7 @@ namespace Nivandria.Battle.Action
     using Nivandria.Battle.UI;
     using UnityEngine;
 
-    public class SpinAction : BaseAction
+    public class SpinAction : BaseSkillAction
     {
         protected override string actionName { get { return "Spin"; } }
         protected override ActionType actionType { get { return ActionType.Skill; } }
@@ -40,7 +40,7 @@ namespace Nivandria.Battle.Action
             base.TakeAction(gridPosition, onActionComplete);
             totalSpinAmount = 0f;
             SetActive(false);
-            
+
             UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
         }
 

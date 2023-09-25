@@ -495,6 +495,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "CancelAction",
+                    "type": "Button",
+                    "id": "8e753664-843b-4f37-bcbf-118ac61317ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PauseGame",
                     "type": "Button",
                     "id": "6af83924-c05a-4308-830e-f1f3e966c857",
@@ -568,6 +577,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bf70602-22e7-4f75-ae31-dac35c0d1f20",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "CancelAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e773c0b-2970-4031-a3ff-995c092cdd2d",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "CancelAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

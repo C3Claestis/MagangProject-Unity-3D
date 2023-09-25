@@ -25,7 +25,7 @@ namespace Nivandria.Battle.Action
 
         private List<Vector3> positionList;
         private int currentPositionIndex;
-        private float moveStoppingDistance = 0.01f;
+        private float moveStoppingDistance = 0.1f;
         private float rotateSpeed = 20f;
         private float moveSpeed = 4f;
 
@@ -202,13 +202,10 @@ namespace Nivandria.Battle.Action
             {
                 doneRotating = true;
                 unit.UpdateUnitDirection();
-                Debug.Log("Done rotating");
             }
             else
             {
-
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-
                 doneRotating = false;
             }
         }
