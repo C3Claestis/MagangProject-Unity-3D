@@ -40,19 +40,19 @@ namespace Nivandria.Battle.UI
         public void SelectUIBaseOnSelectedAction()
         {
             BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-            ActionType actionType = selectedAction.GetActionType();
+            ActionCategory actionCategory = selectedAction.GetActionCategory();
 
-            switch (actionType)
+            switch (actionCategory)
             {
-                case ActionType.Skill:
+                case ActionCategory.Skill:
                     SetSelectedGameObject(skillActionButtonContainer.gameObject);
                     return;
 
-                case ActionType.Item:
+                case ActionCategory.Item:
                     SetSelectedGameObject(itemActionButton.gameObject);
                     return;
 
-                case ActionType.Move:
+                case ActionCategory.Move:
                     SetSelectedGameObject(moveActionButton.gameObject);
                     return;
             }

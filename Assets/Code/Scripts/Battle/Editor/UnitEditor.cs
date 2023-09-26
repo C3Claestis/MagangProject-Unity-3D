@@ -239,10 +239,10 @@ namespace Nivandria.Battle.Editor
             {
                 FacingDirection facingDirection = (FacingDirection)currentDirection.enumValueIndex;
 
-                EditorGUILayout.LabelField("Is Selected: ", isSelected.boolValue.ToString());
-                EditorGUILayout.LabelField("Has Moved : ", hasMoved.boolValue.ToString());
-                EditorGUILayout.LabelField("Has Use Skill : ", hasUseSkill.boolValue.ToString());
-                EditorGUILayout.LabelField("Direction : ", facingDirection.ToString());
+                EditorGUILayout.LabelField("Is Selected", isSelected.boolValue.ToString());
+                EditorGUILayout.LabelField("Has Moved", hasMoved.boolValue.ToString());
+                EditorGUILayout.LabelField("Has Use Skill", hasUseSkill.boolValue.ToString());
+                EditorGUILayout.LabelField("Direction ", facingDirection.ToString());
                 GUILayout.Space(5);
             }
 

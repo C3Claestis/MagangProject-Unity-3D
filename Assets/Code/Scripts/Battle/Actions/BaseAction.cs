@@ -13,7 +13,9 @@ namespace Nivandria.Battle.Action
         protected Action onActionComplete;
         protected bool isActive;
         protected abstract string actionName { get; }
+        protected abstract ActionCategory actionCategory { get; }
         protected abstract ActionType actionType { get; }
+        protected abstract string actionDescription { get; }
 
         protected virtual void Awake()
         {
@@ -81,8 +83,11 @@ namespace Nivandria.Battle.Action
         public abstract List<GridPosition> GetValidActionGridPosition();
 
         public string GetName() => actionName;
-        public bool GetActionStatus() => unit.GetActionStatus(actionType);
+        public string GetDescription() => actionDescription;
+        public ActionCategory GetActionCategory() => actionCategory;
         public ActionType GetActionType() => actionType;
+
+        public bool GetActionStatus() => unit.GetActionStatus(actionCategory);
         public virtual void SetActive(bool status) => isActive = status;
     }
 }

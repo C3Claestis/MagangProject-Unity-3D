@@ -9,7 +9,7 @@ namespace Nivandria.Battle.UI
     public abstract class BaseActionButtonUI : MonoBehaviour
     {
         protected Unit unit;
-        protected abstract ActionType actionType { get; }
+        protected abstract ActionCategory actionCategory { get; }
         [SerializeField] protected TextMeshProUGUI buttonText;
 
         private void Start()
@@ -29,7 +29,7 @@ namespace Nivandria.Battle.UI
         public void UpdateButtonTextColor()
         {
             Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
-            bool actionStatus = unit.GetActionStatus(actionType);
+            bool actionStatus = unit.GetActionStatus(actionCategory);
             float color = 0.2235294f;
 
             Color normalColor = new Color(color, color, color, 1f);
@@ -50,7 +50,7 @@ namespace Nivandria.Battle.UI
             UpdateButtonTextColor();
         }
 
-        public ActionType GetActionType() => actionType;
+        public ActionCategory GetActionCategory() => actionCategory;
         public GameObject GetButtonGameObject() => gameObject;
     }
 }

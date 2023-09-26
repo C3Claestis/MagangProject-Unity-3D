@@ -75,7 +75,7 @@ namespace Nivandria.Battle.UI
         public void UpdateContainerButtonTextColor()
         {
             Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
-            bool actionStatus = unit.GetActionStatus(ActionType.Skill);
+            bool actionStatus = unit.GetActionStatus(ActionCategory.Skill);
             float color = 0.2235294f;
 
             Color normalColor = new Color(color, color, color, 1f);

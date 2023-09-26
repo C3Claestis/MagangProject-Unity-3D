@@ -7,7 +7,7 @@ namespace Nivandria.Battle.UI
 
     public class SkillActionButtonUI : BaseActionButtonUI
     {
-        protected override ActionType actionType => ActionType.Skill;
+        protected override ActionCategory actionCategory => ActionCategory.Skill;
         private BaseSkillAction skillAction;
         private SkillActionButtonContainerUI skillActionButtonContainerUI;
 
@@ -18,7 +18,7 @@ namespace Nivandria.Battle.UI
             UnitActionSystem.Instance.SetSelectedAction(skillAction);
             GridSystemVisual.Instance.UpdateGridVisual();
 
-            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionType())) return;
+            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionCategory())) return;
 
             UnitActionSystem.Instance.SetBusyUI();
             Pointer.Instance.SetActive(true);

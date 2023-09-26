@@ -43,7 +43,7 @@ namespace Nivandria.Battle.UnitSystem
 				if (MouseWorld.IsPointerOnUI()) return;
 			}
 			if (selectedUnit == null) return;
-			if (selectedUnit.GetActionStatus(selectedAction.GetActionType())) return;
+			if (selectedUnit.GetActionStatus(selectedAction.GetActionCategory())) return;
 			GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid();
 
 			if (selectedAction.IsValidActionGridPosition(pointerGridPosition))
@@ -64,7 +64,7 @@ namespace Nivandria.Battle.UnitSystem
 		{
 			PlayerInputController.Instance.SetActionMap("BattleUI");
 			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
-			selectedUnit.SetActionStatus(selectedAction.GetActionType(), true);
+			selectedUnit.SetActionStatus(selectedAction.GetActionCategory(), true);
 
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();

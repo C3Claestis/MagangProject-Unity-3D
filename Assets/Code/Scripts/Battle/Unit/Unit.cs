@@ -176,20 +176,20 @@ namespace Nivandria.Battle.UnitSystem
 
 
         /// <summary>Gets the status of a specific action type for the unit.</summary>
-        /// <param name="actionType">The type of action to check (e.g., Skill or Move).</param>
+        /// <param name="actionCategory">The type of action to check (e.g., Skill or Move).</param>
         /// <returns>True if the unit has performed the specified action type; otherwise, false.</returns>
-        public bool GetActionStatus(ActionType actionType)
+        public bool GetActionStatus(ActionCategory actionCategory)
         {
-            switch (actionType)
+            switch (actionCategory)
             {
-                case ActionType.Skill:
+                case ActionCategory.Skill:
                     return hasUseSkill;
 
-                case ActionType.Move:
+                case ActionCategory.Move:
                     return hasMoved;
             }
 
-            Debug.LogError("CAN'T DEFINE ACTTION TYPE : " + actionType);
+            Debug.LogError("CAN'T DEFINE ACTTION TYPE : " + actionCategory);
             return false;
         }
 
@@ -201,22 +201,22 @@ namespace Nivandria.Battle.UnitSystem
         }
 
         /// <summary>Sets the status of a specific action type for the unit.</summary>
-        /// <param name="actionType">The type of action to set (e.g., Skill or Move).</param>
+        /// <param name="actionCategory">The type of action to set (e.g., Skill or Move).</param>
         /// <param name="status">Set status for that action type.</param>
-        public void SetActionStatus(ActionType actionType, bool status)
+        public void SetActionStatus(ActionCategory actionCategory, bool status)
         {
-            switch (actionType)
+            switch (actionCategory)
             {
-                case ActionType.Skill:
+                case ActionCategory.Skill:
                     hasUseSkill = status;
                     return;
 
-                case ActionType.Move:
+                case ActionCategory.Move:
                     hasMoved = status;
                     return;
             }
 
-            Debug.LogError("CAN'T DEFINE ACTTION TYPE : " + actionType);
+            Debug.LogError("CAN'T DEFINE ACTTION TYPE : " + actionCategory);
             return;
         }
         public void SetTurnStatus(bool status) => hasCompletedTurn = status;

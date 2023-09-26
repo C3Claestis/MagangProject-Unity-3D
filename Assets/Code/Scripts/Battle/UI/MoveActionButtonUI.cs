@@ -7,7 +7,7 @@ namespace Nivandria.Battle.UI
 
     public class MoveActionButtonUI : BaseActionButtonUI
     {
-        protected override ActionType actionType => ActionType.Move;
+        protected override ActionCategory actionCategory => ActionCategory.Move;
         
         public override void ButtonOnClick()
         {
@@ -17,7 +17,7 @@ namespace Nivandria.Battle.UI
             UnitActionSystem.Instance.SetSelectedAction(baseAction);
             GridSystemVisual.Instance.UpdateGridVisual();
 
-            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(baseAction.GetActionType())) return;
+            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(baseAction.GetActionCategory())) return;
 
             UnitActionSystem.Instance.SetBusyUI();
             Pointer.Instance.SetActive(true);

@@ -8,8 +8,12 @@ namespace Nivandria.Battle.Action
 
     public class SpinAction : BaseSkillAction
     {
-        protected override string actionName { get { return "Spin"; } }
-        protected override ActionType actionType { get { return ActionType.Skill; } }
+        protected override string actionName => "Spin";
+        protected override ActionCategory actionCategory => ActionCategory.Skill;
+        protected override ActionType actionType => ActionType.Magical;
+        protected override string actionDescription => 
+        "Showcases a unit's agility with a 360-degree rotation, adding unpredictability to battlefield maneuvers.";
+
         private float totalSpinAmount;
 
         private void Update()

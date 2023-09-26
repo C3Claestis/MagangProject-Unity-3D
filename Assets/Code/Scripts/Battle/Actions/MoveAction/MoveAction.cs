@@ -14,6 +14,12 @@ namespace Nivandria.Battle.Action
         public event EventHandler OnJump;
         public event EventHandler OnStopMoving;
 
+        protected override string actionName => "Move";
+        protected override ActionCategory actionCategory => ActionCategory.Move;
+        protected override ActionType actionType => ActionType.NULL;
+        protected override string actionDescription =>
+        "Lets a unit relocate to a chosen grid, enhancing tactical positioning and adaptability in combat.";
+
         [SerializeField] private int maxMoveDistance = 4;
         [SerializeField] private LayerMask obstacleLayer;
 
@@ -35,9 +41,6 @@ namespace Nivandria.Battle.Action
         private bool startJumping = false;
         private bool isJumping = false;
         private bool doneRotating;
-
-        protected override ActionType actionType { get { return ActionType.Move; } }
-        protected override string actionName { get { return "Move"; } }
 
         private void Update()
         {
