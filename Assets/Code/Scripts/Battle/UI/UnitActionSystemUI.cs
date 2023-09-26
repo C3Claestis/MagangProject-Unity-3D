@@ -35,6 +35,7 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnActionCompleted += UnitActionSystem_OnActionCompleted;
             ShowActionBlocker(false);
+            UnitActionSystem.Instance.ClearBusyUI();
         }
 
         public void SelectUIBaseOnSelectedAction()

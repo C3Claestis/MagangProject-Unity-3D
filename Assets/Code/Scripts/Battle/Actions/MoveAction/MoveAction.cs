@@ -91,28 +91,28 @@ namespace Nivandria.Battle.Action
         {
             MoveType moveType = unit.GetMoveType();
             List<GridPosition> validGridPositionList = new List<GridPosition>();
-            MoveLibrary moveLibrary = new MoveLibrary(unit, maxMoveDistance);
+            MovePatern movePatern = new MovePatern(unit, maxMoveDistance);
 
             switch (moveType)
             {
                 case MoveType.Normal:
-                    validGridPositionList = moveLibrary.NormalMoveValidGrids();
+                    validGridPositionList = movePatern.NormalMoveValidGrids();
                     break;
 
                 case MoveType.King:
-                    validGridPositionList = moveLibrary.KingMoveValidGrids();
+                    validGridPositionList = movePatern.KingMoveValidGrids();
                     break;
 
                 case MoveType.Tiger:
-                    validGridPositionList = moveLibrary.TigerMoveValidGrids(obstacleLayer);
+                    validGridPositionList = movePatern.TigerMoveValidGrids(obstacleLayer);
                     break;
 
                 case MoveType.Bull:
-                    validGridPositionList = moveLibrary.BullMoveValidGrids();
+                    validGridPositionList = movePatern.BullMoveValidGrids();
                     break;
 
                 case MoveType.Snake:
-                    validGridPositionList = moveLibrary.SnakeMoveValidGrids();
+                    validGridPositionList = movePatern.SnakeMoveValidGrids();
                     break;
 
                 default:
@@ -217,16 +217,16 @@ namespace Nivandria.Battle.Action
         {
             switch (state)
             {
-                case FacingDirection.UP:
+                case FacingDirection.NORTH:
                     targetRotation = Quaternion.Euler(0, 0, 0);
                     break;
-                case FacingDirection.RIGHT:
+                case FacingDirection.EAST:
                     targetRotation = Quaternion.Euler(0, 90, 0);
                     break;
-                case FacingDirection.DOWN:
+                case FacingDirection.SOUTH:
                     targetRotation = Quaternion.Euler(0, 180, 0);
                     break;
-                case FacingDirection.LEFT:
+                case FacingDirection.WEST:
                     targetRotation = Quaternion.Euler(0, 270, 0);
                     break;
             }

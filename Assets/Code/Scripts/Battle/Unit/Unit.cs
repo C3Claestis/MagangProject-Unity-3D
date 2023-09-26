@@ -108,19 +108,19 @@ namespace Nivandria.Battle.UnitSystem
 
             if (angleToUp < angleThreshold)
             {
-                currentDirection = FacingDirection.UP;
+                currentDirection = FacingDirection.NORTH;
             }
             else if (angleToLeft < angleThreshold)
             {
-                currentDirection = FacingDirection.LEFT;
+                currentDirection = FacingDirection.WEST;
             }
             else if (angleToRight < angleThreshold)
             {
-                currentDirection = FacingDirection.RIGHT;
+                currentDirection = FacingDirection.EAST;
             }
             else if (angleToDown < angleThreshold)
             {
-                currentDirection = FacingDirection.DOWN;
+                currentDirection = FacingDirection.SOUTH;
             }
             else
             {

@@ -8,7 +8,7 @@ namespace Nivandria.Battle.Action
 
     public class RotateAction : MonoBehaviour
     {
-        private FacingDirection currentDirection = FacingDirection.UP;
+        private FacingDirection currentDirection = FacingDirection.NORTH;
         private Quaternion target;
         private Unit unit;
         private float rotationTolerance = 5f;
@@ -113,16 +113,16 @@ namespace Nivandria.Battle.Action
         {
             switch (state)
             {
-                case FacingDirection.UP:
+                case FacingDirection.NORTH:
                     target = Quaternion.Euler(0, 0, 0);
                     break;
-                case FacingDirection.RIGHT:
+                case FacingDirection.EAST:
                     target = Quaternion.Euler(0, 90, 0);
                     break;
-                case FacingDirection.DOWN:
+                case FacingDirection.SOUTH:
                     target = Quaternion.Euler(0, 180, 0);
                     break;
-                case FacingDirection.LEFT:
+                case FacingDirection.WEST:
                     target = Quaternion.Euler(0, 270, 0);
                     break;
             }

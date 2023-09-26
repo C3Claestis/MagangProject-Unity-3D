@@ -6,12 +6,12 @@ namespace Nivandria.Battle.Action
     using Nivandria.Battle.PathfindingSystem;
     using UnityEngine;
 
-    public class MoveLibrary
+    public class MovePatern
     {
         private int maxMoveDistance;
         private Unit unit;
 
-        public MoveLibrary(Unit unit, int maxMoveDistance)
+        public MovePatern(Unit unit, int maxMoveDistance)
         {
             this.unit = unit;
             this.maxMoveDistance = maxMoveDistance;
@@ -202,7 +202,6 @@ namespace Nivandria.Battle.Action
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
                 if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
-
 
                 bullMoveList.Add(testGridPosition);
             }
