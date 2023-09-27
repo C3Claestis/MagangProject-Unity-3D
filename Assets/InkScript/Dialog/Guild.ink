@@ -1,4 +1,4 @@
-Selamat datang di guild petualang #speaker:Resepsionis Guild
+Selamat datang di guild petualang #speaker:Shella #job:Resepsionis Guild Veridonia
 Apa ada yang bisa Saya bantu?
 * [Saya ingin melihat informasi quest]
     Silahkan dilihat pada papan pengumuman!

@@ -19,6 +19,7 @@ namespace Nivandria.Explore
 
         // Tag used for identifying speakers in dialogue
         private const string SPEAKER_TAG = "speaker";
+        private const string JOB_TAG = "job";
 
         // Coroutine for displaying dialogue lines
         private Coroutine displayCoroutine;
@@ -36,9 +37,10 @@ namespace Nivandria.Explore
         [Header("Dialog UI")]
         [SerializeField] InteraksiNPC interaksiNPC;
         [SerializeField] Text teks;
-        [SerializeField] Text speaker;
+        [SerializeField] Text speaker, job;
         [SerializeField] GameObject panel_dialogue, panel_explore;
         [SerializeField] GameObject _cameraMain, _cameraTalk;
+        [SerializeField] GameObject _continueIcon;
 
         [Header("Choice UI")]
         [SerializeField] GameObject[] choices;
@@ -135,15 +137,17 @@ namespace Nivandria.Explore
         {
             teks.text = "";
             canContinueLine = false;
+            _continueIcon.SetActive(false);
             HideChoice();
             foreach (char letter in line.ToCharArray())
             {
                 teks.text += letter;
                 yield return new WaitForSeconds(typingSpeed);
             }
-
+            
             DisplayChoice();
             canContinueLine = true;
+            _continueIcon.SetActive(true);
         }
 
         // Handle special tags within dialogue (e.g., speaker tags)
@@ -163,6 +167,9 @@ namespace Nivandria.Explore
                 {
                     case SPEAKER_TAG:
                         speaker.text = tagValue;
+                        break;
+                    case JOB_TAG:
+                        job.text = tagValue;
                         break;
                 }
             }

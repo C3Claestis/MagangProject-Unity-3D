@@ -1,4 +1,4 @@
-Selamat Datang Di SheltySpyton! #speaker:BlackSmith
+Selamat Datang Di SheltySpyton! #speaker:Greg #job:Pemilik BlackSmith Veridonia 
 Sebarapa greget kamu?
 
 * [Aku kebelet berak di sekolah, langsung ke toilet sendiri]

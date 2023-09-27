@@ -1,4 +1,4 @@
-Selamat datang di Upe Shop! #speaker:Paman Upe
+Selamat datang di Upe Shop! #speaker:Tarra #job:Pemilik Toko Veridonia
 Apa ada yang bisa di bantu?
 * [Saya ingin membeli sesuatu]
     Silahkan lihat terlebih dahulu! -> END
