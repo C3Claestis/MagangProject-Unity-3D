@@ -2,14 +2,21 @@ namespace Nivandria.Explore.Puzzle
 {    
     using UnityEngine;
     using UnityEngine.UI;
+
+    /// <summary>
+    /// Checks and manages the parameters and conditions for a puzzle.
+    /// </summary>
     public class ParameterCheck : MonoBehaviour
     {        
-        [SerializeField] Text finish;
-        [SerializeField] TeksBlock[] teksBlock;
-        [SerializeField] Block[] blok;
+        // Serialized Fields
+        [SerializeField] Text finish;          // Text component to display puzzle completion status.
+        [SerializeField] TeksBlock[] teksBlock; // Array of TeksBlock components representing puzzle elements.
+        [SerializeField] Block[] blok;         // Array of Block components for resetting puzzle elements.
 
+        // Range of values for a parameter.
         [Range(3f, 12f)]
         [SerializeField] int Jangkauan;
+
         private bool IsEnter = false;
         void Update()
         {

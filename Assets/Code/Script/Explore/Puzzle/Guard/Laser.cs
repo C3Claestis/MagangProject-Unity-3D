@@ -1,30 +1,32 @@
 namespace Nivandria.Explore.Puzzle
-{    
+{
     using UnityEngine;
 
+    /// <summary>
+    /// Simulates a laser beam that can bounce off surfaces a certain number of times.
+    /// </summary>
     public class Laser : MonoBehaviour
     {
-        private int _maxBounce = 20;
+        private int _maxBounce = 20;  // The maximum number of times the laser can bounce.
+        private int _count;          // The current bounce count.
+        private LineRenderer _laser; // The LineRenderer component used to visualize the laser.
+        [SerializeField] private Vector3 _offSet; // Offset for the laser's starting position.
 
-        private int _count;
-        private LineRenderer _laser;
-
-        [SerializeField]
-        private Vector3 _offSet;
-       
         private void Start()
         {
             _laser = GetComponent<LineRenderer>();
         }
+
         private void Update()
         {
-           _count = 0;            
-           castLaser(transform.position + _offSet, transform.forward);            
+            _count = 0; // Reset the bounce count on each update.
+            castLaser(transform.position + _offSet, transform.forward);
         }
+
         private void castLaser(Vector3 position, Vector3 direction)
         {
-            _laser.SetPosition(0, transform.position + _offSet);
-            _count = 0; // Mulailah dengan _count = 0 di setiap pemanggilan castLaser
+            _laser.SetPosition(0, transform.position + _offSet); // Set the initial position of the laser.
+            _count = 0; // Start with _count = 0 for each castLaser call.
 
             for (int i = 0; i < _maxBounce; i++)
             {
@@ -39,7 +41,7 @@ namespace Nivandria.Explore.Puzzle
                     if (_count < _maxBounce - 1)
                         _count++;
 
-                    _laser.positionCount = _count + 1; // Atur jumlah posisi LineRenderer
+                    _laser.positionCount = _count + 1; // Set the number of positions for the LineRenderer.
 
                     _laser.SetPosition(_count, hit.point);
 
@@ -60,20 +62,22 @@ namespace Nivandria.Explore.Puzzle
                     if (_count < _maxBounce - 1)
                         _count++;
 
-                    _laser.positionCount = _count + 1; // Atur jumlah posisi LineRenderer
+                    _laser.positionCount = _count + 1; // Set the number of positions for the LineRenderer.
 
                     _laser.SetPosition(_count, position);
                 }
             }
         }
+
         private void OnDisable()
         {
-            // Ketika skrip Laser dimatikan (disabled), matikan juga LineRenderer
+            // When the Laser script is disabled, also disable the LineRenderer.
             _laser.enabled = false;
         }
+
         private void OnEnable()
         {
-            // Ketika skrip Laser dinyalakan (enabled), nyalakan juga LineRenderer
+            // When the Laser script is enabled, also enable the LineRenderer.
             _laser.enabled = true;
         }
     }

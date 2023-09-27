@@ -3,14 +3,20 @@ namespace Nivandria.Explore
     using System;
     using UnityEngine;
     using UnityEngine.InputSystem;
-    
+
+    /// <summary>
+    /// Handles player input and character control in the game.
+    /// </summary>
     public class InputSystem : MonoBehaviour
     {
+        private static InputSystem instance;
+
         [SerializeField] ExploreManager exploreManager;
         [SerializeField] GameObject[] objekPlayer;
         [SerializeField] private InteraksiNPC interaksiNPC;
         [SerializeField] PlayerInput playerInput;
-        [SerializeField] GameObject _cameraMain, _cameraTalk;
+        [SerializeField] DialogueManager dialogueManager;
+
         private Animator animator;
         private Vector2 movementValue;
         private bool isMoving = false;
@@ -18,23 +24,40 @@ namespace Nivandria.Explore
         private bool isSpawn = false;
         private bool isSetup = true;
 
-        [SerializeField] RectTransform staminaBarRectTransform;     
-        private float initialStaminaBarWidth;   
+        [SerializeField] RectTransform staminaBarRectTransform;
+        private float initialStaminaBarWidth;
         private float maxStamina = 50f;
         private float currentStamina;
         private float staminaRegenRate = 10f;
         private float staminaCostPerRun = 5f;
+
+        private void Awake()
+        {
+            if (instance != null)
+            {
+                Debug.Log("Instance Sudah Ada");
+            }
+            instance = this;
+        }
+
+        public static InputSystem GetInstance()
+        {
+            return instance;
+        }
+
         private void Start()
         {
             currentStamina = maxStamina;
             initialStaminaBarWidth = staminaBarRectTransform.sizeDelta.x;
             GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
         }
+
         private void Update()
         {
             SpawnKarakter();
             HandleRun();
         }
+
         void HandleRun()
         {
             if (canRunning && isMoving && currentStamina >= staminaCostPerRun)
@@ -54,7 +77,7 @@ namespace Nivandria.Explore
                 SetAnimatorWalking(true);
             }
 
-            // Regenerasi stamina jika tidak berlari
+            // Regenerate stamina if not running
             if (!canRunning && currentStamina < maxStamina)
             {
                 currentStamina += staminaRegenRate * Time.deltaTime;
@@ -62,6 +85,7 @@ namespace Nivandria.Explore
                 UpdateStaminaBar();
             }
         }
+
         private void UpdateStaminaBar()
         {
             float fillAmount = currentStamina / maxStamina;
@@ -69,7 +93,7 @@ namespace Nivandria.Explore
         }
 
         /// <summary>
-        /// Fungsi untuk memanggil 3D karakter
+        /// Spawns the 3D character.
         /// </summary>
         void SpawnKarakter()
         {
@@ -86,7 +110,7 @@ namespace Nivandria.Explore
         }
 
         /// <summary>
-        /// Untuk Lari Menggunakan Left Shift
+        /// Handles running using Left Shift.
         /// </summary>
         /// <param name="context"></param>
         public void RunAction(InputAction.CallbackContext context)
@@ -100,31 +124,10 @@ namespace Nivandria.Explore
             {
                 canRunning = false;
             }
-            /*
-            if (context.performed)
-            {
-                canRunning = true;
-
-                if (isMoving)
-                {
-                    SetAnimatorRunning(true);
-                }
-            }
-
-            if (context.canceled)
-            {
-                canRunning = false;
-                SetAnimatorRunning(false);
-
-                if (isMoving)
-                {
-                    SetAnimatorWalking(true);
-                }
-            }*/
         }
 
         /// <summary>
-        /// Untuk Bergerak Sesuai WASD
+        /// Handles movement using WASD.
         /// </summary>
         /// <param name="context"></param>
         public void MovingAction(InputAction.CallbackContext context)
@@ -154,7 +157,7 @@ namespace Nivandria.Explore
         }
 
         /// <summary>
-        /// Untuk Interaksi Menggunakan F
+        /// Handles interaction using F.
         /// </summary>
         /// <param name="context"></param>
         public void InteractionAction(InputAction.CallbackContext context)
@@ -178,27 +181,30 @@ namespace Nivandria.Explore
                 {
                     interaksiNPC.SetIsTalk(true);
                     playerInput.SwitchCurrentActionMap("UI");
-                    interaksiNPC.interaksi.text = "Sedang Interaksi";
                     animator.SetBool("isWalking", false);
                     animator.SetBool("isRun", false);
-                    _cameraTalk.SetActive(true);
-                    _cameraMain.SetActive(false);
                     isSetup = false;
-                }
-                else if (context.performed && interaksiNPC.GetIsTalk() == true)
-                {
-                    interaksiNPC.interaksi.text = "";
-                    interaksiNPC.SetIsTalk(false);
-                    playerInput.SwitchCurrentActionMap("Player");
-                    _cameraTalk.SetActive(false);
-                    _cameraMain.SetActive(true);
-                    isSetup = true;
                 }
             }
         }
 
+        public void SetAfterDialogue()
+        {
+            interaksiNPC.SetIsTalk(false);
+            playerInput.SwitchCurrentActionMap("Player");
+            isSetup = true;
+        }
+
+        public void Dialogue(InputAction.CallbackContext context)
+        {
+            if (context.performed && dialogueManager.GetPlaying() && !dialogueManager.GetPilih() && dialogueManager.GetContinueLine())
+            {
+                dialogueManager.ContinueStory();
+            }
+        }
+
         /// <summary>
-        /// Untuk Masuk Panel UI Party Setup Menggunakan J
+        /// Enters the Party Setup UI using J.
         /// </summary>
         /// <param name="context"></param>
         public void PartySetup(InputAction.CallbackContext context)
@@ -210,17 +216,18 @@ namespace Nivandria.Explore
             }
         }
 
-        //////////////////////////////
         private void SetAnimatorRunning(bool value)
         {
             if (interaksiNPC.GetIsTalk() == false)
                 animator.SetBool("isRun", value);
         }
+
         private void SetAnimatorWalking(bool value)
         {
             if (interaksiNPC.GetIsTalk() == false)
                 animator.SetBool("isWalking", value);
         }
+
         public Vector2 GetMovementValue() => movementValue;
         public bool CanRunning() => canRunning;
         public bool SetIsSpawn(bool spawn) => this.isSpawn = spawn;

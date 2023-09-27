@@ -1,18 +1,24 @@
 namespace Nivandria.Explore.Puzzle
-{    
+{
     using UnityEngine;
     using UnityEngine.InputSystem;
+
+    /// <summary>
+    /// Handles player input and controls character animations in a puzzle environment.
+    /// </summary>
     public class PuzzleInputSystem : MonoBehaviour
     {
-        [SerializeField] PlayerInput playerInput;
-        [SerializeField] Animator animator;
-        private Vector2 movementValue;
-        private bool isMoving = false;
-        private bool canRunning = false;
+        [SerializeField] PlayerInput playerInput;     // Reference to the player input component.
+        [SerializeField] Animator animator;            // Reference to the character's Animator component.
+        
+        private Vector2 movementValue;                 // The current movement input.
+        private bool isMoving = false;                 // Flag to indicate if the character is moving.
+        private bool canRunning = false;               // Flag to indicate if the character can run.
+
         /// <summary>
-        /// Untuk Lari Menggunakan Left Shift
+        /// Handles the "Run" action, activated by Left Shift.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">The input action context.</param>
         public void RunAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -38,9 +44,9 @@ namespace Nivandria.Explore.Puzzle
         }
 
         /// <summary>
-        /// Untuk Bergerak Sesuai WASD
+        /// Handles the "Moving" action, controlling character movement using WASD.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">The input action context.</param>
         public void MovingAction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -67,24 +73,18 @@ namespace Nivandria.Explore.Puzzle
             }
         }
 
-        public void PuzzleSacraInteraction(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
+        // Additional input handling methods can be added here.
 
-            }
-        }
-        public void PuzzleSacraInput(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
+        // Sets the "isRun" parameter in the Animator.
+        private void SetAnimatorRunning(bool value) => animator.SetBool("isRun", value);
 
-            }
-        }
-        //////////////////////////////
-        private void SetAnimatorRunning(bool value) => animator.SetBool("isRun", value);       
-        private void SetAnimatorWalking(bool value) => animator.SetBool("isWalking", value);        
+        // Sets the "isWalking" parameter in the Animator.
+        private void SetAnimatorWalking(bool value) => animator.SetBool("isWalking", value);
+
+        // Returns the current movement input.
         public Vector2 GetMovementValue() => movementValue;
-        public bool CanRunning() => canRunning;        
+
+        // Checks if the character can run.
+        public bool CanRunning() => canRunning;
     }
 }

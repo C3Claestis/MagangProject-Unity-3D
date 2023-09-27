@@ -8,13 +8,14 @@ namespace Nivandria.Explore
     {
         [SerializeField] GameObject bubbleText;
         [SerializeField] bool isPatrol;
+        [SerializeField] TextAsset inkJSON;
         float rotationSpeed = 5f;
         SplineFollower splineFollower;
         Quaternion initialRotation;
         Animator anim;
         private bool isTalk = false;
         private bool isInterect = false;
-
+                
         #region Getter Setter
         public void SetTalk(bool talk) => this.isTalk = talk;
         public void SetInterect(bool interect) => this.isInterect = interect;
@@ -31,11 +32,11 @@ namespace Nivandria.Explore
         // Update is called once per frame
         void Update()
         {
-
             //Jika NPC sedang interaksi
             if (isTalk != false)
             {
                 bubbleText.SetActive(false);
+                DialogueManager.GetInstance().EnterDialogMode(inkJSON);
                 if (isPatrol)
                 {
                     anim.SetBool("isTalk", true);
@@ -57,7 +58,7 @@ namespace Nivandria.Explore
             if (!isInterect)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
-            }
-        }      
+            }          
+        }
     }
 }

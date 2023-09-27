@@ -2,19 +2,15 @@ namespace Nivandria.Explore
 {
     using System.Collections;
     using System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.UI;
-
+    using UnityEngine; 
+    
     public class InteraksiNPC : MonoBehaviour
     {
         #region Variabel
-        [SerializeField] LayerMask layerMask;
-        [SerializeField] Text text;
-        [SerializeField] Transform player;
-        [SerializeField] GameObject panel_interaksi;
+        [SerializeField] LayerMask layerMask;        
+        [SerializeField] Transform player;        
         RaycastHit raycast;
-        float rotationSpeed = 5.0f;
-        public Text interaksi;
+        float rotationSpeed = 5.0f;        
         private bool isTalk, isNPC;
         #endregion
         #region Getter Setter
@@ -24,7 +20,7 @@ namespace Nivandria.Explore
         public bool GetIsNPC() => isNPC;
         #endregion
         private void Update()
-        {
+        {                                
             Interaksi();
         }
 
@@ -34,7 +30,7 @@ namespace Nivandria.Explore
             Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward));
 
             if (Physics.Raycast(ray, out raycast, 1f, layerMask, QueryTriggerInteraction.Ignore))
-            {                
+            {
                 //Untuk membuat line 
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycast.distance, Color.red);
                 //Mengambil komponen script NPCnya
@@ -45,19 +41,19 @@ namespace Nivandria.Explore
                     //Jika NPC tidak sedang berinteraksi dengan player
                     if (npc.GetInterect() == false)
                     {
-                        npc.SetInterect(true);
-                        text.text = raycast.collider.gameObject.name;
+                        npc.SetInterect(true);                        
                         isNPC = true;
                     }
                 }
                 //Kondisi untuk rotasi ketika di tekan button interaksi di keyboard
-                if (isTalk) { panel_interaksi.SetActive(false); RotateTowardsPlayer(raycast.collider.gameObject); npc.SetTalk(true); }
+                if (isTalk)
+                {
+                    RotateTowardsPlayer(raycast.collider.gameObject); npc.SetTalk(true);
+                }
             }
             else
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);
-                text.text = "";
-                panel_interaksi.SetActive(true);
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);                
                 //Mengambil semua komponen NPC yang ada untuk mengembalikan nilai awalnya
                 NPC[] npcs = FindObjectsOfType<NPC>();
                 foreach (NPC npc in npcs)
@@ -78,6 +74,6 @@ namespace Nivandria.Explore
                 Quaternion rotation = Quaternion.LookRotation(lookDirection);
                 obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, rotation, Time.deltaTime * rotationSpeed);
             }
-        }        
+        }                
     }
 }

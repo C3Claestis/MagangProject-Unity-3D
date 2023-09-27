@@ -2,14 +2,17 @@ namespace Nivandria.Explore.Puzzle
 {
     using UnityEngine;
 
+    /// <summary>
+    /// Controls player movement in a puzzle environment.
+    /// </summary>
     public class PlayerMovePuzzle : MonoBehaviour
     {
-        [SerializeField] float walkSpeed = 4f;
-        [SerializeField] float runSpeed = 8f;
-        [SerializeField] float rotateSpeed = 30f;        
-        private PuzzleInputSystem inputSystem;
-        private Rigidbody rb;
-        //private bool onGround;
+        [SerializeField] float walkSpeed = 4f;     // Walk speed of the player.
+        [SerializeField] float runSpeed = 8f;      // Run speed of the player.
+        [SerializeField] float rotateSpeed = 30f;  // Rotation speed of the player.
+
+        private PuzzleInputSystem inputSystem;     // Reference to the input system.
+        private Rigidbody rb;                      // Reference to the player's Rigidbody.
 
         private void Awake()
         {
@@ -22,6 +25,7 @@ namespace Nivandria.Explore.Puzzle
             Move();            
         }
 
+        // Handles player movement based on input.
         private void Move()
         {
             Vector2 input = inputSystem.GetMovementValue();

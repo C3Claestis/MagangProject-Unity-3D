@@ -44,5 +44,4 @@ namespace Nivandria.Explore.Puzzle
             }
         }
     }
-
 }

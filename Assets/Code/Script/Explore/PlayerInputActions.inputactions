@@ -147,7 +147,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Insert",
+                    "name": "Dialogue",
                     "type": "Button",
                     "id": "385a1d89-ada6-4b28-9fa0-c6a8b4f08081",
                     "expectedControlType": "Button",
@@ -224,11 +224,11 @@
                 {
                     "name": "",
                     "id": "11d09341-de2d-4f52-b9a2-87ab3c33bc8f",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Insert",
+                    "action": "Dialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

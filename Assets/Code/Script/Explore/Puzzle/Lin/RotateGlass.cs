@@ -18,32 +18,7 @@ namespace Nivandria.Explore.Puzzle
         // Update is called once per frame
         void Update()
         {
-            if (glass[0].rotation.eulerAngles.z < value_true[0] + 1 && glass[0].rotation.eulerAngles.z > value_true[0] - 1)
-            {
-                glass1 = true;
-            }
-            else
-            {
-                glass1 = false;
-            }
-
-            if (glass[1].rotation.eulerAngles.z < value_true[1] + 1 && glass[1].rotation.eulerAngles.z > value_true[1] - 1)
-            {
-                glass2 = true;
-            }
-            else
-            {
-                glass2 = false;
-            }
-            
-            if (glass[2].rotation.eulerAngles.z < value_true[2] + 1 && glass[2].rotation.eulerAngles.z > value_true[2] - 1)
-            {
-                glass3 = true;
-            }
-            else
-            {
-                glass3 = false;
-            }
+            KondisiMenang();
 
             //Untuk memutar glass
             if (Input.GetKey(KeyCode.RightArrow))
@@ -75,10 +50,6 @@ namespace Nivandria.Explore.Puzzle
                 count = 2;
             }
 
-            if (glass1 && glass2 && glass3)
-            {
-                Debug.Log("BENAR");
-            }
             Test();
 
             Debug.Log("Rotation 0: " + glass[0].rotation.eulerAngles.z);
@@ -99,7 +70,42 @@ namespace Nivandria.Explore.Puzzle
             // Mengubah rotasi GameObject pada sumbu Z
             glass[nilai].transform.rotation = Quaternion.Euler(0, 0, newRotation);
         }
+        void KondisiMenang()
+        {
+            //Parameter mengecek glass 0
+            if (glass[0].rotation.eulerAngles.z < value_true[0] + 1 && glass[0].rotation.eulerAngles.z > value_true[0] - 1)
+            {
+                glass1 = true;
+            }
+            else
+            {
+                glass1 = false;
+            }
+            //Parameter mengecek glass 1
+            if (glass[1].rotation.eulerAngles.z < value_true[1] + 1 && glass[1].rotation.eulerAngles.z > value_true[1] - 1)
+            {
+                glass2 = true;
+            }
+            else
+            {
+                glass2 = false;
+            }
+            //Parameter mengecek glass 2
+            if (glass[2].rotation.eulerAngles.z < value_true[2] + 1 && glass[2].rotation.eulerAngles.z > value_true[2] - 1)
+            {
+                glass3 = true;
+            }
+            else
+            {
+                glass3 = false;
+            }
 
+            //Parameter untuk trigger menang
+            if (glass1 && glass2 && glass3)
+            {
+                Debug.Log("BENAR");
+            }
+        }
         void Test()
         {
             switch (count)
