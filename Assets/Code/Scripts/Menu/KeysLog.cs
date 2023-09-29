@@ -8,7 +8,6 @@ namespace Nivandria.UI.Keys
     {
         [SerializeField] Image iconKey;
         [SerializeField] TextMeshProUGUI nameKey;
-        //[SerializeField] TextMeshProUGUI descriptionKey;
         [SerializeField] TextMeshProUGUI totalKey;
 
         private Keys key;

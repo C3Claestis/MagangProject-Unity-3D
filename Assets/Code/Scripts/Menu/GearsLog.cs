@@ -2,20 +2,23 @@ namespace Nivandria.UI.Gears
 {
     using System.Collections;
     using System.Collections.Generic;
+    using TMPro;
     using UnityEngine;
+    using UnityEngine.UI;
 
     public class GearsLog : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [SerializeField] private Image iconGear;
+        [SerializeField] private TextMeshProUGUI gearName;
 
+        public void SetNameArchiveLog(string titleName)
+        {
+            gearName.text = titleName;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void SetColorText()
         {
-
+            
         }
     }
 
