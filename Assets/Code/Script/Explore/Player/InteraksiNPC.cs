@@ -1,60 +1,64 @@
 namespace Nivandria.Explore
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine; 
-    
+    using UnityEngine;
+
+    /// <summary>
+    /// Handles interactions with non-player characters (NPCs).
+    /// </summary>
     public class InteraksiNPC : MonoBehaviour
     {
         #region Variabel
-        [SerializeField] LayerMask layerMask;        
-        [SerializeField] Transform player;        
-        RaycastHit raycast;
-        float rotationSpeed = 5.0f;        
-        private bool isTalk, isNPC;
+        [SerializeField] LayerMask layerMask; // Layer mask for raycasting interactions
+        [SerializeField] Transform player; // Reference to the player's transform
+        RaycastHit raycast; // Stores raycast hit information
+        float rotationSpeed = 5.0f; // Rotation speed for NPCs
+        private bool isTalk, isNPC; // Flags for conversation and NPC interaction
         #endregion
+
         #region Getter Setter
-        public void SetIsTalk(bool istalk) => this.isTalk = istalk;
-        public void SetIsNPC(bool isnpc) => this.isNPC = isnpc;
-        public bool GetIsTalk() => isTalk;
-        public bool GetIsNPC() => isNPC;
+        public void SetIsTalk(bool istalk) => this.isTalk = istalk; // Setter for conversation flag
+        public void SetIsNPC(bool isnpc) => this.isNPC = isnpc; // Setter for NPC interaction flag
+        public bool GetIsTalk() => isTalk; // Getter for conversation flag
+        public bool GetIsNPC() => isNPC; // Getter for NPC interaction flag
         #endregion
+
         private void Update()
-        {                                
+        {
             Interaksi();
         }
 
         private void Interaksi()
         {
-            //Raycast untuk scan NPC di depan
+            // Raycast to detect NPCs in front of the player
             Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward));
 
             if (Physics.Raycast(ray, out raycast, 1f, layerMask, QueryTriggerInteraction.Ignore))
             {
-                //Untuk membuat line 
+                // Draw a debug ray
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * raycast.distance, Color.red);
-                //Mengambil komponen script NPCnya
+                // Get the NPC component if one exists
                 NPC npc = raycast.collider.GetComponent<NPC>();
-                //Jika NPCnya ada didepannya
+                // If an NPC is detected
                 if (npc != null)
                 {
-                    //Jika NPC tidak sedang berinteraksi dengan player
+                    // If the NPC is not currently interacting with the player
                     if (npc.GetInterect() == false)
                     {
-                        npc.SetInterect(true);                        
+                        npc.SetInterect(true);
                         isNPC = true;
                     }
                 }
-                //Kondisi untuk rotasi ketika di tekan button interaksi di keyboard
+                // Rotate towards the player when the interaction button is pressed
                 if (isTalk)
                 {
-                    RotateTowardsPlayer(raycast.collider.gameObject); npc.SetTalk(true);
+                    RotateTowardsPlayer(raycast.collider.gameObject);
+                    npc.SetTalk(true);
                 }
             }
             else
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);                
-                //Mengambil semua komponen NPC yang ada untuk mengembalikan nilai awalnya
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1f, Color.green);
+                // Reset interaction flags for all NPCs in the scene
                 NPC[] npcs = FindObjectsOfType<NPC>();
                 foreach (NPC npc in npcs)
                 {
@@ -64,7 +68,8 @@ namespace Nivandria.Explore
                 }
             }
         }
-        //Untuk mengatur rotasi agar NPC melihat ke arah player
+
+        // Rotate the NPC to face the player
         private void RotateTowardsPlayer(GameObject obj)
         {
             if (player != null)
@@ -74,6 +79,6 @@ namespace Nivandria.Explore
                 Quaternion rotation = Quaternion.LookRotation(lookDirection);
                 obj.transform.rotation = Quaternion.Slerp(obj.transform.rotation, rotation, Time.deltaTime * rotationSpeed);
             }
-        }                
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Nivandria.Explore
         [SerializeField] GameObject bubbleText;
         [SerializeField] bool isPatrol;
         [SerializeField] TextAsset inkJSON;
+        [SerializeField] int value_dialogue;
         float rotationSpeed = 5f;
         SplineFollower splineFollower;
         Quaternion initialRotation;
@@ -36,7 +37,7 @@ namespace Nivandria.Explore
             if (isTalk != false)
             {
                 bubbleText.SetActive(false);
-                DialogueManager.GetInstance().EnterDialogMode(inkJSON);
+                DialogueManager.GetInstance().EnterDialogMode(inkJSON, value_dialogue);
                 if (isPatrol)
                 {
                     anim.SetBool("isTalk", true);

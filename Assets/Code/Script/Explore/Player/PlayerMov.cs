@@ -1,18 +1,18 @@
 namespace Nivandria.Explore
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;    
+    using UnityEngine;
 
+    /// <summary>
+    /// Controls the movement of the player character, including walking and running.
+    /// </summary>
     public class PlayerMov : MonoBehaviour
     {
-        [SerializeField] float walkSpeed = 4f;
-        [SerializeField] float runSpeed = 8f;
-        [SerializeField] float rotateSpeed = 30f;
-        [SerializeField] InteraksiNPC interaksiNPC;
-        private InputSystem inputSystem;
-        private Rigidbody rb;
-        //private bool onGround;
+        [SerializeField] float walkSpeed = 4f; // Walking speed
+        [SerializeField] float runSpeed = 8f; // Running speed
+        [SerializeField] float rotateSpeed = 30f; // Rotation speed
+        [SerializeField] InteraksiNPC interaksiNPC; // Reference to the NPC interaction system
+        private InputSystem inputSystem; // Input system for controlling movement
+        private Rigidbody rb; // Reference to the Rigidbody component
 
         private void Awake()
         {
@@ -50,5 +50,4 @@ namespace Nivandria.Explore
             rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
         }
     }
-
 }

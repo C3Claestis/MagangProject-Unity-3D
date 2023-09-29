@@ -44,7 +44,9 @@ namespace Nivandria.Explore
 
         [Header("Choice UI")]
         [SerializeField] GameObject[] choices;
+        [SerializeField] GameObject[] panel_value;
         private Text[] choiseText;
+        private int value_npc;
 
         private void Awake()
         {
@@ -83,11 +85,12 @@ namespace Nivandria.Explore
         }
 
         // Enter dialogue mode and start a new conversation
-        public void EnterDialogMode(TextAsset inkJSON)
+        public void EnterDialogMode(TextAsset inkJSON, int value)
         {
             if (story == null) // Check if the story object is not initialized
             {
                 story = new Story(inkJSON.text);
+                value_npc = value;
                 isPlaying = true;
                 Invoke("ActivatePanel", 0.7f);
                 _cameraTalk.SetActive(true);
@@ -141,10 +144,15 @@ namespace Nivandria.Explore
             HideChoice();
             foreach (char letter in line.ToCharArray())
             {
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    teks.text = line;
+                    break;
+                }
                 teks.text += letter;
                 yield return new WaitForSeconds(typingSpeed);
             }
-            
+
             DisplayChoice();
             canContinueLine = true;
             _continueIcon.SetActive(true);
@@ -225,9 +233,39 @@ namespace Nivandria.Explore
                 story.ChooseChoiceIndex(choice);
                 isPilih = false;
                 ContinueStory();
+                if (choice == 0)
+                {
+                    OnStoryComplete();
+                }
             }
         }
 
+        //Handle NPC Action 
+        void OnStoryComplete()
+        {
+            switch (value_npc)
+            {
+                case 1:
+                    ExitDialogue();
+                    panel_value[0].SetActive(true);
+                    break;
+                case 2:
+                    ExitDialogue();
+                    panel_value[1].SetActive(true);
+                    break;
+                case 3:
+                    ExitDialogue();
+                    panel_value[2].SetActive(true);
+                    break;
+                case 4:
+                    ExitDialogue();
+                    panel_value[3].SetActive(true);
+                    break;
+                default:
+                    Debug.Log("Bukan NPC Action");
+                    break;
+            }
+        }
         // Activate the dialogue panel and deactivate the exploration panel
         void ActivatePanel()
         {
