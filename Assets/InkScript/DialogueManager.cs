@@ -45,7 +45,9 @@ namespace Nivandria.Explore
         [Header("Choice UI")]
         [SerializeField] GameObject[] choices;
         [SerializeField] GameObject[] panel_value;
-        private Text[] choiseText;
+        [SerializeField] Sprite[] icon_choice;
+        [SerializeField] Image choiseIcon;
+        private Text[] choiseText;        
         private int value_npc;
 
         private void Awake()
@@ -66,11 +68,11 @@ namespace Nivandria.Explore
         void Start()
         {
             // Initialize the choice text array
-            choiseText = new Text[choices.Length];
+            choiseText = new Text[choices.Length];            
             int index = 0;
             foreach (GameObject choice in choices)
             {
-                choiseText[index] = choice.GetComponentInChildren<Text>();
+                choiseText[index] = choice.GetComponentInChildren<Text>();                
                 index++;
             }
         }
@@ -88,7 +90,7 @@ namespace Nivandria.Explore
         public void EnterDialogMode(TextAsset inkJSON, int value)
         {
             if (story == null) // Check if the story object is not initialized
-            {
+            {                
                 story = new Story(inkJSON.text);
                 value_npc = value;
                 isPlaying = true;
@@ -144,7 +146,7 @@ namespace Nivandria.Explore
             HideChoice();
             foreach (char letter in line.ToCharArray())
             {
-                if (Input.GetKeyDown(KeyCode.N))
+                if (Input.GetKey(KeyCode.N))
                 {
                     teks.text = line;
                     break;
@@ -152,7 +154,7 @@ namespace Nivandria.Explore
                 teks.text += letter;
                 yield return new WaitForSeconds(typingSpeed);
             }
-
+            IconHandle();
             DisplayChoice();
             canContinueLine = true;
             _continueIcon.SetActive(true);
@@ -194,7 +196,7 @@ namespace Nivandria.Explore
 
         // Display choice buttons for the current set of choices
         private void DisplayChoice()
-        {
+        {            
             List<Choice> currentChoices = story.currentChoices;
 
             if (currentChoices.Count > choices.Length)
@@ -240,6 +242,28 @@ namespace Nivandria.Explore
             }
         }
 
+        //Untuk Handle Icon Di NPC
+        void IconHandle()
+        {
+            switch (value_npc)
+            {
+                case 1:
+                    choiseIcon.sprite = icon_choice[1];
+                    break;
+                case 2:
+                    choiseIcon.sprite = icon_choice[2];
+                    break;
+                case 3:
+                    choiseIcon.sprite = icon_choice[3];
+                    break;
+                case 4:
+                    choiseIcon.sprite = icon_choice[4];
+                    break;
+                default:
+                    choiseIcon.sprite = icon_choice[0];
+                    break;
+            }
+        }
         //Handle NPC Action 
         void OnStoryComplete()
         {
