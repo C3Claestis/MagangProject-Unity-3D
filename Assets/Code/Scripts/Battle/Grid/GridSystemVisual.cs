@@ -79,8 +79,8 @@ namespace Nivandria.Battle.Grid
         public void UpdateGridVisual()
         {
             BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-            GridVisualType visualType;
             GridVisualType invalidVisualType = GridVisualType.Grey;
+            GridVisualType visualType;
 
             HideAllGridPosition();
 
@@ -95,6 +95,10 @@ namespace Nivandria.Battle.Grid
                 case SpinAction:
                     visualType = GridVisualType.Blue;
                     break;
+                case BaseSkillAction:
+                    visualType = GridVisualType.Red;
+                    invalidVisualType = GridVisualType.RedSoft;
+                    break;
             }
 
             if (selectedAction.GetActionStatus())
@@ -106,6 +110,16 @@ namespace Nivandria.Battle.Grid
                 selectedAction.GetValidActionGridPosition(),
                 visualType
             );
+
+            if (selectedAction is MoveAction) return;
+
+            BaseSkillAction skillAction = (BaseSkillAction)selectedAction;
+            
+            ShowGridPositionList(
+                skillAction.GetRangeActionGridPosition(),
+                invalidVisualType
+            );
+
 
             OnGridVisualUpdated?.Invoke(this, EventArgs.Empty);
         }

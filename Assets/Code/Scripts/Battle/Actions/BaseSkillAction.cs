@@ -1,10 +1,10 @@
 namespace Nivandria.Battle.Action
 {
-    using System;
+    using System.Collections.Generic;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.PathfindingSystem;
     using Nivandria.Battle.UI;
     using Nivandria.Battle.UnitSystem;
-    using UnityEngine;
 
     public abstract class BaseSkillAction : BaseAction
     {
@@ -29,5 +29,8 @@ namespace Nivandria.Battle.Action
 
             PlayerInputController.Instance.OnCancelActionPressed -= PlayerInputController_OnCancelPressed;
         }
+
+        public abstract List<GridPosition> GetRangeActionGridPosition();
+
     }
 }

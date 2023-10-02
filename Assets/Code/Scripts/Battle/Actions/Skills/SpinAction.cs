@@ -59,5 +59,10 @@ namespace Nivandria.Battle.Action
             SetActive(true);
             base.YesButtonAction();
         }
+
+        public override List<GridPosition> GetRangeActionGridPosition()
+        {
+            return null;
+        }
     }
 }
