@@ -106,20 +106,20 @@ namespace Nivandria.Battle.Grid
                 visualType = invalidVisualType;
             }
 
+            if (selectedAction is not MoveAction)
+            {
+                BaseSkillAction skillAction = (BaseSkillAction)selectedAction;
+
+                ShowGridPositionList(
+                    skillAction.GetRangeActionGridPosition(),
+                    invalidVisualType
+                );
+            }
+
             ShowGridPositionList(
                 selectedAction.GetValidActionGridPosition(),
                 visualType
             );
-
-            if (selectedAction is MoveAction) return;
-
-            BaseSkillAction skillAction = (BaseSkillAction)selectedAction;
-            
-            ShowGridPositionList(
-                skillAction.GetRangeActionGridPosition(),
-                invalidVisualType
-            );
-
 
             OnGridVisualUpdated?.Invoke(this, EventArgs.Empty);
         }

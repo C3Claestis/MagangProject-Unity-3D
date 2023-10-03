@@ -10,6 +10,9 @@ namespace Nivandria.Battle
     {
         public static Pointer Instance { get; private set; }
 
+        public event EventHandler OnPointerGridChanged;
+
+
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Transform pointerCircle;
         [SerializeField] private Transform rotateVisual;
@@ -73,6 +76,8 @@ namespace Nivandria.Battle
             currentGrid = gridPosition;
             Vector3 mousePosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(mousePosition.x, GetPointerHeight(gridPosition), mousePosition.z);
+
+            OnPointerGridChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void MovePointer()
@@ -87,32 +92,15 @@ namespace Nivandria.Battle
             transform.LookAt(transform.position + offset);
         }
 
-        private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
-        {
-            if (actionMap == "Gridmap")
-            {
-                SetActive(true);
-            }
-            else
-            {
-                SetActive(false);
-            }
-        }
-
-        private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
-        {
-            SetPointerOnGrid(UnitTurnSystem.Instance.GetSelectedUnit().GetGridPosition());
-        }
-
         private float GetPointerHeight(GridPosition gridPosition)
         {
             float pointerHeight = 1.0f;
 
             if (Pathfinding.Instance.IsObstacleOnGrid(LevelGrid.Instance.GetWorldPosition(currentGrid), out string objectTag)) pointerHeight = 3.5f;
-            if (objectTag == "Obstacle") pointerHeight = 1.75f;
-            if (objectTag == "Holes") pointerHeight = 1.0f;
+            if (objectTag == "Tier2_Obstacles") pointerHeight = 1.75f;
+            if (objectTag == "Tier3_Obstacles") pointerHeight = 1.0f;
             if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.4f;
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition) && objectTag == "Obstacle") pointerHeight = 2.9f;
+            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition) && objectTag == "Tier2_Obstacles") pointerHeight = 2.9f;
 
             return pointerHeight;
         }
@@ -135,13 +123,31 @@ namespace Nivandria.Battle
             Vector3 pointerPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             target = new Vector3(pointerPosition.x, GetPointerHeight(gridPosition), pointerPosition.z);
             currentGrid = gridPosition;
-        }
 
+            OnPointerGridChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         public GridPosition GetCurrentGrid() => currentGrid;
         public RotateVisual GetRotateVisual() => rotateVisual.GetComponent<RotateVisual>();
 
         public void SetActive(bool status) => isActive = status;
+
+        private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
+        {
+            if (actionMap == "Gridmap")
+            {
+                SetActive(true);
+            }
+            else
+            {
+                SetActive(false);
+            }
+        }
+
+        private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        {
+            SetPointerOnGrid(UnitTurnSystem.Instance.GetSelectedUnit().GetGridPosition());
+        }
     }
 
 }

@@ -63,8 +63,32 @@ namespace Nivandria.Battle.PathfindingSystem
                     Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
 
                     if (!IsObstacleOnGrid(worldPosition, out string objectTag)) continue;
-                    if (unitType == UnitType.Aerial && objectTag == "Obstacle") continue;
-                    if (unitType == UnitType.Aerial && objectTag == "Holes") continue;
+                    if (unitType == UnitType.Aerial && objectTag == "Tier2_Obstacles") continue;
+                    if (unitType == UnitType.Aerial && objectTag == "Tier3_Obstacles") continue;
+
+                    GetNode(x, z).SetIsWalkable(false);
+
+                }
+            }
+        }
+
+        public void SetupPath(bool ignoreObstacle)
+        {
+
+            gridSystem = new GridSystem<PathNode>(width, height, cellSize,
+                (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
+            gridSystem.CreateDebugObjects(gridDebugObjectPrefab, debugParent);
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int z = 0; z < height; z++)
+                {
+                    GridPosition gridPosition = new GridPosition(x, z);
+                    Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+                    if (!IsObstacleOnGrid(worldPosition, out string objectTag)) continue;
+                    if (ignoreObstacle && objectTag == "Tier2_Obstacles") continue;
+                    if (ignoreObstacle && objectTag == "Tier3_Obstacles") continue;
 
                     GetNode(x, z).SetIsWalkable(false);
 
@@ -322,4 +346,4 @@ namespace Nivandria.Battle.PathfindingSystem
             return pathLength;
         }
     }
-    }
+}

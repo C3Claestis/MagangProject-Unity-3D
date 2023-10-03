@@ -109,6 +109,5 @@ namespace Nivandria.Battle.UI
         {
             ShowActionBlocker(false);
         }
-
     }
 }

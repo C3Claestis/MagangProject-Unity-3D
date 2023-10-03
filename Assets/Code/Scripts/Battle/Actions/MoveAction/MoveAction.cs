@@ -89,9 +89,11 @@ namespace Nivandria.Battle.Action
 
         public override List<GridPosition> GetValidActionGridPosition()
         {
-            MoveType moveType = unit.GetMoveType();
             List<GridPosition> validGridPositionList = new List<GridPosition>();
+            MoveType moveType = unit.GetMoveType();
             MovePatern movePatern = new MovePatern(unit, maxMoveDistance);
+            
+            Pathfinding.Instance.SetupPath(unit.GetUnitType());
 
             switch (moveType)
             {
@@ -130,7 +132,7 @@ namespace Nivandria.Battle.Action
 
             Vector3 targetPosition = positionList[currentPositionIndex];
 
-            if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out string objectTag) && objectTag == "Obstacle")
+            if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out string objectTag) && objectTag == "Tier2_Obstacles")
             {
                 targetPosition.y = 0.75f;
             }
@@ -181,7 +183,6 @@ namespace Nivandria.Battle.Action
                 DoneMoving();
             }
         }
-
 
         private void DoneMoving()
         {

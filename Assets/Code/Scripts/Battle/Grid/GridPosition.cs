@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Grid
 {
     using System;
+    using System.Collections.Generic;
 
     public struct GridPosition : IEquatable<GridPosition>
     {
@@ -24,6 +25,7 @@ namespace Nivandria.Battle.Grid
         {
             return this == other;
         }
+
 
         public override int GetHashCode()
         {
@@ -54,6 +56,5 @@ namespace Nivandria.Battle.Grid
         {
             return new GridPosition(a.x - b.x, a.z - b.z);
         }
-
     }
 }

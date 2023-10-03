@@ -5,9 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Units
-  - Obstacle
-  - Holes
   - UI
+  - Tier1_Obstacles
+  - Tier2_Obstacles
+  - Tier3_Obstacles
   layers:
   - Default
   - TransparentFX
