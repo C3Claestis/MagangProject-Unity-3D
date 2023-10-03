@@ -3,6 +3,7 @@ namespace Nivandria.Battle.UI
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.UnitSystem;
+    using UnityEngine;
     using UnityEngine.EventSystems;
 
     public class SkillActionButtonUI : BaseActionButtonUI
@@ -13,12 +14,13 @@ namespace Nivandria.Battle.UI
 
         public override void ButtonOnClick()
         {
-            EventSystem eventSystem = EventSystem.current;
 
             UnitActionSystem.Instance.SetSelectedAction(skillAction);
             GridSystemVisual.Instance.UpdateGridVisual();
 
             if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionCategory())) return;
+            
+            EventSystem eventSystem = EventSystem.current;
 
             UnitActionSystem.Instance.SetBusyUI();
             Pointer.Instance.SetActive(true);

@@ -28,7 +28,7 @@ namespace Nivandria.Battle.UI
 
         public void ButtonOnClick()
         {
-            int firstButton = actionButtonList.Count - 1;
+            int firstButton = 0;
             UnitActionSystemUI.Instance.SetSelectedGameObject(actionButtonList[firstButton].gameObject);
 
             UnitActionSystemUI.Instance.ShowActionBlocker(true);
@@ -110,19 +110,19 @@ namespace Nivandria.Battle.UI
 
                 if (i == 0)
                 {
-                    newNavigation.selectOnDown = actionButtonList[actionButtonList.Count - 1].GetComponent<Button>();
-                    newNavigation.selectOnUp = actionButtonList[i + 1].GetComponent<Button>();
+                    newNavigation.selectOnUp = actionButtonList[actionButtonList.Count - 1].GetComponent<Button>();
+                    newNavigation.selectOnDown = actionButtonList[i + 1].GetComponent<Button>();
 
                 }
                 else if (i == actionButtonList.Count - 1)
                 {
-                    newNavigation.selectOnDown = actionButtonList[i - 1].GetComponent<Button>();
-                    newNavigation.selectOnUp = actionButtonList[0].GetComponent<Button>();
+                    newNavigation.selectOnUp = actionButtonList[i - 1].GetComponent<Button>();
+                    newNavigation.selectOnDown = actionButtonList[0].GetComponent<Button>();
                 }
                 else
                 {
-                    newNavigation.selectOnDown = actionButtonList[i - 1].GetComponent<Button>();
-                    newNavigation.selectOnUp = actionButtonList[i + 1].GetComponent<Button>();
+                    newNavigation.selectOnUp = actionButtonList[i - 1].GetComponent<Button>();
+                    newNavigation.selectOnDown = actionButtonList[i + 1].GetComponent<Button>();
                 }
 
                 button.navigation = newNavigation;
@@ -142,6 +142,7 @@ namespace Nivandria.Battle.UI
             for (int i = 0; i < actionButtonContainer.childCount; i++)
             {
                 Transform buttonTransform = actionButtonContainer.GetChild(i);
+                if(buttonTransform.gameObject.name == "Title") continue;
                 Destroy(buttonTransform.gameObject);
             }
 
