@@ -181,148 +181,129 @@ namespace Nivandria.Battle.Grid
                 if (testUnit == relativeTo && facingDirection == FacingDirection.EAST) return oneHalfPercentage;
             }
 
-            if (facingDirection == FacingDirection.EAST)
+            switch (facingDirection)
             {
-                for (int xOffset = -1; xOffset >= -GetGridWidth(); xOffset--)
-                {
-                    GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
-
-                    if (!IsValidGridPosition(testXGridPosition)) break;
-
-                    // Check Vertical to the NORTH
-                    for (int zOffset = 1; zOffset < GetGridHeight(); zOffset++)
-                    {
-                        GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
-
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
-
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
-                    }
-
-                    // Check Vertical to the SOUTH
-                    for (int zOffset = -1; zOffset >= -GetGridHeight(); zOffset--)
-                    {
-                        GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
-
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
-
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
-                    }
-                }
-
-                return normalPercentage;
-            }
-
-            if (facingDirection == FacingDirection.WEST)
-            {
-                for (int xOffset = 1; xOffset < GetGridWidth(); xOffset++)
-                {
-                    GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
-
-                    if (!IsValidGridPosition(testXGridPosition)) break;
-
-                    // Check Vertical to the NORTH
-                    for (int zOffset = 1; zOffset < GetGridHeight(); zOffset++)
-                    {
-                        GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
-
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
-
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
-                    }
-
-                    // Check Vertical to the SOUTH
-                    for (int zOffset = -1; zOffset >= -GetGridHeight(); zOffset--)
-                    {
-                        GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
-
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
-
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
-                    }
-                }
-
-                return normalPercentage;
-            }
-
-            if (facingDirection == FacingDirection.NORTH)
-            {
-                for (int zOffset = -1; zOffset >= -GetGridHeight(); zOffset--)
-                {
-                    GridPosition testYGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
-
-                    if (!IsValidGridPosition(testYGridPosition)) break;
-
-                    // Check Vertical to the NORTH
-                    for (int xOffset = 1; xOffset < GetGridWidth(); xOffset++)
-                    {
-                        GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
-
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
-
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
-                    }
-
-                    // Check Vertical to the SOUTH
+                case FacingDirection.EAST:
                     for (int xOffset = -1; xOffset >= -GetGridWidth(); xOffset--)
                     {
-                        GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
+                        GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
+                        if (!IsValidGridPosition(testXGridPosition)) break;
 
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+                        for (int zOffset = 1; zOffset < GetGridHeight(); zOffset++)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
 
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
+
+                        // Check Vertical to the SOUTH
+                        for (int zOffset = -1; zOffset >= -GetGridHeight(); zOffset--)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
+
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
                     }
-                }
+                    return normalPercentage;
 
-                return normalPercentage;
-            }
-
-            if (facingDirection == FacingDirection.SOUTH)
-            {
-                for (int zOffset = 1; zOffset < GetGridHeight(); zOffset++)
-                {
-                    GridPosition testYGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
-
-                    if (!IsValidGridPosition(testYGridPosition)) break;
-
-                    // Check Vertical to the NORTH
+                case FacingDirection.WEST:
                     for (int xOffset = 1; xOffset < GetGridWidth(); xOffset++)
                     {
-                        GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
+                        GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
+                        if (!IsValidGridPosition(testXGridPosition)) break;
 
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+                        for (int zOffset = 1; zOffset < GetGridHeight(); zOffset++)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
 
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
+
+                        // Check Vertical to the SOUTH
+                        for (int zOffset = -1; zOffset >= -GetGridHeight(); zOffset--)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
+
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
                     }
+                    return normalPercentage;
 
-                    // Check Vertical to the SOUTH
-                    for (int xOffset = -1; xOffset >= -GetGridWidth(); xOffset--)
+                case FacingDirection.NORTH:
+                    for (int zOffset = -1; zOffset >= -GetGridHeight(); zOffset--)
                     {
-                        GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
+                        GridPosition testYGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
+                        if (!IsValidGridPosition(testYGridPosition)) break;
 
-                        if (!IsValidGridPosition(testGridPosition)) break;
-                        if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+                        for (int xOffset = 1; xOffset < GetGridWidth(); xOffset++)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
 
-                        Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
-                        if (testUnit == relativeTo) return oneHalfPercentage;
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
+
+                        for (int xOffset = -1; xOffset >= -GetGridWidth(); xOffset--)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
+
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
                     }
-                }
+                    return normalPercentage;
 
-                return normalPercentage;
+                case FacingDirection.SOUTH:
+                    for (int zOffset = 1; zOffset < GetGridHeight(); zOffset++)
+                    {
+                        GridPosition testYGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
+                        if (!IsValidGridPosition(testYGridPosition)) break;
+
+                        for (int xOffset = 1; xOffset < GetGridWidth(); xOffset++)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
+
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
+
+                        for (int xOffset = -1; xOffset >= -GetGridWidth(); xOffset--)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testYGridPosition.x + xOffset, testYGridPosition.z);
+
+                            if (!IsValidGridPosition(testGridPosition)) break;
+                            if (!HasAnyUnitOnGridPosition(testGridPosition)) continue;
+
+                            Unit testUnit = GetUnitListAtGridPosition(testGridPosition)[0];
+                            if (testUnit == relativeTo) return oneHalfPercentage;
+                        }
+                    }
+                    return normalPercentage;
             }
 
             string targetUnitName = targetUnit.GetCharacterName();
