@@ -31,6 +31,10 @@ namespace Nivandria.Explore
         private float staminaRegenRate = 10f;
         private float staminaCostPerRun = 5f;
 
+        public static InputSystem GetInstance()
+        {
+            return instance;
+        }
         private void Awake()
         {
             if (instance != null)
@@ -39,12 +43,6 @@ namespace Nivandria.Explore
             }
             instance = this;
         }
-
-        public static InputSystem GetInstance()
-        {
-            return instance;
-        }
-
         private void Start()
         {
             currentStamina = maxStamina;
@@ -58,6 +56,9 @@ namespace Nivandria.Explore
             HandleRun();
         }
 
+        /// <summary>
+        /// Handle Fungsi Run Untuk Stamina
+        /// </summary>
         void HandleRun()
         {
             if (canRunning && isMoving && currentStamina >= staminaCostPerRun)

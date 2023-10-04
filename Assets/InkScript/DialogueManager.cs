@@ -239,6 +239,7 @@ namespace Nivandria.Explore
                 {
                     OnStoryComplete();
                 }
+                value_npc = 0;
             }
         }
 
