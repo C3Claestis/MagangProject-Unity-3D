@@ -6,11 +6,16 @@ namespace Nivandria.Battle.Action
     using UnityEngine;
     using Nivandria.Battle.UnitSystem;
     using System;
-    using Unity.VisualScripting;
-    using UnityEngine.Analytics;
 
     public class WordAction : BaseSkillAction
     {
+        private enum GridPatern
+        {
+            OneLine,
+            ThreeLines,
+            Ultimate,
+        }
+
         protected override string actionName => "Wording Skill";
         protected override string actionDescription => "Sacra Unique Skill";
         protected override ActionCategory actionCategory => ActionCategory.Skill;
@@ -18,12 +23,16 @@ namespace Nivandria.Battle.Action
         private GridPosition currentUnitGridPosition;
         private FacingDirection currentDirection;
 
+        private GridPatern lastGridPatern = GridPatern.OneLine;
+        [SerializeField] private GridPatern newGridPatern = GridPatern.OneLine;
+
         private List<GridPosition> currentAllGridList;
         private List<GridPosition> currentActiveGridList;
         private List<GridPosition> currentEastGridList;
         private List<GridPosition> currentWestGridList;
         private List<GridPosition> currentNorthGridList;
         private List<GridPosition> currentSouthGridList;
+
 
         private void Start()
         {
@@ -33,6 +42,8 @@ namespace Nivandria.Battle.Action
 
         private void Pointer_OnPointerGridChanged(object sender, EventArgs e)
         {
+            if (lastGridPatern == GridPatern.Ultimate) return;
+
             GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid();
             bool gridInsideList = GridChecker(currentActiveGridList, pointerGridPosition);
 
@@ -117,7 +128,7 @@ namespace Nivandria.Battle.Action
         {
             GridPosition newUnitGridPosition = unit.GetGridPosition();
 
-            if (newUnitGridPosition != currentUnitGridPosition)
+            if (newUnitGridPosition != currentUnitGridPosition || lastGridPatern != newGridPatern)
             {
 
                 currentAllGridList = new List<GridPosition>();
@@ -127,6 +138,7 @@ namespace Nivandria.Battle.Action
                 currentSouthGridList = new List<GridPosition>();
 
                 currentUnitGridPosition = newUnitGridPosition;
+                lastGridPatern = newGridPatern;
                 Pathfinding.Instance.SetupPath(true);
                 currentDirection = unit.GetFacingDirection();
 
@@ -148,21 +160,45 @@ namespace Nivandria.Battle.Action
             GridPosition unitGridPosition = unit.GetGridPosition();
             LevelGrid levelGrid = LevelGrid.Instance;
 
-            for (int zOffset = -1; zOffset <= 1; zOffset++)
+            if (lastGridPatern == GridPatern.Ultimate) return null;
+
+            switch (lastGridPatern)
             {
-                GridPosition testZGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
-                if (!levelGrid.IsValidGridPosition(testZGridPosition)) continue;
+                case GridPatern.OneLine:
+                    for (int xOffset = 2; xOffset < levelGrid.GetGridWidth(); xOffset++)
+                    {
+                        GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
+                        if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
 
-                for (int xOffset = 1; xOffset < levelGrid.GetGridWidth(); xOffset++)
-                {
-                    GridPosition testGridPosition = new GridPosition(testZGridPosition.x + xOffset, testZGridPosition.z);
-                    if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+                        Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                        if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
 
-                    Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
-                    if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+                        validGridList.Add(testGridPosition);
+                    }
+                    break;
 
-                    validGridList.Add(testGridPosition);
-                }
+                case GridPatern.ThreeLines:
+                    for (int zOffset = -1; zOffset <= 1; zOffset++)
+                    {
+                        GridPosition testZGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
+                        if (!levelGrid.IsValidGridPosition(testZGridPosition)) continue;
+
+                        for (int xOffset = 2; xOffset < levelGrid.GetGridWidth(); xOffset++)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testZGridPosition.x + xOffset, testZGridPosition.z);
+                            if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+
+                            Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                            if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+
+                            validGridList.Add(testGridPosition);
+                        }
+                    }
+                    break;
+
+                case GridPatern.Ultimate:
+                    validGridList = null;
+                    break;
             }
 
             return validGridList;
@@ -174,21 +210,45 @@ namespace Nivandria.Battle.Action
             LevelGrid levelGrid = LevelGrid.Instance;
             GridPosition unitGridPosition = unit.GetGridPosition();
 
-            for (int zOffset = -1; zOffset <= 1; zOffset++)
+            if (lastGridPatern == GridPatern.Ultimate) return null;
+
+            switch (lastGridPatern)
             {
-                GridPosition testZGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
-                if (!levelGrid.IsValidGridPosition(testZGridPosition)) continue;
+                case GridPatern.OneLine:
+                    for (int xOffset = -2; xOffset >= -LevelGrid.Instance.GetGridWidth(); xOffset--)
+                    {
+                        GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
+                        if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
 
-                for (int xOffset = -1; xOffset >= -LevelGrid.Instance.GetGridWidth(); xOffset--)
-                {
-                    GridPosition testGridPosition = new GridPosition(testZGridPosition.x + xOffset, testZGridPosition.z);
-                    if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+                        Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                        if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
 
-                    Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
-                    if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+                        validGridList.Add(testGridPosition);
+                    }
+                    break;
 
-                    validGridList.Add(testGridPosition);
-                }
+                case GridPatern.ThreeLines:
+                    for (int zOffset = -1; zOffset <= 1; zOffset++)
+                    {
+                        GridPosition testZGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
+                        if (!levelGrid.IsValidGridPosition(testZGridPosition)) continue;
+
+                        for (int xOffset = -2; xOffset >= -LevelGrid.Instance.GetGridWidth(); xOffset--)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testZGridPosition.x + xOffset, testZGridPosition.z);
+                            if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+
+                            Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                            if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+
+                            validGridList.Add(testGridPosition);
+                        }
+                    }
+                    break;
+
+                case GridPatern.Ultimate:
+                    validGridList = null;
+                    break;
             }
 
             return validGridList;
@@ -200,23 +260,47 @@ namespace Nivandria.Battle.Action
             LevelGrid levelGrid = LevelGrid.Instance;
             GridPosition unitGridPosition = unit.GetGridPosition();
 
-            for (int xOffset = -1; xOffset <= 1; xOffset++)
+            switch (lastGridPatern)
             {
+                case GridPatern.OneLine:
+                    for (int zOffset = 2; zOffset < LevelGrid.Instance.GetGridHeight(); zOffset++)
+                    {
+                        GridPosition testGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
+                        if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
 
-                GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
-                if (!levelGrid.IsValidGridPosition(testXGridPosition)) continue;
+                        Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                        if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
 
-                for (int zOffset = 1; zOffset < LevelGrid.Instance.GetGridHeight(); zOffset++)
-                {
-                    GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
-                    if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+                        validGridList.Add(testGridPosition);
+                    }
+                    break;
 
-                    Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
-                    if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+                case GridPatern.ThreeLines:
+                    for (int xOffset = -1; xOffset <= 1; xOffset++)
+                    {
 
-                    validGridList.Add(testGridPosition);
-                }
+                        GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
+                        if (!levelGrid.IsValidGridPosition(testXGridPosition)) continue;
+
+                        for (int zOffset = 2; zOffset < LevelGrid.Instance.GetGridHeight(); zOffset++)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
+                            if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+
+                            Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                            if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+
+                            validGridList.Add(testGridPosition);
+                        }
+                    }
+                    break;
+
+                case GridPatern.Ultimate:
+                    validGridList = null;
+                    break;
             }
+
+
 
             return validGridList;
         }
@@ -227,23 +311,46 @@ namespace Nivandria.Battle.Action
             LevelGrid levelGrid = LevelGrid.Instance;
             GridPosition unitGridPosition = unit.GetGridPosition();
 
-            for (int xOffset = -1; xOffset <= 1; xOffset++)
+            switch (lastGridPatern)
             {
-                GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
-                if (!levelGrid.IsValidGridPosition(testXGridPosition)) continue;
+                case GridPatern.OneLine:
+                    for (int zOffset = -2; zOffset >= -LevelGrid.Instance.GetGridHeight(); zOffset--)
+                    {
+                        GridPosition testGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
+                        if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
 
-                for (int zOffset = -1; zOffset >= -LevelGrid.Instance.GetGridHeight(); zOffset--)
-                {
-                    GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
-                    if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+                        Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                        if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
 
-                    Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
-                    if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+                        validGridList.Add(testGridPosition);
+                    }
+                    break;
 
-                    validGridList.Add(testGridPosition);
-                }
+                case GridPatern.ThreeLines:
+                    for (int xOffset = -1; xOffset <= 1; xOffset++)
+                    {
+                        GridPosition testXGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
+                        if (!levelGrid.IsValidGridPosition(testXGridPosition)) continue;
 
+                        for (int zOffset = -2; zOffset >= -LevelGrid.Instance.GetGridHeight(); zOffset--)
+                        {
+                            GridPosition testGridPosition = new GridPosition(testXGridPosition.x, testXGridPosition.z + zOffset);
+                            if (!levelGrid.IsValidGridPosition(testGridPosition)) break;
+
+                            Vector3 testWorldPosition = levelGrid.GetWorldPosition(testGridPosition);
+                            if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag == "Tier1_Obstacles") break;
+
+                            validGridList.Add(testGridPosition);
+                        }
+                    }
+                    break;
+
+                case GridPatern.Ultimate:
+                    validGridList = null;
+                    break;
             }
+
+
 
             return validGridList;
         }
