@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Level/Scenes/HouseYard.unity
     guid: 2306c114c6b816441b04e3ff0779495e
   - enabled: 1
+    path: Assets/Level/Scenes/TrainingGround.unity
+    guid: bb5b90a32e4bd4146a7079896d5cd412
+  - enabled: 1
     path: Assets/Level/Scenes/MapExplore.unity
     guid: 406ad8f80dbfab64092344fafd603359
   m_configObjects: {}

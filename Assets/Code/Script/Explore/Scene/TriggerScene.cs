@@ -1,30 +1,23 @@
 namespace Nivandria.Explore
 {
     using System.Collections;
-    using System.Collections.Generic;
-    using Unity.VisualScripting;
+    using System.Collections.Generic;    
     using UnityEngine;
     using UnityEngine.SceneManagement;
     public class TriggerScene : MonoBehaviour
     {
         [SerializeField] int indexScene;
         [SerializeField] int indexPosisi;
-        private bool isCanScene = false;
-        // Start is called before the first frame update
-        void Start()
-        {
+        [SerializeField] Animator transisi;
+        private bool isCanScene = false;   
+        public bool GetIsScene() => isCanScene;
 
-        }
-
-        // Update is called once per frame
-        void Update()
+        public void Trigger()
         {
             if (isCanScene)
             {
-                if (Input.GetKeyDown(KeyCode.I))
-                {                    
-                    Invoke("TukarNilai", 0.5f);
-                }
+                transisi.SetTrigger("In");
+                Invoke("TukarNilai", 1f);
             }
         }
         void TukarNilai()

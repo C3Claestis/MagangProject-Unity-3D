@@ -5,12 +5,13 @@ namespace Nivandria.Explore
     using UnityEngine;
     using UnityEngine.InputSystem;
     public class ExploreManager : MonoBehaviour
-    {
+    {        
         [SerializeField] InputSystem inputSystem;
         [SerializeField] PlayerInput playerInput;
         [SerializeField] Transform slot_leader;
         [SerializeField] GameObject panel_party;
         [SerializeField] Transform players;
+        [SerializeField] Animator transisi;
         Vector3[] last_posisi = new Vector3[]
             {
             new Vector3(-4.7f, 1f, -11f), //Posisi dari luar ke dalam rumah
@@ -24,6 +25,7 @@ namespace Nivandria.Explore
         private int set_lead;
         public static int set_lastScene;
         public int GetLead() => set_lead;
+        
         private void Awake()
         {
             if (instance != null)
@@ -39,7 +41,7 @@ namespace Nivandria.Explore
         // Start is called before the first frame update
         void Start()
         {
-
+            transisi.SetTrigger("Out");
         }
 
         // Update is called once per frame
@@ -47,7 +49,7 @@ namespace Nivandria.Explore
         {
             switch (set_lastScene)
             {
-                case 1:
+                case 1:                    
                     SwitchPosition(0);
                     Invoke("KembaliKeNol", 0.5f);
                     break;

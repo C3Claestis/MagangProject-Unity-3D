@@ -174,6 +174,16 @@ namespace Nivandria.Explore
                         ces.SetOpenChest(true);
                     }
                 }
+
+                TriggerScene[] trigger = FindObjectsOfType<TriggerScene>();
+
+                foreach (TriggerScene sceneTrigger in trigger)
+                {
+                    if (sceneTrigger.GetIsScene())
+                    {
+                        sceneTrigger.Trigger();
+                    }
+                }
             }
 
             if (interaksiNPC.GetIsNPC() == true)
