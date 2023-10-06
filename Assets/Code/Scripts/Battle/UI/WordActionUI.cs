@@ -4,7 +4,6 @@ namespace Nivandria.Battle.UI
     using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.WordSystem;
     using TMPro;
-    using UnityEditor.PackageManager;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -15,6 +14,7 @@ namespace Nivandria.Battle.UI
         [SerializeField] private TextMeshProUGUI inputText;
         [SerializeField] private Transform confirmButtonTransform;
         [SerializeField] private Transform cancelButtonTransform;
+        [SerializeField] private Transform resetButtonTransform;
         [SerializeField] private Transform wordButtonContainer;
         [SerializeField] private Transform wordButtonPrefab;
         [SerializeField] private TextAsset wordLibraryJson;
@@ -45,18 +45,10 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
             wordLibrary = JsonUtility.FromJson<AlphabeticalWordList>(wordLibraryJson.text);
             canvasGroup = GetComponent<CanvasGroup>();
-            HideUI(true);
+            // HideUI(true);
 
             inputText.text = "";
             inputString = "";
-        }
-
-        private void Update() // ! TEMPORARY
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                NewButtons();
-            }
         }
 
         public void NewButtons()
@@ -64,7 +56,7 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem_OnSelectedUnitChanged(null, null);
         }
 
-        private void UpdateInputText()
+        public void UpdateInputText()
         {
             inputText.text = "";
             inputString = "";
@@ -95,6 +87,7 @@ namespace Nivandria.Battle.UI
             if (inputString.Length < 3)
             {
                 DisableConfirmButton(true);
+                ChangeInputColor(false);
                 return;
             }
 
@@ -108,8 +101,14 @@ namespace Nivandria.Battle.UI
             }
 
             bool isFound = currentWordArray.Contains(inputString);
-            Debug.Log("isFound : " + isFound);
             DisableConfirmButton(!isFound);
+            ChangeInputColor(isFound);
+        }
+
+        private void ChangeInputColor(bool status)
+        {
+            if (status == true) inputText.color = Color.green;
+            else inputText.color = Color.red;
         }
 
         private void DisableConfirmButton(bool status)
@@ -264,6 +263,8 @@ namespace Nivandria.Battle.UI
 
         public List<RandomWordButtonUI> GetButtonPressedList() => buttonPressedList;
 
+        public void ResetButtonPressedList() => buttonPressedList.Clear();
+
         public void AddButtonPressedList(RandomWordButtonUI buttonUI)
         {
             buttonPressedList.Add(buttonUI);
@@ -274,6 +275,107 @@ namespace Nivandria.Battle.UI
         {
             buttonPressedList.Remove(buttonUI);
             UpdateInputText();
+        }
+
+        public void SetupButtonNavigation()
+        {
+            int listLength = wordButtonList.Count;
+
+            Button resetButton = resetButtonTransform.GetComponent<Button>();
+            Navigation resetButtonNavigation = resetButton.navigation;
+            resetButtonNavigation.mode = Navigation.Mode.Explicit;
+
+            Button cancelButton = cancelButtonTransform.GetComponent<Button>();
+            Navigation cancelButtonNavigation = cancelButton.navigation;
+            cancelButtonNavigation.mode = Navigation.Mode.Explicit;
+
+            Button confirmButton = confirmButtonTransform.GetComponent<Button>();
+            Navigation confirmButtonNavigation = confirmButton.navigation;
+            confirmButtonNavigation.mode = Navigation.Mode.Explicit;
+
+
+            for (int i = 0; i < listLength; i++)
+            {
+                Button button = wordButtonList[i].GetComponent<Button>();
+                Navigation newNavigation = button.navigation;
+                newNavigation.mode = Navigation.Mode.Explicit;
+
+                switch (i)
+                {
+                    case 0:
+                        newNavigation.selectOnUp = resetButton;
+                        resetButtonNavigation.selectOnDown = button;
+                        newNavigation.selectOnDown = wordButtonList[i + 5].GetComponent<Button>();
+                        break;
+                    case 1:
+                    case 2:
+                        newNavigation.selectOnUp = cancelButton;
+                        cancelButtonNavigation.selectOnDown = button;
+                        newNavigation.selectOnDown = wordButtonList[i + 5].GetComponent<Button>();
+                        break;
+                    case 3:
+                    case 4:
+                        newNavigation.selectOnUp = confirmButton;
+                        confirmButtonNavigation.selectOnDown = button;
+                        newNavigation.selectOnDown = wordButtonList[i + 5].GetComponent<Button>();
+                        break;
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                        newNavigation.selectOnUp = wordButtonList[i - 5].GetComponent<Button>();
+                        newNavigation.selectOnDown = wordButtonList[i + 5].GetComponent<Button>();
+                        break;
+                    case 10:
+                        newNavigation.selectOnDown = resetButton;
+                        resetButtonNavigation.selectOnUp = button;
+                        break;
+                    case 11:
+                    case 12:
+                        newNavigation.selectOnDown = cancelButton;
+                        cancelButtonNavigation.selectOnUp = button;
+                        break;
+                    case 13:
+                    case 14:
+                        newNavigation.selectOnDown = confirmButton;
+                        confirmButtonNavigation.selectOnUp = button;
+                        break;
+                }
+
+                if (i >= 10 && i <= 14)
+                {
+                    newNavigation.selectOnUp = wordButtonList[i - 5].GetComponent<Button>();
+                }
+
+                if (i % 5 == 0)
+                {
+                    newNavigation.selectOnLeft = wordButtonList[i + 4].GetComponent<Button>();
+                    newNavigation.selectOnRight = wordButtonList[i + 1].GetComponent<Button>();
+                }
+                else if (i % 5 == 4)
+                {
+                    newNavigation.selectOnRight = wordButtonList[i - 4].GetComponent<Button>();
+                    newNavigation.selectOnLeft = wordButtonList[i - 1].GetComponent<Button>();
+                }
+                else
+                {
+                    newNavigation.selectOnRight = wordButtonList[i + 1].GetComponent<Button>();
+                    newNavigation.selectOnLeft = wordButtonList[i - 1].GetComponent<Button>();
+                }
+
+                button.navigation = newNavigation;
+            }
+            resetButtonNavigation.selectOnLeft = confirmButton;
+            resetButtonNavigation.selectOnRight = cancelButton;
+            cancelButtonNavigation.selectOnLeft = resetButton;
+            cancelButtonNavigation.selectOnRight = confirmButton;
+            confirmButtonNavigation.selectOnLeft = cancelButton;
+            confirmButtonNavigation.selectOnRight = resetButton;
+
+            resetButton.navigation = resetButtonNavigation;
+            cancelButton.navigation = cancelButtonNavigation;
+            confirmButton.navigation = confirmButtonNavigation;
         }
 
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, System.EventArgs e)
@@ -290,6 +392,7 @@ namespace Nivandria.Battle.UI
 
             DestroyRandomWordButtons();
             CreateRandomWordButtons();
+            SetupButtonNavigation();
         }
     }
 

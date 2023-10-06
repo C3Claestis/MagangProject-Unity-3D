@@ -23,9 +23,7 @@ namespace Nivandria.Battle.UI
             WordActionUI.Instance.CheckWord();
         }
 
-
-
-        private void ChangeButtonColor()
+        public void ChangeButtonColor()
         {
             Image buttonImage = GetComponent<Image>();
             Color lightShade = new Color(1f, 1f, 1f, 1f);
@@ -40,6 +38,8 @@ namespace Nivandria.Battle.UI
             textMeshProUGUI.text = "";
             textMeshProUGUI.text += newCharacter;
         }
+
+        public void SetPressedStatus(bool status) => isPressed = status;
 
         public char GetCharacter() => character;
     }
