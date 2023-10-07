@@ -1,21 +1,14 @@
 namespace Nivandria.Battle.UI
 {
-    using System.Collections;
-    using System.Collections.Generic;
+    using Nivandria.Battle.Action;
+    using Nivandria.Battle.UnitSystem;
     using UnityEngine;
 
     public class WordActionCancelButtonUI : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        public void ButtonOnClick()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            WordActionUI.Instance.CancelAction();
         }
     }
 

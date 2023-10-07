@@ -31,7 +31,6 @@ namespace Nivandria.Battle.UnitSystem
 			Instance = this;
 		}
 
-
 		/// <summary>Handles the selected action when the left mouse button is clicked on the valid grid.</summary>
 		public void HandleSelectedAction(string controller)
 		{
@@ -49,7 +48,7 @@ namespace Nivandria.Battle.UnitSystem
 			if (selectedAction.IsValidActionGridPosition(pointerGridPosition))
 			{
 				SetBusy();
-				SetBusyUI();
+				HideActionUI();
 				selectedAction.TakeAction(pointerGridPosition, OnActionComplete);
 
 				if (selectedAction == selectedUnit.GetAction<MoveAction>())
@@ -75,7 +74,7 @@ namespace Nivandria.Battle.UnitSystem
 			GridSystemVisual.Instance.HideAllGridPosition();
 
 			ClearBusy();
-			ClearBusyUI();
+			ShowActionUI();
 
 			OnActionCompleted?.Invoke(this, EventArgs.Empty);
 			UnitActionSystemUI.Instance.SelectUIBaseOnSelectedAction();
@@ -87,16 +86,18 @@ namespace Nivandria.Battle.UnitSystem
 			selectedAction = baseAction;
 		}
 
-		public void SetBusyUI()
+		public void HideActionUI()
 		{
 			actionSystemUIGroup.alpha = 0;
 			actionSystemUIGroup.interactable = false;
+			actionSystemUIGroup.blocksRaycasts = false;
 		}
 
-		public void ClearBusyUI()
+		public void ShowActionUI()
 		{
 			actionSystemUIGroup.alpha = 1;
 			actionSystemUIGroup.interactable = true;
+			actionSystemUIGroup.blocksRaycasts = true;
 		}
 
 		public void ClearBusy() => isBusy = false;

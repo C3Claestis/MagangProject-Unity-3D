@@ -35,7 +35,7 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnActionCompleted += UnitActionSystem_OnActionCompleted;
             ShowActionBlocker(false);
-            UnitActionSystem.Instance.ClearBusyUI();
+            UnitActionSystem.Instance.ShowActionUI();
         }
 
         public void SelectUIBaseOnSelectedAction()
@@ -91,9 +91,10 @@ namespace Nivandria.Battle.UI
 
         public void SetSelectedGameObject(GameObject selectedObject)
         {
-            var eventSystem = EventSystem.current;
+            EventSystem eventSystem = EventSystem.current;
             eventSystem.SetSelectedGameObject(selectedObject, new BaseEventData(eventSystem));
         }
+
 
         public Transform GetTurnSystemButton() => turnSystemButton;
 

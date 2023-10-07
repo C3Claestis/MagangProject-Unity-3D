@@ -1,11 +1,15 @@
 namespace Nivandria.Battle.UI
 {
+    using TMPro;
+    using System;
     using System.Collections.Generic;
     using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.WordSystem;
-    using TMPro;
+    using Nivandria.Battle.Action;
     using UnityEngine;
     using UnityEngine.UI;
+    using Random = UnityEngine.Random;
+    using UnityEngine.EventSystems;
 
     public class WordActionUI : MonoBehaviour
     {
@@ -45,41 +49,10 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
             wordLibrary = JsonUtility.FromJson<AlphabeticalWordList>(wordLibraryJson.text);
             canvasGroup = GetComponent<CanvasGroup>();
-            // HideUI(true);
+            HideUI(true);
 
             inputText.text = "";
             inputString = "";
-        }
-
-        public void NewButtons()
-        {
-            UnitTurnSystem_OnSelectedUnitChanged(null, null);
-        }
-
-        public void UpdateInputText()
-        {
-            inputText.text = "";
-            inputString = "";
-
-            foreach (var button in buttonPressedList)
-            {
-                inputString += button.GetCharacter();
-            }
-
-            inputText.text = inputString;
-        }
-
-        public void HideUI(bool status)
-        {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-
-            if (status == false) return;
-
-            canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
         }
 
         public void CheckWord()
@@ -105,10 +78,41 @@ namespace Nivandria.Battle.UI
             ChangeInputColor(isFound);
         }
 
+        public void NewButtons()
+        {
+            UnitTurnSystem_OnSelectedUnitChanged(null, null);
+        }
+
+        public void UpdateInputText()
+        {
+            inputText.text = "";
+            inputString = "";
+
+            foreach (var button in buttonPressedList)
+            {
+                inputString += button.GetCharacter();
+            }
+
+            inputText.text = inputString;
+        }
+
         private void ChangeInputColor(bool status)
         {
             if (status == true) inputText.color = Color.green;
             else inputText.color = Color.red;
+        }
+
+        public void HideUI(bool status)
+        {
+            canvasGroup.alpha = 1;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+
+            if (status == false) return;
+
+            canvasGroup.alpha = 0;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
 
         private void DisableConfirmButton(bool status)
@@ -261,22 +265,6 @@ namespace Nivandria.Battle.UI
             }
         }
 
-        public List<RandomWordButtonUI> GetButtonPressedList() => buttonPressedList;
-
-        public void ResetButtonPressedList() => buttonPressedList.Clear();
-
-        public void AddButtonPressedList(RandomWordButtonUI buttonUI)
-        {
-            buttonPressedList.Add(buttonUI);
-            UpdateInputText();
-        }
-
-        public void RemoveButtonPressedList(RandomWordButtonUI buttonUI)
-        {
-            buttonPressedList.Remove(buttonUI);
-            UpdateInputText();
-        }
-
         public void SetupButtonNavigation()
         {
             int listLength = wordButtonList.Count;
@@ -376,6 +364,62 @@ namespace Nivandria.Battle.UI
             resetButton.navigation = resetButtonNavigation;
             cancelButton.navigation = cancelButtonNavigation;
             confirmButton.navigation = confirmButtonNavigation;
+        }
+
+        public void SetSelectedUIToFirstButton()
+        {
+            UnitActionSystemUI.Instance.SetSelectedGameObject(wordButtonList[0].gameObject);
+        }
+
+        public String GetInpuString() => inputString;
+
+        public List<RandomWordButtonUI> GetButtonPressedList() => buttonPressedList;
+
+        public void ResetButtonPressedList() => buttonPressedList.Clear();
+
+        public void AddButtonPressedList(RandomWordButtonUI buttonUI)
+        {
+            buttonPressedList.Add(buttonUI);
+            UpdateInputText();
+        }
+
+        public void RemoveButtonPressedList(RandomWordButtonUI buttonUI)
+        {
+            buttonPressedList.Remove(buttonUI);
+            UpdateInputText();
+        }
+
+        public void LinkCancel(bool status)
+        {
+            if (status == true)
+                PlayerInputController.Instance.OnCancelActionPressed += PlayerInputController_OnCancelPressed;
+            else
+                PlayerInputController.Instance.OnCancelActionPressed -= PlayerInputController_OnCancelPressed;
+        }
+
+        public void CancelAction()
+        {
+            var selectedAction = (BaseSkillAction)UnitActionSystem.Instance.GetSelectedAction();
+            var buttonTransform = UnitActionSystemUI.Instance.GetActionButton(selectedAction);
+            var skillActionButtonContainerUI = buttonTransform.GetComponent<SkillActionButtonUI>().GetActionContainer();
+            UnitActionSystemUI.Instance.SetSelectedGameObject(buttonTransform.gameObject);
+            UnitActionSystem.Instance.ShowActionUI();
+
+            skillActionButtonContainerUI.LinkCancel(true);
+            LinkCancel(false);
+            HideUI(true);
+        }
+
+        private void PlayerInputController_OnCancelPressed(object sender, System.EventArgs e)
+        {
+            EventSystem eventSystem = EventSystem.current;
+            if (eventSystem.currentSelectedGameObject != cancelButtonTransform.gameObject)
+            {
+                UnitActionSystemUI.Instance.SetSelectedGameObject(cancelButtonTransform.gameObject.gameObject);
+                return;
+            }
+
+            CancelAction();
         }
 
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, System.EventArgs e)

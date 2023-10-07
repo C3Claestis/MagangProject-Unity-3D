@@ -1,10 +1,9 @@
 namespace Nivandria.Battle.UI
 {
+    using System.Collections.Generic;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.UnitSystem;
-    using UnityEngine;
-    using UnityEngine.EventSystems;
 
     public class SkillActionButtonUI : BaseActionButtonUI
     {
@@ -14,22 +13,58 @@ namespace Nivandria.Battle.UI
 
         public override void ButtonOnClick()
         {
+            if (skillAction is WordAction)
+            {
+                WordActionSkill();
+                return;
+            }
 
+            NormalSkill();
+
+        }
+
+        private void NormalSkill()
+        {
             UnitActionSystem.Instance.SetSelectedAction(skillAction);
             GridSystemVisual.Instance.UpdateGridVisual();
 
             if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionCategory())) return;
-            
-            EventSystem eventSystem = EventSystem.current;
 
-            UnitActionSystem.Instance.SetBusyUI();
+            UnitActionSystem.Instance.HideActionUI();
             Pointer.Instance.SetActive(true);
 
             skillAction.InitializeCancel();
             skillActionButtonContainerUI.LinkCancel(false);
 
             PlayerInputController.Instance.SetActionMap("Gridmap");
-            eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
+
+            UnitActionSystemUI.Instance.SetSelectedGameObject(null);
+        }
+
+        private void WordActionSkill()
+        {
+            UnitActionSystem.Instance.SetSelectedAction(skillAction);
+            GridSystemVisual.Instance.HideAllGridPosition();
+
+            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionCategory())) return;
+
+            List<RandomWordButtonUI> buttonPressedList = WordActionUI.Instance.GetButtonPressedList();
+
+            foreach (var button in buttonPressedList)
+            {
+                button.SetPressedStatus(false);
+                button.ChangeButtonColor();
+            }
+
+            WordActionUI.Instance.ResetButtonPressedList();
+            WordActionUI.Instance.UpdateInputText();
+            WordActionUI.Instance.CheckWord();
+
+            skillActionButtonContainerUI.LinkCancel(false);
+            WordActionUI.Instance.LinkCancel(true);
+            UnitActionSystem.Instance.HideActionUI();
+            WordActionUI.Instance.HideUI(false);
+            WordActionUI.Instance.SetSelectedUIToFirstButton();
         }
 
         public void InitializeActionButton(BaseSkillAction skillAction, SkillActionButtonContainerUI skillActionButtonContainerUI)

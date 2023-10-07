@@ -1,21 +1,28 @@
 namespace Nivandria.Battle.UI
 {
-    using System.Collections;
-    using System.Collections.Generic;
+    using Nivandria.Battle.UnitSystem;
+    using Nivandria.Battle.Grid;
     using UnityEngine;
+    using Nivandria.Battle.Action;
 
     public class WordActionConfirmButtonUI : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        public void OnButtonClick()
         {
+            var selectedAction = (WordAction)UnitActionSystem.Instance.GetSelectedAction();
+            string word = WordActionUI.Instance.GetInpuString();
 
-        }
+            selectedAction.SetupGridPatern(word);
+            selectedAction.InitializeCancel();
 
-        // Update is called once per frame
-        void Update()
-        {
+            Pointer.Instance.SetActive(true);
+            GridSystemVisual.Instance.UpdateGridVisual();
+            WordActionUI.Instance.HideUI(true);
 
+            WordActionUI.Instance.LinkCancel(false);
+
+            PlayerInputController.Instance.SetActionMap("Gridmap");
+            UnitActionSystemUI.Instance.SetSelectedGameObject(null);
         }
     }
 

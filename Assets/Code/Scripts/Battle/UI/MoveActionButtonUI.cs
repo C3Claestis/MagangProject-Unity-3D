@@ -19,7 +19,7 @@ namespace Nivandria.Battle.UI
 
             if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(baseAction.GetActionCategory())) return;
 
-            UnitActionSystem.Instance.SetBusyUI();
+            UnitActionSystem.Instance.HideActionUI();
             Pointer.Instance.SetActive(true);
             baseAction.InitializeCancel();
 

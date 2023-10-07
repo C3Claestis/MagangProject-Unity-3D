@@ -2,18 +2,18 @@ namespace Nivandria.Battle.Action
 {
     using System.Collections.Generic;
     using Nivandria.Battle.PathfindingSystem;
-    using Nivandria.Battle.Grid;
-    using UnityEngine;
     using Nivandria.Battle.UnitSystem;
+    using Nivandria.Battle.Grid;
+    using Nivandria.Battle.UI;
+    using UnityEngine;
     using System;
 
     public class WordAction : BaseSkillAction
     {
-        private enum GridPatern
+        public enum GridPatern
         {
             OneLine,
             ThreeLines,
-            Ultimate,
         }
 
         protected override string actionName => "Wording Skill";
@@ -33,45 +33,10 @@ namespace Nivandria.Battle.Action
         private List<GridPosition> currentNorthGridList;
         private List<GridPosition> currentSouthGridList;
 
-
         private void Start()
         {
             currentActiveGridList = new List<GridPosition>();
             Pointer.Instance.OnPointerGridChanged += Pointer_OnPointerGridChanged;
-        }
-
-        private void Pointer_OnPointerGridChanged(object sender, EventArgs e)
-        {
-            if (lastGridPatern == GridPatern.Ultimate) return;
-
-            GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid();
-            bool gridInsideList = GridChecker(currentActiveGridList, pointerGridPosition);
-
-            if (gridInsideList) return;
-
-            if (currentDirection != FacingDirection.EAST && GridChecker(currentEastGridList, pointerGridPosition))
-            {
-                currentDirection = FacingDirection.EAST;
-                currentActiveGridList = currentEastGridList;
-            }
-            else if (currentDirection != FacingDirection.WEST && GridChecker(currentWestGridList, pointerGridPosition))
-            {
-                currentDirection = FacingDirection.WEST;
-                currentActiveGridList = currentWestGridList;
-            }
-            else if (currentDirection != FacingDirection.NORTH && GridChecker(currentNorthGridList, pointerGridPosition))
-            {
-                currentDirection = FacingDirection.NORTH;
-                currentActiveGridList = currentNorthGridList;
-            }
-            else if (currentDirection != FacingDirection.SOUTH && GridChecker(currentSouthGridList, pointerGridPosition))
-            {
-                currentDirection = FacingDirection.SOUTH;
-                currentActiveGridList = currentSouthGridList;
-            }
-            else return;
-
-            GridSystemVisual.Instance.UpdateGridVisual();
         }
 
         private bool GridChecker(List<GridPosition> gridList, GridPosition targetGrid)
@@ -86,42 +51,29 @@ namespace Nivandria.Battle.Action
             return false;
         }
 
-        public override List<GridPosition> GetValidActionGridPosition()
+        protected override void CancelAction()
         {
-            List<GridPosition> validGridList = new List<GridPosition>();
-            SetupActionGridPosition();
+            GridSystemVisual.Instance.HideAllGridPosition();
 
-            switch (currentDirection)
-            {
-                case FacingDirection.EAST:
-                    validGridList = currentEastGridList;
-                    break;
+            GridPosition gridPosition = unit.GetGridPosition();
+            Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            Pointer.Instance.SetPointerOnGrid(gridPosition);
+            CameraController.Instance.SetCameraFocusToPosition(worldPosition);
 
-                case FacingDirection.WEST:
-                    validGridList = currentWestGridList;
-                    break;
+            WordActionUI.Instance.LinkCancel(true);
+            WordActionUI.Instance.HideUI(false);
+            WordActionUI.Instance.SetSelectedUIToFirstButton();
+            PlayerInputController.Instance.SetActionMap("BattleUI");
 
-                case FacingDirection.NORTH:
-                    validGridList = currentNorthGridList;
-                    break;
-
-                case FacingDirection.SOUTH:
-                    validGridList = currentSouthGridList;
-                    break;
-                default:
-                    Debug.LogError($"Can't find current direction for unit {unit.GetCharacterName()}, action {actionName}");
-                    break;
-
-            }
-
-
-            return validGridList;
+            PlayerInputController.Instance.OnCancelActionPressed -= PlayerInputController_OnCancelPressed;
         }
 
-        public override List<GridPosition> GetRangeActionGridPosition()
+        public void SetupGridPatern(string word)
         {
-            SetupActionGridPosition();
-            return currentAllGridList;
+            int wordLength = word.Length;
+
+            if (wordLength <= 7) newGridPatern = GridPatern.OneLine;
+            else newGridPatern = GridPatern.ThreeLines;
         }
 
         public void SetupActionGridPosition()
@@ -160,8 +112,6 @@ namespace Nivandria.Battle.Action
             GridPosition unitGridPosition = unit.GetGridPosition();
             LevelGrid levelGrid = LevelGrid.Instance;
 
-            if (lastGridPatern == GridPatern.Ultimate) return null;
-
             switch (lastGridPatern)
             {
                 case GridPatern.OneLine:
@@ -195,10 +145,6 @@ namespace Nivandria.Battle.Action
                         }
                     }
                     break;
-
-                case GridPatern.Ultimate:
-                    validGridList = null;
-                    break;
             }
 
             return validGridList;
@@ -209,8 +155,6 @@ namespace Nivandria.Battle.Action
             List<GridPosition> validGridList = new List<GridPosition>();
             LevelGrid levelGrid = LevelGrid.Instance;
             GridPosition unitGridPosition = unit.GetGridPosition();
-
-            if (lastGridPatern == GridPatern.Ultimate) return null;
 
             switch (lastGridPatern)
             {
@@ -244,10 +188,6 @@ namespace Nivandria.Battle.Action
                             validGridList.Add(testGridPosition);
                         }
                     }
-                    break;
-
-                case GridPatern.Ultimate:
-                    validGridList = null;
                     break;
             }
 
@@ -293,10 +233,6 @@ namespace Nivandria.Battle.Action
                             validGridList.Add(testGridPosition);
                         }
                     }
-                    break;
-
-                case GridPatern.Ultimate:
-                    validGridList = null;
                     break;
             }
 
@@ -344,15 +280,82 @@ namespace Nivandria.Battle.Action
                         }
                     }
                     break;
-
-                case GridPatern.Ultimate:
-                    validGridList = null;
-                    break;
             }
 
 
 
             return validGridList;
+        }
+
+        public override List<GridPosition> GetValidActionGridPosition()
+        {
+            List<GridPosition> validGridList = new List<GridPosition>();
+            SetupActionGridPosition();
+
+            switch (currentDirection)
+            {
+                case FacingDirection.EAST:
+                    validGridList = currentEastGridList;
+                    break;
+
+                case FacingDirection.WEST:
+                    validGridList = currentWestGridList;
+                    break;
+
+                case FacingDirection.NORTH:
+                    validGridList = currentNorthGridList;
+                    break;
+
+                case FacingDirection.SOUTH:
+                    validGridList = currentSouthGridList;
+                    break;
+                default:
+                    Debug.LogError($"Can't find current direction for unit {unit.GetCharacterName()}, action {actionName}");
+                    break;
+
+            }
+
+
+            return validGridList;
+        }
+
+        public override List<GridPosition> GetRangeActionGridPosition()
+        {
+            SetupActionGridPosition();
+            return currentAllGridList;
+        }
+
+        private void Pointer_OnPointerGridChanged(object sender, EventArgs e)
+        {
+
+            GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid();
+            bool gridInsideList = GridChecker(currentActiveGridList, pointerGridPosition);
+
+            if (gridInsideList) return;
+
+            if (currentDirection != FacingDirection.EAST && GridChecker(currentEastGridList, pointerGridPosition))
+            {
+                currentDirection = FacingDirection.EAST;
+                currentActiveGridList = currentEastGridList;
+            }
+            else if (currentDirection != FacingDirection.WEST && GridChecker(currentWestGridList, pointerGridPosition))
+            {
+                currentDirection = FacingDirection.WEST;
+                currentActiveGridList = currentWestGridList;
+            }
+            else if (currentDirection != FacingDirection.NORTH && GridChecker(currentNorthGridList, pointerGridPosition))
+            {
+                currentDirection = FacingDirection.NORTH;
+                currentActiveGridList = currentNorthGridList;
+            }
+            else if (currentDirection != FacingDirection.SOUTH && GridChecker(currentSouthGridList, pointerGridPosition))
+            {
+                currentDirection = FacingDirection.SOUTH;
+                currentActiveGridList = currentSouthGridList;
+            }
+            else return;
+
+            GridSystemVisual.Instance.UpdateGridVisual();
         }
     }
 }

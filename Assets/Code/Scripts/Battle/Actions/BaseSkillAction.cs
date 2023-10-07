@@ -2,7 +2,6 @@ namespace Nivandria.Battle.Action
 {
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
-    using Nivandria.Battle.PathfindingSystem;
     using Nivandria.Battle.UI;
     using Nivandria.Battle.UnitSystem;
 
@@ -18,7 +17,7 @@ namespace Nivandria.Battle.Action
             var buttonTransform = UnitActionSystemUI.Instance.GetActionButton(this);
             UnitActionSystemUI.Instance.SetSelectedGameObject(buttonTransform.gameObject);
 
-            UnitActionSystem.Instance.ClearBusyUI();
+            UnitActionSystem.Instance.ShowActionUI();
             var skillActionButtonContainerUI = buttonTransform.GetComponent<SkillActionButtonUI>().GetActionContainer();
             skillActionButtonContainerUI.LinkCancel(true);
 

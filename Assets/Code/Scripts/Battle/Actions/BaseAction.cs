@@ -51,6 +51,7 @@ namespace Nivandria.Battle.Action
         protected virtual void NoButtonAction()
         {
             UnitActionSystem.Instance.ClearBusy();
+            Pointer.Instance.SetActive(true);
             PlayerInputController.Instance.SetActionMap("Gridmap");
         }
 
@@ -60,7 +61,7 @@ namespace Nivandria.Battle.Action
 
             GridSystemVisual.Instance.HideAllGridPosition();
             UnitActionSystemUI.Instance.SelectUIBaseOnSelectedAction();
-            UnitActionSystem.Instance.ClearBusyUI();
+            UnitActionSystem.Instance.ShowActionUI();
             Pointer.Instance.SetPointerOnGrid(gridPosition);
             PlayerInputController.Instance.SetActionMap("BattleUI");
             CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
