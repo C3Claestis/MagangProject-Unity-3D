@@ -17,7 +17,7 @@ namespace Nivandria.Explore
             if (isCanScene)
             {
                 transisi.SetTrigger("In");
-                Invoke("TukarNilai", 1f);
+                Invoke(nameof(TukarNilai), 1f);
             }
         }
         void TukarNilai()

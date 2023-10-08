@@ -17,8 +17,9 @@ namespace Nivandria.Explore
             new Vector3(-4.7f, 1f, -11f), //Posisi dari luar ke dalam rumah
             new Vector3(0f, 1.8f, 15f), //Posisi dari dalam keluar rumah
 
-            new Vector3(25f, 1.8f, 15f), //Posisi dari halaman rumah ke training ground
-            new Vector3(0f, 1.8f, -10f), //Posisi dari training ground ke halaman rumah           
+            new Vector3(120f, 1.8f, 170f), //Posisi dari halaman rumah ke training ground
+            new Vector3(45.5f, 1.8f, -75f), //Posisi dari training ground ke halaman rumah  
+
            // new Vector3(25f, 1.8f, 15f) //Posisi dari outskrit ke halaman rumah
             };
         private static ExploreManager instance;
@@ -51,19 +52,19 @@ namespace Nivandria.Explore
             {
                 case 1:                    
                     SwitchPosition(0);
-                    Invoke("KembaliKeNol", 0.5f);
+                    Invoke(nameof(KembaliKeNol), 0.5f);
                     break;
                 case 2:
                     SwitchPosition(1);
-                    Invoke("KembaliKeNol", 0.5f);
+                    Invoke(nameof(KembaliKeNol), 0.5f);
                     break;
                 case 3:
                     SwitchPosition(2);
-                    Invoke("KembaliKeNol", 0.5f);
+                    Invoke(nameof(KembaliKeNol), 0.5f);
                     break;
                 case 4:
                     SwitchPosition(3);
-                    Invoke("KembaliKeNol", 0.5f);
+                    Invoke(nameof(KembaliKeNol), 0.5f);
                     break;
             }
 
