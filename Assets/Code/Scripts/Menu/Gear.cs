@@ -14,7 +14,7 @@ namespace Nivandria.UI.Gears
         [SerializeField] private string nameGears;
         [SerializeField] private string descriptionGears;
 
-        [Header("Detail Status")]
+        [Header("Detail Status Gear")]
         [SerializeField] private string health;
         [SerializeField] private string physicalAttack;
         [SerializeField] private string magicAttack;

@@ -4,11 +4,13 @@ namespace Nivandria.UI.Gears
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using UnityEngine.UI;
 
 
     public class GearsLogManager : MonoBehaviour
     {
+        public static GearsLogManager Instance{get; private set;}
         [SerializeField] Transform contentContainer;
 
 
@@ -26,7 +28,7 @@ namespace Nivandria.UI.Gears
         [SerializeField] TextMeshProUGUI descriptionGear;
 
 
-        [Header("Detail Status")]
+        [Header("Detail Status Gear")]
         [SerializeField] TextMeshProUGUI health;
         [SerializeField] TextMeshProUGUI physicalAttack;
         [SerializeField] TextMeshProUGUI magicAttack;
@@ -43,9 +45,19 @@ namespace Nivandria.UI.Gears
         //[SerializeField] List<Status> statusList = new List<Status>();
         [SerializeField] GameObject gearsLog;
 
+        void Awake()
+        {
+            if(Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
         void Start()
         {
-
             GearsLogInitialization();
         }
 
@@ -66,6 +78,8 @@ namespace Nivandria.UI.Gears
                 Button gearButton = newGear.GetComponent<Button>();
                 gearButton.onClick.AddListener(() =>
                 {
+                    GameObject test = EventSystem.current.currentSelectedGameObject;
+                    Debug.Log(test.name);
                     if (nameGear != null && descriptionGear != null)
                     {
                         nameGear.text = gears.GetNameGears();

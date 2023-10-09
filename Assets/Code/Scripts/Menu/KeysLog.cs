@@ -32,7 +32,7 @@ namespace Nivandria.UI.Keys
         public void UpdateVisual()
         {
             bool status = KeysLogManager.Instance.GetSelectedKeyLog() == this;
-            if (status)
+            if (status == true)
             {
                 nameKey.fontStyle = FontStyles.Bold;
                 SetImageAlpha(255);
