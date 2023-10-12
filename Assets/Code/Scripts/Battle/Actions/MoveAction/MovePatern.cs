@@ -6,20 +6,11 @@ namespace Nivandria.Battle.Action
     using Nivandria.Battle.PathfindingSystem;
     using UnityEngine;
 
-    public class MovePatern
+    public static class MovePatern
     {
-        private int maxMoveDistance;
-        private Unit unit;
-
-        public MovePatern(Unit unit, int maxMoveDistance)
-        {
-            this.unit = unit;
-            this.maxMoveDistance = maxMoveDistance;
-        }
-
         /// <summary>Generates a list of valid grid positions for a normal move. </summary>
         /// <returns>A list of GridPosition objects representing valid move positions.</returns>
-        public List<GridPosition> NormalMoveValidGrids()
+        public static List<GridPosition> NormalMoveValidGrids(Unit unit, int maxMoveDistance)
         {
             List<GridPosition> normalMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
@@ -53,7 +44,7 @@ namespace Nivandria.Battle.Action
 
         /// <summary>Generates a list of valid grid positions for a king move. </summary>
         /// <returns>A list of GridPosition objects representing valid move positions.</returns>
-        public List<GridPosition> KingMoveValidGrids()
+        public static List<GridPosition> KingMoveValidGrids(Unit unit)
         {
             List<GridPosition> kingMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
@@ -80,7 +71,7 @@ namespace Nivandria.Battle.Action
 
         /// <summary>Generates a list of valid grid positions for a tiger move. </summary>
         /// <returns>A list of GridPosition objects representing valid move positions.</returns>
-        public List<GridPosition> TigerMoveValidGrids(LayerMask layerMask)
+        public static List<GridPosition> TigerMoveValidGrids(Unit unit, LayerMask layerMask)
         {
             List<GridPosition> tigerMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
@@ -129,67 +120,9 @@ namespace Nivandria.Battle.Action
             return tigerMoveList;
         }
 
-        private bool HasAnyObstacleOnPath(GridPosition unitGridPosition, GridPosition offsetGridPosition , GridPosition[] specificOffsets)
-        {
-
-            if (offsetGridPosition == new GridPosition(1, 2))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[0])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[1])) return true;
-            }
-
-            if (offsetGridPosition == new GridPosition(2, 1))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[2])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[3])) return true;
-            }
-
-            if (offsetGridPosition == new GridPosition(2, -1))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[4])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[5])) return true;
-            }
-
-            if (offsetGridPosition == new GridPosition(1, -2))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[6])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[7])) return true;
-            }
-
-
-            if (offsetGridPosition == new GridPosition(-1, -2))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[8])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[9])) return true;
-            }
-
-
-            if (offsetGridPosition == new GridPosition(-2, -1))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[10])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[11])) return true;
-            }
-
-
-            if (offsetGridPosition == new GridPosition(-2, 1))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[12])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[13])) return true;
-            }
-
-
-            if (offsetGridPosition == new GridPosition(-1, 2))
-            {
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[14])) return true;
-                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[15])) return true;
-            }
-
-            return false;
-        }
-
         /// <summary>Generates a list of valid grid positions for a bull move. </summary>
         /// <returns>A list of GridPosition objects representing valid move positions.</returns>
-        public List<GridPosition> BullMoveValidGrids()
+        public static List<GridPosition> BullMoveValidGrids(Unit unit)
         {
             List<GridPosition> bullMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
@@ -247,7 +180,7 @@ namespace Nivandria.Battle.Action
 
         /// <summary>Generates a list of valid grid positions for a snake move. </summary>
         /// <returns>A list of GridPosition objects representing valid move positions.</returns>
-        public List<GridPosition> SnakeMoveValidGrids()
+        public static List<GridPosition> SnakeMoveValidGrids(Unit unit)
         {
             List<GridPosition> snakeMoveList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
@@ -305,5 +238,62 @@ namespace Nivandria.Battle.Action
             return snakeMoveList;
         }
 
+        private static bool HasAnyObstacleOnPath(GridPosition unitGridPosition, GridPosition offsetGridPosition, GridPosition[] specificOffsets)
+        {
+
+            if (offsetGridPosition == new GridPosition(1, 2))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[0])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[1])) return true;
+            }
+
+            if (offsetGridPosition == new GridPosition(2, 1))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[2])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[3])) return true;
+            }
+
+            if (offsetGridPosition == new GridPosition(2, -1))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[4])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[5])) return true;
+            }
+
+            if (offsetGridPosition == new GridPosition(1, -2))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[6])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[7])) return true;
+            }
+
+
+            if (offsetGridPosition == new GridPosition(-1, -2))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[8])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[9])) return true;
+            }
+
+
+            if (offsetGridPosition == new GridPosition(-2, -1))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[10])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[11])) return true;
+            }
+
+
+            if (offsetGridPosition == new GridPosition(-2, 1))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[12])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[13])) return true;
+            }
+
+
+            if (offsetGridPosition == new GridPosition(-1, 2))
+            {
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[14])) return true;
+                if (!Pathfinding.Instance.IsWalkableGridPosition(unitGridPosition + specificOffsets[15])) return true;
+            }
+
+            return false;
+        }
     }
 }

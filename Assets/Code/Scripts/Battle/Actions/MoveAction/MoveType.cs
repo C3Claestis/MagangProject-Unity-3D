@@ -8,6 +8,4 @@ namespace Nivandria.Battle.Action
         Bull,
         Snake
     }
-
-    
 }

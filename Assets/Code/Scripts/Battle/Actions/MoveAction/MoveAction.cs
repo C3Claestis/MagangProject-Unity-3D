@@ -91,30 +91,29 @@ namespace Nivandria.Battle.Action
         {
             List<GridPosition> validGridPositionList = new List<GridPosition>();
             MoveType moveType = unit.GetMoveType();
-            MovePatern movePatern = new MovePatern(unit, maxMoveDistance);
-            
+
             Pathfinding.Instance.SetupPath(unit.GetUnitType());
 
             switch (moveType)
             {
                 case MoveType.Normal:
-                    validGridPositionList = movePatern.NormalMoveValidGrids();
+                    validGridPositionList = MovePatern.NormalMoveValidGrids(unit, maxMoveDistance);
                     break;
 
                 case MoveType.King:
-                    validGridPositionList = movePatern.KingMoveValidGrids();
+                    validGridPositionList = MovePatern.KingMoveValidGrids(unit);
                     break;
 
                 case MoveType.Tiger:
-                    validGridPositionList = movePatern.TigerMoveValidGrids(obstacleLayer);
+                    validGridPositionList = MovePatern.TigerMoveValidGrids(unit, obstacleLayer);
                     break;
 
                 case MoveType.Bull:
-                    validGridPositionList = movePatern.BullMoveValidGrids();
+                    validGridPositionList = MovePatern.BullMoveValidGrids(unit);
                     break;
 
                 case MoveType.Snake:
-                    validGridPositionList = movePatern.SnakeMoveValidGrids();
+                    validGridPositionList = MovePatern.SnakeMoveValidGrids(unit);
                     break;
 
                 default:

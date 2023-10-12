@@ -1,14 +1,12 @@
 namespace Nivandria.Battle.UI
 {
     using TMPro;
-    using System;
     using System.Collections.Generic;
     using Nivandria.Battle.UnitSystem;
     using Nivandria.Battle.WordSystem;
     using Nivandria.Battle.Action;
     using UnityEngine;
     using UnityEngine.UI;
-    using Random = UnityEngine.Random;
     using UnityEngine.EventSystems;
 
     public class WordActionUI : MonoBehaviour
@@ -371,7 +369,7 @@ namespace Nivandria.Battle.UI
             UnitActionSystemUI.Instance.SetSelectedGameObject(wordButtonList[0].gameObject);
         }
 
-        public String GetInpuString() => inputString;
+        public string GetInpuString() => inputString;
 
         public List<RandomWordButtonUI> GetButtonPressedList() => buttonPressedList;
 
