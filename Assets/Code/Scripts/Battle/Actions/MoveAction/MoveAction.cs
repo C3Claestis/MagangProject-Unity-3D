@@ -26,21 +26,26 @@ namespace Nivandria.Battle.Action
         private Vector3 startPosition;
         private Quaternion startRotation;
         private Quaternion targetRotation;
-
         private GridPosition targetPosition;
 
         private List<Vector3> positionList;
         private int currentPositionIndex;
         private float moveStoppingDistance = 0.1f;
-        private float rotateSpeed = 20f;
         private float moveSpeed = 4f;
 
-        private bool destinationReached;
+        private float jumpHeight = 4f;
+        private float interpolateAmount;
+        private Vector3 middlePoint;
+        private float middlePointPercentage = 0.5f;
 
         private Vector3 jumpTargetPosition;
         private bool startJumping = false;
         private bool isJumping = false;
+
+        private bool destinationReached;
+
         private bool doneRotating;
+        private float rotateSpeed = 20f;
 
         private void Update()
         {
@@ -70,12 +75,30 @@ namespace Nivandria.Battle.Action
 
             if (unit.GetMoveType() == MoveType.Tiger)
             {
-                jumpTargetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
-                isJumping = true;
-                startJumping = true;
+                JumpingInitialization();
                 return;
             }
 
+            WalkingInitialization();
+        }
+
+        private void JumpingInitialization()
+        {
+            jumpTargetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
+            isJumping = true;
+            startJumping = true;
+
+            interpolateAmount = 0;
+            middlePoint = Vector3.Lerp(startPosition, jumpTargetPosition, middlePointPercentage);
+            middlePoint += Vector3.up * jumpHeight;
+
+            Vector3 directionToTarget = (jumpTargetPosition - transform.position).normalized;
+            transform.forward = directionToTarget;
+        }
+
+
+        private void WalkingInitialization()
+        {
             List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), targetPosition, out int pathLength);
             positionList = new List<Vector3>();
             currentPositionIndex = 0;
@@ -84,7 +107,6 @@ namespace Nivandria.Battle.Action
             {
                 positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
             }
-
         }
 
         public override List<GridPosition> GetValidActionGridPosition()
@@ -162,7 +184,7 @@ namespace Nivandria.Battle.Action
 
         private void HandleJumping()
         {
-            float jumpSpeed = 3.7f;
+            float jumpSpeed = 0.9f;
 
             if (startJumping)
             {
@@ -172,10 +194,11 @@ namespace Nivandria.Battle.Action
 
             if (Vector3.Distance(transform.position, jumpTargetPosition) > moveStoppingDistance)
             {
-                Vector3 moveDirection = (jumpTargetPosition - transform.position).normalized;
-                transform.position += moveDirection * Time.deltaTime * jumpSpeed;
+                interpolateAmount += Time.deltaTime * jumpSpeed;
 
-                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * 50f);
+                Vector3 pointAB = Vector3.Lerp(startPosition, middlePoint, interpolateAmount);
+                Vector3 pointBC = Vector3.Lerp(middlePoint, jumpTargetPosition, interpolateAmount);
+                transform.position = Vector3.Lerp(pointAB, pointBC, interpolateAmount);
             }
             else
             {
@@ -240,6 +263,7 @@ namespace Nivandria.Battle.Action
             doneRotating = true;
 
             unit.UpdateUnitGridPosition();
+            interpolateAmount = 0;
 
             base.NoButtonAction();
         }
