@@ -17,7 +17,7 @@ namespace Nivandria.Explore
         [SerializeField] PlayerInput playerInput;
         [SerializeField] DialogueManager dialogueManager;
 
-        private Animator animator;
+        [SerializeField] private Animator animator;
         private Vector2 movementValue;
         private bool isMoving = false;
         private bool canRunning = false;
@@ -45,17 +45,32 @@ namespace Nivandria.Explore
         }
         private void Start()
         {
+            //LockMouse(false);
             currentStamina = maxStamina;
             initialStaminaBarWidth = staminaBarRectTransform.sizeDelta.x;
-            GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
+
+            //GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
         }
 
         private void Update()
         {
-            SpawnKarakter();
+            //SpawnKarakter();
             HandleRun();
         }
 
+        public void LockMouse(bool locked)
+        {
+            Cursor.visible = locked;
+            if (!locked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            //Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        }
         /// <summary>
         /// Handle Fungsi Run Untuk Stamina
         /// </summary>
@@ -182,6 +197,15 @@ namespace Nivandria.Explore
                     if (sceneTrigger.GetIsScene())
                     {
                         sceneTrigger.Trigger();
+                    }
+                }
+                PickupItem[] pickItem = FindObjectsOfType<PickupItem>();
+
+                foreach (PickupItem items in pickItem)
+                {
+                    if (items.isTake)
+                    {
+                        items.SetTaking(true);
                     }
                 }
             }

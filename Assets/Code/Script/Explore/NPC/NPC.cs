@@ -6,8 +6,11 @@ namespace Nivandria.Explore
     using Dreamteck.Splines;
     public class NPC : MonoBehaviour
     {
+        [Header("Deteksi Interaksi")]
         [SerializeField] GameObject bubbleText;
         [SerializeField] bool isPatrol;
+
+        [Header("Dialogue Value")]
         [SerializeField] TextAsset inkJSON;
         [SerializeField] int value_dialogue;
         float rotationSpeed = 5f;

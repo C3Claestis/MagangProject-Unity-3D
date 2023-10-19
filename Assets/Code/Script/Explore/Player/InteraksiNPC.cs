@@ -45,14 +45,14 @@ namespace Nivandria.Explore
                     if (npc.GetInterect() == false)
                     {
                         npc.SetInterect(true);
-                        isNPC = true;
+                        isNPC = true;                        
                     }
                 }
                 // Rotate towards the player when the interaction button is pressed
                 if (isTalk)
                 {
                     RotateTowardsPlayer(raycast.collider.gameObject);
-                    npc.SetTalk(true);
+                    npc.SetTalk(true);                    
                 }
             }
             else

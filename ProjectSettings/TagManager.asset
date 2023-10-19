@@ -12,6 +12,7 @@ TagManager:
   - PantulanLazer
   - ObjekLazer
   - MiniMap
+  - PickItem
   layers:
   - Default
   - TransparentFX

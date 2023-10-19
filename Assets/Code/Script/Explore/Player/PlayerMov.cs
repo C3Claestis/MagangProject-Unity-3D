@@ -27,7 +27,35 @@ namespace Nivandria.Explore
                 Move();
             }
         }
+        private void Move()
+        {
+            Vector2 input = inputSystem.GetMovementValue();
 
+            // Dapatkan rotasi kamera saat ini
+            Quaternion cameraRotation = Camera.main.transform.rotation;
+
+            // Ubah input pemain menjadi arah dunia menggunakan rotasi kamera
+            Vector3 moveDirection = cameraRotation * new Vector3(input.x, 0, input.y);
+            moveDirection.y = 0; // Pastikan tidak ada perubahan di sumbu y
+
+            float moveSpeed = inputSystem.CanRunning() ? runSpeed : walkSpeed;
+
+            if (input == Vector2.zero)
+            {
+                rb.velocity = Vector3.zero;
+                return;
+            }
+
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+                rb.MoveRotation(Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.deltaTime));
+            }
+
+            Vector3 velocity = moveDirection * moveSpeed;
+            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
+        }
+        /*
         private void Move()
         {
             Vector2 input = inputSystem.GetMovementValue();
@@ -48,6 +76,6 @@ namespace Nivandria.Explore
 
             Vector3 velocity = moveDirection * moveSpeed;
             rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
-        }
+        }*/
     }
 }

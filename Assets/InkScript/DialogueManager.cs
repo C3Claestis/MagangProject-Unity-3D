@@ -91,6 +91,7 @@ namespace Nivandria.Explore
         {
             if (story == null) // Check if the story object is not initialized
             {                
+                InputSystem.GetInstance().LockMouse(true);
                 story = new Story(inkJSON.text);
                 value_npc = value;
                 isPlaying = true;
@@ -104,6 +105,7 @@ namespace Nivandria.Explore
         // Exit the dialogue mode and reset dialogue state
         private void ExitDialogue()
         {
+            InputSystem.GetInstance().LockMouse(false);
             story = null;
             isPlaying = false;
             teks.text = "";
