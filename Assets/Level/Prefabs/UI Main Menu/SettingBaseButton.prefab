@@ -144,6 +144,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4040253346307680268}
   - component: {fileID: 2158263057362560885}
+  - component: {fileID: 1764413823686870089}
+  - component: {fileID: 8553991152956371738}
   - component: {fileID: 7439526080393663918}
   m_Layer: 5
   m_Name: SettingBaseButton
@@ -180,6 +182,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2086450732673323713}
   m_CullTransparentMesh: 1
+--- !u!114 &1764413823686870089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086450732673323713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d6771826b9e0c343bf24c28c5aa3247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioMixer: {fileID: 0}
+  _textVolume: {fileID: 613885067419398088}
+--- !u!114 &8553991152956371738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086450732673323713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b0428e4fd5b7aa4591b39154720dcc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonLeft: {fileID: 2202392276899242380}
+  ButtonRight: {fileID: 8915620371512240267}
+  VolumeText: {fileID: 613885067419398088}
 --- !u!114 &7439526080393663918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,7 +515,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6787669183459290260}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1764413823686870089}
+        m_TargetAssemblyTypeName: Nivandria.UI.Volume.VolumeSettings, Assembly-CSharp
+        m_MethodName: DecreaseVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6962136915714728038
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,4 +781,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3714299951350274332}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1764413823686870089}
+        m_TargetAssemblyTypeName: Nivandria.UI.Volume.VolumeSettings, Assembly-CSharp
+        m_MethodName: IncreaseVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
