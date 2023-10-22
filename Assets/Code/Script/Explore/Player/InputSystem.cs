@@ -45,7 +45,7 @@ namespace Nivandria.Explore
         }
         private void Start()
         {
-            //LockMouse(false);
+            LockMouse(false);
             currentStamina = maxStamina;
             initialStaminaBarWidth = staminaBarRectTransform.sizeDelta.x;
 

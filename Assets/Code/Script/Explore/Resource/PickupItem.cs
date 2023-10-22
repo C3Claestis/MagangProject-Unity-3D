@@ -8,7 +8,7 @@ namespace Nivandria.Explore
     public class PickupItem : MonoBehaviour
     {
         [SerializeField] string Name;
-        public GameObject display_taking;
+        [SerializeField] GameObject display_taking;
         private GameObject taking, geting;
         public bool isTake = false;
         private bool isTaking = false;

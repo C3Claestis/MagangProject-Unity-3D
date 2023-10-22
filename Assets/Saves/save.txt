@@ -1,1 +1,1 @@
-{"Drakar":56,"Reputation":78,"SensX":0.0,"SensY":0.0,"Kentang":3}
+{"Drakar":56,"Reputation":78,"SensX":100.0,"SensY":0.5,"Kentang":3}

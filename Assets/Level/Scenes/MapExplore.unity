@@ -2202,6 +2202,7 @@ MonoBehaviour:
   interaksiNPC: {fileID: 2022668705}
   playerInput: {fileID: 185068430}
   dialogueManager: {fileID: 2141036891}
+  animator: {fileID: 0}
   staminaBarRectTransform: {fileID: 267331113}
 --- !u!114 &185068432
 MonoBehaviour:
@@ -18072,6 +18073,15 @@ MonoBehaviour:
   panel_party: {fileID: 1310556817}
   players: {fileID: 185068428}
   transisi: {fileID: 1855429279}
+  drakar: {fileID: 0}
+  level: {fileID: 0}
+  kentang: {fileID: 0}
+  tambahdrakar: 0
+  tambahlevel: 0
+  cinemachineFreeLook: {fileID: 0}
+  sen_x: 0
+  sen_y: 0
+  Potato: 0
 --- !u!114 &2141036891
 MonoBehaviour:
   m_ObjectHideFlags: 0
