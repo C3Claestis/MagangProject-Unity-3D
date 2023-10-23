@@ -25,7 +25,7 @@ namespace Nivandria.UI
         // Start is called before the first frame update
         void Start()
         {
-            SetConsumableFirst();
+            SetGearsFirst();
         }
 
         // Update is called once per frame
@@ -36,8 +36,8 @@ namespace Nivandria.UI
 
         public void ShowPanel(int panelNumber)
         {
-            panelConsumable.SetActive(false);
             panelGears.SetActive(false);
+            panelConsumable.SetActive(false);
             panelArchive.SetActive(false);
             panelKey.SetActive(false);
 
@@ -45,10 +45,10 @@ namespace Nivandria.UI
             switch (panelNumber)
             {
                 case 1:
-                    panelConsumable.SetActive(true);
+                    panelGears.SetActive(true);
                     break;
                 case 2:
-                    panelGears.SetActive(true);
+                    panelConsumable.SetActive(true);
                     break;
                 case 3:
                     panelArchive.SetActive(true);
@@ -65,10 +65,10 @@ namespace Nivandria.UI
 
         }
 
-        public void SetConsumableFirst()
+        public void SetGearsFirst()
         {
-            panelConsumable.SetActive(true);
-            panelGears.SetActive(false);
+            panelGears.SetActive(true);
+            panelConsumable.SetActive(false);
             panelArchive.SetActive(false);
             panelKey.SetActive(false);
 
@@ -78,8 +78,8 @@ namespace Nivandria.UI
         private void UpdateButtonColors(int activePanelNumber)
         {
             // Mengatur warna tombol sesuai dengan panel yang aktif
-            consumable.GetComponent<Image>().color = (activePanelNumber == 1) ? activeColor : inactiveColor;
-            gears.GetComponent<Image>().color = (activePanelNumber == 2) ? activeColor : inactiveColor;
+            gears.GetComponent<Image>().color = (activePanelNumber == 1) ? activeColor : inactiveColor;
+            consumable.GetComponent<Image>().color = (activePanelNumber == 2) ? activeColor : inactiveColor;
             archive.GetComponent<Image>().color = (activePanelNumber == 3) ? activeColor : inactiveColor;
             key.GetComponent<Image>().color = (activePanelNumber == 4) ? activeColor : inactiveColor;
         }
