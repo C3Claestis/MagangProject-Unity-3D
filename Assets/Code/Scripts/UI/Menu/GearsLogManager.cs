@@ -13,6 +13,9 @@ namespace Nivandria.UI.Gears
         public static GearsLogManager Instance{get; private set;}
         [SerializeField] Transform contentContainer;
 
+        [SerializeField] GearsType gearsType = GearsType.Weapons;
+        [SerializeField] GearsType currentGearsType;
+
 
         /*
         [Header("Detail Hero")]
@@ -24,8 +27,7 @@ namespace Nivandria.UI.Gears
         //[SerializeField] Image imageGear;
         [Header("Detail Gears")]
         //[SerializeField] Image iconGear;
-        [SerializeField] TextMeshProUGUI nameGear;
-        [SerializeField] TextMeshProUGUI descriptionGear;
+        private TextMeshProUGUI nameGear;
 
 
         [Header("Detail Status Gear")]
@@ -61,6 +63,14 @@ namespace Nivandria.UI.Gears
             GearsLogInitialization();
         }
 
+        void Update()
+        {
+            if (gearsType == currentGearsType) return;
+            currentGearsType = gearsType;
+            RemoveGearsLog();
+            GearsLogInitialization();
+        }
+
 
         public void GearsLogInitialization()
         {
@@ -68,22 +78,18 @@ namespace Nivandria.UI.Gears
 
             foreach (Gears gears in gearList)
             {
+                if (!(gears.GetGearsType() == gearsType)) continue;
                 index += 1;
                 GameObject newGear = Instantiate(gearsLog, contentContainer);
                 Image iconGear = GetIconGear(newGear);
                 TextMeshProUGUI gearName = newGear.GetComponentInChildren<TextMeshProUGUI>();
-
-                Gears currentGears = gears;
-
                 Button gearButton = newGear.GetComponent<Button>();
+                Gears currentGears = gears;
+                
                 gearButton.onClick.AddListener(() =>
                 {
-                    GameObject test = EventSystem.current.currentSelectedGameObject;
-                    Debug.Log(test.name);
-                    if (nameGear != null && descriptionGear != null)
+                    if (nameGear != null)
                     {
-                        nameGear.text = gears.GetNameGears();
-                        descriptionGear.text = gears.GetDescriptionGear();
                         health.text = gears.GetStatusHealth();
                         physicalAttack.text = gears.GetStatusPhysicalAttack();
                         magicAttack.text = gears.GetStatusMagicAttack();
@@ -95,8 +101,6 @@ namespace Nivandria.UI.Gears
                     }
                 }
                 );
-                SetGearIcon(iconGear, index, gears);
-                SetGearName(gearName, index, gears);
             }
         }
 
@@ -110,17 +114,16 @@ namespace Nivandria.UI.Gears
                 {
                     return iconTransform.GetComponent<Image>();
                 }
-
             }
             return null;
         }
-        private void SetGearIcon(Image iconGear, int index, Gears gears)
+
+        void RemoveGearsLog()
         {
-            iconGear.sprite = gears.GetImageGear();
-        }
-        private void SetGearName(TextMeshProUGUI gearName, int index, Gears gears)
-        {
-            gearName.text = gears.GetNameGears();
+            foreach (Transform child in contentContainer)
+            {
+                Destroy(gameObject);
+            }
         }
 
     }

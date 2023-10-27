@@ -4,12 +4,13 @@ namespace Nivandria.UI.Quest
     using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
-    using Unity.VisualScripting;
     using UnityEngine.UI;
 
     public class QuestLogManager : MonoBehaviour
     {
-        [SerializeField] Transform contentContainer;
+        [SerializeField] Transform MainQuestContentContainer;
+        [SerializeField] Transform SideQuestContentContainer;
+        [SerializeField] Transform CommissionsContentContainer;
 
         [SerializeField] TextMeshProUGUI title;
         [SerializeField] TextMeshProUGUI giver;
@@ -18,76 +19,63 @@ namespace Nivandria.UI.Quest
         [SerializeField] TextMeshProUGUI objective;
         [SerializeField] TextMeshProUGUI reward;
 
-        [SerializeField] QuestType questType = QuestType.Main;
-        [SerializeField] QuestType currentQuestType;
-
-
         [SerializeField] List<Quest> questList = new List<Quest>();
         [SerializeField] GameObject questLog;
+
+        private GameObject selectedQuestObject = null;
+
+        bool firstQuest;
         // Start is called before the first frame update
         void Start()
         {
-            QuestLogInitialization();
+            QuestLogInitialization(QuestType.Main);
+            QuestLogInitialization(QuestType.Side);
+            QuestLogInitialization(QuestType.Commission);
         }
 
-        void Update()
+        public void QuestLogInitialization(QuestType questType)
         {
-            if (questType == currentQuestType) return;
-            currentQuestType = questType;
-            RemoveQuestLog();
-            QuestLogInitialization();
-        }
-
-        private bool isFullTextShown = false;
-        public void QuestLogInitialization()
-        {
-            int index = 0;
+            int index = 1;
             Image selectedImage = null;
             TextMeshProUGUI selectedText = null;
-            //Quest firstQuest = null;
 
             foreach (Quest quest in questList)
             {
-                if (!(quest.GetQuestType() == questType)) continue;
-                index += 1;
-                GameObject newQuest = Instantiate(questLog, contentContainer);
+                if (quest.GetQuestType() != questType) continue;
+                //index += 1;
+
+                GameObject newQuest = null;
+                switch (quest.GetQuestType())
+                {
+                    case QuestType.Main:
+                        newQuest = Instantiate(questLog, MainQuestContentContainer);
+                        break;
+                    case QuestType.Side:
+                        newQuest = Instantiate(questLog, SideQuestContentContainer);
+                        break;
+                    case QuestType.Commission:
+                        newQuest = Instantiate(questLog, CommissionsContentContainer);
+                        break;
+                }
                 Button questButton = newQuest.GetComponent<Button>();
                 Quest currentQuest = quest;
                 TextMeshProUGUI questText = newQuest.GetComponentInChildren<TextMeshProUGUI>();
                 Image questImage = newQuest.GetComponent<Image>();
                 questButton.onClick.AddListener(() =>
                 {
+                    if (selectedQuestObject != null)
+                    {
+                        // Matikan game object yang dipilih sebelumnya
+                        selectedQuestObject.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+                        selectedQuestObject.GetComponentInChildren<TextMeshProUGUI>().fontStyle &= ~FontStyles.Bold;
+                    }
+
+                    // Aktifkan game object yang baru
                     SetDescription(currentQuest);
-
-                    if (selectedImage != null)
-                    {
-                        selectedImage.color = new Color(1f, 1f, 1f, 0f);
-                    }
-
                     questImage.color = new Color(1f, 1f, 1f, 1f);
-
-                    if (selectedText != null)
-                    {
-                        selectedText.fontStyle &= ~FontStyles.Bold;
-
-                        if (isFullTextShown)
-                        {
-                            int maxTitleLenght = 25;
-                            string questTitle = currentQuest.GetTitle();
-                            if (questTitle.Length > maxTitleLenght)
-                            {
-                                questTitle = questTitle.Substring(0, maxTitleLenght) + "...";
-                            }
-
-                            selectedText.text = $" {index}. " + questTitle;
-                            isFullTextShown = false;
-                        }
-                    }
-
                     questText.fontStyle |= FontStyles.Bold;
 
-                    selectedImage = questImage;
-                    selectedText = questText;
+                    selectedQuestObject = newQuest; // Atur game object yang baru sebagai yang dipilih
                 });
 
                 string questTitle = quest.GetTitle();
@@ -98,32 +86,22 @@ namespace Nivandria.UI.Quest
                 }
                 newQuest.GetComponent<QuestLog>().SetNameQuestLog($" {index}. " + questTitle);
 
-                /*if (index != 1) continue;
-                int indexList = questList.IndexOf(quest);
-                SetDescription(questList[indexList]);
-                questText.fontStyle = FontStyles.Bold;
-                */
-
-                if (index == 1)
+                if (!firstQuest)
                 {
                     questImage.color = new Color(1f, 1f, 1f, 1f); // Ubah alpha menjadi 255
                     questText.fontStyle |= FontStyles.Bold; // Aktifkan bold pada teks
                     selectedImage = questImage; // Simpan gambar yang dipilih saat ini
                     selectedText = questText; // Simpan teks yang dipilih saat ini
+                    selectedQuestObject = newQuest; // Atur game object yang baru sebagai yang dipilih
+                    firstQuest = true;
                 }
                 else
                 {
                     // Nonaktifkan gambar pada game objek kecuali yang pertama
                     questImage.color = new Color(1f, 1f, 1f, 0f); // Ubah alpha menjadi 0
                 }
-            }
-        }
 
-        void RemoveQuestLog()
-        {
-            foreach (Transform child in contentContainer)
-            {
-                Destroy(child.gameObject);
+                index++;
             }
         }
 

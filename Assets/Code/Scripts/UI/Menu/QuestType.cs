@@ -1,6 +1,9 @@
-namespace Nivandria.UI.Quest {
-    public enum QuestType{
+namespace Nivandria.UI.Quest
+{
+    public enum QuestType
+    {
         Main,
-        Side
+        Side,
+        Commission
     }
 }

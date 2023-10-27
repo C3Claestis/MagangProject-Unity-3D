@@ -12,7 +12,7 @@ namespace Nivandria.UI.Gears
         [Header("Detail Gears")]
         [SerializeField] private Sprite imageGears;
         [SerializeField] private string nameGears;
-        [SerializeField] private string descriptionGears;
+        [SerializeField] GearsType type;
 
         [Header("Detail Status Gear")]
         [SerializeField] private string health;
@@ -28,7 +28,7 @@ namespace Nivandria.UI.Gears
         (
             Sprite imageGears,
             string nameGears,
-            string descriptionGears,
+            GearsType type,
             string health,
             string physicalAttack,
             string magicAttack,
@@ -41,7 +41,7 @@ namespace Nivandria.UI.Gears
         {
             this.imageGears = imageGears;
             this.nameGears = nameGears;
-            this.descriptionGears = descriptionGears;
+            this.type = type;
             this.health = health;
             this.physicalAttack = physicalAttack;
             this.magicAttack = magicAttack;
@@ -53,7 +53,7 @@ namespace Nivandria.UI.Gears
         }
         public Sprite GetImageGear() => imageGears;
         public string GetNameGears() => nameGears;
-        public string GetDescriptionGear() => descriptionGears;
+        public GearsType GetGearsType() => type;
         public string GetStatusHealth() => health;
         public string GetStatusPhysicalAttack() => physicalAttack;
         public string GetStatusMagicAttack() => magicAttack;
