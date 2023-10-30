@@ -5,7 +5,7 @@ namespace Nivandria.UI
     using UnityEngine;
     using UnityEngine.UI;
 
-    public class ItemManager : MonoBehaviour
+    public class ButtonItemManager : MonoBehaviour
     {
 
         [SerializeField] private GameObject panelConsumable;

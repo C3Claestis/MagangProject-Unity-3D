@@ -1104,7 +1104,7 @@ GameObject:
   - component: {fileID: 105446211}
   - component: {fileID: 105446210}
   m_Layer: 5
-  m_Name: ButtonSideQuest (2)
+  m_Name: ButtonCommission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1173,7 +1173,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 105446211}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 416903170}
+        m_TargetAssemblyTypeName: Nivandria.UI.Quest.QuestButtonManager, Assembly-CSharp
+        m_MethodName: ChangeContentContainerQuest
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &105446211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3365,7 +3377,7 @@ GameObject:
   - component: {fileID: 247429164}
   - component: {fileID: 247429163}
   m_Layer: 5
-  m_Name: Content
+  m_Name: ContentAllQuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4109,7 +4121,7 @@ GameObject:
   - component: {fileID: 277510790}
   - component: {fileID: 277510789}
   m_Layer: 5
-  m_Name: ButtonSideQuest (1)
+  m_Name: ButtonSideQuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4178,7 +4190,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 277510790}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 416903170}
+        m_TargetAssemblyTypeName: Nivandria.UI.Quest.QuestButtonManager, Assembly-CSharp
+        m_MethodName: ChangeContentContainerQuest
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &277510790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4665,9 +4689,9 @@ RectTransform:
   - {fileID: 2044945791}
   m_Father: {fileID: 247429162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 177, y: -32.5}
   m_SizeDelta: {x: 346, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &329093571
@@ -6297,6 +6321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 416903167}
   - component: {fileID: 416903169}
+  - component: {fileID: 416903170}
   - component: {fileID: 416903168}
   m_Layer: 5
   m_Name: Quest
@@ -6364,6 +6389,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416903166}
   m_CullTransparentMesh: 1
+--- !u!114 &416903170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416903166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9861eb1db3ee1748b2a6684b3950a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllQuestContentContainer: {fileID: 247429161}
+  QuestContentContainer: {fileID: 1919199885}
+  _AllQuest: {fileID: 925088601515465263}
+  _MainQuest: {fileID: 7215521079432926506}
+  _SideQuest: {fileID: 277510790}
+  _Commission: {fileID: 105446211}
 --- !u!1 &425068057
 GameObject:
   m_ObjectHideFlags: 0
@@ -9998,9 +10041,9 @@ RectTransform:
   - {fileID: 813607146}
   m_Father: {fileID: 247429162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 177, y: -84.5}
   m_SizeDelta: {x: 346, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &770666726
@@ -11582,7 +11625,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 813607149}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -11844,6 +11887,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 247429162}
+  - {fileID: 1919199886}
   - {fileID: 1453043790}
   m_Father: {fileID: 1682035371}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14581,7 +14625,6 @@ MonoBehaviour:
   description: {fileID: 1703918719}
   objective: {fileID: 822143471}
   reward: {fileID: 195821700}
-  questType: 1
   questList:
   - title: Reza jadi karyawan M-Knows
     type: 0
@@ -16506,7 +16549,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1193526042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4607c7d0861d30347930942bb54d9f86, type: 3}
+  m_Script: {fileID: 11500000, guid: a85d9b05228e7de4d8b50170102bda45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panelConsumable: {fileID: 371122520}
@@ -17241,9 +17284,9 @@ RectTransform:
   - {fileID: 2029033683}
   m_Father: {fileID: 247429162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 177, y: -136.5}
   m_SizeDelta: {x: 346, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1284877336
@@ -25601,6 +25644,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1895106217}
   m_CullTransparentMesh: 1
+--- !u!1 &1919199885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1919199886}
+  - component: {fileID: 1919199888}
+  - component: {fileID: 1919199887}
+  m_Layer: 5
+  m_Name: ContentQuest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1919199886
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919199885}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 817245461}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 9.75, y: 0}
+  m_SizeDelta: {x: 357.5, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1919199887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919199885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 1
+--- !u!114 &1919199888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919199885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 4
+    m_Right: 0
+    m_Top: 10
+    m_Bottom: 7
+  m_ChildAlignment: 0
+  m_Spacing: 7
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1923961532
 GameObject:
   m_ObjectHideFlags: 0
@@ -27620,7 +27740,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 2029033686}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -28020,7 +28140,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 2044945794}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -29252,7 +29372,7 @@ GameObject:
   - component: {fileID: 7215521079432926506}
   - component: {fileID: 7522575884826720937}
   m_Layer: 5
-  m_Name: ButtonSideQuest
+  m_Name: ButtonMainQuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29812,7 +29932,7 @@ GameObject:
   - component: {fileID: 925088601515465263}
   - component: {fileID: 7206986755108429372}
   m_Layer: 5
-  m_Name: ButtonMainQuestOnClick
+  m_Name: ButtonAllQuest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30700,7 +30820,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 925088601515465263}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 416903170}
+        m_TargetAssemblyTypeName: Nivandria.UI.Quest.QuestButtonManager, Assembly-CSharp
+        m_MethodName: ChangeContentContainerQuest
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7215521079432926506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30989,7 +31121,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7215521079432926506}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 416903170}
+        m_TargetAssemblyTypeName: Nivandria.UI.Quest.QuestButtonManager, Assembly-CSharp
+        m_MethodName: ChangeContentContainerQuest
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7555911665785888814
 MonoBehaviour:
   m_ObjectHideFlags: 0

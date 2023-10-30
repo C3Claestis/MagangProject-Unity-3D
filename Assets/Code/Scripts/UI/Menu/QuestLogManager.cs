@@ -28,12 +28,12 @@ namespace Nivandria.UI.Quest
         // Start is called before the first frame update
         void Start()
         {
-            QuestLogInitialization(QuestType.Main);
-            QuestLogInitialization(QuestType.Side);
-            QuestLogInitialization(QuestType.Commission);
+            QuestLogInitializationAllQuest(QuestType.Main);
+            QuestLogInitializationAllQuest(QuestType.Side);
+            QuestLogInitializationAllQuest(QuestType.Commission);
         }
 
-        public void QuestLogInitialization(QuestType questType)
+        public void QuestLogInitializationAllQuest(QuestType questType)
         {
             int index = 1;
             Image selectedImage = null;
@@ -42,7 +42,6 @@ namespace Nivandria.UI.Quest
             foreach (Quest quest in questList)
             {
                 if (quest.GetQuestType() != questType) continue;
-                //index += 1;
 
                 GameObject newQuest = null;
                 switch (quest.GetQuestType())
