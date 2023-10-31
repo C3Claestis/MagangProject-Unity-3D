@@ -10,6 +10,7 @@ namespace Nivandria.UI.Quest
     {
         [SerializeField] private string title;
         [SerializeField] private QuestType type;
+        [SerializeField] private QuestChapter chapter;
         [SerializeField] private string giver;
         [SerializeField] private string location;
         //[SerializeField] private Sprite Image;
@@ -18,9 +19,10 @@ namespace Nivandria.UI.Quest
         [SerializeField] private List<string> reward; //Sementara
         [SerializeField] private bool IsCompleted;
 
-        public Quest(string title, QuestType type, string giver, string location, string description, List<string> objective, List<string> reward){
+        public Quest(string title, QuestType type, QuestChapter chapter,string giver, string location, string description, List<string> objective, List<string> reward){
             this.title = title;
             this.type = type;
+            this.chapter = chapter;
             this.giver = giver;
             this.location = location;
             this.description = description;
@@ -30,6 +32,7 @@ namespace Nivandria.UI.Quest
         }
         public string GetTitle() => title;
         public QuestType GetQuestType() => type;
+        public QuestChapter GetQuestChapter() => chapter;
         public string GetGiver() => giver;
         public string GetLocation() => location;
         public string GetDescription() => description;

@@ -8,31 +8,31 @@ namespace Nivandria.UI.Quest
 
     public class QuestToggle : MonoBehaviour
     {
+        [Header("Content Container All Quest")]
         [SerializeField] GameObject _MainQuest;
         [SerializeField] GameObject _SideQuest;
         [SerializeField] GameObject _Commissions;
 
-        [Header("Content Size Fitter")]
-        [SerializeField] private ContentSizeFitter mainQuest;
-        [SerializeField] private ContentSizeFitter sideQuest;
-        [SerializeField] private ContentSizeFitter commissions;
+        [Header("Content Container All Chapter Main Quest")]
+        [SerializeField] GameObject _Chapter0;
+        [SerializeField] GameObject _Chapter1;
+        [SerializeField] GameObject _Chapter2;
+        [SerializeField] GameObject _Chapter3;
 
+        [Header("Panel All Quest")]
         private bool mainQuestActive = true;
         private bool sideQuestActive = true;
         private bool commissionsActive = true;
 
+        [Header("Panel All Chapter Main Quest")]
+        private bool chapter0_Active= true;
+        private bool chapter1_Active= true;
+        private bool chapter2_Active= true;
+        private bool chapter3_Active= true;
+
         void Start()
         {
-            //StartCoroutine(DelayedContentSizeFitterChange(2f));
-        }
 
-        IEnumerator DelayedContentSizeFitterChange(float delay)
-        {
-            yield return new WaitForSeconds(delay); // Tunggu selama 2 detik
-
-            //MainQuestContentSizeFitter();
-            //SideQuestContentSizeFitter();
-            //CommissionsContentSizeFitter();
         }
 
         public void ToggleMainQuest()
@@ -53,67 +53,30 @@ namespace Nivandria.UI.Quest
             _Commissions.SetActive(commissionsActive);
         }
 
-
-        /*
-        public void MainQuestContentSizeFitter()
+        public void ToggleChapter_0()
         {
-            if (mainQuest == null)
-            {
-                mainQuest = GetComponent<ContentSizeFitter>();
-                Debug.Log("Ada ContentSizeFitter Main Quest");
-            }
-
-            // Memeriksa apakah komponen ContentSizeFitter ditemukan
-            if (mainQuest != null)
-            {
-                // Mengubah nilai Vertical Fit ke Min Size
-                mainQuest.verticalFit = ContentSizeFitter.FitMode.MinSize;
-            }
-            else
-            {
-                Debug.LogError("ContentSizeFitter component not found on this MainQuest.");
-            }
+            chapter0_Active = !chapter0_Active;
+            _Chapter0.SetActive(chapter0_Active);
         }
 
-        public void SideQuestContentSizeFitter()
+        public void ToggleChapter_1()
         {
-            if (sideQuest == null)
-            {
-                sideQuest = GetComponent<ContentSizeFitter>();
-            }
-
-
-            // Memeriksa apakah komponen ContentSizeFitter ditemukan
-            if (sideQuest != null)
-            {
-                // Mengubah nilai Vertical Fit ke Min Size
-                sideQuest.verticalFit = ContentSizeFitter.FitMode.MinSize;
-            }
-            else
-            {
-                Debug.LogError("ContentSizeFitter component not found on this SideQuest.");
-            }
+            chapter1_Active = !chapter1_Active;
+            _Chapter1.SetActive(chapter1_Active);
         }
 
-        public void CommissionsContentSizeFitter()
+        public void ToggleChapter_2()
         {
-            if (commissions == null)
-            {
-                commissions = GetComponent<ContentSizeFitter>();
-            }
-
-            // Memeriksa apakah komponen ContentSizeFitter ditemukan
-            if (commissions != null)
-            {
-                // Mengubah nilai Vertical Fit ke Min Size
-                commissions.verticalFit = ContentSizeFitter.FitMode.MinSize;
-            }
-            else
-            {
-                Debug.LogError("ContentSizeFitter component not found on this Commissions.");
-            }
+            chapter2_Active = !chapter2_Active;
+            _Chapter2.SetActive(chapter2_Active);
         }
-        */
+        
+        public void ToggleChapter_3()
+        {
+            chapter3_Active = !chapter3_Active;
+            _Chapter3.SetActive(chapter3_Active);
+        }
+
     }
 
 }

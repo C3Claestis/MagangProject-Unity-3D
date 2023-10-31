@@ -7,8 +7,15 @@ namespace Nivandria.UI.Quest
 
     public class QuestButtonManager : MonoBehaviour
     {
-        [Header("Content Container")]
+        public static QuestButtonManager Instance{get; private set;}
+
+        [Header("Content Container All Quest")]
         [SerializeField] GameObject AllQuestContentContainer;
+
+        [Header("Content Container Main Quest")]
+        [SerializeField] GameObject MainQuestContentContainer;
+
+        [Header("Content Container Side Quest & Commission")]
         [SerializeField] GameObject QuestContentContainer;
 
         [Header("Image Button")]
@@ -20,6 +27,18 @@ namespace Nivandria.UI.Quest
         private Color activeColor = new Color(0.16f, 0.58f, 0.70f); // Warna 2995B2
         private Color inactiveColor = new Color(0.93f, 0.13f, 0.40f); // Warna EE3166
 
+        void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
+
         void Start()
         {
             SetAllQuestFirst();
@@ -28,6 +47,7 @@ namespace Nivandria.UI.Quest
         public void ChangeContentContainerQuest(int containerNumber)
         {
             AllQuestContentContainer.SetActive(false);
+            MainQuestContentContainer.SetActive(false);
             QuestContentContainer.SetActive(false);
 
             switch (containerNumber)
@@ -36,13 +56,15 @@ namespace Nivandria.UI.Quest
                     AllQuestContentContainer.SetActive(true);
                     break;
                 case 2:
-                    QuestContentContainer.SetActive(true);
+                    MainQuestContentContainer.SetActive(true);
                     break;
                 case 3:
                     QuestContentContainer.SetActive(true);
+                    QuestLogManager.Instance.questType = QuestType.Side;
                     break;
                 case 4:
                     QuestContentContainer.SetActive(true);
+                    QuestLogManager.Instance.questType = QuestType.Commission;
                     break;
                 default:
                     Debug.Log("Panel number out of range.");
@@ -55,6 +77,7 @@ namespace Nivandria.UI.Quest
         public void SetAllQuestFirst()
         {
             AllQuestContentContainer.SetActive(true);
+            MainQuestContentContainer.SetActive(false);
             QuestContentContainer.SetActive(false);
             UpdateButtonColors(1);
         }

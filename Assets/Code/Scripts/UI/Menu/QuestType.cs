@@ -6,4 +6,13 @@ namespace Nivandria.UI.Quest
         Side,
         Commission
     }
+
+    public enum QuestChapter
+    {
+        none,
+        Chapter_0,
+        Chapter_1,
+        Chapter_2,
+        Chapter_3
+    }
 }
