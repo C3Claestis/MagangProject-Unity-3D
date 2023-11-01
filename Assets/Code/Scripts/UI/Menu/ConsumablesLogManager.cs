@@ -7,13 +7,21 @@ namespace Nivandria.UI.Consumable
 
     public class ConsumablesLogManager : MonoBehaviour
     {
-        public static ConsumablesLogManager Instance{get; private set;}
+        public static ConsumablesLogManager Instance { get; private set; }
+
+        [Header("Content Container")]
         [SerializeField] Transform contentLeft;
         [SerializeField] Transform contentRight;
+
+        [Header("Description")]
         [SerializeField] Image iconConsumable;
         [SerializeField] TextMeshProUGUI title;
         [SerializeField] TextMeshProUGUI description;
         [SerializeField] TextMeshProUGUI status;
+
+        [Header("Consumable Type")]
+        [SerializeField] public ConsumableType consumableType;
+        [SerializeField] ConsumableType currentConsumableType;
 
 
         [SerializeField] List<Consumables> consumablesList = new List<Consumables>();
@@ -23,10 +31,10 @@ namespace Nivandria.UI.Consumable
         private ConsumablesLog selectedConsumableLog;
 
         public ConsumablesLog GetSelectedConsumableLog() => selectedConsumableLog;
-        
+
         void Awake()
         {
-            if(Instance != null && Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this);
             }
@@ -38,39 +46,45 @@ namespace Nivandria.UI.Consumable
 
         void Start()
         {
-            IntializeConsumableLogs();
+            InitializeConsumableLogs();
         }
 
         void Update()
         {
-
+            if (consumableType == currentConsumableType) return;
+            currentConsumableType = consumableType;
+            RemoveConsumableLog();
+            InitializeConsumableLogs();
         }
 
-        public void IntializeConsumableLogs()
+        public void InitializeConsumableLogs()
         {
             GameObject newConsumable;
             consumableLogList = new List<ConsumablesLog>();
 
-            for (int i = 0; i < consumablesList.Count; i++)
+            int i = 0;
+            foreach (Consumables consumable in consumablesList)
             {
-                if (i/2 == 1)
-                {
-                    newConsumable = Instantiate(consumableLog, contentRight);
-                    newConsumable.GetComponent<ConsumablesLog>().SetConsumableDetail(consumablesList[i]);
-                }
-                else
-                {
-                    newConsumable = Instantiate(consumableLog, contentLeft);
-                    newConsumable.GetComponent<ConsumablesLog>().SetConsumableDetail(consumablesList[i]);
-                }
-
+                if (!(consumable.GetConsumableType() == consumableType)) continue;
+                newConsumable = Instantiate(consumableLog, i % 2 == 1 ? contentRight : contentLeft);
+                newConsumable.GetComponent<ConsumablesLog>().SetConsumableDetail(consumable);
                 consumableLogList.Add(newConsumable.GetComponent<ConsumablesLog>());
-
-                //Button keyButton = newKey.GetComponent<Button>();
-                
+                i++;
             }
 
             SetSelectedConsumableLog(consumableLogList[0]);
+        }
+
+        void RemoveConsumableLog()
+        {
+            foreach (Transform child in contentLeft)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (Transform child in contentRight)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
         public void UpdateVisualConsumableLog()
