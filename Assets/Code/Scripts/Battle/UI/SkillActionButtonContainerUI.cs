@@ -18,7 +18,7 @@ namespace Nivandria.Battle.UI
 
         private void Start()
         {
-            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnActionCompleted += UnitActionSystem_OnActionCompleted;
 
             actionButtonList = new List<Transform>();

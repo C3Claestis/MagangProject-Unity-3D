@@ -12,6 +12,7 @@ namespace Nivandria.Battle.Action
         protected Unit unit;
         protected Action onActionComplete;
         protected bool isActive;
+        protected GridPosition targetGrid;
         protected abstract string actionName { get; }
         protected abstract ActionCategory actionCategory { get; }
         protected abstract ActionType actionType { get; }
@@ -27,7 +28,8 @@ namespace Nivandria.Battle.Action
         /// <param name="onActionComplete">Callback function to invoke when the action is complete.</param>
         public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
+            targetGrid = gridPosition;
+            CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(targetGrid));
             CameraController.Instance.SetActive(false);
             Pointer.Instance.SetActive(false);
             this.onActionComplete = onActionComplete;
@@ -82,6 +84,14 @@ namespace Nivandria.Battle.Action
         /// <summary>Gets a list of allowable grid positions for the action.</summary>
         /// <returns>A list of valid grid positions for the action.</returns>
         public abstract List<GridPosition> GetValidActionGridPosition();
+
+
+        protected void FacingTarget(Vector3 targetPosition)
+        {
+            Vector3 lookPos = targetPosition - transform.position;
+            lookPos.y = 0;
+            transform.rotation = Quaternion.LookRotation(lookPos);
+        }
 
         public string GetName() => actionName;
         public string GetDescription() => actionDescription;

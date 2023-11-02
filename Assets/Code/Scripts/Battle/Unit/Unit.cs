@@ -3,8 +3,9 @@ namespace Nivandria.Battle.UnitSystem
     using UnityEngine;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.Grid;
+    using System;
 
-    public class Unit : MonoBehaviour
+    public class Unit : MonoBehaviour, IDamageable
     {
         #region  Character Status Variables
         [SerializeField] private string characterName = "Base Unit";
@@ -44,8 +45,15 @@ namespace Nivandria.Battle.UnitSystem
         [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
         [SerializeField] private Sprite unitIcon;
         [SerializeField] private MoveType moveType = MoveType.Normal;
+
+        [SerializeField] private bool isEnemy = false;
+        [SerializeField] private bool isAlive = true;
+
         private GridPosition gridPosition;
         private BaseAction[] baseActionArray;
+
+        public event EventHandler OnHitted;
+        public event EventHandler OnDead;
 
         private void Awake()
         {
@@ -65,7 +73,6 @@ namespace Nivandria.Battle.UnitSystem
 
         private void Start()
         {
-
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
@@ -129,6 +136,22 @@ namespace Nivandria.Battle.UnitSystem
         }
 
 
+        public void Damage(int damage)
+        {
+            currentHealth -= damage;
+
+            if (currentHealth <= 0) Death();
+            else OnHitted?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Death()
+        {
+            currentHealth = 0;
+            isAlive = false;
+            UnitTurnSystem.Instance.RemoveUnitFromList(this);
+            OnDead?.Invoke(this, EventArgs.Empty);
+        }
+
         #region Getter Setter
 
         public T GetAction<T>() where T : BaseAction
@@ -174,6 +197,8 @@ namespace Nivandria.Battle.UnitSystem
         public string GetCharacterName() => characterName;
         public Quaternion GetUnitRotation() => transform.rotation;
 
+        public bool IsEnemy() => isEnemy;
+        public bool IsAlive() => isAlive;
 
         /// <summary>Gets the status of a specific action type for the unit.</summary>
         /// <param name="actionCategory">The type of action to check (e.g., Skill or Move).</param>

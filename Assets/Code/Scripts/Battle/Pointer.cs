@@ -39,7 +39,7 @@ namespace Nivandria.Battle
         private void Start()
         {
             PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
-            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             SetActive(false);
         }
 
@@ -96,11 +96,25 @@ namespace Nivandria.Battle
         {
             float pointerHeight = 1.0f;
 
-            if (Pathfinding.Instance.IsObstacleOnGrid(LevelGrid.Instance.GetWorldPosition(currentGrid), out string objectTag)) pointerHeight = 3.5f;
-            if (objectTag == "Tier2_Obstacles") pointerHeight = 1.75f;
-            if (objectTag == "Tier3_Obstacles") pointerHeight = 1.0f;
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.4f;
-            if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition) && objectTag == "Tier2_Obstacles") pointerHeight = 2.9f;
+            if (Pathfinding.Instance.IsObstacleOnGrid(LevelGrid.Instance.GetWorldPosition(currentGrid), out Transform objectTransform))
+            {
+                switch (objectTransform.tag)
+                {
+                    case "Tier1_Obstacles":
+                        pointerHeight = 3.5f;
+                        break;
+                    case "Tier2_Obstacles":
+                        Obstacle obstacle = objectTransform?.GetComponent<Obstacle>();
+                        if (obstacle.IsBroken()) break;
+                        if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.9f;
+                        else pointerHeight = 1.75f;
+                        break;
+                    case "Tier3_Obstacles":
+                        pointerHeight = 1.0f;
+                        break;
+                }
+            }
+            else if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) pointerHeight = 2.4f;
 
             return pointerHeight;
         }
@@ -125,6 +139,12 @@ namespace Nivandria.Battle
             currentGrid = gridPosition;
 
             OnPointerGridChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SetPointerOnGrid(Vector3 worldPosition)
+        {
+            GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(worldPosition);
+            SetPointerOnGrid(gridPosition);
         }
 
         public GridPosition GetCurrentGrid() => currentGrid;

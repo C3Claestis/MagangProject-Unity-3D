@@ -14,13 +14,13 @@ namespace Nivandria.Battle.UI
 
         private void Start()
         {
-            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnActionCompleted += UnitActionSystem_OnActionCompleted;
         }
 
         private void OnDestroy()
         {
-            UnitTurnSystem.Instance.OnSelectedUnitChanged -= UnitTurnSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnUnitListChanged -= UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnActionCompleted -= UnitActionSystem_OnActionCompleted;
         }
 

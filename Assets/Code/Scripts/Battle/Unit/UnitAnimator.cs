@@ -16,6 +16,22 @@ namespace Nivandria.Battle.UnitSystem
                 moveAction.OnStopMoving += MoveAction_OnStopMoving;
                 moveAction.OnJump += moveAction_OnJump;
             }
+
+            if (TryGetComponent<IDamageable>(out IDamageable iDamageable))
+            {
+                iDamageable.OnHitted += IDamageable_OnHitted;
+                iDamageable.OnDead += IDamageable_OnDead;
+            }
+        }
+
+        private void IDamageable_OnDead(object sender, EventArgs e)
+        {
+            unitAnimator.SetBool("Dead", true);
+        }
+
+        private void IDamageable_OnHitted(object sender, EventArgs e)
+        {
+            unitAnimator.SetTrigger("Hit");
         }
 
         private void MoveAction_OnStartMoving(object sender, EventArgs e)

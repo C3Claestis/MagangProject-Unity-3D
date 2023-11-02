@@ -9,6 +9,7 @@ namespace Nivandria.Battle.Action
     public class SpinAction : BaseSkillAction
     {
         protected override string actionName => "Spin";
+        protected override float powerPercentage => 0;
         protected override ActionCategory actionCategory => ActionCategory.Skill;
         protected override ActionType actionType => ActionType.Magical;
         protected override string actionDescription => 

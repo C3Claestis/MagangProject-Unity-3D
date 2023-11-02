@@ -1,7 +1,6 @@
 namespace Nivandria.Battle.Grid
 {
     using System;
-    using System.Collections.Generic;
 
     public struct GridPosition : IEquatable<GridPosition>
     {

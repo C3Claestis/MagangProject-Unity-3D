@@ -29,7 +29,7 @@ namespace Nivandria.Battle.UI
                 Destroy(iconTransform.gameObject);
             }
 
-            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnUnitListChanged;
         }
 
         public void UpdateTurnSystemVisual()
@@ -81,7 +81,7 @@ namespace Nivandria.Battle.UI
             }
         }
 
-        private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        private void UnitTurnSystem_OnUnitListChanged(object sender, EventArgs e)
         {
             UpdateTurnSystemVisual();
         }

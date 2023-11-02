@@ -7,6 +7,7 @@ namespace Nivandria.Battle.Action
 
     public abstract class BaseSkillAction : BaseAction
     {
+        protected abstract float powerPercentage { get; }
 
         protected override void CancelAction()
         {

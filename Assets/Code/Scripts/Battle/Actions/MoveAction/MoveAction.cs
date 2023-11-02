@@ -45,7 +45,7 @@ namespace Nivandria.Battle.Action
         private bool destinationReached;
 
         private bool doneRotating;
-        private float rotateSpeed = 20f;
+        private float rotateSpeed = 30f;
 
         private void Update()
         {
@@ -153,9 +153,9 @@ namespace Nivandria.Battle.Action
 
             Vector3 targetPosition = positionList[currentPositionIndex];
 
-            if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out string objectTag) && objectTag == "Tier2_Obstacles")
+            if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out Transform objectTransform) && objectTransform.CompareTag("Tier2_Obstacles"))
             {
-                targetPosition.y = 0.75f;
+                if (!objectTransform.GetComponent<Obstacle>().IsBroken()) targetPosition.y = 0.75f;
             }
 
             Vector3 moveDirection = (targetPosition - transform.position).normalized;

@@ -44,7 +44,7 @@ namespace Nivandria.Battle.UI
 
         private void Start()
         {
-            UnitTurnSystem.Instance.OnSelectedUnitChanged += UnitTurnSystem_OnSelectedUnitChanged;
+            UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             wordLibrary = JsonUtility.FromJson<AlphabeticalWordList>(wordLibraryJson.text);
             canvasGroup = GetComponent<CanvasGroup>();
             HideUI(true);

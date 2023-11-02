@@ -29,6 +29,8 @@ namespace Nivandria.Battle.Editor
         SerializedProperty baseAttackAccuracy;
         SerializedProperty currentAttackAccuracy;
         SerializedProperty unitIcon;
+        SerializedProperty isEnemy;
+        SerializedProperty isAlive;
 
         private bool showHealth = false;
         private bool showAttack = false;
@@ -70,6 +72,8 @@ namespace Nivandria.Battle.Editor
             baseAttackAccuracy = serializedObject.FindProperty("baseAttackAccuracy");
             currentAttackAccuracy = serializedObject.FindProperty("currentAttackAccuracy");
             unitIcon = serializedObject.FindProperty("unitIcon");
+            isEnemy = serializedObject.FindProperty("isEnemy");
+            isAlive = serializedObject.FindProperty("isAlive");
         }
 
         public override void OnInspectorGUI()
@@ -79,7 +83,7 @@ namespace Nivandria.Battle.Editor
             EditorGUILayout.PropertyField(characterName);
             EditorGUILayout.PropertyField(unitType);
             EditorGUILayout.PropertyField(moveType);
-            EditorGUILayout.PropertyField(hasCompletedTurn);
+
 
             #region Health, Attack & Defense Variables
             showHealth = EditorGUILayout.Foldout(showHealth, "Health");
@@ -243,6 +247,9 @@ namespace Nivandria.Battle.Editor
                 EditorGUILayout.LabelField("Has Moved", hasMoved.boolValue.ToString());
                 EditorGUILayout.LabelField("Has Use Skill", hasUseSkill.boolValue.ToString());
                 EditorGUILayout.LabelField("Direction ", facingDirection.ToString());
+                EditorGUILayout.PropertyField(hasCompletedTurn);
+                EditorGUILayout.PropertyField(isEnemy);
+                EditorGUILayout.PropertyField(isAlive);
                 GUILayout.Space(5);
             }
 

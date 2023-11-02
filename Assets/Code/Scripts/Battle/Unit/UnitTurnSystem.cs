@@ -12,7 +12,7 @@ namespace Nivandria.Battle.UnitSystem
     {
         public static UnitTurnSystem Instance { get; private set; }
 
-        public event EventHandler OnSelectedUnitChanged;
+        public event EventHandler OnUnitListChanged;
 
         [SerializeField] TextMeshProUGUI turnCountUI;
         private List<Unit> waitingUnitList;
@@ -73,7 +73,8 @@ namespace Nivandria.Battle.UnitSystem
                 Unit unitComponent = unitObject.GetComponent<Unit>();
 
                 if (unitComponent == null) continue;
-
+                if (!unitComponent.IsAlive()) continue;
+                
                 unitList.Add(unitComponent);
             }
 
@@ -101,7 +102,7 @@ namespace Nivandria.Battle.UnitSystem
             selectedUnit.ResetActionStatus();
             Pathfinding.Instance.SetupPath(selectedUnit.GetUnitType());
             UnitActionSystem.Instance.SetSelectedAction(unit.GetAction<MoveAction>());
-            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+            OnUnitListChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private Unit GetAndRemoveFirstUnit()
@@ -114,6 +115,15 @@ namespace Nivandria.Battle.UnitSystem
             return firstUnit;
         }
 
+        public void RemoveUnitFromList(Unit unit)
+        {
+            if (waitingUnitList.Count == 0) return;
+
+            waitingUnitList.Remove(unit);
+            OnUnitListChanged?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+
         private void NextTurn()
         {
             waitingUnitList = SortFromFastestUnit();
@@ -122,9 +132,6 @@ namespace Nivandria.Battle.UnitSystem
             Debug.Log("All units have already moved! Next Round : " + turnRounds);
             SetTurnCount(turnRounds);
             HandleUnitSelection();
-            // UnitActionSystem.Instance.SetSelectedAction(null);
-            // GridSystemVisual.Instance.UpdateGridVisual();
-            // OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public Unit GetSelectedUnit() => selectedUnit;

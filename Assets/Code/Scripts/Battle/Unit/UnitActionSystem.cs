@@ -63,7 +63,9 @@ namespace Nivandria.Battle.UnitSystem
 		{
 			PlayerInputController.Instance.SetActionMap("BattleUI");
 			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
+			Vector3 unitPosition = LevelGrid.Instance.GetWorldPosition(selectedUnit.GetGridPosition());
 			selectedUnit.SetActionStatus(selectedAction.GetActionCategory(), true);
+
 
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();
@@ -72,6 +74,9 @@ namespace Nivandria.Battle.UnitSystem
 
 			CameraController.Instance.SetActive(true);
 			GridSystemVisual.Instance.HideAllGridPosition();
+
+            CameraController.Instance.SetCameraFocusToPosition(unitPosition);
+            Pointer.Instance.SetPointerOnGrid(unitPosition);
 
 			ClearBusy();
 			ShowActionUI();

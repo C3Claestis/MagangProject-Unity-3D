@@ -10,6 +10,7 @@ namespace Nivandria.Battle.Action
 
     public class WordAction : BaseSkillAction
     {
+        
         public enum GridPatern
         {
             OneLine,
@@ -20,6 +21,8 @@ namespace Nivandria.Battle.Action
         protected override string actionDescription => "Sacra Unique Skill";
         protected override ActionCategory actionCategory => ActionCategory.Skill;
         protected override ActionType actionType => ActionType.Magical;
+        protected override float powerPercentage => 100;
+        
         private GridPosition currentUnitGridPosition;
         private FacingDirection currentDirection;
 

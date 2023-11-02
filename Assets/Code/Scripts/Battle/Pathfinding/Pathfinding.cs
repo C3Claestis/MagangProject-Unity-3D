@@ -62,11 +62,24 @@ namespace Nivandria.Battle.PathfindingSystem
                     GridPosition gridPosition = new GridPosition(x, z);
                     Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
 
-                    if (!IsObstacleOnGrid(worldPosition, out string objectTag)) continue;
-                    if (unitType == UnitType.Aerial && objectTag == "Tier2_Obstacles") continue;
-                    if (unitType == UnitType.Aerial && objectTag == "Tier3_Obstacles") continue;
+                    if (LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition))
+                    {
+                        Unit unit = LevelGrid.Instance.GetUnitListAtGridPosition(gridPosition)[0];
+                        if (!unit.IsAlive()) continue;
+                        if (unit.IsEnemy() == UnitTurnSystem.Instance.GetSelectedUnit().IsEnemy()) continue;
+                        GetNode(x, z).SetIsWalkable(false);
 
-                    GetNode(x, z).SetIsWalkable(false);
+                    }
+                    else if (IsObstacleOnGrid(worldPosition, out Transform objectTransform))
+                    {
+                        if (objectTransform.CompareTag("Tier2_Obstacles"))
+                        {
+                            if (unitType == UnitType.Aerial) continue;
+                            if (objectTransform.GetComponent<Obstacle>().IsBroken()) continue;
+                        }
+                        if (unitType == UnitType.Aerial && objectTransform.CompareTag("Tier3_Obstacles")) continue;
+                        GetNode(x, z).SetIsWalkable(false);
+                    }
 
                 }
             }
@@ -87,7 +100,6 @@ namespace Nivandria.Battle.PathfindingSystem
                     Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
 
                     if (!IsObstacleOnGrid(worldPosition, out string objectTag)) continue;
-                    if (ignoreObstacle && objectTag == "Tier2_Obstacles") continue;
                     if (ignoreObstacle && objectTag == "Tier3_Obstacles") continue;
 
                     GetNode(x, z).SetIsWalkable(false);
@@ -115,6 +127,25 @@ namespace Nivandria.Battle.PathfindingSystem
             }
 
             objectTag = "";
+            return false;
+        }
+
+        public bool IsObstacleOnGrid(Vector3 worldPosition, out Transform objectTransform)
+        {
+            float raycastOffsetDistance = 5f;
+            if (Physics.Raycast(
+                        worldPosition + Vector3.down * raycastOffsetDistance,
+                        Vector3.up,
+                        out RaycastHit hit,
+                        raycastOffsetDistance * 2,
+                        obstaclesLayerMask
+                    ))
+            {
+                objectTransform = hit.transform;
+                return true;
+            }
+
+            objectTransform = null;
             return false;
         }
 
