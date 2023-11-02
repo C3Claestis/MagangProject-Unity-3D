@@ -11,7 +11,7 @@ namespace Nivandria.Battle.Action
     public class BasicAttack : BaseSkillAction
     {
         protected override string actionName => "Basic Attack";
-        protected override float powerPercentage => 30;
+        protected override float powerPercentage => 100;
         protected override ActionCategory actionCategory => ActionCategory.Skill;
         protected override ActionType actionType => ActionType.Physyical;
         protected override string actionDescription =>
@@ -33,6 +33,7 @@ namespace Nivandria.Battle.Action
         {
             var targetPosition = LevelGrid.Instance.GetWorldPosition(targetGrid);
             IDamageable damageable;
+            float facingBonus = 1f;
 
             if (Pathfinding.Instance.IsObstacleOnGrid(targetPosition, out Transform objectTransform))
             {
@@ -40,11 +41,15 @@ namespace Nivandria.Battle.Action
             }
             else
             {
-                Unit unit = LevelGrid.Instance.GetUnitListAtGridPosition(targetGrid)[0];
-                damageable = unit.GetComponent<IDamageable>();
+                Unit targetUnit = LevelGrid.Instance.GetUnitListAtGridPosition(targetGrid)[0];
+                damageable = targetUnit.GetComponent<IDamageable>();
+
+                facingBonus = LevelGrid.Instance.RelativeFacingChecker(targetUnit, unit) / 100f;
             }
 
-            damageable.Damage((int)(unit.GetCurrentPhysicalAttack() * (powerPercentage / 100f)));
+
+            int damageValue = (int)(unit.GetCurrentPhysicalAttack() * facingBonus * (powerPercentage / 100f));
+            damageable.Damage(damageValue, false);
             isActive = false;
             onActionComplete();
         }

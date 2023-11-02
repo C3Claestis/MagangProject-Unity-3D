@@ -136,12 +136,20 @@ namespace Nivandria.Battle.UnitSystem
         }
 
 
-        public void Damage(int damage)
+        public void Damage(int damage, bool isCriticalHit)
         {
-            currentHealth -= damage;
+            DamagePopUp.Create(transform.position, damage, isCriticalHit);
 
-            if (currentHealth <= 0) Death();
-            else OnHitted?.Invoke(this, EventArgs.Empty);
+            if (damage > 0)
+            {
+                currentHealth -= damage;
+                if (currentHealth <= 0) Death();
+                else OnHitted?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                // ! Invoke evasion animation
+            }
         }
 
         private void Death()

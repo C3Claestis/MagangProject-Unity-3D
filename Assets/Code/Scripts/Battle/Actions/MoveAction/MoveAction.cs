@@ -44,7 +44,7 @@ namespace Nivandria.Battle.Action
 
         private bool destinationReached;
 
-        private bool doneRotating;
+        private bool doneRotating = true;
         private float rotateSpeed = 30f;
 
         private void Update()

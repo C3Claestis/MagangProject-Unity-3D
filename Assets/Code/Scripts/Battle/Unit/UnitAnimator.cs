@@ -1,15 +1,20 @@
 namespace Nivandria.Battle.UnitSystem
 {
     using System;
+    using System.Collections.Generic;
     using Nivandria.Battle.Action;
     using UnityEngine;
 
     public class UnitAnimator : MonoBehaviour
     {
-        [SerializeField] private Animator unitAnimator;
+        private Animator unitAnimator;
+
+        private List<IDamageable> targetList;
 
         private void Awake()
         {
+            unitAnimator = GetComponent<Animator>();
+
             if (TryGetComponent<MoveAction>(out MoveAction moveAction))
             {
                 moveAction.OnStartMoving += MoveAction_OnStartMoving;

@@ -13,7 +13,9 @@ namespace Nivandria.Battle.Grid
         [SerializeField] private int gridWidth = 8;
         [SerializeField] private int gridHeight = 4;
         [SerializeField] private float cellSize = 2;
-        [SerializeField] bool showWalkableGrid = false;
+        [SerializeField] private bool showWalkableGrid = false;
+        [SerializeField] private Transform damagePopUpPrefabs;
+
         public Unit unitBase;
         public Unit uniTarget;
 
@@ -319,6 +321,7 @@ namespace Nivandria.Battle.Grid
 
         public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
 
+        public Transform GetDamagePopUpPrefabs() => damagePopUpPrefabs;
         public int GetGridWidth() => gridWidth;
         public int GetGridHeight() => gridHeight;
         public float GetCellSize() => cellSize;

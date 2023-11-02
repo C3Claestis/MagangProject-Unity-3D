@@ -1044,7 +1044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2175488354178050123, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2175488354178050123, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1487,10 +1487,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questLibrary:
-  - {fileID: 11400000, guid: 8ff5ebf8a1e73804280d2e1d44d94a16, type: 2}
+  - {fileID: 11400000, guid: 5e53ee70c4abd0644b542af1eb807c4f, type: 2}
+  - {fileID: 11400000, guid: 120eaf294ef0e554cb6c7c138e69adf6, type: 2}
   - {fileID: 11400000, guid: aee4349f2dd326b4696f590d94b301b0, type: 2}
-  - {fileID: 11400000, guid: 6652d90c6bf1f2e4cbe4d4f1d6fb2a23, type: 2}
-  - {fileID: 11400000, guid: 635d08446f9aeeb468e1c2bde1bdfa92, type: 2}
+  - {fileID: 11400000, guid: 4982c0f0fe79656468abf3f5d83bd7ed, type: 2}
 --- !u!1 &365542177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1709,7 +1709,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 397466095}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -3495,7 +3495,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2175488354178050123, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 8.008455
       objectReference: {fileID: 0}
     - target: {fileID: 2175488354178050123, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3503,7 +3503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2175488354178050123, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2175488354178050123, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3545,18 +3545,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7d22fc6b9a431b043a917fb89a80bcfc, type: 2}
+    - target: {fileID: 8279450905956337918, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: b5f71c859f9f9bf41badda8a4650082c, type: 3}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: isEnemy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: moveType
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: unitIcon
       value: 
       objectReference: {fileID: 21300000, guid: 2de2b4f60ac4b684b93fe6e1fe5290bb, type: 3}
+    - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: baseAgility
+      value: 99
+      objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: baseEvasion
       value: 1
@@ -3565,7 +3573,8 @@ PrefabInstance:
       propertyPath: characterName
       value: Sacra
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1992789115759745329, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -3936,6 +3945,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: BIRB
       objectReference: {fileID: 0}
+    - target: {fileID: 5063067443981454916, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: c4341fc212bba204c8475c1a7a86f84f, type: 3}
+    - target: {fileID: 5063067443981454916, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3cb9a921ac8e38f4fba57759dd7ffd6e, type: 2}
+    - target: {fileID: 6788732342360348839, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: unitAnimator
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: maxMoveDistance
       value: 5
@@ -4149,6 +4170,7 @@ MonoBehaviour:
   gridHeight: 4
   cellSize: 2
   showWalkableGrid: 0
+  damagePopUpPrefabs: {fileID: 4190619415424458728, guid: 436bc3862917e0c4ba28445ea50992b4, type: 3}
   unitBase: {fileID: 2007428937}
   uniTarget: {fileID: 897484031}
 --- !u!4 &880107925
@@ -4488,7 +4510,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: a236645a72900994b9a5a5d2e73cee04, type: 3}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: baseAgility
-      value: 99
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: characterName
@@ -8139,7 +8161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822347460864368909, guid: 4eb49202c1fd38749bcc4cf35363d7da, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.5
+      value: 1.4999998
       objectReference: {fileID: 0}
     - target: {fileID: 8822347460864368909, guid: 4eb49202c1fd38749bcc4cf35363d7da, type: 3}
       propertyPath: m_LocalPosition.y

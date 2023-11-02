@@ -133,7 +133,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 bullMoveList.Add(testGridPosition);
@@ -145,7 +150,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x + xOffset, unitGridPosition.z);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 bullMoveList.Add(testGridPosition);
@@ -157,7 +167,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 bullMoveList.Add(testGridPosition);
@@ -169,7 +184,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x, unitGridPosition.z + zOffset);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 bullMoveList.Add(testGridPosition);
@@ -193,7 +213,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x + offset, unitGridPosition.z + offset);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 snakeMoveList.Add(testGridPosition);
@@ -205,7 +230,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x - offset, unitGridPosition.z + offset);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 snakeMoveList.Add(testGridPosition);
@@ -217,7 +247,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x + offset, unitGridPosition.z - offset);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 snakeMoveList.Add(testGridPosition);
@@ -229,7 +264,12 @@ namespace Nivandria.Battle.Action
                 GridPosition testGridPosition = new GridPosition(unitGridPosition.x - offset, unitGridPosition.z - offset);
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) break;
-                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) break;
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    Unit testUnit = LevelGrid.Instance.GetUnitListAtGridPosition(testGridPosition)[0];
+                    if (!testUnit.IsAlive()) continue;
+                    if (testUnit.IsEnemy() != unit.IsEnemy()) break;
+                }
                 if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition)) break;
 
                 snakeMoveList.Add(testGridPosition);

@@ -18,11 +18,12 @@ namespace Nivandria.Battle
             gameObject.name = obstacleName;
         }
 
-        public void Damage(int damage)
+        public void Damage(int damage, bool isCriticalHit)
         {
+            DamagePopUp.Create(transform.position, damage, isCriticalHit);
             health -= damage;
 
-            if(health > 0) Debug.Log("Hitted");
+            if (health > 0) Debug.Log("Hitted");
             else Broke();
         }
 
