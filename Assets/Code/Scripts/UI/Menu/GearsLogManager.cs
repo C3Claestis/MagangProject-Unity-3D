@@ -1,34 +1,24 @@
 namespace Nivandria.UI.Gears
 {
-    using System.Collections;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
-    using UnityEngine.EventSystems;
     using UnityEngine.UI;
 
 
     public class GearsLogManager : MonoBehaviour
     {
-        public static GearsLogManager Instance{get; private set;}
+        public static GearsLogManager Instance { get; private set; }
+
+        [Header("Content Container")]
         [SerializeField] Transform contentContainer;
 
-        [SerializeField] GearsType gearsType = GearsType.Weapons;
+        [Header("GearsType")]
+        [SerializeField] public GearsType gearsType;
         [SerializeField] GearsType currentGearsType;
 
-
-        /*
-        [Header("Detail Hero")]
-        [SerializeField] TextMeshProUGUI nameHero;
-        [SerializeField] GameObject imageHero;
-        [SerializeField] TextMeshProUGUI descriptionHero;
-        */
-
-        //[SerializeField] Image imageGear;
         [Header("Detail Gears")]
-        //[SerializeField] Image iconGear;
         private TextMeshProUGUI nameGear;
-
 
         [Header("Detail Status Gear")]
         [SerializeField] TextMeshProUGUI health;
@@ -40,16 +30,20 @@ namespace Nivandria.UI.Gears
         [SerializeField] TextMeshProUGUI statusAgility;
         [SerializeField] TextMeshProUGUI statusEvasion;
 
+        [Header("Hero Name")]
+        [SerializeField] private TextMeshProUGUI[] NickNameHeroes;
+        [SerializeField] private TextMeshProUGUI FullNameHero;
 
+        [Header("Heroes List")]
+        [SerializeField] List<Hero> HeroList = new List<Hero>();
 
+        [Header("Gears List")]
         [SerializeField] List<Gears> gearList = new List<Gears>();
-        //[SerializeField] List<Hero> heroList = new List<Hero>();
-        //[SerializeField] List<Status> statusList = new List<Status>();
         [SerializeField] GameObject gearsLog;
 
         void Awake()
         {
-            if(Instance != null && Instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(this);
             }
@@ -71,6 +65,56 @@ namespace Nivandria.UI.Gears
             GearsLogInitialization();
         }
 
+        public Sprite GetHeroImage(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetImageHero() != null)
+                {
+                    Sprite image = currentHero.GetImageHero(); // Mengakses objek Image
+                    return image;
+                }
+            }
+            return null;
+        }
+
+        public string GetFullNameHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetFullNameHero() != null)
+                {
+                    string name = currentHero.GetFullNameHero();
+                    FullNameHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public void SetAllHeroNames()
+        {
+            for (int i = 0; i < HeroList.Count; i++)
+            {
+                Hero currentHero = HeroList[i];
+                if (currentHero != null)
+                {
+                    string name = currentHero.GetNickNameHero();
+                    NickNameHeroes[i].text = name;
+                }
+            }
+        }
+
+        public void SetInitialHeroName()
+        {
+            if (HeroList.Count >= 0)
+            {
+                string initialHeroName = GetFullNameHero(0); // Mendapatkan nama pahlawan dari indeks pertama
+                FullNameHero.text = initialHeroName; // Mengatur variabel nameHero dengan nama pahlawan pertama
+            }
+        }
 
         public void GearsLogInitialization()
         {
@@ -85,7 +129,7 @@ namespace Nivandria.UI.Gears
                 TextMeshProUGUI gearName = newGear.GetComponentInChildren<TextMeshProUGUI>();
                 Button gearButton = newGear.GetComponent<Button>();
                 Gears currentGears = gears;
-                
+
                 gearButton.onClick.AddListener(() =>
                 {
                     if (nameGear != null)

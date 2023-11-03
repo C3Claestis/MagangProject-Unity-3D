@@ -35,10 +35,10 @@ namespace Nivandria.UI.Quest
             SetConsumableFirst();
         }
 
-        public void ChangeTypeConsumable(int containerNumber)
+        public void ChangeTypeConsumable(int index)
         {
 
-            switch (containerNumber)
+            switch (index)
             {
                 case 1:
                     ConsumablesLogManager.Instance.consumableType = ConsumableType.Consumable;
@@ -54,7 +54,7 @@ namespace Nivandria.UI.Quest
                     break;
             }
 
-            UpdateButtonColors(containerNumber);
+            UpdateButtonColors(index);
         }
 
         private void UpdateButtonColors(int activePanelNumber)

@@ -8,9 +8,14 @@ namespace Nivandria.UI.Gears
 
     public class ChangeIconKarakter : MonoBehaviour
     {
+        [Header("List Image Hero")]
         public Sprite[] sprites; // Buat array sprite untuk menyimpan sprite karakter
         private int currentIndex = 0;
-        private Image image;
+
+        [Header("Hero Image")]
+        [SerializeField] private Image image;
+
+        [Header("Button Image")]
         [SerializeField] private Image hero1;
         [SerializeField] private Image hero2;
         [SerializeField] private Image hero3;

@@ -68,25 +68,25 @@ namespace Nivandria.UI.Gears
     public class Hero
     {
         [Header("Detail Hero")]
-        [SerializeField] private string nameHero;
-        [SerializeField] private Sprite imageHero;
-        [SerializeField] private string descriptionHero;
+        [SerializeField] private string FullNameHero;
+        [SerializeField] private string NickNameHero;
+        [SerializeField] public Sprite imageHero;
 
         public Hero
         (
-            string nameHero,
-            Sprite imageHero,
-            string descriptionHero
+            string FullNameHero,
+            string NickNameHero,
+            Sprite imageHero
         )
         {
-            this.nameHero = nameHero;
+            this.FullNameHero = FullNameHero;
+            this.NickNameHero = NickNameHero;
             this.imageHero = imageHero;
-            this.descriptionHero = descriptionHero;
         }
 
-        public string GetNameHero() => nameHero;
+        public string GetFullNameHero() => FullNameHero;
+        public string GetNickNameHero() => NickNameHero;
         public Sprite GetImageHero() => imageHero;
-        public string GetDescriptionHero() => descriptionHero;
     }
 
     [Serializable]
