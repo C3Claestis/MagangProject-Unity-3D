@@ -3,7 +3,7 @@ namespace Nivandria.Explore
     using System;
     using UnityEngine;
     using UnityEngine.InputSystem;
-
+    using Cinemachine;
     /// <summary>
     /// Handles player input and character control in the game.
     /// </summary>
@@ -11,20 +11,33 @@ namespace Nivandria.Explore
     {
         private static InputSystem instance;
 
+        [SerializeField] Transform focus_point;
+        [SerializeField] CinemachineFreeLook freeLook;        
+
+        [Header("Explore Manager Reference")]
         [SerializeField] ExploreManager exploreManager;
+
+        [Header("Prefab Object For Switch Character")]
         [SerializeField] GameObject[] objekPlayer;
+        private Animator animator;
+
+        [Header("Interkasi Handle Reference")]
         [SerializeField] private InteraksiNPC interaksiNPC;
+
+        [Header("Player Input Manager")]
         [SerializeField] PlayerInput playerInput;
+
+        [Header("Dialogue Manager Reference")]
         [SerializeField] DialogueManager dialogueManager;
 
-        [SerializeField] private Animator animator;
+        [Header("Stamina UI")]
+        [SerializeField] RectTransform staminaBarRectTransform;
         private Vector2 movementValue;
         private bool isMoving = false;
         private bool canRunning = false;
         private bool isSpawn = false;
         private bool isSetup = true;
 
-        [SerializeField] RectTransform staminaBarRectTransform;
         private float initialStaminaBarWidth;
         private float maxStamina = 50f;
         private float currentStamina;
@@ -48,16 +61,32 @@ namespace Nivandria.Explore
             LockMouse(false);
             currentStamina = maxStamina;
             initialStaminaBarWidth = staminaBarRectTransform.sizeDelta.x;
-
-            //GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
+            GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
         }
 
         private void Update()
         {
-            //SpawnKarakter();
+            SpawnKarakter();
             HandleRun();
         }
+        void LateUpdate()
+        {
+            if (freeLook.Follow == null)
+            {
+                // Tentukan kecepatan pergerakan kamera
+                float speed = 1.0f;
 
+                // Tetapkan posisi target yang ingin Anda kejar
+                Vector3 targetPosition = focus_point.position;
+
+                // Gunakan SmoothDamp untuk pergerakan yang lebih mulus
+                Vector3 velocity = Vector3.zero;
+                Vector3 smoothedPosition = Vector3.SmoothDamp(focus_point.transform.position, targetPosition, ref velocity, speed);
+
+                // Tetapkan posisi kamera ke posisi yang sudah di-smooth
+                freeLook.transform.position = smoothedPosition;
+            }
+        }
         public void LockMouse(bool locked)
         {
             Cursor.visible = locked;
@@ -70,6 +99,35 @@ namespace Nivandria.Explore
                 Cursor.lockState = CursorLockMode.None;
             }
             //Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        }
+
+        /// <summary>
+        /// Handle for Camera back focus to Character
+        /// </summary>
+        public void CameraFocus(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                Debug.Log("TRIGGER");
+                freeLook.Follow = null;                
+                
+                if (freeLook.Follow == null)
+                {
+                    Invoke("BackToPlayer", 0.05f);
+                }
+            }
+            if (context.canceled)
+            {
+                BackToPlayer();
+            }
+        }
+
+        void BackToPlayer()
+        {
+            if (freeLook.Follow == null)
+            {
+                freeLook.Follow = gameObject.transform;                
+            }
         }
         /// <summary>
         /// Handle Fungsi Run Untuk Stamina
@@ -119,7 +177,7 @@ namespace Nivandria.Explore
             }
             if (isSpawn)
             {
-                Destroy(transform.GetChild(3).gameObject);
+                Destroy(transform.GetChild(4).gameObject);
                 GameObject newPlayer = Instantiate(objekPlayer[exploreManager.GetLead()], transform);
                 isSpawn = false;
             }
@@ -247,6 +305,7 @@ namespace Nivandria.Explore
             if (context.performed && isSetup)
             {
                 exploreManager.PanelParty();
+                LockMouse(true);
                 playerInput.SwitchCurrentActionMap("UI");
             }
         }

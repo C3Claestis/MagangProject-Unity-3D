@@ -19,28 +19,65 @@ namespace Nivandria.Explore
         Animator anim;
         private bool isTalk = false;
         private bool isInterect = false;
-                
+
+        [Header("InkExternal")]
+        private InkExternal inkExternal;
+        [SerializeField] Vector3[] Axis_Posisi;
+        [SerializeField] Quaternion[] Axis_Rotasi;
+
         #region Getter Setter
         public void SetTalk(bool talk) => this.isTalk = talk;
         public void SetInterect(bool interect) => this.isInterect = interect;
         public bool GetInterect() => isInterect;
         #endregion
+
+        //Kamera Posisi = 3, 0.5f, -2.5f;
+        //Kamera rotasi = 15, -45, 0;
         // Start is called before the first frame update
         void Start()
         {
             splineFollower = GetComponent<SplineFollower>();
             anim = GetComponent<Animator>();
             initialRotation = transform.rotation;
+            inkExternal = FindAnyObjectByType<InkExternal>();
         }
 
         // Update is called once per frame
         void Update()
         {
             //Jika NPC sedang interaksi
-            if (isTalk != false)
+            if (isTalk)
             {
                 bubbleText.SetActive(false);
                 DialogueManager.GetInstance().EnterDialogMode(inkJSON, value_dialogue);
+                
+                switch (inkExternal.ParseCamera)
+                {
+                    case 1:
+                        Debug.Log("BERHASIL AMBIL " + 1);
+                        break;
+                    case 2:
+                        Debug.Log("BERHASIL AMBIL " + 2);                
+                        break;
+                    case 3:
+                        Debug.Log("BERHASIL AMBIL " + 3);                        
+                        break;
+                    case 4:
+                        Debug.Log("BERHASIL AMBIL " + 4);                        
+                        break;
+                    case 5:
+                        Debug.Log("BERHASIL AMBIL " + 5);                        
+                        break;
+                    case 6:
+                        Debug.Log("BERHASIL AMBIL " + 6);                        
+                        break;
+                    case 7:
+                        Debug.Log("BERHASIL AMBIL " + 7);                        
+                        break;
+                    case 8:
+                        Debug.Log("BERHASIL AMBIL " + 8);                        
+                        break;
+                }
                 if (isPatrol)
                 {
                     anim.SetBool("isTalk", true);
@@ -62,7 +99,7 @@ namespace Nivandria.Explore
             if (!isInterect)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
-            }          
+            }
         }
     }
 }

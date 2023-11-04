@@ -134,6 +134,7 @@ namespace Nivandria.Explore
                 ClosePanelParty();
                 playerInput.SwitchCurrentActionMap("Player");
                 inputSystem.SetIsSpawn(true);
+                inputSystem.LockMouse(false);
             }
             else if (slot_leader.GetChild(0).gameObject.name == "Vana" + clone)
             {
@@ -141,6 +142,7 @@ namespace Nivandria.Explore
                 ClosePanelParty();
                 playerInput.SwitchCurrentActionMap("Player");
                 inputSystem.SetIsSpawn(true);
+                inputSystem.LockMouse(false);
             }
             else if (slot_leader.GetChild(0).gameObject.name == "Lin" + clone)
             {
@@ -148,6 +150,7 @@ namespace Nivandria.Explore
                 ClosePanelParty();
                 playerInput.SwitchCurrentActionMap("Player");
                 inputSystem.SetIsSpawn(true);
+                inputSystem.LockMouse(false);
             }
             else if (slot_leader.GetChild(0).gameObject.name == "Guard" + clone)
             {
@@ -155,6 +158,7 @@ namespace Nivandria.Explore
                 ClosePanelParty();
                 playerInput.SwitchCurrentActionMap("Player");
                 inputSystem.SetIsSpawn(true);
+                inputSystem.LockMouse(false);
             }
             else
             {

@@ -13,14 +13,13 @@ namespace Nivandria.Explore
     {
         // Singleton instance of the DialogueManager
         private static DialogueManager instance;
-
+        private InkExternal inkExternal;
         // The Ink story object
         private Story story;
 
         // Tag used for identifying speakers in dialogue
         private const string SPEAKER_TAG = "speaker";
         private const string JOB_TAG = "job";
-        private const string CAMERA_VARIABEL = "camera";
 
         // Coroutine for displaying dialogue lines
         private Coroutine displayCoroutine;
@@ -50,14 +49,14 @@ namespace Nivandria.Explore
         [SerializeField] Image choiseIcon;
         private Text[] choiseText;
         private int value_npc;
-
+        
         private void Awake()
         {
             if (instance != null)
             {
                 Debug.Log("Instance Sudah Ada");
             }
-            instance = this;
+            instance = this;            
         }
 
         // Returns the singleton instance of DialogueManager
@@ -76,6 +75,8 @@ namespace Nivandria.Explore
                 choiseText[index] = choice.GetComponentInChildren<Text>();
                 index++;
             }
+
+            inkExternal = GetComponent<InkExternal>();
         }
 
         void Update()
@@ -99,18 +100,9 @@ namespace Nivandria.Explore
                 Invoke("ActivatePanel", 0.7f);
                 _cameraTalk.SetActive(true);
                 _cameraMain.SetActive(false);
-
-                story.BindExternalFunction("playcamera", (string cameravalue) =>
-                {
-                    if (cameravalue == "1")
-                    {
-                        Debug.Log("TEST1");
-                    }
-                    else if (cameravalue == "2")
-                    {
-                        Debug.Log("TESTING 2");
-                    }
-                });
+                
+                inkExternal.Bind(story);
+                
                 ContinueStory();
             }
         }
@@ -119,7 +111,7 @@ namespace Nivandria.Explore
         private void ExitDialogue()
         {
             InputSystem.GetInstance().LockMouse(false);
-            story.UnbindExternalFunction("playcamera");
+            inkExternal.Unbind(story);            
             story = null;
             isPlaying = false;
             teks.text = "";
