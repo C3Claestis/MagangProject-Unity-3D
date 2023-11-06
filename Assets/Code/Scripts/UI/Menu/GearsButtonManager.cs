@@ -7,9 +7,8 @@ namespace Nivandria.UI.Gears
     {
         public static GearsButtonManager Instance { get; private set; }
 
-        [Header("List Image Hero")]
-        //public Sprite[] sprites; // Buat array sprite untuk menyimpan sprite karakter
-        private int currentIndex = 0;
+        GearsLogManager gearsLogManager;
+        //private int currentIndex = 0;
 
         [Header("Hero Image")]
         [SerializeField] private Image image;
@@ -37,6 +36,7 @@ namespace Nivandria.UI.Gears
         }
         private void Start()
         {
+            gearsLogManager = FindObjectOfType<GearsLogManager>();
             SetFirst();
         }
 
@@ -77,51 +77,55 @@ namespace Nivandria.UI.Gears
             hero4.GetComponent<Image>().color = (activePanelNumber == 4) ? activeColor : inactiveColor;
         }
 
-        public void ButtonOnClick(int index)
+        public void GetHeroImage(int index)
         {
             Sprite sprite = GearsLogManager.Instance.GetHeroImage(index);
-            string heroName = GearsLogManager.Instance.GetFullNameHero(index);
 
             if (sprite != null)
             {
-                currentIndex = index;
                 if (image != null)
                 {
                     image.sprite = sprite; // Menetapkan Sprite ke Image
-                    
-                    if (heroName != null)
-                    {
-                        Debug.Log("Hero Name: " + heroName);
-                    }
-                    
-                    UpdateButtonColors(index);
                 }
             }
+        }
+
+        public void GetDescriptionHero(int index)
+        {
+            string heroName = GearsLogManager.Instance.GetFullNameHero(index);
+            string healthHero = GearsLogManager.Instance.GetStatusHealthHero(index);
+            string physicalAttackHero = GearsLogManager.Instance.GetStatusPhysicalAttackHero(index);
+            string magicAttackHero = GearsLogManager.Instance.GetStatusMagicAttackHero(index);
+            string physicalDefenseHero = GearsLogManager.Instance.GetStatusPhysicalDefenseHero(index);
+            string magicDefenseHero = GearsLogManager.Instance.GetStatusMagicDefenseHero(index);
+            string statusCriticalHero = GearsLogManager.Instance.GetStatusCriticalHero(index);
+            string statusAgilityHero = GearsLogManager.Instance.GetStatusAgilityHero(index);
+            string statusEvasionHero = GearsLogManager.Instance.GetStatusEvasionHero(index);
+        }
+
+        public void ButtonOnClick(int index)
+        {
+            GetHeroImage(index);
+            GetDescriptionHero(index);
         }
 
         public void SetFirst()
         {
             UpdateButtonColors(1);
-            HeroName();
+            HeroDescription();
             NameHero();
         }
 
-        public void HeroName()
+        public void HeroDescription()
         {
-            GearsLogManager gearsLogManager;
-            gearsLogManager = FindObjectOfType<GearsLogManager>();
-
             if (gearsLogManager != null)
             {
-                gearsLogManager.SetInitialHeroName();
+                gearsLogManager.SetInitialHeroDescription();
             }
         }
 
         public void NameHero()
         {
-            GearsLogManager gearsLogManager;
-            gearsLogManager = FindObjectOfType<GearsLogManager>();
-
             if (gearsLogManager != null)
             {
                 gearsLogManager.SetAllHeroNames();

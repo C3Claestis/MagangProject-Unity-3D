@@ -34,6 +34,16 @@ namespace Nivandria.UI.Gears
         [SerializeField] private TextMeshProUGUI[] NickNameHeroes;
         [SerializeField] private TextMeshProUGUI FullNameHero;
 
+        [Header("Base Status Hero")]
+        [SerializeField] TextMeshProUGUI healthHero;
+        [SerializeField] TextMeshProUGUI physicalAttackHero;
+        [SerializeField] TextMeshProUGUI magicAttackHero;
+        [SerializeField] TextMeshProUGUI physicalDefenseHero;
+        [SerializeField] TextMeshProUGUI magicDefenseHero;
+        [SerializeField] TextMeshProUGUI statusCriticalHero;
+        [SerializeField] TextMeshProUGUI statusAgilityHero;
+        [SerializeField] TextMeshProUGUI statusEvasionHero;
+
         [Header("Heroes List")]
         [SerializeField] List<Hero> HeroList = new List<Hero>();
 
@@ -107,14 +117,159 @@ namespace Nivandria.UI.Gears
             }
         }
 
-        public void SetInitialHeroName()
+        public void SetInitialHeroDescription()
         {
             if (HeroList.Count >= 0)
             {
                 string initialHeroName = GetFullNameHero(0); // Mendapatkan nama pahlawan dari indeks pertama
                 FullNameHero.text = initialHeroName; // Mengatur variabel nameHero dengan nama pahlawan pertama
+
+                string initialhealthHero = GetStatusHealthHero(0);
+                healthHero.text = initialhealthHero;
+
+                string initialPhysicalAttackHero = GetStatusPhysicalAttackHero(0);
+                physicalAttackHero.text = initialPhysicalAttackHero;
+
+                string initialMagicAttackHero = GetStatusMagicAttackHero(0);
+                magicAttackHero.text = initialMagicAttackHero;
+
+                string initialPhysicalDefenseHero = GetStatusPhysicalDefenseHero(0);
+                physicalDefenseHero.text = initialPhysicalDefenseHero;
+
+                string initialMagicDefenseHero = GetStatusMagicDefenseHero(0);
+                magicDefenseHero.text = initialMagicDefenseHero;
+
+                string initialCriticalHero = GetStatusCriticalHero(0);
+                statusCriticalHero.text = initialCriticalHero;
+
+                string initialAgilityHero = GetStatusAgilityHero(0);
+                statusAgilityHero.text = initialAgilityHero;
+
+                string initialEvasionHero = GetStatusEvasionHero(0);
+                statusEvasionHero.text = initialEvasionHero;
             }
         }
+
+        public string GetStatusHealthHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetHeroHealth() != null)
+                {
+                    string name = currentHero.GetHeroHealth();
+                    healthHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusPhysicalAttackHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetPhysicalAttackHero() != null)
+                {
+                    string name = currentHero.GetPhysicalAttackHero();
+                    physicalAttackHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusMagicAttackHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetMagicAttackHero() != null)
+                {
+                    string name = currentHero.GetMagicAttackHero();
+                    magicAttackHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusPhysicalDefenseHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetPhysicalDefenseHero() != null)
+                {
+                    string name = currentHero.GetPhysicalDefenseHero();
+                    physicalDefenseHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusMagicDefenseHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetMagicDefenseHero() != null)
+                {
+                    string name = currentHero.GetMagicDefenseHero();
+                    magicDefenseHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusCriticalHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetCriticalHero() != null)
+                {
+                    string name = currentHero.GetCriticalHero();
+                    statusCriticalHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusAgilityHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetAgilityHero() != null)
+                {
+                    string name = currentHero.GetAgilityHero();
+                    statusAgilityHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
+        public string GetStatusEvasionHero(int index)
+        {
+            if (index >= 0 && index < HeroList.Count)
+            {
+                Hero currentHero = HeroList[index];
+                if (currentHero != null && currentHero.GetEvasionHero() != null)
+                {
+                    string name = currentHero.GetEvasionHero();
+                    statusAgilityHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    return name;
+                }
+            }
+            return "";
+        }
+
 
         public void GearsLogInitialization()
         {

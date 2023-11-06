@@ -1,9 +1,6 @@
 namespace Nivandria.UI.Gears
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using Microsoft.Unity.VisualStudio.Editor;
     using UnityEngine;
 
     [Serializable]
@@ -71,26 +68,59 @@ namespace Nivandria.UI.Gears
         [SerializeField] private string FullNameHero;
         [SerializeField] private string NickNameHero;
         [SerializeField] public Sprite imageHero;
+        [SerializeField] private string healthHero;
+        [SerializeField] private string physicalAttack;
+        [SerializeField] private string magicAttack;
+        [SerializeField] private string physicalDefense;
+        [SerializeField] private string magicDefense;
+        [SerializeField] private string statusCritical;
+        [SerializeField] private string statusAgility;
+        [SerializeField] private string statusEvasion;
+
 
         public Hero
         (
             string FullNameHero,
             string NickNameHero,
-            Sprite imageHero
+            Sprite imageHero,
+            string healthHero,
+            string physicalAttack,
+            string magicAttack,
+            string physicalDefense,
+            string magicDefense,
+            string statusCritical,
+            string statusAgility,
+            string statusEvasion
         )
         {
             this.FullNameHero = FullNameHero;
             this.NickNameHero = NickNameHero;
             this.imageHero = imageHero;
+            this.healthHero = healthHero;
+            this.physicalAttack = physicalAttack;
+            this.magicAttack = magicAttack;
+            this.physicalDefense = physicalDefense;
+            this.magicDefense = magicDefense;
+            this.statusCritical = statusCritical;
+            this.statusAgility = statusAgility;
+            this.statusEvasion = statusEvasion;
         }
 
         public string GetFullNameHero() => FullNameHero;
         public string GetNickNameHero() => NickNameHero;
         public Sprite GetImageHero() => imageHero;
+        public string GetHeroHealth() => healthHero;
+        public string GetPhysicalAttackHero() => physicalAttack;
+        public string GetMagicAttackHero() => magicAttack;
+        public string GetPhysicalDefenseHero() => physicalDefense;
+        public string GetMagicDefenseHero() => magicDefense;
+        public string GetCriticalHero() => statusCritical;
+        public string GetAgilityHero() => statusAgility;
+        public string GetEvasionHero() => statusEvasion;
     }
 
     [Serializable]
-    public class Status
+    public class BaseStatusHero
     {
         [Header("Detail Status")]
         [SerializeField] private string statusHealth;
@@ -101,7 +131,7 @@ namespace Nivandria.UI.Gears
         [SerializeField] private string statusEvasion;
 
 
-        public Status
+        public BaseStatusHero
         (
             string statusHealth,
             string statusAttack,
@@ -119,12 +149,12 @@ namespace Nivandria.UI.Gears
             this.statusEvasion = statusEvasion;
         }
 
-        public string GetStatusHealth() => statusHealth;
-        public string GetStatusAttack() => statusAttack;
-        public string GetStatusDefense() => statusDefense;
-        public string GetStatusCritical() => statusCritical;
-        public string GetStatusAgility() => statusAgility;
-        public string GetStatusEvasion() => statusEvasion;
+        public string GetBaseStatusHealthHero() => statusHealth;
+        public string GetBaseStatusAttackHero() => statusAttack;
+        public string GetBaseStatusDefenseHero() => statusDefense;
+        public string GetBaseStatusCriticalHero() => statusCritical;
+        public string GetBaseStatusAgilityHero() => statusAgility;
+        public string GetBaseStatusEvasionHero() => statusEvasion;
     }
 
 }
