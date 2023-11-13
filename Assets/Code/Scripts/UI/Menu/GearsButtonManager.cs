@@ -1,5 +1,6 @@
 namespace Nivandria.UI.Gears
 {
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -18,6 +19,15 @@ namespace Nivandria.UI.Gears
         [SerializeField] private Image hero2;
         [SerializeField] private Image hero3;
         [SerializeField] private Image hero4;
+
+        [Header("Gears Name")]
+        [SerializeField] private TextMeshProUGUI titleGears;
+
+        [Header("Toggles")]
+        [SerializeField] private Toggle[] toggleArray;
+
+        private int currentIndex;
+        private int maxIndex = 2;
 
 
         private Color activeColor = new Color(0.16f, 0.58f, 0.70f); // Warna 2995B2
@@ -38,6 +48,56 @@ namespace Nivandria.UI.Gears
         {
             gearsLogManager = FindObjectOfType<GearsLogManager>();
             SetFirst();
+            currentIndex = 0;
+            ChangeTypeGears(currentIndex);
+        }
+
+
+        public void ChangeTypeGears(int index)
+        {
+            Debug.Log("ini index: " + index);
+            switch (index)
+            {
+                case 0:
+                    GearsLogManager.Instance.gearsType = GearsType.Weapons;
+                    titleGears.text = "Weapon";
+                    Debug.Log("Ini Weapon");
+                    break;
+                case 1:
+                    GearsLogManager.Instance.gearsType = GearsType.Armor;
+                    titleGears.text = "Armor";
+                    Debug.Log("Ini Armor");
+                    break;
+                case 2:
+                    GearsLogManager.Instance.gearsType = GearsType.Boots;
+                    titleGears.text = "Boots";
+                    Debug.Log("Ini Boots");
+                    break;
+                default:
+                    Debug.Log("Tidak ada type yang sesuai");
+                    break;
+            }
+            toggleArray[index].isOn = true;
+        }
+
+        public void OnLeftButtonClick()
+        {
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = maxIndex;
+            }
+            ChangeTypeGears(currentIndex);
+        }
+
+        public void OnRightButtonClick()
+        {
+            currentIndex++;
+            if (currentIndex > maxIndex)
+            {
+                currentIndex = 0;
+            }
+            ChangeTypeGears(currentIndex);
         }
 
         public void ChangeCharacterDescription(int index)
@@ -90,17 +150,30 @@ namespace Nivandria.UI.Gears
             }
         }
 
+        public void GetGearsImage(int index)
+        {
+            Sprite sprite = GearsLogManager.Instance.GearsImage(index);
+
+            if (sprite != null)
+            {
+                if (image != null)
+                {
+                    image.sprite = sprite;
+                }
+            }
+        }
+
         public void GetDescriptionHero(int index)
         {
-            string heroName = GearsLogManager.Instance.GetFullNameHero(index);
-            string healthHero = GearsLogManager.Instance.GetStatusHealthHero(index);
-            string physicalAttackHero = GearsLogManager.Instance.GetStatusPhysicalAttackHero(index);
-            string magicAttackHero = GearsLogManager.Instance.GetStatusMagicAttackHero(index);
-            string physicalDefenseHero = GearsLogManager.Instance.GetStatusPhysicalDefenseHero(index);
-            string magicDefenseHero = GearsLogManager.Instance.GetStatusMagicDefenseHero(index);
-            string statusCriticalHero = GearsLogManager.Instance.GetStatusCriticalHero(index);
-            string statusAgilityHero = GearsLogManager.Instance.GetStatusAgilityHero(index);
-            string statusEvasionHero = GearsLogManager.Instance.GetStatusEvasionHero(index);
+            GearsLogManager.Instance.GetFullNameHero(index);
+            GearsLogManager.Instance.GetStatusHealthHero(index);
+            GearsLogManager.Instance.GetStatusPhysicalAttackHero(index);
+            GearsLogManager.Instance.GetStatusMagicAttackHero(index);
+            GearsLogManager.Instance.GetStatusPhysicalDefenseHero(index);
+            GearsLogManager.Instance.GetStatusMagicDefenseHero(index);
+            GearsLogManager.Instance.GetStatusCriticalHero(index);
+            GearsLogManager.Instance.GetStatusAgilityHero(index);
+            GearsLogManager.Instance.GetStatusEvasionHero(index);
         }
 
         public void ButtonOnClick(int index)
@@ -118,10 +191,12 @@ namespace Nivandria.UI.Gears
 
         public void HeroDescription()
         {
-            if (gearsLogManager != null)
-            {
-                gearsLogManager.SetInitialHeroDescription();
-            }
+            InitializeFirstHero();
+        }
+
+        private void InitializeFirstHero()
+        {
+            GetDescriptionHero(0);
         }
 
         public void NameHero()

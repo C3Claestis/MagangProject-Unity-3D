@@ -38,7 +38,6 @@ namespace Nivandria.UI.Quest
 
         [Header("Quest Chapter")]
         [SerializeField] public QuestChapter questChapter;
-        [SerializeField] QuestChapter currentQuestChapter;
 
         [SerializeField] List<Quest> questList = new List<Quest>();
         [SerializeField] GameObject questLog;

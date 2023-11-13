@@ -3,6 +3,7 @@ namespace Nivandria.UI.Gears
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.AI;
     using UnityEngine.UI;
 
 
@@ -12,10 +13,6 @@ namespace Nivandria.UI.Gears
 
         [Header("Content Container")]
         [SerializeField] Transform contentContainer;
-
-        [Header("GearsType")]
-        [SerializeField] public GearsType gearsType;
-        [SerializeField] GearsType currentGearsType;
 
         [Header("Detail Gears")]
         private TextMeshProUGUI nameGear;
@@ -51,6 +48,12 @@ namespace Nivandria.UI.Gears
         [SerializeField] List<Gears> gearList = new List<Gears>();
         [SerializeField] GameObject gearsLog;
 
+        [Header("GearsType")]
+        [SerializeField] public GearsType gearsType;
+        [SerializeField] GearsType currentGearsType;
+
+        private Image gearsImage;
+
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -73,6 +76,41 @@ namespace Nivandria.UI.Gears
             currentGearsType = gearsType;
             RemoveGearsLog();
             GearsLogInitialization();
+        }
+
+        public void GearsLogInitialization()
+        {
+            foreach (Gears gears in gearList)
+            {
+                if (!(gears.GetGearsType() == gearsType)) continue;
+
+                
+                GameObject newGear = Instantiate(gearsLog, contentContainer);
+                
+                //Gears currentGear = gears;
+                //Button gearButton = newGear.GetComponent<Button>();
+                Image iconArmor = newGear.transform.GetChild(0).GetComponent<Image>();
+                iconArmor.sprite = gears.GetImageGear();
+                
+                TextMeshProUGUI gearName = newGear.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                gearName.text = gears.GetNameGears();
+                
+
+            }
+        }
+
+        public Sprite GearsImage(int index)
+        {
+            if (index >= 0 && index < gearList.Count)
+            {
+                Gears currentGears = gearList[index];
+                if (currentGears != null && currentGears.GetImageGear() != null)
+                {
+                    Sprite gearImage = currentGears.GetImageGear();
+                    return gearImage;
+                }
+            }
+            return null;
         }
 
         public Sprite GetHeroImage(int index)
@@ -114,39 +152,6 @@ namespace Nivandria.UI.Gears
                     string name = currentHero.GetNickNameHero();
                     NickNameHeroes[i].text = name;
                 }
-            }
-        }
-
-        public void SetInitialHeroDescription()
-        {
-            if (HeroList.Count >= 0)
-            {
-                string initialHeroName = GetFullNameHero(0); // Mendapatkan nama pahlawan dari indeks pertama
-                FullNameHero.text = initialHeroName; // Mengatur variabel nameHero dengan nama pahlawan pertama
-
-                string initialhealthHero = GetStatusHealthHero(0);
-                healthHero.text = initialhealthHero;
-
-                string initialPhysicalAttackHero = GetStatusPhysicalAttackHero(0);
-                physicalAttackHero.text = initialPhysicalAttackHero;
-
-                string initialMagicAttackHero = GetStatusMagicAttackHero(0);
-                magicAttackHero.text = initialMagicAttackHero;
-
-                string initialPhysicalDefenseHero = GetStatusPhysicalDefenseHero(0);
-                physicalDefenseHero.text = initialPhysicalDefenseHero;
-
-                string initialMagicDefenseHero = GetStatusMagicDefenseHero(0);
-                magicDefenseHero.text = initialMagicDefenseHero;
-
-                string initialCriticalHero = GetStatusCriticalHero(0);
-                statusCriticalHero.text = initialCriticalHero;
-
-                string initialAgilityHero = GetStatusAgilityHero(0);
-                statusAgilityHero.text = initialAgilityHero;
-
-                string initialEvasionHero = GetStatusEvasionHero(0);
-                statusEvasionHero.text = initialEvasionHero;
             }
         }
 
@@ -270,48 +275,15 @@ namespace Nivandria.UI.Gears
             return "";
         }
 
-
-        public void GearsLogInitialization()
+        public Sprite GetIconGear(int index)
         {
-            int index = 0;
-
-            foreach (Gears gears in gearList)
+            if (index >= 0 && index < gearList.Count)
             {
-                if (!(gears.GetGearsType() == gearsType)) continue;
-                index += 1;
-                GameObject newGear = Instantiate(gearsLog, contentContainer);
-                Image iconGear = GetIconGear(newGear);
-                TextMeshProUGUI gearName = newGear.GetComponentInChildren<TextMeshProUGUI>();
-                Button gearButton = newGear.GetComponent<Button>();
-                Gears currentGears = gears;
-
-                gearButton.onClick.AddListener(() =>
+                Gears currentGearsImage = gearList[index];
+                if (currentGearsImage != null && currentGearsImage.GetImageGear() != null)
                 {
-                    if (nameGear != null)
-                    {
-                        health.text = gears.GetStatusHealth();
-                        physicalAttack.text = gears.GetStatusPhysicalAttack();
-                        magicAttack.text = gears.GetStatusMagicAttack();
-                        physicalDefense.text = gears.GetStatusPhysicalDefense();
-                        magicDefense.text = gears.GetStatusMagicDefense();
-                        statusCritical.text = gears.GetStatusCritical();
-                        statusAgility.text = gears.GetStatusAgility();
-                        statusEvasion.text = gears.GetStatusEvasion();
-                    }
-                }
-                );
-            }
-        }
-
-
-        private Image GetIconGear(GameObject newGear)
-        {
-            for (int i = 0; i < newGear.transform.childCount; i++)
-            {
-                Transform iconTransform = newGear.transform.GetChild(i);
-                if (iconTransform.GetComponent<Image>())
-                {
-                    return iconTransform.GetComponent<Image>();
+                    Sprite image = currentGearsImage.GetImageGear();
+                    return image;
                 }
             }
             return null;
@@ -321,7 +293,7 @@ namespace Nivandria.UI.Gears
         {
             foreach (Transform child in contentContainer)
             {
-                Destroy(gameObject);
+                Destroy(child.gameObject);
             }
         }
 
