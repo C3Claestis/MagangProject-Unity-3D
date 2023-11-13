@@ -13,7 +13,7 @@ namespace Nivandria.Explore
         Transform follow;
         private bool IsFollow = false;
         private bool IsDeteksi = false;
-        private float range, wait;
+        private float range, wait;        
 
         #region Getter Setter
         /// <summary>
@@ -114,6 +114,7 @@ namespace Nivandria.Explore
                 {
                     SetIsFollow(true);
                     SetIsDeteksi(false);
+                    InputSystem.GetInstance().SetIsTarget(true);
                 }
             }
             else
@@ -121,6 +122,7 @@ namespace Nivandria.Explore
                 wait = 0;
                 SetIsFollow(false);
                 SetIsDeteksi(false);
+                InputSystem.GetInstance().SetIsTarget(false);
             }            
         }     
 

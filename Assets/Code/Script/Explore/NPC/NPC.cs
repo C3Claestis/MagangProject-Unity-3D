@@ -3,7 +3,8 @@ namespace Nivandria.Explore
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Dreamteck.Splines;
+    using Dreamteck.Splines;    
+
     public class NPC : MonoBehaviour
     {
         [Header("Deteksi Interaksi")]
@@ -51,32 +52,20 @@ namespace Nivandria.Explore
                 bubbleText.SetActive(false);
                 DialogueManager.GetInstance().EnterDialogMode(inkJSON, value_dialogue);
                 
-                switch (inkExternal.ParseCamera)
+                switch (inkExternal.GetAvatar())
                 {
                     case 1:
                         Debug.Log("BERHASIL AMBIL " + 1);
+                        SearchImage(true, false);
                         break;
                     case 2:
-                        Debug.Log("BERHASIL AMBIL " + 2);                
+                        Debug.Log("BERHASIL AMBIL " + 2);
+                        SearchImage(false, true);
                         break;
                     case 3:
-                        Debug.Log("BERHASIL AMBIL " + 3);                        
-                        break;
-                    case 4:
-                        Debug.Log("BERHASIL AMBIL " + 4);                        
-                        break;
-                    case 5:
-                        Debug.Log("BERHASIL AMBIL " + 5);                        
-                        break;
-                    case 6:
-                        Debug.Log("BERHASIL AMBIL " + 6);                        
-                        break;
-                    case 7:
-                        Debug.Log("BERHASIL AMBIL " + 7);                        
-                        break;
-                    case 8:
-                        Debug.Log("BERHASIL AMBIL " + 8);                        
-                        break;
+                        Debug.Log("BERHASIL AMBIL " + 3);
+                        SearchImage(true, true);
+                        break;                                        
                 }
                 if (isPatrol)
                 {
@@ -99,6 +88,25 @@ namespace Nivandria.Explore
             if (!isInterect)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
+            }
+        }
+
+        void SearchImage(bool Image_1, bool Image_2)
+        {
+            GameObject image1 = GameObject.Find("Avatar-1");
+            GameObject image2 = GameObject.Find("Avatar-2");
+
+            // Cari parent GameObject yang berisi child bernama "Avatar-1"
+            Transform childAvatar1 = image1.transform.Find("Avatar");
+            Transform childAvatar2 = image2.transform.Find("Avatar");
+
+            if (childAvatar1 != null)
+            {
+                childAvatar1.gameObject.SetActive(Image_1);
+            }
+            if (childAvatar2 != null)
+            {
+                childAvatar2.gameObject.SetActive(Image_2);
             }
         }
     }

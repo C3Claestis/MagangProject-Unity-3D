@@ -3,34 +3,59 @@ namespace Nivandria.Explore
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Ink.Runtime;    
-
+    using Ink.Runtime;
+    using UnityEngine.UI;
     public class InkExternal : MonoBehaviour
-    {        
-        public int ParseCamera;        
+    {
+        [Header("Image All Sprite")]
+        [SerializeField] Sprite[] image_dialog;
+        [Header("Image Left")]
+        [SerializeField] Image avatar_1;
+        [Header("Image Right")]
+        [SerializeField] Image avatar_2;
+        private int ParseAvatar;
+        
         public void Bind(Story story)
         {
-            story.BindExternalFunction("playcamera", (string cameravalue) =>
+            story.BindExternalFunction("playavatar", (string avatarvalue) =>
                 {
-                    ParseCamera = int.Parse(cameravalue);
-
-                    switch (ParseCamera)
-                    {
-                        case 1:
-                            Debug.Log("TEST-1");                                                        
-                            Debug.Log("Nilai = " + ParseCamera);
-                            break;
-                        case 2:
-                            Debug.Log("TEST-2");                            
-                            Debug.Log("Nilai = " + ParseCamera);
-                            break;
-                    }
+                    ParseAvatar = int.Parse(avatarvalue);
                 });
+
+            story.BindExternalFunction("nameavatar", (string namevalue) =>
+            {
+                switch (namevalue)
+                {
+                    case "Sacra":
+                        avatar_1.sprite = image_dialog[0];
+                        avatar_1.color = new Color32(255, 255, 255, 255);
+                        avatar_2.color = new Color32(100, 100, 100, 255);
+                        break;
+                    case "Vana":
+                        avatar_1.sprite = image_dialog[1];
+                        avatar_1.color = new Color32(255, 255, 255, 255);
+                        avatar_2.color = new Color32(100, 100, 100, 255);
+                        break;
+                    case "Eldria":
+                        avatar_2.sprite = image_dialog[2];
+                        avatar_2.color = new Color32(255, 255, 255, 255);
+                        avatar_1.color = new Color32(100, 100, 100, 255);
+                        break;
+                    case "Boar":
+                        avatar_2.sprite = image_dialog[3];
+                        avatar_2.color = new Color32(255, 255, 255, 255);
+                        avatar_1.color = new Color32(100, 100, 100, 255);
+                        break;
+                }                
+            });
         }
 
         public void Unbind(Story story)
         {
-            story.UnbindExternalFunction("playcamera");
-        }
+            story.UnbindExternalFunction("playavatar");
+            story.UnbindExternalFunction("nameavatar");
+        }        
+
+        public int GetAvatar() => ParseAvatar;
     }
 }

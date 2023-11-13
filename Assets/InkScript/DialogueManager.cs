@@ -110,8 +110,8 @@ namespace Nivandria.Explore
         // Exit the dialogue mode and reset dialogue state
         private void ExitDialogue()
         {
-            InputSystem.GetInstance().LockMouse(false);
-            inkExternal.Unbind(story);            
+            inkExternal.Unbind(story);  
+            InputSystem.GetInstance().LockMouse(false);                      
             story = null;
             isPlaying = false;
             teks.text = "";

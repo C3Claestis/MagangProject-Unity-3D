@@ -97,7 +97,7 @@ namespace Nivandria.Explore
                 koloni.SetJarak(GetJarakDuaKaliKoloni());
 
                 Vector3 targetDirection = follow.position - transform.position;
-                targetDirection.y = 0;
+                targetDirection.y = 1;
 
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 

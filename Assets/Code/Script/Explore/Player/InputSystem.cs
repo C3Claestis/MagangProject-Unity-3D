@@ -12,7 +12,7 @@ namespace Nivandria.Explore
         private static InputSystem instance;
 
         [SerializeField] Transform focus_point;
-        [SerializeField] CinemachineFreeLook freeLook;        
+        [SerializeField] CinemachineFreeLook freeLook;
 
         [Header("Explore Manager Reference")]
         [SerializeField] ExploreManager exploreManager;
@@ -37,6 +37,7 @@ namespace Nivandria.Explore
         private bool canRunning = false;
         private bool isSpawn = false;
         private bool isSetup = true;
+        private bool isTarget = false;
 
         private float initialStaminaBarWidth;
         private float maxStamina = 50f;
@@ -109,8 +110,8 @@ namespace Nivandria.Explore
             if (context.performed)
             {
                 Debug.Log("TRIGGER");
-                freeLook.Follow = null;                
-                
+                freeLook.Follow = null;
+
                 if (freeLook.Follow == null)
                 {
                     Invoke("BackToPlayer", 0.05f);
@@ -126,7 +127,7 @@ namespace Nivandria.Explore
         {
             if (freeLook.Follow == null)
             {
-                freeLook.Follow = gameObject.transform;                
+                freeLook.Follow = gameObject.transform;
             }
         }
         /// <summary>
@@ -134,10 +135,12 @@ namespace Nivandria.Explore
         /// </summary>
         void HandleRun()
         {
+            staminaBarRectTransform.gameObject.SetActive(isTarget);
+
             if (canRunning && isMoving && currentStamina >= staminaCostPerRun)
             {
                 SetAnimatorRunning(true);
-                currentStamina -= staminaCostPerRun * Time.deltaTime;
+                if (isTarget) { currentStamina -= staminaCostPerRun * Time.deltaTime; }
                 UpdateStaminaBar();
             }
             else
@@ -325,5 +328,6 @@ namespace Nivandria.Explore
         public Vector2 GetMovementValue() => movementValue;
         public bool CanRunning() => canRunning;
         public bool SetIsSpawn(bool spawn) => this.isSpawn = spawn;
+        public bool SetIsTarget(bool target) => this.isTarget = target;
     }
 }
