@@ -7,6 +7,8 @@ namespace Nivandria.Battle.UnitSystem
     using System.Collections.Generic;
     using System.Linq;
     using TMPro;
+    using System.Collections;
+    using Nivandria.Battle.UI;
 
     public class UnitTurnSystem : MonoBehaviour
     {
@@ -35,9 +37,17 @@ namespace Nivandria.Battle.UnitSystem
         private void Start()
         {
             waitingUnitList = new List<Unit>();
-
             waitingUnitList = SortFromFastestUnit();
             SetTurnCount(turnRounds);
+
+            UnitTurnSystemUI.Instance.ShowOpeningCard(true);
+            StartCoroutine(ScreenWait(UnitTurnSystemUI.Instance.ShowOpeningCard));
+        }
+
+        private IEnumerator ScreenWait(Action<bool> screen)
+        {
+            yield return new WaitForSeconds(2);
+            screen(false);
             HandleUnitSelection();
         }
 
@@ -74,7 +84,7 @@ namespace Nivandria.Battle.UnitSystem
 
                 if (unitComponent == null) continue;
                 if (!unitComponent.IsAlive()) continue;
-                
+
                 unitList.Add(unitComponent);
             }
 
@@ -131,7 +141,9 @@ namespace Nivandria.Battle.UnitSystem
             turnRounds++;
             Debug.Log("All units have already moved! Next Round : " + turnRounds);
             SetTurnCount(turnRounds);
-            HandleUnitSelection();
+
+            UnitTurnSystemUI.Instance.ShowRoundCard(true);
+            StartCoroutine(ScreenWait(UnitTurnSystemUI.Instance.ShowRoundCard));
         }
 
         public Unit GetSelectedUnit() => selectedUnit;

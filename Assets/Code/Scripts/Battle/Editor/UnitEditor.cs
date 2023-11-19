@@ -42,7 +42,7 @@ namespace Nivandria.Battle.Editor
         private bool showAgility = false;
         private bool showEvasion = false;
         private bool showAccuracy = false;
-        private bool showStatus = false;
+        private bool showStatus = true;
 
         private void OnEnable()
         {
@@ -80,10 +80,29 @@ namespace Nivandria.Battle.Editor
         {
             serializedObject.Update();
 
+            EditorGUILayout.PropertyField(skinnedMeshRenderer);
+            EditorGUILayout.PropertyField(unitIcon);
+
+            GUILayout.Space(5);
+
             EditorGUILayout.PropertyField(characterName);
             EditorGUILayout.PropertyField(unitType);
             EditorGUILayout.PropertyField(moveType);
 
+            showStatus = EditorGUILayout.Foldout(showStatus, "Status");
+            if (showStatus)
+            {
+                EditorGUILayout.PropertyField(hasCompletedTurn);
+                EditorGUILayout.PropertyField(isEnemy);
+                EditorGUILayout.PropertyField(isAlive);
+
+                FacingDirection facingDirection = (FacingDirection)currentDirection.enumValueIndex;
+                EditorGUILayout.LabelField("Is Selected", isSelected.boolValue.ToString());
+                EditorGUILayout.LabelField("Has Moved", hasMoved.boolValue.ToString());
+                EditorGUILayout.LabelField("Has Use Skill", hasUseSkill.boolValue.ToString());
+                EditorGUILayout.LabelField("Direction ", facingDirection.ToString());
+                GUILayout.Space(5);
+            }
 
             #region Health, Attack & Defense Variables
             showHealth = EditorGUILayout.Foldout(showHealth, "Health");
@@ -237,24 +256,6 @@ namespace Nivandria.Battle.Editor
                 GUILayout.Space(5);
             }
             #endregion
-
-            showStatus = EditorGUILayout.Foldout(showStatus, "Status");
-            if (showStatus)
-            {
-                FacingDirection facingDirection = (FacingDirection)currentDirection.enumValueIndex;
-
-                EditorGUILayout.LabelField("Is Selected", isSelected.boolValue.ToString());
-                EditorGUILayout.LabelField("Has Moved", hasMoved.boolValue.ToString());
-                EditorGUILayout.LabelField("Has Use Skill", hasUseSkill.boolValue.ToString());
-                EditorGUILayout.LabelField("Direction ", facingDirection.ToString());
-                EditorGUILayout.PropertyField(hasCompletedTurn);
-                EditorGUILayout.PropertyField(isEnemy);
-                EditorGUILayout.PropertyField(isAlive);
-                GUILayout.Space(5);
-            }
-
-            EditorGUILayout.PropertyField(skinnedMeshRenderer);
-            EditorGUILayout.PropertyField(unitIcon);
 
             serializedObject.ApplyModifiedProperties();
         }

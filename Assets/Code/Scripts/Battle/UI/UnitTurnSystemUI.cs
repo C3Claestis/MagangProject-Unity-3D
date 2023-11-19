@@ -8,12 +8,32 @@ namespace Nivandria.Battle.UI
 
     public class UnitTurnSystemUI : MonoBehaviour
     {
+        public static UnitTurnSystemUI Instance { get; private set; }
+
         [SerializeField] Transform UnitIconPrefab;
         [SerializeField] Transform waitingListContainer;
         [SerializeField] Transform nowTurnContainer;
         [SerializeField] TextMeshProUGUI turnText;
 
+        [Header("Screen Card")]
+        [SerializeField] private CanvasGroup openingCard;
+        [SerializeField] private CanvasGroup roundCard;
+        [SerializeField] private TextMeshProUGUI roundText;
+        [SerializeField] private CanvasGroup winCard;
+        [SerializeField] private CanvasGroup gameoverCard;
+
         private List<Transform> unitTurnSystemList;
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError("There's more than one UnitTurnSystemUI! " + transform + " - " + Instance);
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -30,6 +50,8 @@ namespace Nivandria.Battle.UI
             }
 
             UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnUnitListChanged;
+
+            UpdateTurnSystemVisual();
         }
 
         public void UpdateTurnSystemVisual()
@@ -59,7 +81,6 @@ namespace Nivandria.Battle.UI
             selectedUnitIcon.SetIconName(nextUnit.GetCharacterName());
             selectedUnitIcon.SetIcon(nextUnit.GetUnitIcon());
 
-
             for (int i = 1; i < waitingUnitList.Count; i++)
             {
                 Unit unit = waitingUnitList[i];
@@ -79,6 +100,36 @@ namespace Nivandria.Battle.UI
             {
                 unitTurnSystemList[i].SetAsFirstSibling();
             }
+        }
+
+        public void ShowOpeningCard(bool show)
+        {
+            openingCard.alpha = show ? 1 : 0;
+            openingCard.interactable = show;
+            openingCard.blocksRaycasts = show;
+        }
+
+        public void ShowRoundCard(bool show)
+        {
+            roundCard.alpha = show ? 1 : 0;
+            roundCard.interactable = show;
+            roundCard.blocksRaycasts = show;
+
+            roundText.text = "ROUNDS " + UnitTurnSystem.Instance.GetTurnNumber().ToString();
+        }
+
+        public void ShowWinCard(bool show)
+        {
+            winCard.alpha = show ? 1 : 0;
+            winCard.interactable = show;
+            winCard.blocksRaycasts = show;
+        }
+
+        public void ShowEndingCard(bool show)
+        {
+            gameoverCard.alpha = show ? 1 : 0;
+            gameoverCard.interactable = show;
+            gameoverCard.blocksRaycasts = show;
         }
 
         private void UnitTurnSystem_OnUnitListChanged(object sender, EventArgs e)

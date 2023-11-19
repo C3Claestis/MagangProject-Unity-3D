@@ -12,6 +12,7 @@ namespace Nivandria.Battle
 
         public event EventHandler OnPointerGridChanged;
 
+        [SerializeField] private MeshRenderer[] pointerRenderer;
 
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Transform pointerCircle;
@@ -21,7 +22,6 @@ namespace Nivandria.Battle
         private Transform mainCamera;
         private GridPosition currentGrid;
         private bool isActive = true;
-
 
         private void Awake()
         {
@@ -41,6 +41,7 @@ namespace Nivandria.Battle
             PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
             UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             SetActive(false);
+            ShowPointer(false);
         }
 
         private void Update()
@@ -52,6 +53,15 @@ namespace Nivandria.Battle
         private void LateUpdate()
         {
             LookAtBackwards(mainCamera.position);
+        }
+
+        public void ShowPointer(bool show)
+        {
+            foreach (var item in pointerRenderer)
+            {
+                item.enabled = show;
+            }
+
         }
 
         /// <summary>Handles the pointer's behavior.</summary>
@@ -166,7 +176,15 @@ namespace Nivandria.Battle
 
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
+            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
+
             SetPointerOnGrid(UnitTurnSystem.Instance.GetSelectedUnit().GetGridPosition());
+
+            if (unit.IsEnemy())
+            {
+                ShowPointer(false);
+            }
+            else ShowPointer(true);
         }
     }
 
