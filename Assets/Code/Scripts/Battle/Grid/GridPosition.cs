@@ -1,7 +1,9 @@
 namespace Nivandria.Battle.Grid
 {
     using System;
+    using UnityEngine;
 
+    [Serializable]
     public struct GridPosition : IEquatable<GridPosition>
     {
         public int x;
@@ -11,6 +13,13 @@ namespace Nivandria.Battle.Grid
         {
             this.x = x;
             this.z = z;
+        }
+
+        public float DistanceTo(GridPosition other)
+        {
+            int dx = other.x - this.x;
+            int dz = other.z - this.z;
+            return Mathf.Sqrt(dx * dx + dz * dz);
         }
 
         public override bool Equals(object obj)

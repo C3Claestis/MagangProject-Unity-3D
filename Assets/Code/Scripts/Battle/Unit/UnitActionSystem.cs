@@ -5,9 +5,9 @@ namespace Nivandria.Battle.UnitSystem
 	using Nivandria.Battle;
 	using UnityEngine;
 	using System;
-    using Nivandria.Battle.UI;
+	using Nivandria.Battle.UI;
 
-    public class UnitActionSystem : MonoBehaviour
+	public class UnitActionSystem : MonoBehaviour
 	{
 		public static UnitActionSystem Instance { get; private set; }
 
@@ -59,7 +59,7 @@ namespace Nivandria.Battle.UnitSystem
 		}
 
 		/// <summary>Function that will be called after Action Completed.</summary>
-		private void OnActionComplete()
+		public void OnActionComplete()
 		{
 			PlayerInputController.Instance.SetActionMap("BattleUI");
 			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
@@ -75,8 +75,8 @@ namespace Nivandria.Battle.UnitSystem
 			CameraController.Instance.SetActive(true);
 			GridSystemVisual.Instance.HideAllGridPosition();
 
-            CameraController.Instance.SetCameraFocusToPosition(unitPosition);
-            Pointer.Instance.SetPointerOnGrid(unitPosition);
+			CameraController.Instance.SetCameraFocusToPosition(unitPosition);
+			Pointer.Instance.SetPointerOnGrid(unitPosition);
 
 			ClearBusy();
 			ShowActionUI();

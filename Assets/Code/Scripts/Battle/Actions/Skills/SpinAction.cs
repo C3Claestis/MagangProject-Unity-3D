@@ -4,6 +4,7 @@ namespace Nivandria.Battle.Action
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.UI;
+    using Nivandria.Battle.UnitSystem;
     using UnityEngine;
 
     public class SpinAction : BaseSkillAction
@@ -12,7 +13,7 @@ namespace Nivandria.Battle.Action
         protected override float powerPercentage => 0;
         protected override ActionCategory actionCategory => ActionCategory.Skill;
         protected override ActionType actionType => ActionType.Magical;
-        protected override string actionDescription => 
+        protected override string actionDescription =>
         "Showcases a unit's agility with a 360-degree rotation, adding unpredictability to battlefield maneuvers.";
 
         private float totalSpinAmount;
@@ -46,7 +47,14 @@ namespace Nivandria.Battle.Action
             totalSpinAmount = 0f;
             SetActive(false);
 
-            UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            if (!unit.IsEnemy())
+            {
+                UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            }
+            else
+            {
+                YesButtonAction();
+            }
         }
 
         public override List<GridPosition> GetValidActionGridPosition()

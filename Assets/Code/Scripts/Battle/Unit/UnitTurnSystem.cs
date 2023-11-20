@@ -9,6 +9,7 @@ namespace Nivandria.Battle.UnitSystem
     using TMPro;
     using System.Collections;
     using Nivandria.Battle.UI;
+    using Nivandria.Battle.AI;
 
     public class UnitTurnSystem : MonoBehaviour
     {
@@ -67,6 +68,11 @@ namespace Nivandria.Battle.UnitSystem
             {
                 CameraController.Instance.SetCameraFocusToPosition(nextUnit.transform.position);
                 SelectUnit(nextUnit);
+                if (nextUnit.IsEnemy())
+                {
+                    nextUnit.GetComponent<UnitAI>().HandleEnemyTurn();
+                }
+                
                 return;
             }
 

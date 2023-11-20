@@ -1,15 +1,16 @@
 namespace Nivandria.Battle
 {
     using System;
+    using Nivandria.Battle.Grid;
     using UnityEngine;
 
     [Serializable]
     public class UnitSetup
     {
         [SerializeField] private Transform unitPrefab;
-        [SerializeField] private Vector3 position;
+        [SerializeField] private GridPosition position;
 
         public Transform GetPrefab() => unitPrefab;
-        public Vector3 GetPosition() => position;
+        public GridPosition GetPosition() => position;
     }
 }

@@ -7791,15 +7791,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2f389f1ef3f9f64d9bc65f9ffac6539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSetupList:
+  friendlyUnitList:
   - unitPrefab: {fileID: 4356901258346384967, guid: c4ca9289df051a849817785b437a3d47, type: 3}
-    position: {x: 0, y: 0, z: 2}
-  - unitPrefab: {fileID: 7912908497332529750, guid: fa6ca05c9e5e8d844af225f1d6c9b02f, type: 3}
-    position: {x: 0, y: 0, z: 4}
-  - unitPrefab: {fileID: 4109328997412428138, guid: e832cd555ffb323468bbc5937f765c17, type: 3}
-    position: {x: 0, y: 0, z: 6}
-  - unitPrefab: {fileID: 539340690372961100, guid: 7718dbca31f7ab84ab359dd9295d5acd, type: 3}
-    position: {x: 2, y: 0, z: 6}
+    position:
+      x: 0
+      z: 0
+  enemyUnitList:
+  - unitPrefab: {fileID: 472600473148616243, guid: 306fbfdfeaf18a34f94339541e4caec6, type: 3}
+    position:
+      x: 14
+      z: 0
 --- !u!1 &1554916719
 GameObject:
   m_ObjectHideFlags: 0

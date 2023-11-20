@@ -217,7 +217,9 @@ namespace Nivandria.Battle.Action
             RotateCharacter(unit.GetFacingDirection());
             Pointer.Instance.SetPointerOnGrid(targetPosition);
 
-            UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            if(!unit.IsEnemy()) UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            else YesButtonAction();
+            
             doneRotating = false;
         }
 

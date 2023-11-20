@@ -26,7 +26,8 @@ namespace Nivandria.Battle.Action
             base.TakeAction(gridPosition, onActionComplete);
             SetActive(false);
 
-            UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            if (unit.IsEnemy()) YesButtonAction();
+            else UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
         }
 
         private void Attacking()
@@ -56,7 +57,13 @@ namespace Nivandria.Battle.Action
 
         public override List<GridPosition> GetValidActionGridPosition()
         {
-            List<GridPosition> validGridPosition = GetRangeActionGridPosition();
+            GridPosition unitGridPosition = unit.GetGridPosition();
+            return GetValidActionGridPosition(unitGridPosition);
+        }
+
+        public List<GridPosition> GetValidActionGridPosition(GridPosition unitGridPosition)
+        {
+            List<GridPosition> validGridPosition = GetRangeActionGridPosition(unitGridPosition);
             List<GridPosition> newValidGridPosition = new List<GridPosition>();
 
             foreach (GridPosition gridPosition in validGridPosition)
@@ -76,7 +83,8 @@ namespace Nivandria.Battle.Action
             if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(gridPosition)) return null;
             Unit targetUnit = LevelGrid.Instance.GetUnitListAtGridPosition(gridPosition)[0];
             if (!targetUnit.IsAlive()) return null;
-            if (!targetUnit.IsEnemy()) return null;
+            if (unit.IsEnemy() == targetUnit.IsEnemy()) return null;
+            if (unit.IsEnemy() && targetUnit.IsEnemy()) return null;
             return targetUnit;
         }
 
@@ -98,6 +106,7 @@ namespace Nivandria.Battle.Action
 
             Vector3 testWorldPosition = LevelGrid.Instance.GetWorldPosition(testGridPosition);
             if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag != "Tier2_Obstacles") return false;
+            if(unit.IsEnemy() && objectTag != "") return false;
 
             return true;
         }
@@ -105,6 +114,11 @@ namespace Nivandria.Battle.Action
         public override List<GridPosition> GetRangeActionGridPosition()
         {
             GridPosition unitGridPosition = unit.GetGridPosition();
+            return GetRangeActionGridPosition(unitGridPosition);
+        }
+
+        public List<GridPosition> GetRangeActionGridPosition(GridPosition unitGridPosition)
+        {
             List<GridPosition> validGridPosition = new List<GridPosition>();
             int offset = 1;
 
