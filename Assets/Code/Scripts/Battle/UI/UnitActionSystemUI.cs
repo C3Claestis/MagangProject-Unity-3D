@@ -19,6 +19,9 @@ namespace Nivandria.Battle.UI
         [SerializeField] private Transform escapeActionButton;
         [SerializeField] private Transform actionBlocker;
 
+        [Header("Button Hidder")]
+        [SerializeField] private CanvasGroup actionButtonBlocker;
+
         private void Awake()
         {
             if (Instance != null)
@@ -94,6 +97,13 @@ namespace Nivandria.Battle.UI
             eventSystem.SetSelectedGameObject(selectedObject, new BaseEventData(eventSystem));
         }
 
+        public void ShowActionButtonBlocker(bool show)
+        {
+            actionButtonBlocker.alpha = show ? 1 : 0;
+            actionButtonBlocker.blocksRaycasts = show;
+            actionButtonBlocker.interactable = show;
+        }
+
 
         public Transform GetTurnSystemButton() => turnSystemButton;
 
@@ -103,9 +113,10 @@ namespace Nivandria.Battle.UI
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             SetSelectedGameObject(skillActionButtonContainer.gameObject);
+            UnitActionSystem.Instance.ShowActionUI();
 
-            if (UnitTurnSystem.Instance.GetSelectedUnit().IsEnemy()) UnitActionSystem.Instance.HideActionUI();
-            else UnitActionSystem.Instance.ShowActionUI();
+            if (UnitTurnSystem.Instance.GetSelectedUnit().IsEnemy()) ShowActionButtonBlocker(true);
+            else ShowActionButtonBlocker(false);
         }
 
         private void UnitActionSystem_OnActionCompleted(object sender, EventArgs e)
