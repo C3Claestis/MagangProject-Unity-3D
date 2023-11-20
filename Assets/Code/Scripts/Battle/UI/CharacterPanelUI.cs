@@ -27,7 +27,6 @@ namespace Nivandria.Battle.UI
             characterName.text = unit.GetCharacterName();
             characterImage.sprite = unit.GetUnitIcon();
             hpBar.value = (float)unit.GetCurrentHealth() / unit.GetBaseHealth();
-            Debug.Log("hpBar : " + hpBar.value);
         }
 
         private void UnitTurnSystem_OnUnitListChanged(object sender, EventArgs e)

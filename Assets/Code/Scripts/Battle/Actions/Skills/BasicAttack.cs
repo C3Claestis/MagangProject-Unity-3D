@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.Action
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
@@ -106,7 +107,7 @@ namespace Nivandria.Battle.Action
 
             Vector3 testWorldPosition = LevelGrid.Instance.GetWorldPosition(testGridPosition);
             if (Pathfinding.Instance.IsObstacleOnGrid(testWorldPosition, out string objectTag) && objectTag != "Tier2_Obstacles") return false;
-            if(unit.IsEnemy() && objectTag != "") return false;
+            if (unit.IsEnemy() && objectTag != "") return false;
 
             return true;
         }
@@ -142,7 +143,13 @@ namespace Nivandria.Battle.Action
             base.YesButtonAction();
             SetActive(true);
             FacingTarget(LevelGrid.Instance.GetWorldPosition(targetGrid));
-            Attacking();
+            StartCoroutine(DelayAndAction(Attacking, 1));
+        }
+
+        private IEnumerator DelayAndAction(Action action, int waitForSeconds)
+        {
+            yield return new WaitForSeconds(waitForSeconds);
+            action();
         }
     }
 }

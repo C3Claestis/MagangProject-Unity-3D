@@ -12,8 +12,6 @@ namespace Nivandria.Battle
 
         public event EventHandler OnPointerGridChanged;
 
-        [SerializeField] private MeshRenderer[] pointerRenderer;
-
         [SerializeField] private float moveSpeed = 5.0f;
         [SerializeField] private Transform pointerCircle;
         [SerializeField] private Transform rotateVisual;
@@ -41,7 +39,6 @@ namespace Nivandria.Battle
             PlayerInputController.Instance.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
             UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             SetActive(false);
-            ShowPointer(false);
         }
 
         private void Update()
@@ -55,14 +52,6 @@ namespace Nivandria.Battle
             LookAtBackwards(mainCamera.position);
         }
 
-        public void ShowPointer(bool show)
-        {
-            foreach (var item in pointerRenderer)
-            {
-                item.enabled = show;
-            }
-
-        }
 
         /// <summary>Handles the pointer's behavior.</summary>
         private void HandlePointerPosition()
@@ -138,7 +127,7 @@ namespace Nivandria.Battle
                 return;
             }
 
-            if (!Pathfinding.Instance.IsWalkableGridPosition(gridPosition))
+            if (!Pathfinding.Instance.IsWalkableGridPosition(gridPosition) && LevelGrid.Instance.GetUnitListAtGridPosition(gridPosition).Count == 0)
             {
                 Debug.LogError("Can't set pointer to unwalkable grid!");
                 return;
@@ -176,15 +165,7 @@ namespace Nivandria.Battle
 
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
-            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
-
             SetPointerOnGrid(UnitTurnSystem.Instance.GetSelectedUnit().GetGridPosition());
-
-            if (unit.IsEnemy())
-            {
-                ShowPointer(false);
-            }
-            else ShowPointer(true);
         }
     }
 

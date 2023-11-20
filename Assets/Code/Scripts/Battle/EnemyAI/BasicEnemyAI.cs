@@ -16,8 +16,8 @@ namespace Nivandria.Battle.AI
         {
             if (!TryAttackAction())
             {
-                if (unit.GetActionStatus(ActionCategory.Skill)) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection));
-                else if(!TryMoveAction()) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection));
+                if (unit.GetActionStatus(ActionCategory.Skill)) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 2));
+                else if (!TryMoveAction()) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 2));
             }
         }
 
@@ -35,7 +35,7 @@ namespace Nivandria.Battle.AI
             Debug.Log("Valid Attack grid : " + validGrid.Count);
             if (validGrid.Count != 0)
             {
-                StartCoroutine(WaitAndNext(AttackAction));
+                StartCoroutine(WaitAndNext(AttackAction, 2));
                 return true;
             }
             Debug.Log("Can't Attack because no enemy.");
@@ -46,7 +46,7 @@ namespace Nivandria.Battle.AI
         {
             List<GridPosition> attackGrid = selectedAction.GetValidActionGridPosition();
             int randomNumber = Random.Range(0, attackGrid.Count);
-            selectedAction.TakeAction(attackGrid[randomNumber], OnActionComplete);
+            StartCoroutine(WaitAndAction(selectedAction.TakeAction, attackGrid[randomNumber], 2));
             Debug.Log("Attacking.");
         }
 
@@ -63,7 +63,7 @@ namespace Nivandria.Battle.AI
             List<GridPosition> validGrid = selectedAction.GetValidActionGridPosition();
             if (validGrid.Count != 0)
             {
-                StartCoroutine(WaitAndNext(MoveAction));
+                StartCoroutine(WaitAndNext(MoveAction, 2));
                 return true;
             }
             Debug.Log("Can't move because no valid grid.");
@@ -73,7 +73,7 @@ namespace Nivandria.Battle.AI
         private void MoveAction()
         {
             GridPosition moveposition = BestMovePosition();
-            selectedAction.TakeAction(moveposition, OnActionComplete);
+            StartCoroutine(WaitAndAction(selectedAction.TakeAction, moveposition, 2));
             Debug.Log("Moving.");
         }
 
@@ -137,15 +137,27 @@ namespace Nivandria.Battle.AI
             return validGrid;
         }
 
-        private IEnumerator WaitAndNext(Action action)
+        private IEnumerator WaitAndAction(Action<GridPosition, Action> action, GridPosition validPosition, int waitForSeconds)
         {
-            yield return new WaitForSeconds(2);
+            UnitActionSystem.Instance.SetSelectedAction(selectedAction);
+            GridSystemVisual.Instance.UpdateGridVisual();
+            Pointer.Instance.SetPointerOnGrid(validPosition);
+
+            yield return new WaitForSeconds(waitForSeconds);
+            action(validPosition, OnActionComplete);
+        }
+
+        private IEnumerator WaitAndNext(Action action, int waitForSeconds)
+        {
+            yield return new WaitForSeconds(waitForSeconds);
             action();
         }
 
         void OnActionComplete()
         {
             unit.SetActionStatus(selectedAction.GetActionCategory(), true);
+            GridSystemVisual.Instance.HideAllGridPosition();
+            Pointer.Instance.SetPointerOnGrid(unit.GetGridPosition());
             HandleEnemyTurn();
         }
 

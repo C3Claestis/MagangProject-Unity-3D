@@ -50,6 +50,7 @@ namespace Nivandria.Battle.UnitSystem
             yield return new WaitForSeconds(2);
             screen(false);
             HandleUnitSelection();
+            UnitActionSystem.Instance.ShowActionUI();
         }
 
         /// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
@@ -72,7 +73,6 @@ namespace Nivandria.Battle.UnitSystem
                 {
                     nextUnit.GetComponent<UnitAI>().HandleEnemyTurn();
                 }
-                
                 return;
             }
 
@@ -148,7 +148,9 @@ namespace Nivandria.Battle.UnitSystem
             Debug.Log("All units have already moved! Next Round : " + turnRounds);
             SetTurnCount(turnRounds);
 
+            UnitActionSystem.Instance.HideActionUI();
             UnitTurnSystemUI.Instance.ShowRoundCard(true);
+            UnitActionSystemUI.Instance.ShowActionButtonBlocker(false);
             StartCoroutine(ScreenWait(UnitTurnSystemUI.Instance.ShowRoundCard));
         }
 
