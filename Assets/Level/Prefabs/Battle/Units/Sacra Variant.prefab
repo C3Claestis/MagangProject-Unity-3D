@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: characterName
       value: Sacra
       objectReference: {fileID: 0}
+    - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: basePhysicalAttack
+      value: 173
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1992789115759745329, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
     m_RemovedGameObjects: []

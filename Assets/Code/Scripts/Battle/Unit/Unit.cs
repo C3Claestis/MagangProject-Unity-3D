@@ -158,6 +158,8 @@ namespace Nivandria.Battle.UnitSystem
             isAlive = false;
             UnitTurnSystem.Instance.RemoveUnitFromList(this);
             OnDead?.Invoke(this, EventArgs.Empty);
+            
+			if (UnitTurnSystem.Instance.CheckGameOverCondition()) return;
         }
 
         #region Getter Setter

@@ -13,6 +13,13 @@ namespace Nivandria.Battle.UnitSystem
 
     public class UnitTurnSystem : MonoBehaviour
     {
+        enum GameOver
+        {
+            WIN,
+            LOSE,
+            DRAW
+        }
+
         public static UnitTurnSystem Instance { get; private set; }
 
         public event EventHandler OnUnitListChanged;
@@ -20,9 +27,11 @@ namespace Nivandria.Battle.UnitSystem
         [SerializeField] TextMeshProUGUI turnCountUI;
         private List<Unit> waitingUnitList;
         private Unit selectedUnit;
-
         private string unitTag = "Units";
         private int turnRounds = 1;
+
+        private GameOver gameoverState;
+        private bool gameover;
 
         private void Awake()
         {
@@ -97,6 +106,76 @@ namespace Nivandria.Battle.UnitSystem
             unitList = unitList.OrderByDescending(unit => unit.GetCurrentAgility()).ToList();
 
             return unitList;
+        }
+
+        public bool CheckGameOverCondition()
+        {
+            if (gameover) return true;
+
+            List<Unit> unitList = SortFromFastestUnit();
+
+            if (unitList.Count == 0)
+            {
+                gameoverState = GameOver.DRAW;
+                WaitAndAction(2);
+                gameover = true;
+                return true;
+            }
+
+            bool enemyIsAlive = false;
+            bool SacraIsAlive = false;
+
+            foreach (var unit in unitList)
+            {
+                if (enemyIsAlive && SacraIsAlive)
+                {
+                    return false;
+                }
+
+                if (unit.GetCharacterName() == "Sacra") SacraIsAlive = true;
+                if (unit.IsEnemy()) enemyIsAlive = true;
+            }
+
+            if (enemyIsAlive && SacraIsAlive)
+            {
+                return false;
+            }
+
+            if (enemyIsAlive && !SacraIsAlive) gameoverState = GameOver.LOSE;
+            else if (!enemyIsAlive && SacraIsAlive) gameoverState = GameOver.WIN;
+
+            gameover = true;
+
+            StartCoroutine(WaitAndAction(3));
+            return true;
+        }
+
+        IEnumerator WaitAndAction(int waitForSeconds)
+        {
+            UnitActionSystemUI.Instance.ShowActionButtonBlocker(false);
+            UnitActionSystem.Instance.HideActionUI();
+
+            yield return new WaitForSeconds(waitForSeconds);
+
+            StartGameOver(gameoverState);
+        }
+
+        private void StartGameOver(GameOver state)
+        {
+            switch (state)
+            {
+                case GameOver.WIN:
+                    UnitTurnSystemUI.Instance.ShowWinCard(true);
+                    Debug.Log("You win");
+                    break;
+                case GameOver.LOSE:
+                    UnitTurnSystemUI.Instance.ShowGameOverCard(true);
+                    Debug.Log("You lose");
+                    break;
+                case GameOver.DRAW:
+                    Debug.Log("Draw");
+                    break;
+            }
         }
 
         /// <summary>Resets the selected unit's status and shading after it's turn has ended.</summary>

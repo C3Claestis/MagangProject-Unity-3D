@@ -125,7 +125,7 @@ namespace Nivandria.Battle.UI
             winCard.blocksRaycasts = show;
         }
 
-        public void ShowEndingCard(bool show)
+        public void ShowGameOverCard(bool show)
         {
             gameoverCard.alpha = show ? 1 : 0;
             gameoverCard.interactable = show;

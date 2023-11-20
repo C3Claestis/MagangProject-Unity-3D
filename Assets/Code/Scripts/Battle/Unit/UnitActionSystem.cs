@@ -61,11 +61,18 @@ namespace Nivandria.Battle.UnitSystem
 		/// <summary>Function that will be called after Action Completed.</summary>
 		public void OnActionComplete()
 		{
+			GridSystemVisual.Instance.HideAllGridPosition();
+
+			if (UnitTurnSystem.Instance.CheckGameOverCondition())
+			{
+				HideActionUI();
+				return;
+			}
+
 			PlayerInputController.Instance.SetActionMap("BattleUI");
 			Unit selectedUnit = UnitTurnSystem.Instance.GetSelectedUnit();
 			Vector3 unitPosition = LevelGrid.Instance.GetWorldPosition(selectedUnit.GetGridPosition());
 			selectedUnit.SetActionStatus(selectedAction.GetActionCategory(), true);
-
 
 			selectedUnit.UpdateUnitGridPosition();
 			selectedUnit.UpdateUnitDirection();
@@ -73,7 +80,6 @@ namespace Nivandria.Battle.UnitSystem
 			selectedAction.SetActive(false);
 
 			CameraController.Instance.SetActive(true);
-			GridSystemVisual.Instance.HideAllGridPosition();
 
 			CameraController.Instance.SetCameraFocusToPosition(unitPosition);
 			Pointer.Instance.SetPointerOnGrid(unitPosition);

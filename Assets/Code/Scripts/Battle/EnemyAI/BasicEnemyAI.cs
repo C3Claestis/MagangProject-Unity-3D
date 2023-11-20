@@ -16,29 +16,23 @@ namespace Nivandria.Battle.AI
         {
             if (!TryAttackAction())
             {
-                if (unit.GetActionStatus(ActionCategory.Skill)) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 2));
-                else if (!TryMoveAction()) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 2));
+                if (unit.GetActionStatus(ActionCategory.Skill)) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 1));
+                else if (!TryMoveAction()) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 1));
             }
         }
 
         private bool TryAttackAction()
         {
-            if (unit.GetActionStatus(ActionCategory.Skill))
-            {
-                Debug.Log("Can't Attack because already spent skill.");
-                return false;
-            }
+            if (unit.GetActionStatus(ActionCategory.Skill)) return false;
 
             selectedAction = unit.GetAction<BasicAttack>();
 
             List<GridPosition> validGrid = selectedAction.GetValidActionGridPosition();
-            Debug.Log("Valid Attack grid : " + validGrid.Count);
             if (validGrid.Count != 0)
             {
-                StartCoroutine(WaitAndNext(AttackAction, 2));
+                StartCoroutine(WaitAndNext(AttackAction, 1));
                 return true;
             }
-            Debug.Log("Can't Attack because no enemy.");
             return false;
         }
 
@@ -46,35 +40,28 @@ namespace Nivandria.Battle.AI
         {
             List<GridPosition> attackGrid = selectedAction.GetValidActionGridPosition();
             int randomNumber = Random.Range(0, attackGrid.Count);
-            StartCoroutine(WaitAndAction(selectedAction.TakeAction, attackGrid[randomNumber], 2));
-            Debug.Log("Attacking.");
+            StartCoroutine(WaitAndAction(selectedAction.TakeAction, attackGrid[randomNumber], 1));
         }
 
         private bool TryMoveAction()
         {
-            if (unit.GetActionStatus(ActionCategory.Move))
-            {
-                Debug.Log("Can't Move because already spent skill.");
-                return false;
-            }
+            if (unit.GetActionStatus(ActionCategory.Move)) return false;
 
             selectedAction = unit.GetAction<MoveAction>();
 
             List<GridPosition> validGrid = selectedAction.GetValidActionGridPosition();
             if (validGrid.Count != 0)
             {
-                StartCoroutine(WaitAndNext(MoveAction, 2));
+                StartCoroutine(WaitAndNext(MoveAction, 1));
                 return true;
             }
-            Debug.Log("Can't move because no valid grid.");
             return false;
         }
 
         private void MoveAction()
         {
             GridPosition moveposition = BestMovePosition();
-            StartCoroutine(WaitAndAction(selectedAction.TakeAction, moveposition, 2));
-            Debug.Log("Moving.");
+            StartCoroutine(WaitAndAction(selectedAction.TakeAction, moveposition, 1));
         }
 
         private GridPosition BestMovePosition()
@@ -97,10 +84,7 @@ namespace Nivandria.Battle.AI
                 validGrid = grid;
             }
 
-            if (mostDamage == 0)
-            {
-                validGrid = BestNearestUnitGrid();
-            }
+            if (mostDamage == 0) validGrid = BestNearestUnitGrid();
 
             return validGrid;
         }
@@ -158,7 +142,8 @@ namespace Nivandria.Battle.AI
             unit.SetActionStatus(selectedAction.GetActionCategory(), true);
             GridSystemVisual.Instance.HideAllGridPosition();
             Pointer.Instance.SetPointerOnGrid(unit.GetGridPosition());
-            HandleEnemyTurn();
+
+            if (!UnitTurnSystem.Instance.CheckGameOverCondition()) HandleEnemyTurn();
         }
 
     }
