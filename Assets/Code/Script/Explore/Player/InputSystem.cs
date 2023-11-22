@@ -4,6 +4,8 @@ namespace Nivandria.Explore
     using UnityEngine;
     using UnityEngine.InputSystem;
     using Cinemachine;
+    using Nivandria.Quest;
+
     /// <summary>
     /// Handles player input and character control in the game.
     /// </summary>
@@ -23,6 +25,7 @@ namespace Nivandria.Explore
 
         [Header("Interkasi Handle Reference")]
         [SerializeField] private InteraksiNPC interaksiNPC;
+        [SerializeField] private QuestTriggerObject interaksiquest;
 
         [Header("Player Input Manager")]
         [SerializeField] PlayerInput playerInput;
@@ -282,11 +285,24 @@ namespace Nivandria.Explore
                     isSetup = false;
                 }
             }
+
+            if (interaksiquest.GetIsDetect() == true)
+            {
+                if (context.performed && interaksiquest.GetIsQuest() == false )
+                {                    
+                    interaksiquest.SetIsQuest(true);         
+                    playerInput.SwitchCurrentActionMap("UI");           
+                    animator.SetBool("isWalking", false);
+                    animator.SetBool("isRun", false);
+                    isSetup = false;
+                }
+            }
         }
 
         public void SetAfterDialogue()
         {
             interaksiNPC.SetIsTalk(false);
+            interaksiquest.SetIsQuest(false);
             playerInput.SwitchCurrentActionMap("Player");
             isSetup = true;
         }

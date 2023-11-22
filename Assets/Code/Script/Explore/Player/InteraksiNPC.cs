@@ -1,5 +1,5 @@
 namespace Nivandria.Explore
-{
+{    
     using UnityEngine;
 
     /// <summary>
@@ -8,23 +8,23 @@ namespace Nivandria.Explore
     public class InteraksiNPC : MonoBehaviour
     {
         #region Variabel
-        [SerializeField] LayerMask layerMask; // Layer mask for raycasting interactions
+        [SerializeField] LayerMask layerMask; // Layer mask for raycasting interactions        
         [SerializeField] Transform player; // Reference to the player's transform
         RaycastHit raycast; // Stores raycast hit information
         float rotationSpeed = 5.0f; // Rotation speed for NPCs
-        private bool isTalk, isNPC; // Flags for conversation and NPC interaction
+        private bool isTalk, isNPC;
         #endregion
 
         #region Getter Setter
         public void SetIsTalk(bool istalk) => this.isTalk = istalk; // Setter for conversation flag
-        public void SetIsNPC(bool isnpc) => this.isNPC = isnpc; // Setter for NPC interaction flag
+        public void SetIsNPC(bool isnpc) => this.isNPC = isnpc; // Setter for NPC interaction flag        
         public bool GetIsTalk() => isTalk; // Getter for conversation flag
-        public bool GetIsNPC() => isNPC; // Getter for NPC interaction flag
+        public bool GetIsNPC() => isNPC; // Getter for NPC interaction flag 
         #endregion
 
         private void Update()
         {
-            Interaksi();
+            Interaksi();           
         }
 
         private void Interaksi()
@@ -45,14 +45,14 @@ namespace Nivandria.Explore
                     if (npc.GetInterect() == false)
                     {
                         npc.SetInterect(true);
-                        isNPC = true;                        
+                        isNPC = true;
                     }
                 }
                 // Rotate towards the player when the interaction button is pressed
                 if (isTalk)
                 {
                     RotateTowardsPlayer(raycast.collider.gameObject);
-                    npc.SetTalk(true);                    
+                    npc.SetTalk(true);
                 }
             }
             else
@@ -68,7 +68,7 @@ namespace Nivandria.Explore
                 }
             }
         }
-
+        
         // Rotate the NPC to face the player
         private void RotateTowardsPlayer(GameObject obj)
         {

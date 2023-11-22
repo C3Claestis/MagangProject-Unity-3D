@@ -97,7 +97,7 @@ namespace Nivandria.Explore
                 story = new Story(inkJSON.text);
                 value_npc = value;
                 isPlaying = true;
-                Invoke("ActivatePanel", 0.7f);
+                Invoke("ActivatePanel", 2f);
                 _cameraTalk.SetActive(true);
                 _cameraMain.SetActive(false);
                 
@@ -124,6 +124,11 @@ namespace Nivandria.Explore
             foreach (NPC npc in npcs)
             {
                 npc.SetTalk(false);
+            }
+            NPCQuest[] npcss = FindObjectsOfType<NPCQuest>();
+            foreach (NPCQuest nPCQuest in npcss)
+            {
+                nPCQuest.SetTalk(false);
             }
         }
 

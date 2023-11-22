@@ -10,24 +10,33 @@ namespace Nivandria.Quest.Editor
     public class QuestDataEditor : Editor
     {
         public string[] locationList = new string[]
-                {
-            "House Sacra Vana",                                    
+                  {
+            "House Sacra Vana",
             "House Yard",
-            "Training Ground"        
-                };
+            "Training Ground"
+                  };
 
         public string[] npcList = new string[]
         {
-            "Vana",
-            "Eldria",
-            "Table",
-            "Boar"
+            "Person/Vana",
+            "Person/Eldria",
+            "Object/Table",
+            "Object/Dinning Table",
+            "Object/Door",
+            "Object/Wooden Dummy",
+            "Location/Outside House",
+            "Location/Inside House",
+            "Location/Training Ground",
+            "Location/Revindir Kingdom",
+            "Enemy/Boar"
         };
 
         public string[] itemList = new string[]
         {
             "Gold",
-            "Vegetable/Potato"            
+            "Vegetable/Potato",
+            "Fruit/Apple",
+            "Object/Bucket"
         };
 
         public string[] reputationPlaceList = new string[]

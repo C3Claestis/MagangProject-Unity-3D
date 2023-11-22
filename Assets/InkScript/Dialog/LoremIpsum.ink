@@ -1,53 +1,57 @@
 EXTERNAL playavatar(avatarvalue)
 EXTERNAL nameavatar(namevalue)
+EXTERNAL ekspresiavatar(eksvalue)
+EXTERNAL complete(compvalue)
 
 ~ playavatar("1")
 ~ nameavatar("Vana")
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsu #speaker:NPC #job:Test
+~ ekspresiavatar("Smile")
+#speaker:NPC #job:Test
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsu
 has been the industry's standard dummy text ever since the 1500s, when an unknown 
 
-~ playavatar("1")
-~ nameavatar("Sacra")
+~ playavatar("3")
+#speaker:Sacra #job:Sang Kakak
 printer took a galley of type and scrambled it to make a type specimen book. It has 
 survived not only five centuries, but also the leap into electronic typesetting, 
-remaining essentially unchanged. It was popularised in the 1960s with the release of 
-Letraset sheets containing Lorem Ipsum passages, and more recently with desktop 
-publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
-~ playavatar("2")
-~ nameavatar("Eldria")
-Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content 
-of a page when looking at its layout. The point of using Lorem Ipsum is that it has a 
-more-or-less normal distribution of letters, as opposed to using 'Content here, content
-here', making it look like readable English. Many desktop publishing packages and web 
 
 ~ playavatar("1")
 ~ nameavatar("Vana")
-page editors now use Lorem Ipsum as their default model text, and a search for 'lorem 
-ipsum' will uncover many web sites still in their infancy. Various versions have 
-evolved over the years, sometimes by accident, sometimes on purpose (injected humour 
-and the like).
+~ ekspresiavatar("Default")
+#speaker:Sacra #job:Sang Kakak
+Why do we use it?
+It is a long established fact that a reader will be distractedbythereadablecontentofa 
 
 ~ playavatar("3")
-~ nameavatar("Boar")
+#speaker:Sacra #job:Sang Kakak
+page editors now use Lorem Ipsum as their default model text, and a search for 'lorem
+and the like).
+
+~ playavatar("1")
+~ nameavatar("Vana")
+~ ekspresiavatar("Smile")
+#speaker:Vana #job:Sang Adik
 Where does it come from?
 Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a 
 piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard 
 
-~ playavatar("3")
-~ nameavatar("Sacra")
-McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of 
-the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going 
-through the cites of the word in classical literature, discovered the undoubtable 
-source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et 
+~ playavatar("1")
+~ nameavatar("Vana")
+~ ekspresiavatar("Angry")
+#speaker:Vana #job:Sang Adik
+McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of
+the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going  
 
-~ playavatar("2")
-~ nameavatar("Eldria")
+~ playavatar("3")
+#speaker:Vana #job:Sang Adik
 Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a 
 treatise on the theory of ethics, very popular during the Renaissance. The first line 
 
 ~ playavatar("1")
-~ nameavatar("Sacra")
+~ nameavatar("Vana")
+~ ekspresiavatar("Default")
+~ complete("2")
+#speaker:Vana #job:Sang Adik
 of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
 -> END

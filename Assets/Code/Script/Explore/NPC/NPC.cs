@@ -3,7 +3,7 @@ namespace Nivandria.Explore
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Dreamteck.Splines;    
+    using Dreamteck.Splines;
 
     public class NPC : MonoBehaviour
     {
@@ -13,18 +13,17 @@ namespace Nivandria.Explore
 
         [Header("Dialogue Value")]
         [SerializeField] TextAsset inkJSON;
-        [SerializeField] int value_dialogue;
+        [SerializeField] int value_dialogue;        
+
         float rotationSpeed = 5f;
         SplineFollower splineFollower;
         Quaternion initialRotation;
-        Animator anim;
+        Animator anim;        
         private bool isTalk = false;
         private bool isInterect = false;
 
         [Header("InkExternal")]
         private InkExternal inkExternal;
-        [SerializeField] Vector3[] Axis_Posisi;
-        [SerializeField] Quaternion[] Axis_Rotasi;
 
         #region Getter Setter
         public void SetTalk(bool talk) => this.isTalk = talk;
@@ -40,7 +39,7 @@ namespace Nivandria.Explore
             splineFollower = GetComponent<SplineFollower>();
             anim = GetComponent<Animator>();
             initialRotation = transform.rotation;
-            inkExternal = FindAnyObjectByType<InkExternal>();
+            inkExternal = FindAnyObjectByType<InkExternal>();            
         }
 
         // Update is called once per frame
@@ -48,30 +47,15 @@ namespace Nivandria.Explore
         {
             //Jika NPC sedang interaksi
             if (isTalk)
-            {
+            {                                                       
                 bubbleText.SetActive(false);
-                DialogueManager.GetInstance().EnterDialogMode(inkJSON, value_dialogue);
-                
-                switch (inkExternal.GetAvatar())
-                {
-                    case 1:
-                        Debug.Log("BERHASIL AMBIL " + 1);
-                        SearchImage(true, false);
-                        break;
-                    case 2:
-                        Debug.Log("BERHASIL AMBIL " + 2);
-                        SearchImage(false, true);
-                        break;
-                    case 3:
-                        Debug.Log("BERHASIL AMBIL " + 3);
-                        SearchImage(true, true);
-                        break;                                        
-                }
+                WaitUI();
+
                 if (isPatrol)
                 {
                     anim.SetBool("isTalk", true);
                     splineFollower.follow = false;
-                }
+                }                
             }
             //Jika NPC tidak sedang interaksi
             else
@@ -107,6 +91,26 @@ namespace Nivandria.Explore
             if (childAvatar2 != null)
             {
                 childAvatar2.gameObject.SetActive(Image_2);
+            }
+        }
+
+        void WaitUI()
+        {
+            DialogueManager.GetInstance().EnterDialogMode(inkJSON, value_dialogue);
+            switch (inkExternal.GetAvatar())
+            {
+                case 1:
+                    //Debug.Log("BERHASIL AMBIL " + 1);
+                    SearchImage(true, false);
+                    break;
+                case 2:
+                    //Debug.Log("BERHASIL AMBIL " + 2);
+                    SearchImage(false, true);
+                    break;
+                case 3:
+                    //Debug.Log("BERHASIL AMBIL " + 3);
+                    SearchImage(false, false);
+                    break;
             }
         }
     }

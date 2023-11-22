@@ -3,7 +3,6 @@ namespace Nivandria.Quest
     using System.Collections.Generic;
     using UnityEngine;
 
-    [CreateAssetMenu(fileName = "New Quest", menuName = "Battle/Quest")]
     public class QuestData : ScriptableObject
     {
         [SerializeField] private string title;                    // The Quest's Name.

@@ -166,6 +166,6 @@ namespace Nivandria.Explore
             isMoving = true;
             SetRandomTargetPosition();
             idleCoroutine = null;
-        }
+        }        
     }    
 }

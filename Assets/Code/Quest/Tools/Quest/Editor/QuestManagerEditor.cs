@@ -22,6 +22,13 @@ namespace Nivandria.Quest.Editor
             "Person/Vana",
             "Person/Eldria",
             "Object/Table",
+            "Object/Dinning Table",
+            "Object/Door",
+            "Object/Wooden Dummy",
+            "Location/Outside House",
+            "Location/Inside House",
+            "Location/Training Ground",
+            "Location/Revindir Kingdom",
             "Enemy/Boar"
         };
 
@@ -29,7 +36,8 @@ namespace Nivandria.Quest.Editor
         {
             "Gold",
             "Vegetable/Potato",
-            "Fruit/Apple"            
+            "Fruit/Apple",
+            "Object/Bucket"            
         };
 
         public string[] reputationPlaceList = new string[]

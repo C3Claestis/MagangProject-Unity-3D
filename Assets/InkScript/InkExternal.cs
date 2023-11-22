@@ -5,16 +5,22 @@ namespace Nivandria.Explore
     using UnityEngine;
     using Ink.Runtime;
     using UnityEngine.UI;
+    using Unity.VisualScripting;
+    using Nivandria.Quest;
+
     public class InkExternal : MonoBehaviour
     {
-        [Header("Image All Sprite")]
-        [SerializeField] Sprite[] image_dialog;
+        [Header("Sprite Sacra")]
+        [SerializeField] Sprite[] sacra_sprite;
+        [Header("Sprite Vana")]
+        [SerializeField] Sprite[] vana_sprite;
         [Header("Image Left")]
         [SerializeField] Image avatar_1;
         [Header("Image Right")]
         [SerializeField] Image avatar_2;
         private int ParseAvatar;
-        
+        private int ParseComplete;
+        private byte indexPlayer = 0;
         public void Bind(Story story)
         {
             story.BindExternalFunction("playavatar", (string avatarvalue) =>
@@ -27,26 +33,90 @@ namespace Nivandria.Explore
                 switch (namevalue)
                 {
                     case "Sacra":
-                        avatar_1.sprite = image_dialog[0];
-                        avatar_1.color = new Color32(255, 255, 255, 255);
-                        avatar_2.color = new Color32(100, 100, 100, 255);
+                        indexPlayer = 1;
                         break;
                     case "Vana":
-                        avatar_1.sprite = image_dialog[1];
-                        avatar_1.color = new Color32(255, 255, 255, 255);
-                        avatar_2.color = new Color32(100, 100, 100, 255);
+                        indexPlayer = 2;
                         break;
-                    case "Eldria":
-                        avatar_2.sprite = image_dialog[2];
-                        avatar_2.color = new Color32(255, 255, 255, 255);
-                        avatar_1.color = new Color32(100, 100, 100, 255);
+                }
+            });
+            story.BindExternalFunction("ekspresiavatar", (string eksvalue) =>
+                        {
+                            switch (indexPlayer)
+                            {
+                                case 1:
+                                    if (eksvalue == "Default")
+                                    {
+                                        avatar_1.sprite = sacra_sprite[0];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Smile")
+                                    {
+                                        avatar_1.sprite = sacra_sprite[1];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Speak")
+                                    {
+                                        avatar_1.sprite = sacra_sprite[2];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Angry")
+                                    {
+                                        avatar_1.sprite = sacra_sprite[3];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    break;
+                                case 2:
+                                    if (eksvalue == "Default")
+                                    {
+                                        avatar_1.sprite = vana_sprite[0];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Smile")
+                                    {
+                                        avatar_1.sprite = vana_sprite[1];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Speak")
+                                    {
+                                        avatar_1.sprite = vana_sprite[2];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Angry")
+                                    {
+                                        avatar_1.sprite = vana_sprite[3];
+                                        avatar_1.color = new Color32(255, 255, 255, 255);
+                                        avatar_2.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    break;
+                            }
+                        });
+            story.BindExternalFunction("complete", (string compvalue) =>
+            {
+                ParseComplete = int.Parse(compvalue);
+
+                switch (ParseComplete)
+                {
+                    case 2:
+                        HandleQuest.GetInstance().Mision1 = true;
                         break;
-                    case "Boar":
-                        avatar_2.sprite = image_dialog[3];
-                        avatar_2.color = new Color32(255, 255, 255, 255);
-                        avatar_1.color = new Color32(100, 100, 100, 255);
+                    case 3:
+
                         break;
-                }                
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                }
             });
         }
 
@@ -54,7 +124,9 @@ namespace Nivandria.Explore
         {
             story.UnbindExternalFunction("playavatar");
             story.UnbindExternalFunction("nameavatar");
-        }        
+            story.UnbindExternalFunction("ekspresiavatar");
+            story.UnbindExternalFunction("complete");
+        }
 
         public int GetAvatar() => ParseAvatar;
     }
