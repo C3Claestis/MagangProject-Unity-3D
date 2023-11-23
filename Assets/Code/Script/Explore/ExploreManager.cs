@@ -11,17 +11,6 @@ namespace Nivandria.Explore
 
     public class ExploreManager : MonoBehaviour
     {
-        Vector3[] last_posisi = new Vector3[]
-            {
-            new Vector3(-4.7f, 1f, -11f), //Posisi dari luar ke dalam rumah
-            new Vector3(0f, 1.8f, 15f), //Posisi dari dalam keluar rumah
-
-            new Vector3(120f, 1.8f, 170f), //Posisi dari halaman rumah ke training ground
-            new Vector3(45.5f, 1.8f, -75f), //Posisi dari training ground ke halaman rumah  
-
-           // new Vector3(25f, 1.8f, 15f) //Posisi dari outskrit ke halaman rumah
-            };
-
         [Header("Input System Player")]
         [SerializeField] InputSystem inputSystem;
         [SerializeField] PlayerInput playerInput;
@@ -50,7 +39,7 @@ namespace Nivandria.Explore
         private int set_lead;
         public static int set_lastScene;
         public int GetLead() => set_lead;
-        
+
         public int Potato;
         private void Awake()
         {
@@ -69,12 +58,14 @@ namespace Nivandria.Explore
         void Start()
         {
             transisi.SetTrigger("Out");
+            
             Load();
         }
 
         // Update is called once per frame
         void Update()
         {
+            /*
             if (Input.GetKey(KeyCode.K))
             {
                 Save();
@@ -82,8 +73,9 @@ namespace Nivandria.Explore
             if (Input.GetKey(KeyCode.L))
             {
                 Load();
-            }
-            ChangeTransisi();            
+            }*/                   
+
+           // ChangeTransisi();
         }
         /// <summary>
         /// Handle Camera Sens
@@ -92,21 +84,6 @@ namespace Nivandria.Explore
         {
             cinemachineFreeLook.m_XAxis.m_MaxSpeed = sen_x;
             cinemachineFreeLook.m_YAxis.m_MaxSpeed = sen_y;
-        }
-        /// <summary>
-        /// Mengubah Index Sesuai Vector3 Array
-        /// </summary>
-        /// <param name="indexarray"></param>
-        void SwitchPosition(int indexarray)
-        {
-            players.position = last_posisi[indexarray];
-        }
-        /// <summary>
-        /// Mengatur Kembali Nilai Transisi Ke 0 Agar Tidak Terus Menerus Mengeksekusi Di ChangeTransisi
-        /// </summary>
-        void KembaliKeNol()
-        {
-            set_lastScene = 0;
         }
         /// <summary>
         /// Open Panel Party
@@ -165,32 +142,6 @@ namespace Nivandria.Explore
                 Debug.Log("Belum Ada Leader");
             }
         }
-        /// <summary>
-        /// Untuk Mengatur Posisi Pada Scene Transisi
-        /// </summary>
-        void ChangeTransisi()
-        {
-            switch (set_lastScene)
-            {
-                case 1:
-                    SwitchPosition(0);
-                    Invoke(nameof(KembaliKeNol), 0.5f);
-                    break;
-                case 2:
-                    SwitchPosition(1);
-                    Invoke(nameof(KembaliKeNol), 0.5f);
-                    break;
-                case 3:
-                    SwitchPosition(2);
-                    Invoke(nameof(KembaliKeNol), 0.5f);
-                    break;
-                case 4:
-                    SwitchPosition(3);
-                    Invoke(nameof(KembaliKeNol), 0.5f);
-                    break;
-            }
-        }
-
         void Save()
         {
             Resource resource = new Resource

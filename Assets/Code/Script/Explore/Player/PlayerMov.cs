@@ -19,7 +19,7 @@ namespace Nivandria.Explore
             rb = GetComponent<Rigidbody>();
             inputSystem = GetComponent<InputSystem>();
         }
-
+        
         private void FixedUpdate()
         {
             if (interaksiNPC.GetIsTalk() == false)
@@ -55,27 +55,5 @@ namespace Nivandria.Explore
             Vector3 velocity = moveDirection * moveSpeed;
             rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
         }
-        /*
-        private void Move()
-        {
-            Vector2 input = inputSystem.GetMovementValue();
-            Vector3 moveDirection = new Vector3(input.x, 0, input.y);
-            float moveSpeed = inputSystem.CanRunning() ? runSpeed : walkSpeed;
-
-            if (input == Vector2.zero)
-            {
-                rb.velocity = Vector3.zero;
-                return;
-            }
-
-            if (moveDirection != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
-                rb.MoveRotation(Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.deltaTime));
-            }
-
-            Vector3 velocity = moveDirection * moveSpeed;
-            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
-        }*/
     }
 }

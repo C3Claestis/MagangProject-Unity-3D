@@ -60,8 +60,8 @@ namespace Nivandria.Quest
                 PlayerPrefs.SetInt("Prologue1", 0);
                 PlayerPrefs.SetInt("Prologue2", 0);
             }
-            Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
-            Debug.Log("PROLOGUE 1 INDEX = " + PlayerPrefs.GetInt("Prologue1"));
+            //Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
+            //Debug.Log("PROLOGUE 1 INDEX = " + PlayerPrefs.GetInt("Prologue1"));
 
             SwitchQuest(PlayerPrefs.GetInt("Quest"));
 
@@ -181,6 +181,7 @@ namespace Nivandria.Quest
             questManager.CompleteObjectiveQuest(Index, PlayerPrefs.GetInt("Prologue" + Noindex));
             int nilai = PlayerPrefs.GetInt("Prologue" + Noindex);
             PlayerPrefs.SetInt("Prologue" + Noindex, nilai + 1);
+            hasSpawned = true;
             Mision1 = false;
             Mision2 = false;
         }

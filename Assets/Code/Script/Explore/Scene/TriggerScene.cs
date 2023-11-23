@@ -6,8 +6,7 @@ namespace Nivandria.Explore
     using UnityEngine.SceneManagement;
     public class TriggerScene : MonoBehaviour
     {
-        [SerializeField] int indexScene;
-        [SerializeField] int indexPosisi;
+        [SerializeField] int indexScene;        
         [SerializeField] Animator transisi;
         private bool isCanScene = false;   
         public bool GetIsScene() => isCanScene;
@@ -17,12 +16,12 @@ namespace Nivandria.Explore
             if (isCanScene)
             {
                 transisi.SetTrigger("In");
+                SaveLastPosisi.GetInstance().SetSave(true);
                 Invoke(nameof(TukarNilai), 1f);
             }
         }
         void TukarNilai()
-        {
-            ExploreManager.set_lastScene = indexPosisi;
+        {            
             SceneManager.LoadScene(indexScene);
         }
         void OnTriggerEnter(Collider collider)
