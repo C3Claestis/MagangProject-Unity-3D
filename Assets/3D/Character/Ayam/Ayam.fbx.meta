@@ -3,7 +3,12 @@ guid: 72554b2559741db44b2cbcbfd1d60f2b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TEX_Ayam
+    second: {fileID: 2100000, guid: a4bd78b1f6daaf544bccdd06775b068a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

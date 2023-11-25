@@ -77,4 +77,6 @@ crashlytics-build.properties
 
 Assets/Thirdparty/Skybox
 Assets/3D/Environment
+Assets/3D/Object
+Assets/3D/Terrain
 Assets/Thirdparty/Residential Buildings Set

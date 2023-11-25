@@ -8,7 +8,7 @@ namespace Nivandria.Explore
     public class SaveLastPosisi : MonoBehaviour
     {
         [Header("Index Scene")]
-        [SerializeField] int Scene;
+        [SerializeField] byte Scene;
         [Header("Players")]
         [SerializeField] Transform Players;
 
