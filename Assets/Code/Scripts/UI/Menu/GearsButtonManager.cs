@@ -9,7 +9,11 @@ namespace Nivandria.UI.Gears
         public static GearsButtonManager Instance { get; private set; }
 
         GearsLogManager gearsLogManager;
-        //private int currentIndex = 0;
+
+        [Header("Content Container Gears")]
+        [SerializeField] GameObject WeaponContentContainer;
+        [SerializeField] GameObject ArmorContentContainer;
+        [SerializeField] GameObject BootsContentContainer;
 
         [Header("Hero Image")]
         [SerializeField] private Image image;
@@ -26,8 +30,11 @@ namespace Nivandria.UI.Gears
         [Header("Toggles")]
         [SerializeField] private Toggle[] toggleArray;
 
-        private int currentIndex;
+        private int currentGearIndex;
+        private int currentHeroIndex;
         private int maxIndex = 2;
+
+        public int GetHeroIndex() => currentHeroIndex;
 
 
         private Color activeColor = new Color(0.16f, 0.58f, 0.70f); // Warna 2995B2
@@ -48,28 +55,32 @@ namespace Nivandria.UI.Gears
         {
             gearsLogManager = FindObjectOfType<GearsLogManager>();
             SetFirst();
-            currentIndex = 0;
-            ChangeTypeGears(currentIndex);
+            currentGearIndex = 0;
+            ChangeTypeGears(currentGearIndex);
         }
 
 
         public void ChangeTypeGears(int index)
         {
+            WeaponContentContainer.SetActive(false);
+            ArmorContentContainer.SetActive(false);
+            BootsContentContainer.SetActive(false);
+
             Debug.Log("ini index: " + index);
             switch (index)
             {
                 case 0:
-                    GearsLogManager.Instance.gearsType = GearsType.Weapons;
+                    WeaponContentContainer.SetActive(true);
                     titleGears.text = "Weapon";
                     Debug.Log("Ini Weapon");
                     break;
                 case 1:
-                    GearsLogManager.Instance.gearsType = GearsType.Armor;
+                    ArmorContentContainer.SetActive(true);
                     titleGears.text = "Armor";
                     Debug.Log("Ini Armor");
                     break;
                 case 2:
-                    GearsLogManager.Instance.gearsType = GearsType.Boots;
+                    BootsContentContainer.SetActive(true);
                     titleGears.text = "Boots";
                     Debug.Log("Ini Boots");
                     break;
@@ -82,22 +93,22 @@ namespace Nivandria.UI.Gears
 
         public void OnLeftButtonClick()
         {
-            currentIndex--;
-            if (currentIndex < 0)
+            currentGearIndex--;
+            if (currentGearIndex < 0)
             {
-                currentIndex = maxIndex;
+                currentGearIndex = maxIndex;
             }
-            ChangeTypeGears(currentIndex);
+            ChangeTypeGears(currentGearIndex);
         }
 
         public void OnRightButtonClick()
         {
-            currentIndex++;
-            if (currentIndex > maxIndex)
+            currentGearIndex++;
+            if (currentGearIndex > maxIndex)
             {
-                currentIndex = 0;
+                currentGearIndex = 0;
             }
-            ChangeTypeGears(currentIndex);
+            ChangeTypeGears(currentGearIndex);
         }
 
         public void ChangeCharacterDescription(int index)
@@ -165,6 +176,8 @@ namespace Nivandria.UI.Gears
 
         public void GetDescriptionHero(int index)
         {
+            currentHeroIndex = index;
+
             GearsLogManager.Instance.GetFullNameHero(index);
             GearsLogManager.Instance.GetStatusHealthHero(index);
             GearsLogManager.Instance.GetStatusPhysicalAttackHero(index);

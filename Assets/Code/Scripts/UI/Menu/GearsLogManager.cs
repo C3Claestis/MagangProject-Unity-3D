@@ -11,8 +11,10 @@ namespace Nivandria.UI.Gears
     {
         public static GearsLogManager Instance { get; private set; }
 
-        [Header("Content Container")]
-        [SerializeField] Transform contentContainer;
+        [Header("Gears Content Container")]
+        [SerializeField] public Transform WeaponContentContainer;
+        [SerializeField] public Transform ArmorContentContainer;
+        [SerializeField] public Transform BootContentContainer;
 
         [Header("Detail Gears")]
         private TextMeshProUGUI nameGear;
@@ -52,8 +54,14 @@ namespace Nivandria.UI.Gears
         [SerializeField] public GearsType gearsType;
         [SerializeField] GearsType currentGearsType;
 
-        private Image gearsImage;
+        [Header("Toggle Group Gears")]
+        [SerializeField] ToggleGroup WeaponToggleGroup;
+        [SerializeField] ToggleGroup ArmorToggleGroup;
+        [SerializeField] ToggleGroup BootsToggleGroup;
 
+        private Gears gearsPreview;
+        private GameObject selectedGear = null;
+        bool firstGears;
         void Awake()
         {
             if (Instance != null && Instance != this)
@@ -67,38 +75,139 @@ namespace Nivandria.UI.Gears
         }
         void Start()
         {
-            GearsLogInitialization();
+            GearsLogInitialization(GearsType.Weapons);
+            GearsLogInitialization(GearsType.Armor);
+            GearsLogInitialization(GearsType.Boots);
         }
 
         void Update()
         {
             if (gearsType == currentGearsType) return;
             currentGearsType = gearsType;
-            RemoveGearsLog();
-            GearsLogInitialization();
+            /* RemoveGearsLog(); */
+
         }
 
-        public void GearsLogInitialization()
+
+
+        public void GearsLogInitialization(GearsType gearsType)
         {
-            foreach (Gears gears in gearList)
+            foreach (Gears gear in gearList)
             {
-                if (!(gears.GetGearsType() == gearsType)) continue;
+                if (!(gear.GetGearsType() == gearsType)) continue;
 
-                
-                GameObject newGear = Instantiate(gearsLog, contentContainer);
-                
+
+                GameObject newGear = null;
+                switch (gear.GetGearsType())
+                {
+                    case GearsType.Weapons:
+                        newGear = Instantiate(gearsLog, WeaponContentContainer);
+                        break;
+                    case GearsType.Armor:
+                        newGear = Instantiate(gearsLog, ArmorContentContainer);
+                        break;
+                    case GearsType.Boots:
+                        newGear = Instantiate(gearsLog, BootContentContainer);
+                        break;
+                }
+
+
                 //Gears currentGear = gears;
-                //Button gearButton = newGear.GetComponent<Button>();
                 Image iconArmor = newGear.transform.GetChild(0).GetComponent<Image>();
-                iconArmor.sprite = gears.GetImageGear();
-                
-                TextMeshProUGUI gearName = newGear.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-                gearName.text = gears.GetNameGears();
-                
+                iconArmor.sprite = gear.GetImageGear();
 
+                TextMeshProUGUI gearName = newGear.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                gearName.text = gear.GetNameGears();
+
+                GameObject gearEquipped = newGear.transform.GetChild(3).gameObject;
+                Button gearButton = gearEquipped.GetComponent<Button>();
+
+                Toggle toggle = newGear.GetComponent<Toggle>();
+
+                switch (gear.GetGearsType())
+                {
+                    case GearsType.Weapons:
+                        toggle.group = WeaponToggleGroup;
+                        break;
+                    case GearsType.Armor:
+                        toggle.group = ArmorToggleGroup;
+                        break;
+                    case GearsType.Boots:
+                        toggle.group = BootsToggleGroup;
+                        break;
+                    default:
+                        Debug.LogError("Gear tidak diketahuin");
+                        break;
+                }
+                int heroIndex = GearsButtonManager.Instance.GetHeroIndex();
+                Hero hero = HeroList[heroIndex];
+
+                // Tambahkan event listener untuk menangani perubahan nilai toggle
+                toggle.onValueChanged.AddListener((value) =>
+                {
+                    // Ketika nilai toggle berubah
+                    Debug.Log($"{gear.GetNameGears()} Toggle isOn: {value}");
+
+                    // Lakukan sesuatu berdasarkan nilai toggle
+                    if (value)
+                    {
+                        Debug.Log($"{gear.GetNameGears()} is toggled ON!");
+                        gearEquipped.SetActive(true);
+                        gearsPreview = gear;
+
+                        health.text = (int.Parse(gearsPreview.GetStatusHealth()) + int.Parse(hero.GetHeroHealth())).ToString();
+                        physicalAttack.text = (int.Parse(gearsPreview.GetStatusPhysicalAttack()) + int.Parse(hero.GetPhysicalAttackHero())).ToString();
+                        magicAttack.text = (int.Parse(gearsPreview.GetStatusMagicAttack()) + int.Parse(hero.GetMagicAttackHero())).ToString();
+                        physicalDefense.text = (int.Parse(gearsPreview.GetStatusPhysicalDefense()) + int.Parse(hero.GetPhysicalDefenseHero())).ToString();
+                        magicDefense.text = (int.Parse(gearsPreview.GetStatusMagicDefense()) + int.Parse(hero.GetMagicDefenseHero())).ToString();
+                        statusCritical.text = (int.Parse(gearsPreview.GetStatusCritical()) + int.Parse(hero.GetCriticalHero())).ToString();
+                        statusAgility.text = (int.Parse(gearsPreview.GetStatusAgility()) + int.Parse(hero.GetAgilityHero())).ToString();
+                        statusEvasion.text = (int.Parse(gearsPreview.GetStatusEvasion()) + int.Parse(hero.GetEvasionHero())).ToString();
+
+                    }
+                    else
+                    {
+                        Debug.Log($"{gear.GetNameGears()} is toggled OFF!");
+                        gearEquipped.SetActive(false);
+
+                        health.text = "0";
+                        physicalAttack.text = "0";
+                        magicAttack.text = "0";
+                        physicalDefense.text = "0";
+                        magicDefense.text = "0";
+                        statusCritical.text = "0";
+                        statusAgility.text = "0";
+                        statusEvasion.text = "0";
+                    }
+
+                    TextMeshProUGUI currentHealthHero = healthHero;
+
+                    gearButton.onClick.AddListener(() =>
+                    {
+                        Debug.Log("Tes ini Button GearEquipped");
+                        Gears currentWeapon = hero.GetCurrentWeapon();
+                        Gears currentArmor = hero.GetCurrentArmor();
+                        Gears currentBoot = hero.GetCurrentBoot();
+
+                        switch (gear.GetGearsType())
+                        {
+                            case GearsType.Weapons:
+                                hero.SetCurrentSword(gear);
+                                break;
+                            case GearsType.Armor:
+                                hero.SetCurrentArmor(gear);
+                                break;
+                            case GearsType.Boots:
+                                hero.SetCurrentBoot(gear);
+                                break;
+                        }
+                    });
+
+                });
             }
         }
 
+        #region GetSet
         public Sprite GearsImage(int index)
         {
             if (index >= 0 && index < gearList.Count)
@@ -268,7 +377,7 @@ namespace Nivandria.UI.Gears
                 if (currentHero != null && currentHero.GetEvasionHero() != null)
                 {
                     string name = currentHero.GetEvasionHero();
-                    statusAgilityHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
+                    statusEvasionHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
                     return name;
                 }
             }
@@ -289,14 +398,16 @@ namespace Nivandria.UI.Gears
             return null;
         }
 
-        void RemoveGearsLog()
+        public List<Gears> GetGearList() => gearList;
+
+        /* void RemoveGearsLog()
         {
             foreach (Transform child in contentContainer)
             {
                 Destroy(child.gameObject);
             }
-        }
-
+        } */
+        #endregion
     }
 
 }

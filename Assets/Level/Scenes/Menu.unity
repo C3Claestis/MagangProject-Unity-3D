@@ -1152,6 +1152,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 705833164}
+  - {fileID: 1405428617}
+  - {fileID: 1939411218}
   - {fileID: 1946293400}
   m_Father: {fileID: 5901488582433413065}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10978,8 +10980,9 @@ GameObject:
   - component: {fileID: 705833165}
   - component: {fileID: 705833168}
   - component: {fileID: 705833167}
+  - component: {fileID: 705833169}
   m_Layer: 5
-  m_Name: Content
+  m_Name: WeaponContentContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11082,6 +11085,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705833163}
   m_CullTransparentMesh: 1
+--- !u!114 &705833169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705833163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
 --- !u!1 &710796154
 GameObject:
   m_ObjectHideFlags: 0
@@ -17747,7 +17763,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 196b89ccde294974780c3b94faf55e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contentContainer: {fileID: 705833164}
+  WeaponContentContainer: {fileID: 705833164}
+  ArmorContentContainer: {fileID: 1405428617}
+  BootContentContainer: {fileID: 1939411218}
   health: {fileID: 1180971407}
   physicalAttack: {fileID: 67643433}
   magicAttack: {fileID: 1348297548}
@@ -17782,6 +17800,42 @@ MonoBehaviour:
     statusCritical: 0
     statusAgility: 105
     statusEvasion: 40
+    currentWeapon:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentArmor:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 1
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentBoot:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 2
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
   - FullNameHero: Sacra Livian
     NickNameHero: Sacra
     imageHero: {fileID: 21300000, guid: 292ab3ba81da2a24a9551ae721823a7f, type: 3}
@@ -17793,6 +17847,42 @@ MonoBehaviour:
     statusCritical: 25
     statusAgility: 105
     statusEvasion: 34
+    currentWeapon:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentArmor:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentBoot:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
   - FullNameHero: Vanna Livian
     NickNameHero: Vanna
     imageHero: {fileID: 21300000, guid: 331ec97076b59b448826a7675ec10384, type: 3}
@@ -17804,6 +17894,42 @@ MonoBehaviour:
     statusCritical: 45
     statusAgility: 111
     statusEvasion: 37
+    currentWeapon:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentArmor:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentBoot:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
   - FullNameHero: Gardddd
     NickNameHero: Gard
     imageHero: {fileID: 21300000, guid: c306bb1f574181246a55afae7560ee9a, type: 3}
@@ -17815,6 +17941,42 @@ MonoBehaviour:
     statusCritical: 22
     statusAgility: 107
     statusEvasion: 30
+    currentWeapon:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentArmor:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
+    currentBoot:
+      imageGears: {fileID: 0}
+      nameGears: 
+      type: 0
+      health: 
+      physicalAttack: 
+      magicAttack: 
+      physicalDefense: 
+      magicDefense: 
+      statusCritical: 
+      statusAgility: 
+      statusEvasion: 
   gearList:
   - imageGears: {fileID: 21300000, guid: ab8c5f8c7e1ab134b8b876451cd9f393, type: 3}
     nameGears: Berseker's Furry
@@ -17830,18 +17992,18 @@ MonoBehaviour:
   - imageGears: {fileID: 21300000, guid: ab8c5f8c7e1ab134b8b876451cd9f393, type: 3}
     nameGears: Excalibur
     type: 0
-    health: 800
-    physicalAttack: 0
-    magicAttack: 0
-    physicalDefense: 20
-    magicDefense: 25
+    health: 0
+    physicalAttack: 150
+    magicAttack: 25
+    physicalDefense: 0
+    magicDefense: 0
     statusCritical: 0
     statusAgility: 0
     statusEvasion: 0
   - imageGears: {fileID: 21300000, guid: 7561999e53d4e504891d69dfaa0169bb, type: 3}
     nameGears: Immortal
     type: 1
-    health: 0
+    health: 1000
     physicalAttack: 0
     magicAttack: 0
     physicalDefense: 0
@@ -17852,18 +18014,18 @@ MonoBehaviour:
   - imageGears: {fileID: 21300000, guid: 7561999e53d4e504891d69dfaa0169bb, type: 3}
     nameGears: Twilight armor
     type: 1
-    health: 0
+    health: 850
     physicalAttack: 0
     magicAttack: 0
     physicalDefense: 0
     magicDefense: 30
     statusCritical: 0
-    statusAgility: 50
+    statusAgility: 0
     statusEvasion: 0
   - imageGears: {fileID: 21300000, guid: 7561999e53d4e504891d69dfaa0169bb, type: 3}
     nameGears: Athena
     type: 1
-    health: 0
+    health: 700
     physicalAttack: 0
     magicAttack: 0
     physicalDefense: 0
@@ -17885,7 +18047,7 @@ MonoBehaviour:
   - imageGears: {fileID: 21300000, guid: 4a4745d9bf94fe94680ab058bc0edfdd, type: 3}
     nameGears: Speed Boot
     type: 2
-    health: 0
+    health: 30
     physicalAttack: 0
     magicAttack: 0
     physicalDefense: 0
@@ -17896,7 +18058,7 @@ MonoBehaviour:
   - imageGears: {fileID: 21300000, guid: 4a4745d9bf94fe94680ab058bc0edfdd, type: 3}
     nameGears: Defense Boot
     type: 2
-    health: 0
+    health: 35
     physicalAttack: 0
     magicAttack: 0
     physicalDefense: 0
@@ -17907,7 +18069,7 @@ MonoBehaviour:
   - imageGears: {fileID: 21300000, guid: 4a4745d9bf94fe94680ab058bc0edfdd, type: 3}
     nameGears: Magic Boot
     type: 2
-    health: 0
+    health: 20
     physicalAttack: 0
     magicAttack: 0
     physicalDefense: 0
@@ -17918,6 +18080,9 @@ MonoBehaviour:
   gearsLog: {fileID: 6737884494068639581, guid: ffc53b86dbf7c7546b7872f03bd94442, type: 3}
   gearsType: 0
   currentGearsType: 0
+  WeaponToggleGroup: {fileID: 705833169}
+  ArmorToggleGroup: {fileID: 1405428618}
+  BootsToggleGroup: {fileID: 1939411219}
 --- !u!1 &1132872180
 GameObject:
   m_ObjectHideFlags: 0
@@ -19148,6 +19313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf9e847610765540b27633e627ff98a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponContentContainer: {fileID: 705833163}
+  ArmorContentContainer: {fileID: 1405428616}
+  BootsContentContainer: {fileID: 1939411217}
   image: {fileID: 5247504502425786991}
   hero1: {fileID: 6556911667920553653}
   hero2: {fileID: 7846049382921858207}
@@ -21347,6 +21515,137 @@ MonoBehaviour:
       ultrices neque. Pretium nibh ipsum consequat nisl vel pretium lectus.  Tes
       2 Description
   archiveLog: {fileID: 5912044140075841999, guid: 25ae4246448d0e54eb9394897e8539d9, type: 3}
+--- !u!1 &1405428616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1405428617}
+  - component: {fileID: 1405428622}
+  - component: {fileID: 1405428621}
+  - component: {fileID: 1405428620}
+  - component: {fileID: 1405428619}
+  - component: {fileID: 1405428618}
+  m_Layer: 5
+  m_Name: ArmorContentContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1405428617
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405428616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 103046433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -6, y: 388.81998}
+  m_SizeDelta: {x: -12, y: 949}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1405428618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405428616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
+--- !u!114 &1405428619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405428616}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1405428620
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405428616}
+  m_CullTransparentMesh: 1
+--- !u!114 &1405428621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405428616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
+--- !u!114 &1405428622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405428616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
+  m_ChildAlignment: 0
+  m_Spacing: 5
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1423855281
 GameObject:
   m_ObjectHideFlags: 0
@@ -29293,6 +29592,137 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932660133}
   m_CullTransparentMesh: 1
+--- !u!1 &1939411217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939411218}
+  - component: {fileID: 1939411223}
+  - component: {fileID: 1939411222}
+  - component: {fileID: 1939411221}
+  - component: {fileID: 1939411220}
+  - component: {fileID: 1939411219}
+  m_Layer: 5
+  m_Name: BootContentContentContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1939411218
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939411217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 103046433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -6, y: 388.81998}
+  m_SizeDelta: {x: -12, y: 949}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1939411219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939411217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
+--- !u!114 &1939411220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939411217}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1939411221
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939411217}
+  m_CullTransparentMesh: 1
+--- !u!114 &1939411222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939411217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
+--- !u!114 &1939411223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939411217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
+  m_ChildAlignment: 0
+  m_Spacing: 5
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1946293399
 GameObject:
   m_ObjectHideFlags: 0
@@ -33158,8 +33588,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 876.2507}
+  m_AnchoredPosition: {x: 711.48126, y: 0}
+  m_SizeDelta: {x: 1402.9625, y: 876.2507}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5194138960309242841
 CanvasRenderer:
@@ -33726,7 +34156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 663.98126, y: 0}
   m_SizeDelta: {x: 437.9625, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7206986755108429372
@@ -33833,8 +34263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 805}
+  m_AnchoredPosition: {x: 217.5, y: 0}
+  m_SizeDelta: {x: 415, y: 805}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7239206489165841840
 MonoBehaviour:

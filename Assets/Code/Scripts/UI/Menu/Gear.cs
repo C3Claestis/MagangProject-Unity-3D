@@ -76,6 +76,9 @@ namespace Nivandria.UI.Gears
         [SerializeField] private string statusCritical;
         [SerializeField] private string statusAgility;
         [SerializeField] private string statusEvasion;
+        [SerializeField] private Gears currentWeapon;
+        [SerializeField] private Gears currentArmor;
+        [SerializeField] private Gears currentBoot;
 
 
         public Hero
@@ -104,6 +107,8 @@ namespace Nivandria.UI.Gears
             this.statusCritical = statusCritical;
             this.statusAgility = statusAgility;
             this.statusEvasion = statusEvasion;
+
+            
         }
 
         public string GetFullNameHero() => FullNameHero;
@@ -117,6 +122,13 @@ namespace Nivandria.UI.Gears
         public string GetCriticalHero() => statusCritical;
         public string GetAgilityHero() => statusAgility;
         public string GetEvasionHero() => statusEvasion;
+        public Gears GetCurrentWeapon() => currentWeapon;
+        public void SetCurrentSword(Gears gears) => currentWeapon = gears;
+        public Gears GetCurrentArmor() => currentArmor;
+        public void SetCurrentArmor(Gears gears) => currentArmor = gears;
+        public Gears GetCurrentBoot() => currentBoot;
+        public void SetCurrentBoot(Gears gears) => currentBoot = gears;
+        
     }
 
     [Serializable]
