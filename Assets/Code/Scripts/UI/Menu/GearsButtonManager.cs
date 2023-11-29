@@ -89,6 +89,8 @@ namespace Nivandria.UI.Gears
                     break;
             }
             toggleArray[index].isOn = true;
+            GearsLogManager.Instance.DeselectToggles();
+            GearsLogManager.Instance.UpdateAllDeselectColorStatusPreview();
         }
 
         public void OnLeftButtonClick()
@@ -174,25 +176,72 @@ namespace Nivandria.UI.Gears
             }
         }
 
-        public void GetDescriptionHero(int index)
+        public void UpdateStatusHero(int index)
         {
             currentHeroIndex = index;
+            Hero hero = GearsLogManager.Instance.GetHero(index);
 
-            GearsLogManager.Instance.GetFullNameHero(index);
-            GearsLogManager.Instance.GetStatusHealthHero(index);
-            GearsLogManager.Instance.GetStatusPhysicalAttackHero(index);
-            GearsLogManager.Instance.GetStatusMagicAttackHero(index);
-            GearsLogManager.Instance.GetStatusPhysicalDefenseHero(index);
-            GearsLogManager.Instance.GetStatusMagicDefenseHero(index);
-            GearsLogManager.Instance.GetStatusCriticalHero(index);
-            GearsLogManager.Instance.GetStatusAgilityHero(index);
-            GearsLogManager.Instance.GetStatusEvasionHero(index);
+            string heroName = hero.GetFullNameHero();
+
+            int heroHealth = hero.GetHeroHealth()
+            + hero.GetCurrentWeapon().GetStatusHealth()
+            + hero.GetCurrentArmor().GetStatusHealth()
+            + hero.GetCurrentBoot().GetStatusHealth();
+
+            int heroPhysicalAttack = hero.GetPhysicalAttackHero() 
+            + hero.GetCurrentWeapon().GetStatusPhysicalAttack()
+            + hero.GetCurrentArmor().GetStatusPhysicalAttack()
+            + hero.GetCurrentBoot().GetStatusPhysicalAttack();
+
+            int heroMagicAttack = hero.GetMagicAttackHero() 
+            + hero.GetCurrentWeapon().GetStatusMagicAttack()
+            + hero.GetCurrentArmor().GetStatusMagicAttack()
+            + hero.GetCurrentBoot().GetStatusMagicAttack();
+
+            int heroPhysicalDefense = hero.GetPhysicalDefenseHero() 
+            + hero.GetCurrentWeapon().GetStatusPhysicalDefense()
+            + hero.GetCurrentArmor().GetStatusPhysicalDefense()
+            + hero.GetCurrentBoot().GetStatusPhysicalDefense();
+
+            int heroMagicDefense = hero.GetMagicDefenseHero() 
+            + hero.GetCurrentWeapon().GetStatusMagicDefense()
+            + hero.GetCurrentArmor().GetStatusMagicDefense()
+            + hero.GetCurrentBoot().GetStatusMagicDefense();
+
+            int heroCritical = hero.GetCriticalHero() 
+            + hero.GetCurrentWeapon().GetStatusCritical()
+            + hero.GetCurrentArmor().GetStatusCritical()
+            + hero.GetCurrentBoot().GetStatusCritical();
+
+            int heroAgility = hero.GetAgilityHero() 
+            + hero.GetCurrentWeapon().GetStatusAgility()
+            + hero.GetCurrentArmor().GetStatusAgility()
+            + hero.GetCurrentBoot().GetStatusAgility();
+
+            int heroEvasion = hero.GetEvasionHero() 
+            + hero.GetCurrentWeapon().GetStatusEvasion()
+            + hero.GetCurrentArmor().GetStatusEvasion()
+            + hero.GetCurrentBoot().GetStatusEvasion();
+
+            GearsLogManager.Instance.UpdateStatusHeroText(
+                heroName,
+                heroHealth,
+                heroPhysicalAttack,
+                heroMagicAttack,
+                heroPhysicalDefense,
+                heroMagicDefense,
+                heroCritical,
+                heroAgility,
+                heroEvasion
+                );
         }
 
         public void ButtonOnClick(int index)
         {
             GetHeroImage(index);
-            GetDescriptionHero(index);
+            UpdateStatusHero(index);
+            GearsLogManager.Instance.GearsLogInitialization();
+            GearsLogManager.Instance.UpdateAllDeselectColorStatusPreview();
         }
 
         public void SetFirst()
@@ -209,7 +258,7 @@ namespace Nivandria.UI.Gears
 
         private void InitializeFirstHero()
         {
-            GetDescriptionHero(0);
+            UpdateStatusHero(0);
         }
 
         public void NameHero()

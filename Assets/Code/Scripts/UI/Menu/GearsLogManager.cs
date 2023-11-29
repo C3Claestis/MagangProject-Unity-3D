@@ -43,6 +43,30 @@ namespace Nivandria.UI.Gears
         [SerializeField] TextMeshProUGUI statusAgilityHero;
         [SerializeField] TextMeshProUGUI statusEvasionHero;
 
+        public void UpdateStatusHeroText(
+            string heroName,
+            int heroHealth,
+            int heroPhysicalAttack,
+            int heroMagicAttack,
+            int heroPhysicalDefense,
+            int heroMagicDefense,
+            int heroCritical,
+            int heroAgility,
+            int heroEvasion
+            )
+        {
+            FullNameHero.text = heroName;
+            healthHero.text = heroHealth.ToString();
+            physicalAttackHero.text = heroPhysicalAttack.ToString();
+            magicAttackHero.text = heroMagicAttack.ToString();
+            physicalDefenseHero.text = heroPhysicalDefense.ToString();
+            magicDefenseHero.text = heroMagicDefense.ToString();
+            statusCriticalHero.text = heroCritical.ToString();
+            statusAgilityHero.text = heroAgility.ToString();
+            statusEvasionHero.text = heroEvasion.ToString();
+        }
+
+
         [Header("Heroes List")]
         [SerializeField] List<Hero> HeroList = new List<Hero>();
 
@@ -75,32 +99,65 @@ namespace Nivandria.UI.Gears
         }
         void Start()
         {
-            GearsLogInitialization(GearsType.Weapons);
-            GearsLogInitialization(GearsType.Armor);
-            GearsLogInitialization(GearsType.Boots);
+            GearsLogInitialization();
         }
 
         void Update()
         {
-            if (gearsType == currentGearsType) return;
-            currentGearsType = gearsType;
+
             /* RemoveGearsLog(); */
 
         }
 
-
-
-        public void GearsLogInitialization(GearsType gearsType)
+        public void DeselectToggles()
         {
+            foreach (var toggle in WeaponToggleGroup.ActiveToggles())
+            {
+                toggle.isOn = false;
+            }
+            
+            foreach (var toggle in ArmorToggleGroup.ActiveToggles())
+            {
+                toggle.isOn = false;
+            }
+            
+            foreach (var toggle in BootsToggleGroup.ActiveToggles())
+            {
+                toggle.isOn = false;
+            }
+        }
+
+        public void GearsLogInitialization()
+        {
+            for (int i = 0; i < WeaponContentContainer.childCount; i++)
+            {
+                Destroy(WeaponContentContainer.GetChild(i).gameObject);
+            }
+
+            for (int i = 0; i < ArmorContentContainer.childCount; i++)
+            {
+                Destroy(ArmorContentContainer.GetChild(i).gameObject);
+            }
+
+            for (int i = 0; i < BootContentContainer.childCount; i++)
+            {
+                Destroy(BootContentContainer.GetChild(i).gameObject);
+            }
+
             foreach (Gears gear in gearList)
             {
-                if (!(gear.GetGearsType() == gearsType)) continue;
+
+                int heroIndex = GearsButtonManager.Instance.GetHeroIndex();
 
 
                 GameObject newGear = null;
                 switch (gear.GetGearsType())
                 {
                     case GearsType.Weapons:
+                        if (gear.GetGearsCategory() == GearsCategory.Special)
+                        {
+                            if (gear.GetCategoryName() != GetHero(heroIndex).GetFullNameHero()) continue;
+                        }
                         newGear = Instantiate(gearsLog, WeaponContentContainer);
                         break;
                     case GearsType.Armor:
@@ -139,7 +196,6 @@ namespace Nivandria.UI.Gears
                         Debug.LogError("Gear tidak diketahuin");
                         break;
                 }
-                int heroIndex = GearsButtonManager.Instance.GetHeroIndex();
                 Hero hero = HeroList[heroIndex];
 
                 // Tambahkan event listener untuk menangani perubahan nilai toggle
@@ -155,56 +211,305 @@ namespace Nivandria.UI.Gears
                         gearEquipped.SetActive(true);
                         gearsPreview = gear;
 
-                        health.text = (int.Parse(gearsPreview.GetStatusHealth()) + int.Parse(hero.GetHeroHealth())).ToString();
-                        physicalAttack.text = (int.Parse(gearsPreview.GetStatusPhysicalAttack()) + int.Parse(hero.GetPhysicalAttackHero())).ToString();
-                        magicAttack.text = (int.Parse(gearsPreview.GetStatusMagicAttack()) + int.Parse(hero.GetMagicAttackHero())).ToString();
-                        physicalDefense.text = (int.Parse(gearsPreview.GetStatusPhysicalDefense()) + int.Parse(hero.GetPhysicalDefenseHero())).ToString();
-                        magicDefense.text = (int.Parse(gearsPreview.GetStatusMagicDefense()) + int.Parse(hero.GetMagicDefenseHero())).ToString();
-                        statusCritical.text = (int.Parse(gearsPreview.GetStatusCritical()) + int.Parse(hero.GetCriticalHero())).ToString();
-                        statusAgility.text = (int.Parse(gearsPreview.GetStatusAgility()) + int.Parse(hero.GetAgilityHero())).ToString();
-                        statusEvasion.text = (int.Parse(gearsPreview.GetStatusEvasion()) + int.Parse(hero.GetEvasionHero())).ToString();
+                        int gearPreviewHealthStatus = 0;
+                        int gearPreviewPhysicalAttackStatus = 0;
+                        int gearPreviewMagicAttackStatus = 0;
+                        int gearPreviewPhysicalDefenseStatus = 0;
+                        int gearPreviewMagicDefenseStatus = 0;
+                        int gearPreviewCriticalStatus = 0;
+                        int gearPreviewAgilityStatus = 0;
+                        int gearPreviewEvasionStatus = 0;
 
+
+                        switch (gearsPreview.GetGearsType())
+                        {
+                            case GearsType.Weapons:
+                                gearPreviewHealthStatus = hero.GetHeroHealthStatusWithoutWeapon() + gearsPreview.GetStatusHealth();
+                                gearPreviewPhysicalAttackStatus = hero.GetHeroPhysicalAttackStatusWithoutWeapon() + gearsPreview.GetStatusPhysicalAttack();
+                                gearPreviewMagicAttackStatus = hero.GetHeroMagicAttackStatusWithoutWeapon() + gearsPreview.GetStatusMagicAttack();
+                                gearPreviewPhysicalDefenseStatus = hero.GetHeroPhysicalDefenseStatusWithoutWeapon() + gearsPreview.GetStatusPhysicalDefense();
+                                gearPreviewMagicDefenseStatus = hero.GetHeroMagicDefenseStatusWithoutWeapon() + gearsPreview.GetStatusMagicDefense();
+                                gearPreviewCriticalStatus = hero.GetHeroCriticalStatusWithoutWeapon() + gearsPreview.GetStatusCritical();
+                                gearPreviewAgilityStatus = hero.GetHeroAgilityStatusWithoutWeapon() + gearsPreview.GetStatusAgility();
+                                gearPreviewEvasionStatus = hero.GetHeroEvasionStatusWithoutWeapon() + gearsPreview.GetStatusEvasion();
+                                break;
+                            case GearsType.Armor:
+                                gearPreviewHealthStatus = hero.GetHeroHealthStatusWithoutArmor() + gearsPreview.GetStatusHealth();
+                                gearPreviewPhysicalAttackStatus = hero.GetHeroPhysicalAttackStatusWithoutArmor() + gearsPreview.GetStatusPhysicalAttack();
+                                gearPreviewMagicAttackStatus = hero.GetHeroMagicAttackStatusWithoutArmor() + gearsPreview.GetStatusMagicAttack();
+                                gearPreviewPhysicalDefenseStatus = hero.GetHeroPhysicalDefenseStatusWithoutArmor() + gearsPreview.GetStatusPhysicalDefense();
+                                gearPreviewMagicDefenseStatus = hero.GetHeroMagicDefenseStatusWithoutArmor() + gearsPreview.GetStatusMagicDefense();
+                                gearPreviewCriticalStatus = hero.GetHeroCriticalStatusWithoutArmor() + gearsPreview.GetStatusCritical();
+                                gearPreviewAgilityStatus = hero.GetHeroAgilityStatusWithoutArmor() + gearsPreview.GetStatusAgility();
+                                gearPreviewEvasionStatus = hero.GetHeroEvasionStatusWithoutArmor() + gearsPreview.GetStatusEvasion();
+                                break;
+                            case GearsType.Boots:
+                                gearPreviewHealthStatus = hero.GetHeroHealthStatusWithoutBoot() + gearsPreview.GetStatusHealth();
+                                gearPreviewPhysicalAttackStatus = hero.GetHeroPhysicalAttackStatusWithoutBoot() + gearsPreview.GetStatusPhysicalAttack();
+                                gearPreviewMagicAttackStatus = hero.GetHeroMagicAttackStatusWithoutBoot() + gearsPreview.GetStatusMagicAttack();
+                                gearPreviewPhysicalDefenseStatus = hero.GetHeroPhysicalDefenseStatusWithoutBoot() + gearsPreview.GetStatusPhysicalDefense();
+                                gearPreviewMagicDefenseStatus = hero.GetHeroMagicDefenseStatusWithoutBoot() + gearsPreview.GetStatusMagicDefense();
+                                gearPreviewCriticalStatus = hero.GetHeroCriticalStatusWithoutBoot() + gearsPreview.GetStatusCritical();
+                                gearPreviewAgilityStatus = hero.GetHeroAgilityStatusWithoutBoot() + gearsPreview.GetStatusAgility();
+                                gearPreviewEvasionStatus = hero.GetHeroEvasionStatusWithoutBoot() + gearsPreview.GetStatusEvasion();
+                                break;
+                        }
+
+                        health.text = gearPreviewHealthStatus.ToString();
+                        physicalAttack.text = gearPreviewPhysicalAttackStatus.ToString();
+                        magicAttack.text = gearPreviewMagicAttackStatus.ToString();
+                        physicalDefense.text = gearPreviewPhysicalDefenseStatus.ToString();
+                        magicDefense.text = gearPreviewMagicDefenseStatus.ToString();
+                        statusCritical.text = gearPreviewCriticalStatus.ToString();
+                        statusAgility.text = gearPreviewAgilityStatus.ToString();
+                        statusEvasion.text = gearPreviewEvasionStatus.ToString();
+
+                        UpdateColorPreviewStatusHero();
                     }
                     else
                     {
                         Debug.Log($"{gear.GetNameGears()} is toggled OFF!");
                         gearEquipped.SetActive(false);
-
-                        health.text = "0";
-                        physicalAttack.text = "0";
-                        magicAttack.text = "0";
-                        physicalDefense.text = "0";
-                        magicDefense.text = "0";
-                        statusCritical.text = "0";
-                        statusAgility.text = "0";
-                        statusEvasion.text = "0";
+                        UpdateAllDeselectColorStatusPreview();
                     }
 
                     TextMeshProUGUI currentHealthHero = healthHero;
-
                     gearButton.onClick.AddListener(() =>
                     {
                         Debug.Log("Tes ini Button GearEquipped");
                         Gears currentWeapon = hero.GetCurrentWeapon();
                         Gears currentArmor = hero.GetCurrentArmor();
                         Gears currentBoot = hero.GetCurrentBoot();
+                        Gears setGear = gear;
 
-                        switch (gear.GetGearsType())
+                        if (setGear == currentWeapon || setGear == currentArmor || setGear == currentBoot)
+                        {
+                            setGear = new Gears(null, "", setGear.GetGearsType(), setGear.GetGearsCategory(), "", 0, 0, 0, 0, 0, 0, 0, 0);
+                        }
+
+                        switch (setGear.GetGearsType())
                         {
                             case GearsType.Weapons:
-                                hero.SetCurrentSword(gear);
+                                hero.SetCurrentSword(setGear);
                                 break;
                             case GearsType.Armor:
-                                hero.SetCurrentArmor(gear);
+                                hero.SetCurrentArmor(setGear);
                                 break;
                             case GearsType.Boots:
-                                hero.SetCurrentBoot(gear);
+                                hero.SetCurrentBoot(setGear);
                                 break;
                         }
-                    });
 
+                        GearsButtonManager.Instance.UpdateStatusHero(heroIndex);
+                        UpdateColorPreviewStatusHero();
+                    });
                 });
             }
+        }
+
+        public void UpdateAllDeselectColorStatusPreview()
+        {
+            UpdateDeselectColorStatusPreview(health);
+            UpdateDeselectColorStatusPreview(physicalAttack);
+            UpdateDeselectColorStatusPreview(magicAttack);
+            UpdateDeselectColorStatusPreview(physicalDefense);
+            UpdateDeselectColorStatusPreview(magicDefense);
+            UpdateDeselectColorStatusPreview(statusCritical);
+            UpdateDeselectColorStatusPreview(statusAgility);
+            UpdateDeselectColorStatusPreview(statusEvasion);
+        }
+
+        private void UpdateDeselectColorStatusPreview(TextMeshProUGUI textPreviewStatus)
+        {
+            TextMeshProUGUI textSimbol = textPreviewStatus.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>();
+            textSimbol.text = ">";
+            textPreviewStatus.text = "0";
+            textPreviewStatus.color = Color.black;
+            textPreviewStatus.fontStyle = FontStyles.Normal;
+            textPreviewStatus.fontSize = 16;
+        }
+
+        public void UpdateColorPreviewStatusHero()
+        {
+            Hero hero = HeroList[GearsButtonManager.Instance.GetHeroIndex()];
+            //HeroHealth
+            int healthPreview = 0;
+            int currentHealth = 0;
+            //HeroPhysicalAttack
+            int physicalAttackPreview = 0;
+            int currentPhysicalAttack = 0;
+            //HeroMagicAttack
+            int magicAttackPreview = 0;
+            int currentMagicAttack = 0;
+            //HeroPhysicalDefense
+            int physicalDefensePreview = 0;
+            int currentPhysicalDefense = 0;
+            //HeroMagicDefense
+            int magicDefensePreview = 0;
+            int currentMagicDefense = 0;
+            //HeroCritical
+            int criticalPreview = 0;
+            int currentCritical = 0;
+            //HeroAgility
+            int agilityPreview = 0;
+            int currentAgility = 0;
+            //HeroEvasion
+            int evasionPreview = 0;
+            int currentEvasion = 0;
+
+            switch (gearsPreview.GetGearsType())
+            {
+                case GearsType.Weapons:
+                    //HeroHealth
+                    healthPreview = gearsPreview.GetStatusHealth() + hero.GetHeroHealthStatusWithoutWeapon();
+                    currentHealth = hero.GetCurrentWeapon().GetStatusHealth() + hero.GetHeroHealthStatusWithoutWeapon();
+
+                    //HeroPhysicalAttack
+                    physicalAttackPreview = gearsPreview.GetStatusPhysicalAttack() + hero.GetHeroPhysicalAttackStatusWithoutWeapon();
+                    currentPhysicalAttack = hero.GetCurrentWeapon().GetStatusPhysicalAttack() + hero.GetHeroPhysicalAttackStatusWithoutWeapon();
+
+                    //HeroMagicAttack
+                    magicAttackPreview = gearsPreview.GetStatusMagicAttack() + hero.GetHeroMagicAttackStatusWithoutWeapon();
+                    currentMagicAttack = hero.GetCurrentWeapon().GetStatusMagicAttack() + hero.GetHeroMagicAttackStatusWithoutWeapon();
+
+                    //HeroPhysicalDefense
+                    physicalDefensePreview = gearsPreview.GetStatusPhysicalDefense() + hero.GetHeroPhysicalDefenseStatusWithoutWeapon();
+                    currentPhysicalDefense = hero.GetCurrentWeapon().GetStatusPhysicalDefense() + hero.GetHeroPhysicalDefenseStatusWithoutWeapon();
+
+                    //HeroMagicDefense
+                    magicDefensePreview = gearsPreview.GetStatusMagicDefense() + hero.GetHeroMagicDefenseStatusWithoutWeapon();
+                    currentMagicDefense = hero.GetCurrentWeapon().GetStatusMagicDefense() + hero.GetHeroMagicDefenseStatusWithoutWeapon();
+
+                    //HeroCritical
+                    criticalPreview = gearsPreview.GetStatusCritical() + hero.GetHeroCriticalStatusWithoutWeapon();
+                    currentCritical = hero.GetCurrentWeapon().GetStatusCritical() + hero.GetHeroCriticalStatusWithoutWeapon();
+
+                    //HeroAgility
+                    agilityPreview = gearsPreview.GetStatusAgility() + hero.GetHeroAgilityStatusWithoutWeapon();
+                    currentAgility = hero.GetCurrentWeapon().GetStatusAgility() + hero.GetHeroAgilityStatusWithoutWeapon();
+
+                    //HeroEvasion
+                    evasionPreview = gearsPreview.GetStatusEvasion() + hero.GetHeroEvasionStatusWithoutWeapon();
+                    currentEvasion = hero.GetCurrentWeapon().GetStatusEvasion() + hero.GetHeroEvasionStatusWithoutWeapon();
+
+                    break;
+
+                case GearsType.Armor:
+                    //HeroHealth
+                    healthPreview = gearsPreview.GetStatusHealth() + hero.GetHeroHealthStatusWithoutArmor();
+                    currentHealth = hero.GetCurrentArmor().GetStatusHealth() + hero.GetHeroHealthStatusWithoutArmor();
+
+                    //HeroPhysicalAttack
+                    physicalAttackPreview = gearsPreview.GetStatusPhysicalAttack() + hero.GetHeroPhysicalAttackStatusWithoutArmor();
+                    currentPhysicalAttack = hero.GetCurrentArmor().GetStatusPhysicalAttack() + hero.GetHeroPhysicalAttackStatusWithoutArmor();
+
+                    //HeroMagicAttack
+                    magicAttackPreview = gearsPreview.GetStatusMagicAttack() + hero.GetHeroMagicAttackStatusWithoutArmor();
+                    currentMagicAttack = hero.GetCurrentArmor().GetStatusMagicAttack() + hero.GetHeroMagicAttackStatusWithoutArmor();
+
+                    //HeroPhysicalDefense
+                    physicalDefensePreview = gearsPreview.GetStatusPhysicalDefense() + hero.GetHeroPhysicalDefenseStatusWithoutArmor();
+                    currentPhysicalDefense = hero.GetCurrentArmor().GetStatusPhysicalDefense() + hero.GetHeroPhysicalDefenseStatusWithoutArmor();
+
+                    //HeroMagicDefense
+                    magicDefensePreview = gearsPreview.GetStatusMagicDefense() + hero.GetHeroMagicDefenseStatusWithoutArmor();
+                    currentMagicDefense = hero.GetCurrentArmor().GetStatusMagicDefense() + hero.GetHeroMagicDefenseStatusWithoutArmor();
+
+                    //HeroCritical
+                    criticalPreview = gearsPreview.GetStatusCritical() + hero.GetHeroCriticalStatusWithoutArmor();
+                    currentCritical = hero.GetCurrentArmor().GetStatusCritical() + hero.GetHeroCriticalStatusWithoutArmor();
+
+                    //HeroAgility
+                    agilityPreview = gearsPreview.GetStatusAgility() + hero.GetHeroAgilityStatusWithoutArmor();
+                    currentAgility = hero.GetCurrentArmor().GetStatusAgility() + hero.GetHeroAgilityStatusWithoutArmor();
+
+                    //HeroEvasion
+                    evasionPreview = gearsPreview.GetStatusEvasion() + hero.GetHeroEvasionStatusWithoutArmor();
+                    currentEvasion = hero.GetCurrentArmor().GetStatusEvasion() + hero.GetHeroEvasionStatusWithoutArmor();
+
+                    break;
+
+                case GearsType.Boots:
+                    //HeroHealth
+                    healthPreview = gearsPreview.GetStatusHealth() + hero.GetHeroHealthStatusWithoutBoot();
+                    currentHealth = hero.GetCurrentBoot().GetStatusHealth() + hero.GetHeroHealthStatusWithoutBoot();
+
+                    //HeroPhysicalAttack
+                    physicalAttackPreview = gearsPreview.GetStatusPhysicalAttack() + hero.GetHeroPhysicalAttackStatusWithoutBoot();
+                    currentPhysicalAttack = hero.GetCurrentBoot().GetStatusPhysicalAttack() + hero.GetHeroPhysicalAttackStatusWithoutBoot();
+
+                    //HeroMagicAttack
+                    magicAttackPreview = gearsPreview.GetStatusMagicAttack() + hero.GetHeroMagicAttackStatusWithoutBoot();
+                    currentMagicAttack = hero.GetCurrentBoot().GetStatusMagicAttack() + hero.GetHeroMagicAttackStatusWithoutBoot();
+
+                    //HeroPhysicalDefense
+                    physicalDefensePreview = gearsPreview.GetStatusPhysicalDefense() + hero.GetHeroPhysicalDefenseStatusWithoutBoot();
+                    currentPhysicalDefense = hero.GetCurrentBoot().GetStatusPhysicalDefense() + hero.GetHeroPhysicalDefenseStatusWithoutBoot();
+
+                    //HeroMagicDefense
+                    magicDefensePreview = gearsPreview.GetStatusMagicDefense() + hero.GetHeroMagicDefenseStatusWithoutBoot();
+                    currentMagicDefense = hero.GetCurrentBoot().GetStatusMagicDefense() + hero.GetHeroMagicDefenseStatusWithoutBoot();
+
+                    //HeroCritical
+                    criticalPreview = gearsPreview.GetStatusCritical() + hero.GetHeroCriticalStatusWithoutBoot();
+                    currentCritical = hero.GetCurrentBoot().GetStatusCritical() + hero.GetHeroCriticalStatusWithoutBoot();
+
+                    //HeroAgility
+                    agilityPreview = gearsPreview.GetStatusAgility() + hero.GetHeroAgilityStatusWithoutBoot();
+                    currentAgility = hero.GetCurrentBoot().GetStatusAgility() + hero.GetHeroAgilityStatusWithoutBoot();
+
+                    //HeroEvasion
+                    evasionPreview = gearsPreview.GetStatusEvasion() + hero.GetHeroEvasionStatusWithoutBoot();
+                    currentEvasion = hero.GetCurrentBoot().GetStatusEvasion() + hero.GetHeroEvasionStatusWithoutBoot();
+                    break;
+
+            }
+            UpdatePreviewTextColorStatus(health, healthPreview, currentHealth);
+            UpdatePreviewTextColorStatus(physicalAttack, physicalAttackPreview, currentPhysicalAttack);
+            UpdatePreviewTextColorStatus(magicAttack, magicAttackPreview, currentMagicAttack);
+            UpdatePreviewTextColorStatus(physicalDefense, physicalDefensePreview, currentPhysicalDefense);
+            UpdatePreviewTextColorStatus(magicDefense, magicDefensePreview, currentMagicDefense);
+            UpdatePreviewTextColorStatus(statusCritical, criticalPreview, currentCritical);
+            UpdatePreviewTextColorStatus(statusAgility, agilityPreview, currentAgility);
+            UpdatePreviewTextColorStatus(statusEvasion, evasionPreview, currentEvasion);
+
+
+
+        }
+
+        private void UpdatePreviewTextColorStatus(TextMeshProUGUI textStatus, int statusPreview, int currentStatus)
+        {
+            TextMeshProUGUI textSimbol = textStatus.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>();
+            Color TextColor;
+
+            if (statusPreview > currentStatus)
+            {
+                TextColor = new Color(0, 1, 0);
+                textStatus.fontStyle = FontStyles.Bold;
+                textStatus.fontSize = 20;
+                textSimbol.text = "<";
+            }
+            else if (statusPreview < currentStatus)
+            {
+                TextColor = new Color(1, 0, 0);
+                textStatus.fontStyle = FontStyles.Bold;
+                textStatus.fontSize = 20;
+                textSimbol.text = ">";
+            }
+            else
+            {
+                TextColor = new Color(0, 0, 0);
+                textStatus.fontStyle = FontStyles.Normal;
+                textStatus.fontSize = 16;
+                textSimbol.text = "=";
+            }
+            textStatus.color = TextColor;
+
+        }
+
+        public Hero GetHero(int index)
+        {
+            return HeroList[index];
         }
 
         #region GetSet
@@ -264,124 +569,116 @@ namespace Nivandria.UI.Gears
             }
         }
 
-        public string GetStatusHealthHero(int index)
+        public int GetStatusHealthHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetHeroHealth() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetHeroHealth();
-                    healthHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetHealthHero = currentHero.GetHeroHealth();
+                    return GetHealthHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusPhysicalAttackHero(int index)
+        public int GetStatusPhysicalAttackHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetPhysicalAttackHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetPhysicalAttackHero();
-                    physicalAttackHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetPhysicalAttackHero = currentHero.GetPhysicalAttackHero();
+                    return GetPhysicalAttackHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusMagicAttackHero(int index)
+        public int GetStatusMagicAttackHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetMagicAttackHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetMagicAttackHero();
-                    magicAttackHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetMagicAttackHero = currentHero.GetMagicAttackHero();
+                    return GetMagicAttackHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusPhysicalDefenseHero(int index)
+        public int GetStatusPhysicalDefenseHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetPhysicalDefenseHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetPhysicalDefenseHero();
-                    physicalDefenseHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetPhysicalDefenseHero = currentHero.GetPhysicalDefenseHero();
+                    return GetPhysicalDefenseHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusMagicDefenseHero(int index)
+        public int GetStatusMagicDefenseHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetMagicDefenseHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetMagicDefenseHero();
-                    magicDefenseHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetMagicDefenseHero = currentHero.GetMagicDefenseHero();
+                    return GetMagicDefenseHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusCriticalHero(int index)
+        public int GetStatusCriticalHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetCriticalHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetCriticalHero();
-                    statusCriticalHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetCriticalHero = currentHero.GetCriticalHero();
+                    return GetCriticalHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusAgilityHero(int index)
+        public int GetStatusAgilityHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetAgilityHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetAgilityHero();
-                    statusAgilityHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetAgilityHero = currentHero.GetAgilityHero();
+                    return GetAgilityHero;
                 }
             }
-            return "";
+            return 0;
         }
 
-        public string GetStatusEvasionHero(int index)
+        public int GetStatusEvasionHero(int index)
         {
             if (index >= 0 && index < HeroList.Count)
             {
                 Hero currentHero = HeroList[index];
-                if (currentHero != null && currentHero.GetEvasionHero() != null)
+                if (currentHero != null)
                 {
-                    string name = currentHero.GetEvasionHero();
-                    statusEvasionHero.text = name; // Mengisi TextMeshProUGUI yang sesuai
-                    return name;
+                    int GetEvasionHero = currentHero.GetEvasionHero();
+                    return GetEvasionHero;
                 }
             }
-            return "";
+            return 0;
         }
 
         public Sprite GetIconGear(int index)
