@@ -22,6 +22,7 @@ namespace Nivandria.Battle.Action
 
         [SerializeField] private int maxMoveDistance = 4;
         [SerializeField] private LayerMask obstacleLayer;
+        [SerializeField] private Material arrowMaterial;
 
         private Vector3 startPosition;
         private Quaternion startRotation;
@@ -47,15 +48,17 @@ namespace Nivandria.Battle.Action
         private bool doneRotating = true;
         private float rotateSpeed = 30f;
 
+        private bool generatePathfindingPath = false;
+        private GridPosition pathTarget;
+        List<GridPosition> pathToTarget;
+        List<GridPosition> currentValidGrid;
+        LineRenderer lineRenderer;
+
         private void Update()
         {
-            if (!doneRotating)
-            {
-                IsRotating();
-            }
-
+            if (generatePathfindingPath) ShowPath();
+            if (!doneRotating) IsRotating();
             if (!isActive) return;
-
             if (isJumping) HandleJumping();
             else HandleMoving();
 
@@ -79,6 +82,7 @@ namespace Nivandria.Battle.Action
                 return;
             }
 
+            generatePathfindingPath = false;
             WalkingInitialization();
         }
 
@@ -217,9 +221,9 @@ namespace Nivandria.Battle.Action
             RotateCharacter(unit.GetFacingDirection());
             Pointer.Instance.SetPointerOnGrid(targetPosition);
 
-            if(!unit.IsEnemy()) UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+            if (!unit.IsEnemy()) UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
             else YesButtonAction();
-            
+
             doneRotating = false;
         }
 
@@ -259,6 +263,7 @@ namespace Nivandria.Battle.Action
 
         protected override void NoButtonAction()
         {
+            generatePathfindingPath = true;
             transform.position = startPosition;
             transform.rotation = startRotation;
             destinationReached = false;
@@ -274,15 +279,62 @@ namespace Nivandria.Battle.Action
         {
             base.YesButtonAction();
             GridSystemVisual.Instance.HideAllGridPosition();
-
+            HidePath();
             onActionComplete();
         }
+
 
         protected override void PlayerInputController_OnCancelPressed(object sender, EventArgs e)
         {
             if (destinationReached) return;
+            generatePathfindingPath = false;
+            HidePath();
             base.PlayerInputController_OnCancelPressed(sender, e);
         }
+
+
+        public void InitPathToTarget()
+        {
+            generatePathfindingPath = true;
+            pathToTarget = null;
+            currentValidGrid = GetValidActionGridPosition();
+
+            if (lineRenderer != null) Destroy(lineRenderer);
+            lineRenderer = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
+            lineRenderer.material = arrowMaterial;
+            lineRenderer.generateLightingData = true;
+            lineRenderer.useWorldSpace = true;
+            lineRenderer.numCornerVertices = 5;
+            lineRenderer.textureScale = new Vector2(1, 0.3f);
+            lineRenderer.sortingLayerName = "Below";   
+        }
+
+        public void ShowPath()
+        {
+            GridPosition newPathTarget = Pointer.Instance.GetCurrentGrid();
+
+            if (newPathTarget == pathTarget || !currentValidGrid.Contains(newPathTarget)) return;
+            if (pathToTarget != null) GridSystemVisual.Instance.ShowGridPositionList(pathToTarget, GridVisualType.White);
+
+            pathToTarget = Pathfinding.Instance.FindPath(unit.GetGridPosition(), newPathTarget, out int pathLength);
+            // GridSystemVisual.Instance.ShowGridPositionList(pathToTarget, GridVisualType.Blue);
+            lineRenderer.positionCount = pathToTarget.Count;
+            for (int i = 0; i < pathToTarget.Count; i++)
+            {
+                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(pathToTarget[i]);
+                worldPosition.y = 0.3f;
+                lineRenderer.SetPosition(i, worldPosition);
+            }
+
+            pathTarget = newPathTarget;
+        }
+
+        public void HidePath()
+        {
+            Destroy(lineRenderer);
+        }
+
+        public Material GetArrowMaterial() => arrowMaterial;
 
     }
 }

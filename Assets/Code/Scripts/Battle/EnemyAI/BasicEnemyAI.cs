@@ -9,9 +9,12 @@ namespace Nivandria.Battle.AI
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
     using Random = UnityEngine.Random;
+    using Nivandria.Battle.PathfindingSystem;
 
     public class BasicEnemyAI : UnitAI
     {
+        LineRenderer lineRenderer;
+
         public override void HandleEnemyTurn()
         {
             if (!TryAttackAction())
@@ -61,6 +64,7 @@ namespace Nivandria.Battle.AI
         private void MoveAction()
         {
             GridPosition moveposition = BestMovePosition();
+            ShowPath(moveposition);
             StartCoroutine(WaitAndAction(selectedAction.TakeAction, moveposition, 1));
         }
 
@@ -74,11 +78,11 @@ namespace Nivandria.Battle.AI
             {
                 List<GridPosition> testValidGridList = unit.GetAction<BasicAttack>().GetValidActionGridPosition(grid);
                 if (testValidGridList.Count == 0) continue;
+                //! FIX LATER
                 if (LevelGrid.Instance.GetUnitListAtGridPosition(grid).Count == 0) continue;
 
                 Unit targetUnit = LevelGrid.Instance.GetUnitListAtGridPosition(grid)[0];
                 int damage = LevelGrid.Instance.RelativeFacingChecker(targetUnit, unit);
-
                 if (damage < mostDamage) continue;
                 mostDamage = damage;
                 validGrid = grid;
@@ -121,6 +125,34 @@ namespace Nivandria.Battle.AI
             return validGrid;
         }
 
+        private void ShowPath(GridPosition validPosition)
+        {
+            List<GridPosition> pathToTarget = Pathfinding.Instance.FindPath(unit.GetGridPosition(), validPosition, out int pathLength);
+            Material arrowMaterial = unit.GetAction<MoveAction>().GetArrowMaterial();
+
+            HidePath();
+            lineRenderer = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
+            lineRenderer.material = arrowMaterial;
+            lineRenderer.generateLightingData = true;
+            lineRenderer.useWorldSpace = true;
+            lineRenderer.numCornerVertices = 5;
+            lineRenderer.textureScale = new Vector2(1, 0.3f);
+            lineRenderer.sortingLayerName = "Below";   
+
+            lineRenderer.positionCount = pathToTarget.Count;
+            for (int i = 0; i < pathToTarget.Count; i++)
+            {
+                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(pathToTarget[i]);
+                worldPosition.y = 0.3f;
+                lineRenderer.SetPosition(i, worldPosition);
+            }
+        }
+
+        public void HidePath()
+        {
+            if (lineRenderer != null) Destroy(lineRenderer);
+        }
+
         private IEnumerator WaitAndAction(Action<GridPosition, Action> action, GridPosition validPosition, int waitForSeconds)
         {
             UnitActionSystem.Instance.SetSelectedAction(selectedAction);
@@ -139,6 +171,7 @@ namespace Nivandria.Battle.AI
 
         void OnActionComplete()
         {
+            HidePath();
             unit.SetActionStatus(selectedAction.GetActionCategory(), true);
             GridSystemVisual.Instance.HideAllGridPosition();
             Pointer.Instance.SetPointerOnGrid(unit.GetGridPosition());

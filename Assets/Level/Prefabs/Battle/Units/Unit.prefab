@@ -49,8 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b52731abc343f4294aa6778b1aa863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitAnimator: {fileID: 0}
-  unit: {fileID: 0}
 --- !u!95 &5063067443981454916
 Animator:
   serializedVersion: 5
@@ -128,6 +126,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
+  arrowMaterial: {fileID: 2100000, guid: 430d927316319f64395fc4a9607eebf8, type: 2}
 --- !u!114 &2708009596075614867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +202,18 @@ PrefabInstance:
     - target: {fileID: 95787105524477528, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 137720934533220950, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 137720934533220950, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 137720934533220950, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 95787105524477528, guid: 2f3e27eecb190e44a9af50723c394274, type: 3}

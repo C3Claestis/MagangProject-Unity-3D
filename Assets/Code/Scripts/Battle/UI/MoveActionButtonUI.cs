@@ -8,20 +8,22 @@ namespace Nivandria.Battle.UI
     public class MoveActionButtonUI : BaseActionButtonUI
     {
         protected override ActionCategory actionCategory => ActionCategory.Move;
-        
+
         public override void ButtonOnClick()
         {
             EventSystem eventSystem = EventSystem.current;
-            BaseAction baseAction = unit.GetAction<MoveAction>();
+            MoveAction moveAction = unit.GetAction<MoveAction>();
 
-            UnitActionSystem.Instance.SetSelectedAction(baseAction);
+            UnitActionSystem.Instance.SetSelectedAction(moveAction);
             GridSystemVisual.Instance.UpdateGridVisual();
 
-            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(baseAction.GetActionCategory())) return;
+            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(moveAction.GetActionCategory())) return;
 
+            moveAction.InitPathToTarget();            
+            
             UnitActionSystem.Instance.HideActionUI();
             Pointer.Instance.SetActive(true);
-            baseAction.InitializeCancel();
+            moveAction.InitializeCancel();
 
             PlayerInputController.Instance.SetActionMap("Gridmap");
             eventSystem.SetSelectedGameObject(null, new BaseEventData(eventSystem));
