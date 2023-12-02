@@ -23,17 +23,33 @@ namespace Nivandria.Quest
         [SerializeField] Text quest_description;
         [SerializeField] Text quest_type_and_tittle;
 
+        #region Componen Quest Pertama
         [Header("Gameobject Quest")]
         [SerializeField] Transform pointer;
 
         [Header("Component Quest 1")]
         [SerializeField] Transform pintu_kamar_sacra;
-        [SerializeField] GameObject MQ1_1;
+        [SerializeField] GameObject MQ1_0;
 
         [Header("Component Quest 2")]
         [SerializeField] Transform pintu_kamar_vana;
+        [SerializeField] GameObject MQ1_1;
+
+        [Header("Component Quest 3")]
         [SerializeField] GameObject MQ1_2;
 
+        [Header("Component Quest 4")]
+        [SerializeField] GameObject MQ1_3;
+
+        [Header("Component Quest 5")]
+        [SerializeField] GameObject MQ1_4;
+
+        [Header("Component Quest 6")]
+        [SerializeField] GameObject MQ1_5;
+
+        [Header("Component Quest 7")]
+        [SerializeField] GameObject MQ1_6;
+        #endregion
         private void Awake()
         {
             if (instance != null)
@@ -55,13 +71,7 @@ namespace Nivandria.Quest
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                PlayerPrefs.SetInt("Prologue1", 0);
-                PlayerPrefs.SetInt("Prologue2", 0);
-            }
-            //Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
-            //Debug.Log("PROLOGUE 1 INDEX = " + PlayerPrefs.GetInt("Prologue1"));
+            Debug.Log("CURRENY INDEX = " + PlayerPrefs.GetInt("Prologue1"));
 
             SwitchQuest(PlayerPrefs.GetInt("Quest"));
 
@@ -114,35 +124,41 @@ namespace Nivandria.Quest
             switch (indexobjective)
             {
                 case 0:
-                    SpawnQuest(MQ1_1);
+                    SpawnQuest(MQ1_0);
                     //QuestPointer(new Vector3(10f, 1f, 10f));                                                            
                     break;
                 case 1:
-                    SpawnQuest(MQ1_2);
+                    SpawnQuest(MQ1_1);
                     questManager.CompleteObjectiveQuest(quest1, 0);
                     pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
                     //QuestPointer(new Vector3(100f, 1f, 50f));                    
                     break;
                 case 2:
                     Clear(2);
+                    SpawnQuest(MQ1_2);
+                    DestroySpawnQuest(MQ1_1);
                     pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);
                     pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
                     break;
                 case 3:
                     Clear(3);
+                    SpawnQuest(MQ1_3);
                     pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);
                     pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
                     break;
                 case 4:
                     Clear(4);
+                    SpawnQuest(MQ1_4);
                     pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);
                     pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
                     break;
                 case 5:
                     Clear(5);
+                    SpawnQuest(MQ1_5);
                     break;
                 case 6:
                     Clear(6);
+                    SpawnQuest(MQ1_6);
                     break;
                 case 7:
                     Clear(7);
@@ -207,9 +223,20 @@ namespace Nivandria.Quest
                 if (objects == null)
                 {
                     Instantiate(gameObject);
-                }                
+                }
 
                 hasSpawned = false;
+            }
+        }
+
+        void DestroySpawnQuest(GameObject gameObject)
+        {
+            GameObject objects = GameObject.Find(gameObject.name + "(Clone)");
+
+            if (objects != null)
+            {
+                Destroy(objects);
+                Debug.Log("Berhasil Destroy = " + objects);
             }
         }
     }

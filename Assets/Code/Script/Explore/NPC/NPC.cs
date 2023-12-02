@@ -31,8 +31,6 @@ namespace Nivandria.Explore
         public bool GetInterect() => isInterect;
         #endregion
 
-        //Kamera Posisi = 3, 0.5f, -2.5f;
-        //Kamera rotasi = 15, -45, 0;
         // Start is called before the first frame update
         void Start()
         {

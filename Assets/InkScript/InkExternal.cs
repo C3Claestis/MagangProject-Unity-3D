@@ -104,18 +104,12 @@ namespace Nivandria.Explore
 
                 switch (ParseComplete)
                 {
-                    case 2:
+                    case 1:
                         HandleQuest.GetInstance().Mision1 = true;
                         break;
-                    case 3:
-
-                        break;
-                    case 4:
-
-                        break;
-                    case 5:
-
-                        break;
+                    case 2:
+                        HandleQuest.GetInstance().Mision2 = true;
+                        break;                    
                 }
             });
         }

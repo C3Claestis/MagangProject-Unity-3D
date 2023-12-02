@@ -42,7 +42,7 @@ namespace Nivandria.Explore
 
             if (input == Vector2.zero)
             {
-                rb.velocity = Vector3.zero;
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
                 return;
             }
 

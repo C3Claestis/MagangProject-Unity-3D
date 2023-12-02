@@ -49,10 +49,10 @@ namespace Nivandria.Explore
         void Start()
         {
             anim = GetComponent<Animator>();
-            agent = GetComponent<NavMeshAgent>();            
+            agent = GetComponent<NavMeshAgent>();
             initialPosition = transform.position;
             SetRandomTargetPosition();
-        }    
+        }
 
         // Update is called once per frame
         void Update()
@@ -65,14 +65,14 @@ namespace Nivandria.Explore
             }
 
             if (isMoving)
-            {               
+            {
                 anim.SetBool("IsWalk", true);
             }
             else
-            {                      
+            {
                 anim.SetBool("IsWalk", false);
             }
-            
+
             if (IsRandomly)
             {
                 MoveRandomly();
@@ -83,14 +83,14 @@ namespace Nivandria.Explore
         // Update the countdown bar's fill amount
         void BarCircle()
         {
-            barCountDown.fillAmount = Mathf.InverseLerp(0, koloni.GetDurasi(), koloni.GetTimeWait());            
+            barCountDown.fillAmount = Mathf.InverseLerp(0, koloni.GetDurasi(), koloni.GetTimeWait());
         }
 
         // Follow the target transform
         public void Follow(Transform follow)
         {
             if (koloni.GetIsFollow() == true)
-            {                
+            {
                 IsRandomly = false;
                 dangerIcon.SetActive(true);
                 agent.speed = 3;
@@ -130,32 +130,35 @@ namespace Nivandria.Explore
 
         // Move randomly within a specified range
         private void MoveRandomly()
-        {            
+        {
             Vector3 direction = targetPosition - transform.position;
-
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotasiRandom * Time.deltaTime);
 
-            Vector3 newPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, moveSpeedRandom);
-            transform.position = newPosition;
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.5f)
-            {                
+            // Check if the NPC is close enough to the target position
+            if (Vector3.Distance(transform.position, targetPosition) > 0.5f)
+            {
+                Vector3 newPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, moveSpeedRandom);
+                transform.position = newPosition;
+                isMoving = true;
+            }
+            else
+            {
                 isMoving = false;
-                
+
                 if (idleCoroutine == null)
                 {
                     idleCoroutine = StartCoroutine(StartIdleAfterDelay(2f));
                 }
-            }         
+            }
         }
 
         // Set a random target position within the maximum range
         private void SetRandomTargetPosition()
         {
-            float randomX = Random.Range(initialPosition.x - maxRange *2, initialPosition.x + maxRange * 2);
-            float randomZ = Random.Range(initialPosition.z - maxRange *2, initialPosition.z + maxRange * 2);
+            float randomX = Random.Range(initialPosition.x - maxRange * 2, initialPosition.x + maxRange * 2);
+            float randomZ = Random.Range(initialPosition.z - maxRange * 2, initialPosition.z + maxRange * 2);
             targetPosition = new Vector3(randomX, initialPosition.y, randomZ);
         }
 
@@ -166,6 +169,6 @@ namespace Nivandria.Explore
             isMoving = true;
             SetRandomTargetPosition();
             idleCoroutine = null;
-        }        
-    }    
+        }
+    }
 }
