@@ -4,9 +4,7 @@ namespace Nivandria.Quest
     using System.Collections.Generic;
     using UnityEngine.UI;
     using UnityEngine;
-    using Nivandria.Explore;
-    using System;
-    using Ink.Runtime;
+    using UnityEngine.SceneManagement;
 
     public class HandleQuest : MonoBehaviour
     {
@@ -17,16 +15,13 @@ namespace Nivandria.Quest
         [Header("Quest Data")]
         [SerializeField] QuestData quest1;
         [SerializeField] QuestData quest2;
-        [HideInInspector] public bool Mision1, Mision2;
+        [HideInInspector] public bool Mision1, Mision2;        
 
         [Header("UI Panel Quest")]
         [SerializeField] Text quest_description;
         [SerializeField] Text quest_type_and_tittle;
 
-        #region Componen Quest Pertama
-        [Header("Gameobject Quest")]
-        [SerializeField] Transform pointer;
-
+        #region Componen Quest Pertama        
         [Header("Component Quest 1")]
         [SerializeField] Transform pintu_kamar_sacra;
         [SerializeField] GameObject MQ1_0;
@@ -71,6 +66,11 @@ namespace Nivandria.Quest
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetKey(KeyCode.R))
+            {
+                PlayerPrefs.DeleteAll();
+            }
+
             Debug.Log("CURRENY INDEX = " + PlayerPrefs.GetInt("Prologue1"));
 
             SwitchQuest(PlayerPrefs.GetInt("Quest"));
@@ -78,6 +78,7 @@ namespace Nivandria.Quest
             if (Mision1)
             {
                 QuestComplete(quest1, 1);
+                
             }
             if (Mision2)
             {
@@ -125,36 +126,36 @@ namespace Nivandria.Quest
             {
                 case 0:
                     SpawnQuest(MQ1_0);
-                    //QuestPointer(new Vector3(10f, 1f, 10f));                                                            
+                    // Buat pintu menjadi tertutup pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);                    
                     break;
                 case 1:
                     SpawnQuest(MQ1_1);
                     questManager.CompleteObjectiveQuest(quest1, 0);
-                    pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
-                    //QuestPointer(new Vector3(100f, 1f, 50f));                    
+                    // Buat pintu menjadi tertutup pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);                    
                     break;
                 case 2:
-                    Clear(2);
-                    SpawnQuest(MQ1_2);
+                    TakeQuestAndIndexScene(MQ1_2, 1, 2);
+                    //Clear(2);
+                    //SpawnQuest(MQ1_2);
                     DestroySpawnQuest(MQ1_1);
-                    pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);
-                    pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
                     break;
                 case 3:
-                    Clear(3);
-                    SpawnQuest(MQ1_3);
-                    pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);
-                    pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
+                    //Clear(3);
+                    //SpawnQuest(MQ1_3);
+                    TakeQuestAndIndexScene(MQ1_3, 1, 3);
+                    DestroySpawnQuest(MQ1_2);
                     break;
                 case 4:
-                    Clear(4);
-                    SpawnQuest(MQ1_4);
-                    pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);
-                    pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);
+                    //Clear(4);
+                    //SpawnQuest(MQ1_4);
+                    TakeQuestAndIndexScene(MQ1_4, 1, 4);
+                    DestroySpawnQuest(MQ1_3);
                     break;
                 case 5:
-                    Clear(5);
-                    SpawnQuest(MQ1_5);
+                    //Clear(5);
+                    //SpawnQuest(MQ1_5);
+                    TakeQuestAndIndexScene(MQ1_5, 1, 5);
+                    DestroySpawnQuest(MQ1_4);
                     break;
                 case 6:
                     Clear(6);
@@ -171,7 +172,10 @@ namespace Nivandria.Quest
             switch (indexobjective)
             {
                 case 1:
+                    if (SceneManager.GetActiveScene().buildIndex == 1)
+                    {
 
+                    }
                     break;
                 case 2:
 
@@ -187,10 +191,18 @@ namespace Nivandria.Quest
                     break;
             }
         }
-
-        void QuestPointer(Vector3 pointers)
+        
+        void TakeQuestAndIndexScene(GameObject quest, int indexScene, int indexClear)
         {
-            pointer.position = pointers;
+            if (SceneManager.GetActiveScene().buildIndex == indexScene)
+            {
+                SpawnQuest(quest);
+                Clear(indexClear);                                    
+            }
+            else
+            {
+                Destroy(quest);
+            }
         }
         void QuestComplete(QuestData Index, byte Noindex)
         {

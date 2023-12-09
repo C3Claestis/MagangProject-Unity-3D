@@ -14,6 +14,8 @@ namespace Nivandria.Explore
         [SerializeField] Sprite[] sacra_sprite;
         [Header("Sprite Vana")]
         [SerializeField] Sprite[] vana_sprite;
+        [Header("Sprite Eldria")]
+        [SerializeField] Sprite[] eldria_sprite;
         [Header("Image Left")]
         [SerializeField] Image avatar_1;
         [Header("Image Right")]
@@ -96,6 +98,26 @@ namespace Nivandria.Explore
                                         avatar_2.color = new Color32(100, 100, 100, 255);
                                     }
                                     break;
+                                case 3:
+                                    if (eksvalue == "Default")
+                                    {
+                                        avatar_2.sprite = eldria_sprite[0];
+                                        avatar_2.color = new Color32(255, 255, 255, 255);
+                                        avatar_1.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Smile")
+                                    {
+                                        avatar_2.sprite = eldria_sprite[1];
+                                        avatar_2.color = new Color32(255, 255, 255, 255);
+                                        avatar_1.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    else if (eksvalue == "Speak")
+                                    {
+                                        avatar_2.sprite = eldria_sprite[2];
+                                        avatar_2.color = new Color32(255, 255, 255, 255);
+                                        avatar_1.color = new Color32(100, 100, 100, 255);
+                                    }
+                                    break;
                             }
                         });
             story.BindExternalFunction("complete", (string compvalue) =>
@@ -109,7 +131,7 @@ namespace Nivandria.Explore
                         break;
                     case 2:
                         HandleQuest.GetInstance().Mision2 = true;
-                        break;                    
+                        break;
                 }
             });
         }

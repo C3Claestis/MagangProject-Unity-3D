@@ -138,7 +138,6 @@ MonoBehaviour:
   - {fileID: -4854561515766890793}
   - {fileID: 2549607077954509261}
   - {fileID: -7179026774366453545}
-  - {fileID: 7753321481397940232}
   - {fileID: -8332781585902892304}
 --- !u!114 &2549607077954509261
 MonoBehaviour:
@@ -185,24 +184,5 @@ MonoBehaviour:
     m_Value: {fileID: 0}
     dimension: 1
   dirtIntensity:
-    m_OverrideState: 0
-    m_Value: 0
---- !u!114 &7753321481397940232
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
-  m_Name: WhiteBalance
-  m_EditorClassIdentifier: 
-  active: 1
-  temperature:
-    m_OverrideState: 0
-    m_Value: 0
-  tint:
     m_OverrideState: 0
     m_Value: 0

@@ -53,7 +53,14 @@ namespace Nivandria.Explore
             Vector3 direction = targetPosition - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotasiRandom * Time.deltaTime);
+            // Save the initial rotation
+            Quaternion initialRotation = transform.rotation;
+
+            // Set the rotation only for the y component, keeping x and z frozen
+            targetRotation.eulerAngles = new Vector3(0f, targetRotation.eulerAngles.y, 0f);
+
+            // Slerp between the initial rotation and the new rotation
+            transform.rotation = Quaternion.Slerp(initialRotation, targetRotation, rotasiRandom * Time.deltaTime);
 
             // Check if the NPC is close enough to the target position
             if (Vector3.Distance(transform.position, targetPosition) > 0.5f)
