@@ -9,7 +9,12 @@ namespace Nivandria.Battle
     {
         public static CameraController Instance { get; private set; }
 
-        [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
+        [Header("Virtual Camera")]
+        [SerializeField] CinemachineVirtualCamera verticalCamera;
+        [SerializeField] CinemachineVirtualCamera horizontalCamera;
+        [SerializeField] CinemachineVirtualCamera UpCamera;
+
+        [Header("Speed")]
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private float moveFocusStoppingDistance = .3f;
         [SerializeField] private float focusActiveMoveSpeed = 30f;
@@ -21,7 +26,7 @@ namespace Nivandria.Battle
         private Vector3 targetFollowOffset;
 
         private float widthMoveLimit, heighMoveLimit;
-        private float minZoomLimit = 2f;
+        private float minZoomLimit = 5f;
         private float maxZoomLimit = 8f;
         private float zoomSmoothSpeed = 5f;
         private float zoomSpeed = 0.4f;
@@ -45,21 +50,58 @@ namespace Nivandria.Battle
             widthMoveLimit = LevelGrid.Instance.GetGridWidth() * 2f - 1f;
             heighMoveLimit = LevelGrid.Instance.GetGridHeight() * 2 - 1f;
 
-            cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-            targetFollowOffset = cinemachineTransposer.m_FollowOffset;
+            InitializedVirtualCamera(UpCamera);
             playerInputController = PlayerInputController.Instance;
 
-            transform.position = new Vector3(widthMoveLimit / 2, 0, 1);
+            // transform.position = new Vector3(widthMoveLimit / 2, 0, 1);
             targetFollowOffset.y = maxZoomLimit;
 
             playerInputController.OnActionMapChanged += PlayerInputController_OnActionMapChanged;
             playerInputController.OnInputControlChanged += PlayerInputController_OnInputControlChanged;
         }
 
+        public void InitializedVirtualCamera(CinemachineVirtualCamera cinemachineVirtualCamera)
+        {
+            cinemachineVirtualCamera.enabled = true;
+            cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            targetFollowOffset = cinemachineTransposer.m_FollowOffset;
+            targetFollowOffset.y = maxZoomLimit;
+
+            if (cinemachineVirtualCamera == verticalCamera)
+            {
+                horizontalCamera.enabled = false;
+                UpCamera.enabled = false;
+
+                minZoomLimit = 5;
+                maxZoomLimit = 8;
+            }
+            else if (cinemachineVirtualCamera == horizontalCamera)
+            {
+                verticalCamera.enabled = false;
+                UpCamera.enabled = false;
+
+                minZoomLimit = 5;
+                maxZoomLimit = 8;
+            }
+            else if (cinemachineVirtualCamera == UpCamera)
+            {
+                verticalCamera.enabled = false;
+                horizontalCamera.enabled = false;
+
+                minZoomLimit = 10;
+                maxZoomLimit = 14;
+            }
+            else
+            {
+                Debug.LogError("Camera Not Identified!");
+                return;
+            }
+        }
+
 
         void Update()
         {
-            HandleCameraFocusToPosition();
+            HandleCameraMoveToTarget();
 
             if (!isActive) return;
 
@@ -97,7 +139,7 @@ namespace Nivandria.Battle
         }
 
         /// <summary>Handles the camera focusing to a specific position.</summary>
-        private void HandleCameraFocusToPosition()
+        private void HandleCameraMoveToTarget()
         {
             if (!cameraFocusActive) return;
 
@@ -115,9 +157,18 @@ namespace Nivandria.Battle
             }
         }
 
+        /// <summary> Sets the camera's focus to a specific position. </summary>
+        /// <param name="targetPosition">The position to focus the camera on.</param>
+        public void SetCameraFocusToPosition(Vector3 targetPosition)
+        {
+            this.targetPosition = targetPosition;
+            cameraFocusActive = true;
+        }
+
+
         private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
         {
-            if (actionMap == "Gridmap")
+            if (actionMap == "Gridmap" || actionMap == "PlacingUnits")
             {
                 SetActive(true);
             }
@@ -135,16 +186,8 @@ namespace Nivandria.Battle
             else zoomSpeed = 0.4f;
         }
 
-        /// <summary> Sets the camera's focus to a specific position. </summary>
-        /// <param name="targetPosition">The position to focus the camera on.</param>
-        public void SetCameraFocusToPosition(Vector3 targetPosition)
-        {
-            this.targetPosition = targetPosition;
-            cameraFocusActive = true;
-        }
-
         public void SetActive(bool status) => isActive = status;
-
+        public CinemachineVirtualCamera GetVerticalCamera() => verticalCamera;
         public GridPosition GetCurrentGridPosition() => LevelGrid.Instance.GetGridPosition(transform.position);
     }
 }

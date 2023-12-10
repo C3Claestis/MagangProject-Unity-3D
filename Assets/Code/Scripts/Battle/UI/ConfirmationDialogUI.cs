@@ -1,6 +1,7 @@
 namespace Nivandria.Battle.UI
 {
     using System;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -8,6 +9,7 @@ namespace Nivandria.Battle.UI
     public class ConfirmationDialogUI : MonoBehaviour
     {
         [SerializeField] Button firstButton;
+        [SerializeField] TextMeshProUGUI TextInside;
 
         private Action onYesButtonSelected;
         private Action onNoButtonSelected;
@@ -17,6 +19,11 @@ namespace Nivandria.Battle.UI
             var eventSystem = EventSystem.current;
             eventSystem.SetSelectedGameObject(firstButton.gameObject, new BaseEventData(eventSystem));
             PlayerInputController.Instance.OnCancelUIPressed += PlayerInputController_OnCancelPressed;
+        }
+
+        public void SetupWord(string text)
+        {
+            TextInside.text = text;
         }
 
         private void OnDestroy()

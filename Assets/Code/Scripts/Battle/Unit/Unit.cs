@@ -76,12 +76,11 @@ namespace Nivandria.Battle.UnitSystem
             gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
-            ChangeUnitShade();
             UpdateUnitDirection();
         }
 
         /// <summary>Change unit material shading based on the selection status.</summary>
-        public void ChangeUnitShade()
+        public void UpdateUnitShade()
         {
             Material newMaterial = skinnedMeshRenderer.material;
             Color lightShade = new Color(0.9f, 0.9f, 0.9f, 1f);
@@ -158,8 +157,8 @@ namespace Nivandria.Battle.UnitSystem
             isAlive = false;
             UnitTurnSystem.Instance.RemoveUnitFromList(this);
             OnDead?.Invoke(this, EventArgs.Empty);
-            
-			if (UnitTurnSystem.Instance.CheckGameOverCondition()) return;
+
+            if (UnitTurnSystem.Instance.CheckGameOverCondition()) return;
         }
 
         #region Getter Setter

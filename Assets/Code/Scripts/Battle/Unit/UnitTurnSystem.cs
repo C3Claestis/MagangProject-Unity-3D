@@ -10,6 +10,8 @@ namespace Nivandria.Battle.UnitSystem
     using System.Collections;
     using Nivandria.Battle.UI;
     using Nivandria.Battle.AI;
+    using Nivandria.Battle.Grid;
+    using Cinemachine;
 
     public class UnitTurnSystem : MonoBehaviour
     {
@@ -44,22 +46,41 @@ namespace Nivandria.Battle.UnitSystem
             Instance = this;
         }
 
-        private void Start()
+        public void StartBattle()
         {
+            //Init Turn Visual
             waitingUnitList = new List<Unit>();
             waitingUnitList = SortFromFastestUnit();
             SetTurnCount(turnRounds);
 
-            UnitTurnSystemUI.Instance.ShowOpeningCard(true);
-            StartCoroutine(ScreenWait(UnitTurnSystemUI.Instance.ShowOpeningCard));
+            //Update Turn Visual
+            UnitTurnSystemUI.Instance.UpdateTurnSystemVisual();
+
+            //SettingUp Camera
+            var cameraController = CameraController.Instance;
+            CinemachineVirtualCamera verticalCamera = cameraController.GetVerticalCamera();
+            cameraController.InitializedVirtualCamera(verticalCamera);
+
+            UnitTurnSystemUI.Instance.ShowBattleStartCard(true);
+            PlayerInputController.Instance.SetActionMap("BattleUI");
+            StartCoroutine(ScreenWait(UnitTurnSystemUI.Instance.ShowBattleStartCard));
         }
+
 
         private IEnumerator ScreenWait(Action<bool> screen)
         {
+            Pointer.Instance.HidePointerHand(true);
+            Pointer.Instance.HideCircle(true);
+
             yield return new WaitForSeconds(2);
+
+            Pointer.Instance.HidePointerHand(false);
+            Pointer.Instance.HideCircle(false);
+
             screen(false);
             HandleUnitSelection();
             UnitActionSystem.Instance.ShowActionUI();
+
         }
 
         /// <summary> Handles the selection of the fastest unit that hasn't moved yet.</summary>
@@ -182,7 +203,7 @@ namespace Nivandria.Battle.UnitSystem
         private void ResetSelectedUnit()
         {
             selectedUnit.SetSelectedStatus(false);
-            selectedUnit.ChangeUnitShade();
+            selectedUnit.UpdateUnitShade();
             selectedUnit.SetTurnStatus(true);
         }
 
@@ -193,7 +214,7 @@ namespace Nivandria.Battle.UnitSystem
             selectedUnit = unit;
             selectedUnit.SetTurnStatus(true);
             selectedUnit.SetSelectedStatus(true);
-            selectedUnit.ChangeUnitShade();
+            selectedUnit.UpdateUnitShade();
             selectedUnit.ResetActionStatus();
             Pathfinding.Instance.SetupPath(selectedUnit.GetUnitType());
             UnitActionSystem.Instance.SetSelectedAction(unit.GetAction<MoveAction>());
@@ -224,7 +245,6 @@ namespace Nivandria.Battle.UnitSystem
             waitingUnitList = SortFromFastestUnit();
             selectedUnit = null;
             turnRounds++;
-            Debug.Log("All units have already moved! Next Round : " + turnRounds);
             SetTurnCount(turnRounds);
 
             UnitActionSystem.Instance.HideActionUI();

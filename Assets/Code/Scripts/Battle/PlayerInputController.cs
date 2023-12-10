@@ -48,7 +48,9 @@ namespace Nivandria.Battle
             Debug.Log("Pause Game");
         }
 
-        ///============================CANCEL CONFIRMATION============================///
+        /* -------------------------------------------------------------------------- */
+        /*                                ConfimationUI                               */
+        /* -------------------------------------------------------------------------- */
 
         public void ConfimationUI_Cancel(InputAction.CallbackContext context)
         {
@@ -56,14 +58,21 @@ namespace Nivandria.Battle
             OnCancelUIPressed?.Invoke(this, EventArgs.Empty);
         }
 
-        ///============================ROTATE UNIT============================///
+        /* -------------------------------------------------------------------------- */
+        /*                                 ROTATE UNIT                                */
+        /* -------------------------------------------------------------------------- */
 
         public void RotateUnit_Confirm(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
+            if (!PlacingUnitSystem.Instance.GetStatus())
+            {
+                PlacingUnitSystem.Instance.GetComponent<RotatePlaceUnit>().ConfirmRotation();
+                return;
+            }
+
             Transform turnButton = UnitActionSystemUI.Instance.GetTurnSystemButton();
             RotateAction rotateAction = turnButton.GetComponent<RotateAction>();
-
             rotateAction.ConfirmRotation();
         }
 
@@ -71,15 +80,80 @@ namespace Nivandria.Battle
         {
             if (!context.performed) return;
 
+            float rotateValue = context.ReadValue<float>();
+
+            if (!PlacingUnitSystem.Instance.GetStatus())
+            {
+                var rotate = PlacingUnitSystem.Instance.GetComponent<RotatePlaceUnit>();
+                if (rotateValue > 0) rotate.RotateRight();
+                else if (rotateValue < 0) rotate.RotateLeft();
+                return;
+            }
+
             Transform turnButton = UnitActionSystemUI.Instance.GetTurnSystemButton();
             RotateAction rotateAction = turnButton.GetComponent<RotateAction>();
-            float rotateValue = context.ReadValue<float>();
 
             if (rotateValue > 0) rotateAction.RotateRight();
             else if (rotateValue < 0) rotateAction.RotateLeft();
         }
 
-        ///============================SELECT GRID============================///
+        /* -------------------------------------------------------------------------- */
+        /*                                PlacingUnits                                */
+        /* -------------------------------------------------------------------------- */
+
+        public void PlacingUnits_CameraZoom(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                float zoomValue = context.ReadValue<float>();
+
+                if (zoomValue > 0) cameraZoomInputValue = 1f;
+                else if (zoomValue < 0) cameraZoomInputValue = -1f;
+            }
+
+            if (context.canceled)
+            {
+                cameraZoomInputValue = 0;
+            }
+        }
+
+        public void PlacingUnits_CameraMovement(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                cameraMovementInputValue = context.ReadValue<Vector2>();
+            }
+
+            if (!context.canceled) return;
+            cameraMovementInputValue = context.ReadValue<Vector2>();
+        }
+
+        public void PlacingUnits_SelectGrid(InputAction.CallbackContext context)
+        {
+            if (context.performed) PlacingUnitSystem.Instance.PlacingUnit();
+        }
+
+        public void PlacingUnits_CancelAction(InputAction.CallbackContext context)
+        {
+            if (context.performed) PlacingUnitSystem.Instance.Cancel_Action();
+        }
+
+        public void PlacingUnits_ChangeUnit(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            Debug.Log("Change unit");
+            float changeValue = context.ReadValue<float>();
+            PlacingUnitSystem.Instance.ChangeSelectedUnit(changeValue);
+        }
+
+        public void PlacingUnits_DeleteUnit(InputAction.CallbackContext context)
+        {
+            if (context.performed) PlacingUnitSystem.Instance.DeleteUnit();
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /*                                   GridMap                                  */
+        /* -------------------------------------------------------------------------- */
 
         public void GridMap_SelectGrid(InputAction.CallbackContext context)
         {
@@ -87,15 +161,11 @@ namespace Nivandria.Battle
             UnitActionSystem.Instance.HandleSelectedAction(context.control.name);
         }
 
-        ///============================NEXT UNIT============================///
-
         public void GridMap_NextUnit(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
             UnitTurnSystem.Instance.HandleUnitSelection();
         }
-
-        ///============================CAMERA ZOOM============================///
 
         public void GridMap_CameraZoom(InputAction.CallbackContext context)
         {
@@ -113,8 +183,6 @@ namespace Nivandria.Battle
             }
         }
 
-        ///============================CAMERA MOVEMENT============================///
-
         public void GridMap_CameraMovement(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -126,7 +194,9 @@ namespace Nivandria.Battle
             cameraMovementInputValue = context.ReadValue<Vector2>();
         }
 
-        ///============================OnControlsChanged============================///
+        /* -------------------------------------------------------------------------- */
+        /*                              OnControlsChanged                             */
+        /* -------------------------------------------------------------------------- */
 
         public void PlayerInput_onControlsChanged(PlayerInput input)
         {

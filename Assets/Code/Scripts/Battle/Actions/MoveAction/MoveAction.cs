@@ -278,11 +278,11 @@ namespace Nivandria.Battle.Action
         protected override void YesButtonAction()
         {
             base.YesButtonAction();
+            destinationReached = false;
             GridSystemVisual.Instance.HideAllGridPosition();
             HidePath();
             onActionComplete();
         }
-
 
         protected override void PlayerInputController_OnCancelPressed(object sender, EventArgs e)
         {
@@ -292,24 +292,25 @@ namespace Nivandria.Battle.Action
             base.PlayerInputController_OnCancelPressed(sender, e);
         }
 
-
         public void InitPathToTarget()
         {
+            if (unit.GetMoveType() == MoveType.Tiger) return;
             generatePathfindingPath = true;
             pathToTarget = null;
             currentValidGrid = GetValidActionGridPosition();
 
             if (lineRenderer != null) Destroy(lineRenderer);
             lineRenderer = gameObject.AddComponent(typeof(LineRenderer)) as LineRenderer;
+            lineRenderer.positionCount = 0;
             lineRenderer.material = arrowMaterial;
             lineRenderer.generateLightingData = true;
             lineRenderer.useWorldSpace = true;
             lineRenderer.numCornerVertices = 5;
             lineRenderer.textureScale = new Vector2(1, 0.3f);
-            lineRenderer.sortingLayerName = "Below";   
+            lineRenderer.sortingLayerName = "Below";
         }
 
-        public void ShowPath()
+        private void ShowPath()
         {
             GridPosition newPathTarget = Pointer.Instance.GetCurrentGrid();
 
@@ -317,7 +318,6 @@ namespace Nivandria.Battle.Action
             if (pathToTarget != null) GridSystemVisual.Instance.ShowGridPositionList(pathToTarget, GridVisualType.White);
 
             pathToTarget = Pathfinding.Instance.FindPath(unit.GetGridPosition(), newPathTarget, out int pathLength);
-            // GridSystemVisual.Instance.ShowGridPositionList(pathToTarget, GridVisualType.Blue);
             lineRenderer.positionCount = pathToTarget.Count;
             for (int i = 0; i < pathToTarget.Count; i++)
             {

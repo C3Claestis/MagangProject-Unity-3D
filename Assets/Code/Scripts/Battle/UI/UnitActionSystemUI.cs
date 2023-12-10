@@ -72,6 +72,16 @@ namespace Nivandria.Battle.UI
             confirmationTranform.GetComponent<ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
         }
 
+        public virtual void InitializeConfirmationButton(Action onYesButtonSelected, Action onNoButtonSelected, string words)
+        {
+            Transform uiTransform = GameObject.FindGameObjectWithTag("UI").transform;
+            Transform confirmationTranform = Instantiate(dialogueConfirmationPrefab, uiTransform);
+
+            PlayerInputController.Instance.SetActionMap("ConfirmationUI");
+            confirmationTranform.GetComponent<ConfirmationDialogUI>().InitializeConfirmationButton(onYesButtonSelected, onNoButtonSelected);
+            confirmationTranform.GetComponent<ConfirmationDialogUI>().SetupWord(words);
+        }
+
         public Transform GetActionButton(BaseSkillAction skillAction)
         {
             var skillButtonContainer = skillActionButtonContainer.GetComponent<SkillActionButtonContainerUI>();

@@ -17,6 +17,7 @@ namespace Nivandria.Battle.UI
 
         [Header("Screen Card")]
         [SerializeField] private CanvasGroup openingCard;
+        [SerializeField] private CanvasGroup startCard;
         [SerializeField] private CanvasGroup roundCard;
         [SerializeField] private TextMeshProUGUI roundText;
         [SerializeField] private CanvasGroup winCard;
@@ -50,8 +51,6 @@ namespace Nivandria.Battle.UI
             }
 
             UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnUnitListChanged;
-
-            UpdateTurnSystemVisual();
         }
 
         public void UpdateTurnSystemVisual()
@@ -102,35 +101,25 @@ namespace Nivandria.Battle.UI
             }
         }
 
-        public void ShowOpeningCard(bool show)
-        {
-            openingCard.alpha = show ? 1 : 0;
-            openingCard.interactable = show;
-            openingCard.blocksRaycasts = show;
-        }
-
         public void ShowRoundCard(bool show)
         {
-            roundCard.alpha = show ? 1 : 0;
-            roundCard.interactable = show;
-            roundCard.blocksRaycasts = show;
-
+            ShowCanvas(roundCard, show);
             roundText.text = "ROUNDS " + UnitTurnSystem.Instance.GetTurnNumber().ToString();
         }
 
-        public void ShowWinCard(bool show)
+        public void ShowOpeningCard(bool show) => ShowCanvas(openingCard, show);
+        public void ShowBattleStartCard(bool show) => ShowCanvas(startCard, show);
+        public void ShowWinCard(bool show) => ShowCanvas(winCard, show);
+        public void ShowGameOverCard(bool show) => ShowCanvas(gameoverCard, show);
+
+        private void ShowCanvas(CanvasGroup canvasGroup, bool show)
         {
-            winCard.alpha = show ? 1 : 0;
-            winCard.interactable = show;
-            winCard.blocksRaycasts = show;
+            canvasGroup.alpha = show ? 1 : 0;
+            canvasGroup.interactable = show;
+            canvasGroup.blocksRaycasts = show;
         }
 
-        public void ShowGameOverCard(bool show)
-        {
-            gameoverCard.alpha = show ? 1 : 0;
-            gameoverCard.interactable = show;
-            gameoverCard.blocksRaycasts = show;
-        }
+        public void ShowTurnSystemUI(bool show) => GetComponent<CanvasGroup>().alpha = show ? 1 : 0;
 
         private void UnitTurnSystem_OnUnitListChanged(object sender, EventArgs e)
         {

@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 673443bdcb7bf2f47be93ce60e68966f, type: 2}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: moveType
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: unitIcon
@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: characterName
-      value: Blue Unit
+      value: Vana
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

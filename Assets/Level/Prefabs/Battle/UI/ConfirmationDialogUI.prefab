@@ -949,3 +949,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstButton: {fileID: 4220282621939580251}
+  TextInside: {fileID: 7247338219217108312}

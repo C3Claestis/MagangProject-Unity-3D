@@ -1,32 +1,35 @@
 namespace Nivandria.Battle
 {
     using System.Collections.Generic;
+    using Nivandria.Battle.Grid;
     using Nivandria.Battle.UnitSystem;
     using UnityEngine;
 
     public class InitializeBattlefield : MonoBehaviour
     {
-        [SerializeField] private List<UnitSetup> friendlyUnitList;
-        [SerializeField] private List<UnitSetup> enemyUnitList;
+        private List<UnitSetup> friendlyUnitList;
+        private List<UnitSetup> enemyUnitList;
 
-        private void Start()
-        {
-            SetupUnit();
-        }
+        List<Transform> unitList;
 
-        private void SetupUnit()
+        public void SetupUnit()
         {
             List<UnitSetup> unitSetupList = new List<UnitSetup>();
-            unitSetupList.AddRange(friendlyUnitList);
+            unitList = new List<Transform>();
+
+            if (friendlyUnitList != null) unitSetupList.AddRange(friendlyUnitList);
             unitSetupList.AddRange(enemyUnitList);
+            int cellSize = (int)LevelGrid.Instance.GetCellSize();
 
             foreach (var unit in unitSetupList)
             {
                 Transform prefab = unit.GetPrefab();
-                Vector3 position = new Vector3(unit.GetPosition().x, 0, unit.GetPosition().z);
+                Vector3 position = new Vector3(unit.GetPosition().x, 0, unit.GetPosition().z) * cellSize;
 
                 Transform newUnitTransform = Instantiate(prefab, position, Quaternion.identity, transform);
                 Unit newUnit = newUnitTransform.GetComponent<Unit>();
+
+                unitList.Add(newUnitTransform);
 
                 if (newUnit.IsEnemy()) newUnitTransform.rotation = Quaternion.Euler(0, 270, 0);
                 else newUnitTransform.rotation = Quaternion.Euler(0, 90, 0);
@@ -35,10 +38,17 @@ namespace Nivandria.Battle
             }
         }
 
-        private void SetupObject()
+
+        public void SetupObject()
         {
 
         }
+
+        public void SetFriendlyUnitList(List<UnitSetup> unitList) => friendlyUnitList = unitList;
+        public void SetEnemyUnitList(List<UnitSetup> unitList) => enemyUnitList = unitList;
+
+
+        public List<Transform> GetUnitList() => unitList;
     }
 
 }

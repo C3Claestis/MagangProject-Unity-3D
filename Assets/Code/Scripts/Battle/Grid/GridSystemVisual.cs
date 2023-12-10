@@ -63,6 +63,11 @@ namespace Nivandria.Battle.Grid
             }
         }
 
+        public void HideGrid(GridPosition gridPosition)
+        {
+            gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Hide();
+        }
+
         /// <summary>Shows the visual representation of specific grid positions.</summary>
         /// <param name="gridPositionList">The list of grid positions to show.</param>
         public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualType gridVisualType)

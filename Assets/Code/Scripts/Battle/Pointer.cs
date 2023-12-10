@@ -4,7 +4,9 @@ namespace Nivandria.Battle
     using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
     using Nivandria.Battle.UnitSystem;
+    using TMPro;
     using UnityEngine;
+    using UnityEngine.UI;
 
     public class Pointer : MonoBehaviour
     {
@@ -151,9 +153,12 @@ namespace Nivandria.Battle
 
         public void SetActive(bool status) => isActive = status;
 
+        public void HidePointerHand(bool hide) => GetComponent<MeshRenderer>().enabled = !hide;
+        public void HideCircle(bool hide) => pointerCircle.GetComponent<MeshRenderer>().enabled = !hide;
+
         private void PlayerInputController_OnActionMapChanged(object sender, string actionMap)
         {
-            if (actionMap == "Gridmap")
+            if (actionMap == "Gridmap" || actionMap == "PlacingUnits")
             {
                 SetActive(true);
             }
