@@ -16,9 +16,6 @@ namespace Nivandria.UI.Gears
         [SerializeField] public Transform ArmorContentContainer;
         [SerializeField] public Transform BootContentContainer;
 
-        [Header("Detail Gears")]
-        private TextMeshProUGUI nameGear;
-
         [Header("Detail Status Gear")]
         [SerializeField] TextMeshProUGUI health;
         [SerializeField] TextMeshProUGUI physicalAttack;
@@ -43,28 +40,6 @@ namespace Nivandria.UI.Gears
         [SerializeField] TextMeshProUGUI statusAgilityHero;
         [SerializeField] TextMeshProUGUI statusEvasionHero;
 
-        public void UpdateStatusHeroText(
-            string heroName,
-            int heroHealth,
-            int heroPhysicalAttack,
-            int heroMagicAttack,
-            int heroPhysicalDefense,
-            int heroMagicDefense,
-            int heroCritical,
-            int heroAgility,
-            int heroEvasion
-            )
-        {
-            FullNameHero.text = heroName;
-            healthHero.text = heroHealth.ToString();
-            physicalAttackHero.text = heroPhysicalAttack.ToString();
-            magicAttackHero.text = heroMagicAttack.ToString();
-            physicalDefenseHero.text = heroPhysicalDefense.ToString();
-            magicDefenseHero.text = heroMagicDefense.ToString();
-            statusCriticalHero.text = heroCritical.ToString();
-            statusAgilityHero.text = heroAgility.ToString();
-            statusEvasionHero.text = heroEvasion.ToString();
-        }
 
 
         [Header("Heroes List")]
@@ -102,57 +77,147 @@ namespace Nivandria.UI.Gears
             GearsLogInitialization();
         }
 
-        void Update()
+        public void UpdateStatusHeroText(
+            string heroName,
+            int heroHealth,
+            int heroPhysicalAttack,
+            int heroMagicAttack,
+            int heroPhysicalDefense,
+            int heroMagicDefense,
+            int heroCritical,
+            int heroAgility,
+            int heroEvasion
+            )
         {
-
-            /* RemoveGearsLog(); */
-
+            FullNameHero.text = heroName;
+            healthHero.text = heroHealth.ToString();
+            physicalAttackHero.text = heroPhysicalAttack.ToString();
+            magicAttackHero.text = heroMagicAttack.ToString();
+            physicalDefenseHero.text = heroPhysicalDefense.ToString();
+            magicDefenseHero.text = heroMagicDefense.ToString();
+            statusCriticalHero.text = heroCritical.ToString();
+            statusAgilityHero.text = heroAgility.ToString();
+            statusEvasionHero.text = heroEvasion.ToString();
         }
 
         public void DeselectToggles()
         {
-            foreach (var toggle in WeaponToggleGroup.ActiveToggles())
-            {
-                toggle.isOn = false;
-            }
+            DeselectToggleGroup(WeaponToggleGroup);
+            DeselectToggleGroup(ArmorToggleGroup);
+            DeselectToggleGroup(WeaponToggleGroup);
+        }
 
-            foreach (var toggle in ArmorToggleGroup.ActiveToggles())
-            {
-                toggle.isOn = false;
-            }
-
-            foreach (var toggle in BootsToggleGroup.ActiveToggles())
+        void DeselectToggleGroup(ToggleGroup toggleGroup)
+        {
+            foreach (var toggle in toggleGroup.ActiveToggles())
             {
                 toggle.isOn = false;
             }
         }
 
+        Gears GetHeroCurrentGear(Gears gear, Hero hero)
+        {
+            switch (gear.GetGearsType())
+            {
+                case GearsType.Weapons:
+                    return hero.GetCurrentWeapon();
+                case GearsType.Armor:
+                    return hero.GetCurrentArmor();
+                case GearsType.Boots:
+                    return hero.GetCurrentBoot();
+                default:
+                    return null;
+            }
+        }
+
+        public bool DisplaySpecialGearHero(Gears gear, Hero currentHero)
+        {
+            if (gear.GetGearsCategory() == GearsCategory.Special && gear.GetCategoryName() != currentHero.GetFullNameHero())
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void DisplayEquippedGearHero(Gears gear, Hero currentHero, GameObject newGear)
+        {
+            var canvasGroup = newGear.transform.GetChild(4).GetComponent<CanvasGroup>();
+            if (gear.GetNameGears() == currentHero.GetCurrentWeapon().GetNameGears())
+            {
+                ShowCanvasGroup(canvasGroup, true);
+            }
+        }
+
+        void DisplayGeneralGearEquippedHero(Gears gear, Hero hero, GameObject newGear)
+        {
+            if (gear.GetNameGears() == GetHeroCurrentGear(gear, hero).GetNameGears())
+            {
+                CanvasGroup generalGearEquipped = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                generalGearEquipped.alpha = 1;
+                generalGearEquipped.interactable = false;
+                generalGearEquipped.blocksRaycasts = false;
+            }
+        }
+
+        void DisplayEquippedAndGeneralGear(GameObject newGear, Gears gear, Hero currentHero)
+        {
+            DisplayEquippedGearHero(gear, currentHero, newGear);
+
+            foreach (Hero hero in HeroList)
+            {
+                if (hero == currentHero) continue;
+                DisplayGeneralGearEquippedHero(gear, hero, newGear);
+            }
+        }
+
+        public void DestroyContainerGear(Transform container)
+        {
+            for (int i = 0; i < container.childCount; i++)
+            {
+                Destroy(container.GetChild(i).gameObject);
+            }
+        }
+
+        public void DestroyAllContainerGears()
+        {
+            DestroyContainerGear(WeaponContentContainer);
+            DestroyContainerGear(ArmorContentContainer);
+            DestroyContainerGear(BootContentContainer);
+        }
+
+        GameObject InstantiateGear(Gears gear)
+        {
+            Transform container;
+            switch (gear.GetGearsType())
+            {
+                case GearsType.Weapons:
+                    container = WeaponContentContainer;
+                    break;
+                case GearsType.Armor:
+                    container = ArmorContentContainer;
+                    break;
+                case GearsType.Boots:
+                    container = BootContentContainer;
+                    break;
+                default:
+                    Debug.LogError("Gear type not recognized");
+                    return null;
+            }
+
+            return Instantiate(gearsLog, container);
+        }
+
         public void GearsLogInitialization()
         {
-            for (int i = 0; i < WeaponContentContainer.childCount; i++)
-            {
-                Destroy(WeaponContentContainer.GetChild(i).gameObject);
-            }
-
-            for (int i = 0; i < ArmorContentContainer.childCount; i++)
-            {
-                Destroy(ArmorContentContainer.GetChild(i).gameObject);
-            }
-
-            for (int i = 0; i < BootContentContainer.childCount; i++)
-            {
-                Destroy(BootContentContainer.GetChild(i).gameObject);
-            }
+            DestroyAllContainerGears();
 
             foreach (Gears gear in gearList)
             {
-
                 int heroIndex = GearsButtonManager.Instance.GetHeroIndex();
                 Hero currentHero = GetHero(heroIndex);
 
-
                 GameObject newGear = null;
-                
+
                 switch (gear.GetGearsType())
                 {
                     case GearsType.Weapons:
@@ -160,21 +225,26 @@ namespace Nivandria.UI.Gears
                         {
                             if (gear.GetCategoryName() != currentHero.GetFullNameHero()) continue;
                         }
+
                         newGear = Instantiate(gearsLog, WeaponContentContainer);
                         if (gear.GetNameGears() == currentHero.GetCurrentWeapon().GetNameGears())
                         {
-                            var canvasGroup = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                            var canvasGroup = newGear.transform.GetChild(4).GetComponent<CanvasGroup>();
                             Debug.Log($"canvasGroup : {canvasGroup}");
                             ShowCanvasGroup(canvasGroup, true);
                         }
 
-                        foreach (var hero in HeroList)
+                        foreach (Hero hero in HeroList)
                         {
-                            if(hero == currentHero) continue;
-                            if (gear.GetNameGears() != hero.GetCurrentBoot().GetNameGears()) continue;
-                            // warna abu
+                            if (hero == currentHero) continue;
+                            if (gear.GetNameGears() != hero.GetCurrentWeapon().GetNameGears()) continue;
+                            CanvasGroup GeneralGearEquipped = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                            GeneralGearEquipped.alpha = 1;
+                            GeneralGearEquipped.interactable = false;
+                            GeneralGearEquipped.blocksRaycasts = false;
                         }
                         break;
+
                     case GearsType.Armor:
                         if (gear.GetGearsCategory() == GearsCategory.Special)
                         {
@@ -183,17 +253,22 @@ namespace Nivandria.UI.Gears
                         newGear = Instantiate(gearsLog, ArmorContentContainer);
                         if (gear.GetNameGears() == currentHero.GetCurrentArmor().GetNameGears())
                         {
-                            var canvasGroup = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                            var canvasGroup = newGear.transform.GetChild(4).GetComponent<CanvasGroup>();
                             ShowCanvasGroup(canvasGroup, true);
                         }
 
                         foreach (var hero in HeroList)
                         {
-                            if(hero == currentHero) continue;
-                            if (gear.GetNameGears() != hero.GetCurrentBoot().GetNameGears()) continue;
-                            // warna abu
+                            if (hero == currentHero) continue;
+                            if (gear.GetNameGears() != hero.GetCurrentArmor().GetNameGears()) continue;
+                            // warna ijo
+                            CanvasGroup GeneralGearEquipped = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                            GeneralGearEquipped.alpha = 1;
+                            GeneralGearEquipped.interactable = false;
+                            GeneralGearEquipped.blocksRaycasts = false;
                         }
                         break;
+
                     case GearsType.Boots:
                         if (gear.GetGearsCategory() == GearsCategory.Special)
                         {
@@ -202,18 +277,21 @@ namespace Nivandria.UI.Gears
                         newGear = Instantiate(gearsLog, BootContentContainer);
                         if (gear.GetNameGears() == currentHero.GetCurrentBoot().GetNameGears())
                         {
-                            var canvasGroup = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                            var canvasGroup = newGear.transform.GetChild(4).GetComponent<CanvasGroup>();
                             ShowCanvasGroup(canvasGroup, true);
                         }
 
                         foreach (var hero in HeroList)
                         {
-                            if(hero == currentHero) continue;
+                            if (hero == currentHero) continue;
                             if (gear.GetNameGears() != hero.GetCurrentBoot().GetNameGears()) continue;
                             // warna abu
+                            CanvasGroup GeneralGearEquipped = newGear.transform.GetChild(3).GetComponent<CanvasGroup>();
+                            GeneralGearEquipped.alpha = 1;
+                            GeneralGearEquipped.interactable = false;
+                            GeneralGearEquipped.blocksRaycasts = false;
                         }
                         break;
-
                 }
 
                 //Gears currentGear = gears;
@@ -223,12 +301,12 @@ namespace Nivandria.UI.Gears
                 TextMeshProUGUI gearName = newGear.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
                 gearName.text = gear.GetNameGears();
 
-                GameObject iconGearEquipped = newGear.transform.GetChild(3).gameObject;
+                GameObject iconGearEquipped = newGear.transform.GetChild(4).gameObject;
                 Image iconGearColor = iconGearEquipped.GetComponent<Image>();
                 CanvasGroup iconEquipped = iconGearEquipped.GetComponent<CanvasGroup>();
                 Button iconEquippedButton = iconGearEquipped.GetComponent<Button>();
 
-                GameObject gearEquipped = newGear.transform.GetChild(4).gameObject;
+                GameObject gearEquipped = newGear.transform.GetChild(5).gameObject;
                 Image gearColor = gearEquipped.GetComponent<Image>();
                 CanvasGroup canvasGearEquipped = gearEquipped.GetComponent<CanvasGroup>();
                 Button gearButton = gearEquipped.GetComponent<Button>();
@@ -247,7 +325,7 @@ namespace Nivandria.UI.Gears
                         toggle.group = BootsToggleGroup;
                         break;
                     default:
-                        Debug.LogError("Gear tidak diketahuin");
+                        Debug.LogError("Gear tidak diketahui");
                         break;
                 }
 
@@ -337,34 +415,60 @@ namespace Nivandria.UI.Gears
                     else
                     {
                         Debug.Log($"{gear.GetNameGears()} is toggled OFF!");
-                        canvasGearEquipped.alpha = value ? 1 : 0;
-                        canvasGearEquipped.blocksRaycasts = value;
-                        canvasGearEquipped.interactable = value;
+                        ShowCanvasGroup(canvasGearEquipped, false);
                         UpdateAllDeselectColorStatusPreview();
                     }
-                    TextMeshProUGUI currentHealthHero = healthHero;
 
+                    //Button Equip Gear
                     gearButton.onClick.AddListener(() =>
                     {
                         Debug.Log("Tes ini Button GearEquipped");
+                        int heroIndex = GearsButtonManager.Instance.GetHeroIndex();
+                        Hero currentHero = GetHero(heroIndex);
+                        Gears UnEquipGear = gear;
+                        UnEquipGear = new Gears(null, "", UnEquipGear.GetGearsType(), UnEquipGear.GetGearsCategory(), "", 0, 0, 0, 0, 0, 0, 0, 0);
                         Gears setGear = gear;
 
                         switch (setGear.GetGearsType())
                         {
                             case GearsType.Weapons:
                                 HideUnequipButton(WeaponContentContainer);
-                                currentHero.SetCurrentSword(setGear);
+                                foreach (Hero hero in HeroList)
+                                {
+                                    if (hero == currentHero) continue;
+                                    if (gear.GetNameGears() != hero.GetCurrentWeapon().GetNameGears()) continue;
+                                    {
+                                        hero.SetCurrentWeapon(UnEquipGear);
+                                    }
+                                }
+                                currentHero.SetCurrentWeapon(setGear);
                                 break;
                             case GearsType.Armor:
                                 HideUnequipButton(ArmorContentContainer);
+                                foreach (Hero hero in HeroList)
+                                {
+                                    if (hero == currentHero) continue;
+                                    if (gear.GetNameGears() != hero.GetCurrentArmor().GetNameGears()) continue;
+                                    {
+                                        hero.SetCurrentArmor(UnEquipGear);
+                                    }
+                                }
                                 currentHero.SetCurrentArmor(setGear);
                                 break;
                             case GearsType.Boots:
                                 HideUnequipButton(BootContentContainer);
+                                foreach (Hero hero in HeroList)
+                                {
+                                    if (hero == currentHero) continue;
+                                    if (gear.GetNameGears() != hero.GetCurrentBoot().GetNameGears()) continue;
+                                    {
+                                        hero.SetCurrentBoot(UnEquipGear);
+                                    }
+                                }
                                 currentHero.SetCurrentBoot(setGear);
                                 break;
                         }
-                        iconGearColor.color = new Color(1, 0, 0);
+                        gearColor.color = new Color(1, 0, 0);
                         ShowCanvasGroup(iconEquipped, true);
 
                         GearsButtonManager.Instance.UpdateStatusHero(heroIndex);
@@ -373,6 +477,7 @@ namespace Nivandria.UI.Gears
                         DeselectToggles();
                     });
 
+                    //Button UnEquip Gear
                     iconEquippedButton.onClick.AddListener(() =>
                     {
                         Debug.Log("Tes ini button iconEquipped");
@@ -383,7 +488,7 @@ namespace Nivandria.UI.Gears
                         switch (setGear.GetGearsType())
                         {
                             case GearsType.Weapons:
-                                currentHero.SetCurrentSword(setGear);
+                                currentHero.SetCurrentWeapon(setGear);
                                 break;
                             case GearsType.Armor:
                                 currentHero.SetCurrentArmor(setGear);
@@ -396,6 +501,7 @@ namespace Nivandria.UI.Gears
                         GearsButtonManager.Instance.UpdateStatusHero(heroIndex);
                         UpdateColorPreviewStatusHero();
                         UpdateAllDeselectColorStatusPreview();
+                        DeselectToggles();
                     });
 
 
@@ -404,11 +510,19 @@ namespace Nivandria.UI.Gears
             }
         }
 
+        Hero GetHeroWithGear(Gears gear)
+        {
+            // Mencari pahlawan yang sedang dilengkapi dengan gear tertentu
+
+            return null;
+
+        }
+
         public void HideUnequipButton(Transform container)
         {
             for (int i = 0; i < container.childCount; i++)
             {
-                var canvasGroup = container.GetChild(i).GetChild(3).GetComponent<CanvasGroup>();
+                var canvasGroup = container.GetChild(i).GetChild(4).GetComponent<CanvasGroup>();
                 ShowCanvasGroup(canvasGroup, false);
             }
         }

@@ -129,7 +129,7 @@ namespace Nivandria.UI.Gears
         public int GetAgilityHero() => statusAgility;
         public int GetEvasionHero() => statusEvasion;
         public Gears GetCurrentWeapon() => currentWeapon;
-        public void SetCurrentSword(Gears gears) => currentWeapon = gears;
+        public void SetCurrentWeapon(Gears gears) => currentWeapon = gears;
         public Gears GetCurrentArmor() => currentArmor;
         public void SetCurrentArmor(Gears gears) => currentArmor = gears;
         public Gears GetCurrentBoot() => currentBoot;

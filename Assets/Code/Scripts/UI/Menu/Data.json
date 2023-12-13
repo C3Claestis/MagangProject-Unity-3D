@@ -1,0 +1,71 @@
+{
+    "Unit": [
+        {
+            "Hero": [
+                {
+                    "FullNameUnit": "Sacra Livian",
+                    "NickNameUnit": "Sacra",
+                    "healthHero": 180,
+                    "physicalAttack": 0,
+                    "magicAttack": 32,
+                    "physicalDefense": 13,
+                    "magicDefense": 13,
+                    "Accuracy": 25,
+                    "Agility": 108,
+                    "Evasion": 34
+                },
+                {
+                    "FullNameUnit": "Vana Livian",
+                    "NickNameUnit": "Vana",
+                    "healtHero": 220,
+                    "physicalAttack": 28,
+                    "magicAttack": 0,
+                    "physicalDefense": 15,
+                    "magicDefense": 15,
+                    "Accuracy": 45,
+                    "Agility": 111,
+                    "Evasion": 37
+                },
+                {
+                    "FullNameUnit": "Lintelia Savia",
+                    "NickNameUnit": "Lin",
+                    "healtHero": 150,
+                    "physicalAttack": 0,
+                    "magicAttack": 35,
+                    "physicalDefense": 18,
+                    "magicDefense": 18,
+                    "Accuracy": 0,
+                    "Agility": 105,
+                    "Evasion": 40
+                },{
+                    "FullNameUnit": "Gaard Ian",
+                    "NickNameUnit": "Gaard",
+                    "healtHero": 260,
+                    "physicalAttack": 26,
+                    "magicAttack": 0,
+                    "physicalDefense": 20,
+                    "magicDefense": 20,
+                    "Accuracy": 22,
+                    "Agility": 107,
+                    "Evasion": 30
+                }
+            ]
+        },
+        {
+            "Enemy": [
+                {
+                    "FullNameUnit": "Boar",
+                    "NickNameUnit": "Boar",
+                    "healtHero": 140,
+                    "physicalAttack": 23,
+                    "magicAttack": 0,
+                    "physicalDefense": 13,
+                    "magicDefense": 13,
+                    "Accuracy": 22,
+                    "Agility": 96,
+                    "Evasion": 30
+                }
+            ]
+        }
+    ]
+}
