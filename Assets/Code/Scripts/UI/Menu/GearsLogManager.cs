@@ -140,7 +140,13 @@ namespace Nivandria.UI.Gears
         public void DisplayEquippedGearHero(Gears gear, Hero currentHero, GameObject newGear)
         {
             var canvasGroup = newGear.transform.GetChild(4).GetComponent<CanvasGroup>();
-            if (gear.GetNameGears() == currentHero.GetCurrentWeapon().GetNameGears())
+            string currentWeaponName = currentHero.GetCurrentWeapon().GetNameGears();
+            string currentArmorName = currentHero.GetCurrentArmor().GetNameGears();
+            string currentBootName = currentHero.GetCurrentBoot().GetNameGears();
+
+            if (gear.GetNameGears() == currentWeaponName ||
+                gear.GetNameGears() == currentArmorName ||
+                gear.GetNameGears() == currentBootName)
             {
                 ShowCanvasGroup(canvasGroup, true);
             }
