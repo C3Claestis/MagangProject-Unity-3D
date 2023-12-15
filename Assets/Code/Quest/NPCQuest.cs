@@ -23,14 +23,14 @@ namespace Nivandria.Explore
         [Header("InkExternal")]
         private InkExternal inkExternal;
 
-        [Header("IndexValueCutscene For Switch Scene")]        
+        [Header("IndexValueCutscene For Switch Scene")]
         [SerializeField] int indexCutscene;
 
         [Header("Quest 1 Or Not?")]
-        [SerializeField] bool Quest1;
+        [SerializeField] QuestOneOrNot Quest;
 
         [Header("Object Destroy Or Not?")]
-        [SerializeField] bool DestroyAfterDialogue;
+        [SerializeField] DestroyOrNot DestroyAfterDialogue;        
 
         #region Getter Setter
         public void SetTalk(bool talk) => this.isTalk = talk;
@@ -56,9 +56,9 @@ namespace Nivandria.Explore
             //Jika NPC sedang interaksi
             if (isTalk)
             {
-                if (DestroyAfterDialogue)
+                if (DestroyAfterDialogue == DestroyOrNot.Yes)
                 {
-                    if (Quest1)
+                    if (Quest == QuestOneOrNot.Quest_1)
                     {
                         HandleQuest.GetInstance().Mision1 = true;
                         Index = true;
@@ -70,10 +70,11 @@ namespace Nivandria.Explore
 
                     if (transisi != null)
                     {
-                        transisi.SetTrigger("Dialog");                        
+                        transisi.SetTrigger("Dialog");
                         playerInput.SwitchCurrentActionMap("Player");
-                        QuestTriggerObject.GetInstance().SetIsQuest(false);                                                
-                        isTalk = false;                        
+                        QuestTriggerObject.GetInstance().SetIsQuest(false);
+                        SaveLastPosisi.GetInstance().SetSave(true);
+                        isTalk = false;
                     }
                 }
 
@@ -89,8 +90,9 @@ namespace Nivandria.Explore
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
             }
 
-            if(Index){
-                Invoke("SwitchScene", 1f);                
+            if (Index)
+            {
+                Invoke("SwitchScene", 1f);
                 Destroy(gameObject);
             }
         }
@@ -137,5 +139,14 @@ namespace Nivandria.Explore
                     break;
             }
         }
+    }    
+    public enum DestroyOrNot
+    {
+        Yes,
+        No
+    }
+    public enum QuestOneOrNot{
+        Quest_1,
+        Quest_2
     }
 }

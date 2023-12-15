@@ -49,8 +49,7 @@ namespace Nivandria.Quest
         {
             Quest quest = FindQuest(questData);
             if (quest != null)
-            {
-                Debug.Log("This Quest is already in the list!");
+            {                
                 return;
             }
 

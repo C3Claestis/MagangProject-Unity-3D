@@ -71,7 +71,8 @@ MonoBehaviour:
   inkJSON: {fileID: 4900000, guid: 1c2f9c6be1a882a408ee8f6c71a0b685, type: 3}
   indexCutscene: 0
   Quest1: 1
-  DestroyAfterDialogue: 0
+  DestroyAfterDialogue: 1
+  type: 0
 --- !u!33 &-8540503718576385395
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -261,13 +261,14 @@ namespace Nivandria.Explore
                     if (sceneTrigger.GetIsScene())
                     {
                         sceneTrigger.Trigger();
+                        SaveLastPosisi.GetInstance().SetSave(true);
                     }
                 }
                 PickupItem[] pickItem = FindObjectsOfType<PickupItem>();
 
                 foreach (PickupItem items in pickItem)
                 {
-                    if (items.isTake)
+                    if (items.GetTake())
                     {
                         items.SetTaking(true);
                     }

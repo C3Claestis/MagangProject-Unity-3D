@@ -7,14 +7,14 @@ namespace Nivandria.Explore
     /// </summary>
     public class PlayerMov : MonoBehaviour
     {
-        [SerializeField] float walkSpeed = 4f; // Walking speed
-        [SerializeField] float runSpeed = 8f; // Running speed
+        [SerializeField] float walkSpeed = 2f; // Walking speed
+        [SerializeField] float runSpeed = 4f; // Running speed
         [SerializeField] float rotateSpeed = 30f; // Rotation speed
         [SerializeField] InteraksiNPC interaksiNPC; // Reference to the NPC interaction system
         private InputSystem inputSystem; // Input system for controlling movement
         private Rigidbody rb; // Reference to the Rigidbody component
 
-        private void Awake()
+        private void Start()
         {
             rb = GetComponent<Rigidbody>();
             inputSystem = GetComponent<InputSystem>();

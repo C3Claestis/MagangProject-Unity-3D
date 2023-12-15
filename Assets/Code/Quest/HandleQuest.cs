@@ -15,13 +15,19 @@ namespace Nivandria.Quest
         [Header("Quest Data")]
         [SerializeField] QuestData quest1;
         [SerializeField] QuestData quest2;
-        [HideInInspector] public bool Mision1, Mision2;        
+        [HideInInspector] public bool Mision1, Mision2;
 
         [Header("UI Panel Quest")]
         [SerializeField] Text quest_description;
         [SerializeField] Text quest_type_and_tittle;
 
-        #region Componen Quest Pertama        
+        #region Componen Quest Pertama  
+        [Header("Object Non Quest")]
+        [SerializeField] GameObject Quest_Pointer_ToHouseYard;
+        [SerializeField] GameObject Quest_Pointer_ToHouse;
+        [SerializeField] GameObject Quest_Pointer_ToTrainingGround;
+        [SerializeField] GameObject Quest_Pointer_ToHouseYardFromTrainingGround;
+
         [Header("Component Quest 1")]
         [SerializeField] Transform pintu_kamar_sacra;
         [SerializeField] GameObject MQ1_0;
@@ -44,6 +50,12 @@ namespace Nivandria.Quest
 
         [Header("Component Quest 7")]
         [SerializeField] GameObject MQ1_6;
+
+        [Header("Component Quest 8")]
+        [SerializeField] GameObject MQ1_7;
+
+        [Header("Component Quest 9")]
+        [SerializeField] GameObject MQ1_8;
         #endregion
         private void Awake()
         {
@@ -68,7 +80,10 @@ namespace Nivandria.Quest
         {
             if (Input.GetKey(KeyCode.R))
             {
-                PlayerPrefs.DeleteAll();
+                PlayerPrefs.GetInt("Quest");
+                PlayerPrefs.GetInt("Quest");
+                PlayerPrefs.GetInt("Prologue1");
+                PlayerPrefs.GetInt("Prologue2");
             }
 
             Debug.Log("CURRENY INDEX = " + PlayerPrefs.GetInt("Prologue1"));
@@ -78,7 +93,7 @@ namespace Nivandria.Quest
             if (Mision1)
             {
                 QuestComplete(quest1, 1);
-                
+
             }
             if (Mision2)
             {
@@ -154,7 +169,7 @@ namespace Nivandria.Quest
                 case 5:
                     //Clear(5);
                     //SpawnQuest(MQ1_5);
-                    TakeQuestAndIndexScene(MQ1_5, 1, 5);
+                    TakeQuestAndIndexScene(MQ1_5, 2, 5);
                     DestroySpawnQuest(MQ1_4);
                     break;
                 case 6:
@@ -191,17 +206,55 @@ namespace Nivandria.Quest
                     break;
             }
         }
-        
+
         void TakeQuestAndIndexScene(GameObject quest, int indexScene, int indexClear)
         {
             if (SceneManager.GetActiveScene().buildIndex == indexScene)
             {
                 SpawnQuest(quest);
-                Clear(indexClear);                                    
+                Clear(indexClear);
             }
-            else
+            //Quest ada di Home dan player berada di HouseYard
+            else if (SceneManager.GetActiveScene().buildIndex > indexScene
+            && SceneManager.GetActiveScene().buildIndex == 2)
             {
                 Destroy(quest);
+                SpawnQuest(Quest_Pointer_ToHouse);
+            }
+            //Quest ada di Home dan player berada di TrainingGround
+            else if (SceneManager.GetActiveScene().buildIndex > indexScene
+            && SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                Destroy(quest);
+                SpawnQuest(Quest_Pointer_ToHouseYardFromTrainingGround);
+            }
+            //Quest ada di HouseYard dan player berada di Home
+            else if (SceneManager.GetActiveScene().buildIndex < indexScene
+            && SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                Destroy(quest);
+                SpawnQuest(Quest_Pointer_ToHouseYard);
+            }
+            //Quest ada di HouseYard dan player berada di TrainingGround
+            else if (SceneManager.GetActiveScene().buildIndex > indexScene
+            && SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                Destroy(quest);
+                SpawnQuest(Quest_Pointer_ToHouseYardFromTrainingGround);
+            }
+            //Quest ada di TrainingGround dan player berada di Home
+            else if (SceneManager.GetActiveScene().buildIndex < indexScene
+            && SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                Destroy(quest);
+                SpawnQuest(Quest_Pointer_ToHouseYard);
+            }
+            //Quest ada di TrainingGround dan player berada di HouseYard
+            else if (SceneManager.GetActiveScene().buildIndex < indexScene
+            && SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                Destroy(quest);
+                SpawnQuest(Quest_Pointer_ToTrainingGround);
             }
         }
         void QuestComplete(QuestData Index, byte Noindex)

@@ -3,17 +3,16 @@ namespace Nivandria.Explore
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using UnityEngine.ProBuilder.Shapes;
 
     public class SaveLastPosisi : MonoBehaviour
     {
-        [Header("Index Scene")]
-        [SerializeField] byte Scene;
+        [Header("Scene")]
+        [SerializeField] SceneIndex Scenes = SceneIndex.Home;
         [Header("Players")]
-        [SerializeField] Transform Players;
-
+        Transform Players;
         private static SaveLastPosisi instance;
         private bool isSave = false;
+        public bool isTrigger;
         public void SetSave(bool isSave) => this.isSave = isSave;
         public bool GetSave() => isSave;
         private void Awake()
@@ -24,47 +23,53 @@ namespace Nivandria.Explore
             }
             instance = this;
         }
-        public static SaveLastPosisi GetInstance(){
+        public static SaveLastPosisi GetInstance()
+        {
             return instance;
         }
         // Start is called before the first frame update
         void Start()
         {
-            switch (Scene)
-            {
-                case 1:
-                    ValuePosition(PlayerPrefs.GetFloat("X1"), PlayerPrefs.GetFloat("Y1"), PlayerPrefs.GetFloat("Z1"));
-                    break;
-                case 2:
-                    ValuePosition(PlayerPrefs.GetFloat("X2"), PlayerPrefs.GetFloat("Y2"), PlayerPrefs.GetFloat("Z2"));
-                    break;
-                case 3:
-                    ValuePosition(PlayerPrefs.GetFloat("X3"), PlayerPrefs.GetFloat("Y3"), PlayerPrefs.GetFloat("Z3"));
-                    break;
-            }
+            Players = GetComponent<Transform>();
+            isTrigger = true;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (isSave)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                switch (Scene)
+                isSave = true;
+            }
+            if (isTrigger)
+            {
+                switch (Scenes)
                 {
-                    case 1:
-                        PositionUpdate(1);
+                    case SceneIndex.Home:
+                        ValuePosition(PlayerPrefs.GetFloat("X1"), PlayerPrefs.GetFloat("Y1"), PlayerPrefs.GetFloat("Z1"));
                         break;
-                    case 2:
-                        PositionUpdate(2);
+                    case SceneIndex.HomeYard:
+                        ValuePosition(PlayerPrefs.GetFloat("X2"), PlayerPrefs.GetFloat("Y2"), PlayerPrefs.GetFloat("Z2"));                        
                         break;
-                    case 3:
-                        PositionUpdate(3);
+                    case SceneIndex.TrainingGround:
+                        ValuePosition(PlayerPrefs.GetFloat("X3"), PlayerPrefs.GetFloat("Y3"), PlayerPrefs.GetFloat("Z3"));                        
                         break;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.L))
+            if (isSave)
             {
-                PlayerPrefs.DeleteAll();
+                switch (Scenes)
+                {
+                    case SceneIndex.Home:
+                        PositionUpdate(1);                        
+                        break;
+                    case SceneIndex.HomeYard:
+                        PositionUpdate(2);
+                        break;
+                    case SceneIndex.TrainingGround:
+                        PositionUpdate(3);
+                        break;
+                }
             }
         }
 
@@ -72,10 +77,10 @@ namespace Nivandria.Explore
         {
             Vector3 newPos = new Vector3(x, y, z);
 
-            if (newPos != Vector3.zero)
+            if (Players.position != newPos)
             {
                 Players.position = newPos;
-                Debug.Log("Loading position from last save location!");
+                isTrigger = false;
             }
         }
 
@@ -85,7 +90,13 @@ namespace Nivandria.Explore
             PlayerPrefs.SetFloat("Y" + value, Players.position.y);
             PlayerPrefs.SetFloat("Z" + value, Players.position.z);
             PlayerPrefs.Save();
-            isSave = false;
+            Debug.Log("BERHASIL SAVE = " + PlayerPrefs.GetFloat("X1") + " " + PlayerPrefs.GetFloat("Y1") + " " + PlayerPrefs.GetFloat("Z1"));
         }
+    }
+    public enum SceneIndex
+    {
+        Home,
+        HomeYard,
+        TrainingGround
     }
 }
