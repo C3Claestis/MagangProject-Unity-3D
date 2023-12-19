@@ -221,7 +221,7 @@ namespace Nivandria.UI.Gears
                 Hero currentHero = GetHero(heroIndex);
 
                 if (DisplaySpecialGearHero(gear, currentHero)) continue;
-                if (GearIsEquipped(gear, currentHero)) continue;
+                // if (GearIsEquipped(gear, currentHero)) continue;
                 GameObject newGear = InstantiateGear(gear);
                 DisplayEquippedAndGeneralGear(newGear, gear, currentHero);
 
