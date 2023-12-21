@@ -6,6 +6,7 @@ namespace Nivandria.UI.Menu
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
+    using Unity.VisualScripting;
 
     public class MenuManager : MonoBehaviour
     {
@@ -14,11 +15,17 @@ namespace Nivandria.UI.Menu
         [Header("Content Container")]
         [SerializeField] public Transform MenuContentContainer;
 
+        [Header("Panel Quest & Item")]
+        [SerializeField] public Transform PanelQuest;
+        [SerializeField] public Transform PanelItem;
+
         [Header("List Menu Button")]
         [SerializeField] List<Menu> MenuButtonList = new List<Menu>();
 
         [Header("Menu Button Log")]
         [SerializeField] GameObject menuButtonLog;
+
+        private CanvasGroup currentCanvasGroup;
 
         void Awake()
         {
@@ -108,8 +115,39 @@ namespace Nivandria.UI.Menu
                 // Set position for left and right buttons
                 SetIconButtonPosition(newMenuButton.transform.GetChild(0), currentPositionLeft + offsetLeft);
                 SetIconButtonPosition(newMenuButton.transform.GetChild(1), currentPositionRight + offsetRight);
+
+                ButtonOnClickMenu(MenuContentContainer, 0, PanelQuest);
+                ButtonOnClickMenu(MenuContentContainer, 1, PanelItem);
             }
         }
+
+        private void ButtonOnClickMenu(Transform contentContainer, int index, Transform panel)
+        {
+            Button buttonMenu = contentContainer.GetChild(index).GetComponent<Button>();
+            CanvasGroup canvasGroup = panel.GetComponent<CanvasGroup>();
+
+            buttonMenu.onClick.AddListener(() =>
+            {
+                // Check if there is a current CanvasGroup
+                if (currentCanvasGroup != null)
+                {
+                    // Set alpha values of the previous CanvasGroup to false
+                    currentCanvasGroup.alpha = 0;
+                    currentCanvasGroup.interactable = false;
+                    currentCanvasGroup.blocksRaycasts = false;
+                }
+
+                // Set alpha values of the current CanvasGroup to true
+                canvasGroup.alpha = 1;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+
+                // Update the currentCanvasGroup to the current CanvasGroup
+                currentCanvasGroup = canvasGroup;
+            });
+        }
+
+
 
         private void AddHoverEvents(GameObject newMenuButton, int index)
         {
@@ -152,7 +190,7 @@ namespace Nivandria.UI.Menu
             }
         }
 
-        
+
     }
 
 }
