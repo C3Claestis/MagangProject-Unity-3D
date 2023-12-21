@@ -65,9 +65,9 @@ namespace Nivandria.Battle
         public void RotateUnit_Confirm(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            if (!PlacingUnitSystem.Instance.GetStatus())
+            if (!PlacingSystem.Instance.GetStatus())
             {
-                PlacingUnitSystem.Instance.GetComponent<RotatePlaceUnit>().ConfirmRotation();
+                PlacingSystem.Instance.GetComponent<RotatePlaceUnit>().ConfirmRotation();
                 return;
             }
 
@@ -82,9 +82,9 @@ namespace Nivandria.Battle
 
             float rotateValue = context.ReadValue<float>();
 
-            if (!PlacingUnitSystem.Instance.GetStatus())
+            if (!PlacingSystem.Instance.GetStatus())
             {
-                var rotate = PlacingUnitSystem.Instance.GetComponent<RotatePlaceUnit>();
+                var rotate = PlacingSystem.Instance.GetComponent<RotatePlaceUnit>();
                 if (rotateValue > 0) rotate.RotateRight();
                 else if (rotateValue < 0) rotate.RotateLeft();
                 return;
@@ -130,12 +130,12 @@ namespace Nivandria.Battle
 
         public void PlacingUnits_SelectGrid(InputAction.CallbackContext context)
         {
-            if (context.performed) PlacingUnitSystem.Instance.PlacingUnit();
+            if (context.performed) PlacingSystem.Instance.PlacingUnit();
         }
 
         public void PlacingUnits_CancelAction(InputAction.CallbackContext context)
         {
-            if (context.performed) PlacingUnitSystem.Instance.Cancel_Action();
+            if (context.performed) PlacingSystem.Instance.Cancel_Action();
         }
 
         public void PlacingUnits_ChangeUnit(InputAction.CallbackContext context)
@@ -143,12 +143,12 @@ namespace Nivandria.Battle
             if (!context.performed) return;
             Debug.Log("Change unit");
             float changeValue = context.ReadValue<float>();
-            PlacingUnitSystem.Instance.ChangeSelectedUnit(changeValue);
+            PlacingSystem.Instance.ChangeSelectedUnit(changeValue);
         }
 
         public void PlacingUnits_DeleteUnit(InputAction.CallbackContext context)
         {
-            if (context.performed) PlacingUnitSystem.Instance.DeleteUnit();
+            if (context.performed) PlacingSystem.Instance.DeleteUnit();
         }
 
         /* -------------------------------------------------------------------------- */

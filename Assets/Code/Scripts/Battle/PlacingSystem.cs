@@ -13,16 +13,18 @@ namespace Nivandria.Battle
     using UnityEngine.UI;
     using TMPro;
 
-    public class PlacingUnitSystem : MonoBehaviour
+    public class PlacingSystem : MonoBehaviour
     {
-        public static PlacingUnitSystem Instance { get; private set; }
+        public static PlacingSystem Instance { get; private set; }
 
         [SerializeField] private InitializeBattlefield initBattle;
         [SerializeField] private Transform placingUnitPrefab;
         [SerializeField] private Transform unitContainer;
+        [SerializeField] private Transform objectContainer;
 
         [SerializeField] private List<Transform> unitList;
         [SerializeField] private List<UnitSetup> enemyUnitList;
+        [SerializeField] private List<ObjectSetup> objectList;
 
         private List<GridPosition> validPlacingGrid = new List<GridPosition>();
         private List<UnitSetup> unitPlaced = new List<UnitSetup>();
@@ -52,8 +54,11 @@ namespace Nivandria.Battle
             ShowCanvas(false);
             UnitTurnSystemUI.Instance.ShowTurnSystemUI(false);
             unitToPlaceList = new List<Transform>(unitList);
+
             initBattle.SetEnemyUnitList(enemyUnitList);
-            initBattle.SetupUnit();
+            initBattle.SetupUnits();
+            initBattle.SetupObjects(objectList, objectContainer);
+
             UpdateSelectedUnit();
 
             int height = LevelGrid.Instance.GetGridHeight();

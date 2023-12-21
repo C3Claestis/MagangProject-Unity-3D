@@ -2,8 +2,10 @@ namespace Nivandria.Battle
 {
     using System.Collections.Generic;
     using Nivandria.Battle.Grid;
+    using Nivandria.Battle.PathfindingSystem;
     using Nivandria.Battle.UnitSystem;
     using UnityEngine;
+    using Random = UnityEngine.Random;
 
     public class InitializeBattlefield : MonoBehaviour
     {
@@ -12,7 +14,7 @@ namespace Nivandria.Battle
 
         List<Transform> unitList;
 
-        public void SetupUnit()
+        public void SetupUnits()
         {
             List<UnitSetup> unitSetupList = new List<UnitSetup>();
             unitList = new List<Transform>();
@@ -28,6 +30,7 @@ namespace Nivandria.Battle
 
                 Transform newUnitTransform = Instantiate(prefab, position, Quaternion.identity, transform);
                 Unit newUnit = newUnitTransform.GetComponent<Unit>();
+                LevelGrid.Instance.AddUnitAtGridPosition(LevelGrid.Instance.GetGridPosition(position), newUnit);
 
                 unitList.Add(newUnitTransform);
 
@@ -38,11 +41,40 @@ namespace Nivandria.Battle
             }
         }
 
-
-        public void SetupObject()
+        public void SetupObjects(List<ObjectSetup> objectList, Transform container)
         {
+            foreach (var objectSetup in objectList)
+            {
+                int chances = objectSetup.GetChances();
+                int objectCount = objectSetup.GetObjectNumber();
+                List<GridPosition> gridPositionList = new List<GridPosition>(objectSetup.GetPositionList());
 
+                for (int i = 0; i < objectCount; i++)
+                {
+                    if (gridPositionList.Count == 0) break;
+
+                    int randomChance = Random.Range(0, 100);
+                    if (randomChance > chances) continue;
+
+                    int randomPosition = Random.Range(0, gridPositionList.Count);
+                    GridPosition gridPosition = gridPositionList[randomPosition];
+                    Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+                    if (!LevelGrid.Instance.IsValidGridPosition(gridPosition) ||
+                        Pathfinding.Instance.IsObstacleOnGrid(worldPosition, out string objectName) ||
+                        LevelGrid.Instance.GetUnitListAtGridPosition(gridPosition).Count > 0
+                    )
+                    {
+                        gridPositionList.Remove(gridPosition);
+                        continue;
+                    }
+
+                    Instantiate(objectSetup.GetPrefab(), worldPosition, Quaternion.identity, container);
+                    gridPositionList.Remove(gridPosition);
+                }
+            }
         }
+
 
         public void SetFriendlyUnitList(List<UnitSetup> unitList) => friendlyUnitList = unitList;
         public void SetEnemyUnitList(List<UnitSetup> unitList) => enemyUnitList = unitList;

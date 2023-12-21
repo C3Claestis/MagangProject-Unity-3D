@@ -56,7 +56,7 @@ namespace Nivandria.Battle
 
         public void ConfirmRotation()
         {
-            PlacingUnitSystem.Instance.ConfirmPlace(unit.GetGridPosition());
+            PlacingSystem.Instance.ConfirmPlace(unit.GetGridPosition());
 
             SetRotateVisualActive(false);
             IsActive(false);
@@ -66,8 +66,8 @@ namespace Nivandria.Battle
 
         private void CancelAction()
         {
-            PlacingUnitSystem.Instance.Cancel_Action();
-            PlacingUnitSystem.Instance.CancelRotate();
+            PlacingSystem.Instance.Cancel_Action();
+            PlacingSystem.Instance.CancelRotate();
 
             SetRotateVisualActive(false);
             IsActive(false);
