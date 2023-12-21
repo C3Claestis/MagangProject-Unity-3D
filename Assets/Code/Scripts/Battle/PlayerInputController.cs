@@ -141,7 +141,6 @@ namespace Nivandria.Battle
         public void PlacingUnits_ChangeUnit(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            Debug.Log("Change unit");
             float changeValue = context.ReadValue<float>();
             PlacingSystem.Instance.ChangeSelectedUnit(changeValue);
         }

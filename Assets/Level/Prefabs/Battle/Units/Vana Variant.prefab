@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4854608122198258825, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_Name
-      value: Blue Unit Variant
+      value: Vana Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: maxMoveDistance
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 673443bdcb7bf2f47be93ce60e68966f, type: 2}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: moveType
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8678099547874132023, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: unitIcon

@@ -127,6 +127,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   arrowMaterial: {fileID: 2100000, guid: 430d927316319f64395fc4a9607eebf8, type: 2}
+  arrowHeadMaterial: {fileID: 2100000, guid: 479666e8d950b554488337e6f2a1efc2, type: 2}
 --- !u!114 &2708009596075614867
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -314,8 +314,10 @@ namespace Nivandria.Battle.Action
         {
             GridPosition newPathTarget = Pointer.Instance.GetCurrentGrid();
 
+            if(unit.GetMoveType() == MoveType.Tiger) return;
+
             if (newPathTarget == pathTarget || !currentValidGrid.Contains(newPathTarget)) return;
-            if (pathToTarget != null) GridSystemVisual.Instance.ShowGridPositionList(pathToTarget, GridVisualType.White);
+            // if (pathToTarget != null) GridSystemVisual.Instance.ShowGridPositionList(pathToTarget, GridVisualType.White);
 
             pathToTarget = Pathfinding.Instance.FindPath(unit.GetGridPosition(), newPathTarget, out int pathLength);
             lineRenderer.positionCount = pathToTarget.Count;
