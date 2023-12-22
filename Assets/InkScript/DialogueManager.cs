@@ -18,8 +18,7 @@ namespace Nivandria.Explore
         private Story story;
 
         // Tag used for identifying speakers in dialogue
-        private const string SPEAKER_TAG = "speaker";
-        private const string JOB_TAG = "job";
+        private const string SPEAKER_TAG = "speaker";        
 
         // Coroutine for displaying dialogue lines
         private Coroutine displayCoroutine;
@@ -37,10 +36,13 @@ namespace Nivandria.Explore
         [Header("Dialog UI")]
         [SerializeField] InteraksiNPC interaksiNPC;
         [SerializeField] Text teks;
-        [SerializeField] Text speaker, job;
+        [SerializeField] Text speaker;
         [SerializeField] GameObject panel_dialogue, panel_explore;
         [SerializeField] GameObject _cameraMain, _cameraTalk;
         [SerializeField] GameObject _continueIcon;
+
+        [Header("Transisi Dialogue")]
+        [SerializeField] Animator transisi;
 
         [Header("Choice UI")]
         [SerializeField] GameObject[] choices;
@@ -129,6 +131,7 @@ namespace Nivandria.Explore
             foreach (NPCQuest nPCQuest in npcss)
             {
                 nPCQuest.SetTalk(false);
+                transisi.SetTrigger("Dialog");  
             }
         }
 
@@ -186,10 +189,7 @@ namespace Nivandria.Explore
                 {
                     case SPEAKER_TAG:
                         speaker.text = tagValue;
-                        break;
-                    case JOB_TAG:
-                        job.text = tagValue;
-                        break;
+                        break;                    
                 }
             }
         }

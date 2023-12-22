@@ -20,8 +20,9 @@ namespace Nivandria.Quest.Editor
         public string[] npcList = new string[]
         {
             "Person/Vana",
-            "Person/Eldria",
+            "Person/Eldria",            
             "Object/Table",
+            "Object/Wooden Dummy",
             "Object/Dinning Table",
             "Object/Door",
             "Object/Wooden Dummy",

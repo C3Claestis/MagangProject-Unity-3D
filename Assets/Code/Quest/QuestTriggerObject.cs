@@ -53,6 +53,7 @@ namespace Nivandria.Explore
                     // If the NPC is not currently interacting with the player
                     if (npc.GetInterect() == false)
                     {
+                        npc.SetIsDetect(true);
                         npc.SetInterect(true);
                         isDetect = true;
                     }
@@ -71,6 +72,7 @@ namespace Nivandria.Explore
                 NPCQuest[] npcs = FindObjectsOfType<NPCQuest>();
                 foreach (NPCQuest npc in npcs)
                 {
+                    npc.SetIsDetect(false);
                     npc.SetInterect(false);
                     npc.SetTalk(false);
                     isDetect = false;

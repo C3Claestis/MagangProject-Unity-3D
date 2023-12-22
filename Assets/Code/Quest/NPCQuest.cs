@@ -3,9 +3,10 @@ namespace Nivandria.Explore
     using System.Collections;
     using System.Collections.Generic;
     using Nivandria.Quest;
+    using UnityEditor.Animations;
     using UnityEngine;
     using UnityEngine.InputSystem;
-    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
 
     public class NPCQuest : MonoBehaviour
     {
@@ -23,19 +24,28 @@ namespace Nivandria.Explore
         [Header("InkExternal")]
         private InkExternal inkExternal;
 
-        [Header("IndexValueCutscene For Switch Scene")]
-        [SerializeField] int indexCutscene;
-
         [Header("Quest 1 Or Not?")]
         [SerializeField] QuestOneOrNot Quest;
 
         [Header("Object Destroy Or Not?")]
-        [SerializeField] DestroyOrNot DestroyAfterDialogue;        
+        [SerializeField] DestroyOrNot DestroyAfterDialogue;
+
+        [Header("Name Of Object")]
+        [SerializeField] string Name;
+
+        [Header("Display Taking On Canvas")]
+        [SerializeField] GameObject display_taking;
+        [SerializeField] GameObject icon;
+        private bool isDetect = false;
+        private bool hasTaken = false;
+        private GameObject taking;
 
         #region Getter Setter
         public void SetTalk(bool talk) => this.isTalk = talk;
         public void SetInterect(bool interect) => this.isInterect = interect;
         public void SetIndex(bool index) => this.Index = index;
+        public void SetIsDetect(bool detect) => this.isDetect = detect;
+        public bool GetIsDetect() => isDetect;
         public bool GetIndex() => Index;
         public bool GetInterect() => isInterect;
         #endregion
@@ -48,11 +58,44 @@ namespace Nivandria.Explore
             playerInput = FindAnyObjectByType<PlayerInput>();
             if (transisi == null) { transisi = GameObject.Find("Transisi").GetComponent<Animator>(); }
             else { return; }
+
+            if (Quest == QuestOneOrNot.Quest_1)
+            {
+                PlayerPrefs.SetInt("Quest", 0);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("Quest", 1);
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (isDetect && !hasTaken)
+            {
+                GameObject content = GameObject.Find("Content Taking").gameObject;
+                taking = Instantiate(display_taking);
+                taking.transform.SetParent(content.transform);
+                // Dapatkan komponen Text dari child objek
+                Text textComponent = taking.transform.Find("Name").GetComponent<Text>();
+
+                // Ganti teks dengan nama yang sesuai
+                if (textComponent != null)
+                {
+                    textComponent.text = Name; // Ganti dengan cara Anda mendapatkan nama yang sesuai
+                }
+                hasTaken = true;
+            }
+            if(!isDetect)
+            {
+                // Hancurkan objek yang di-instantiate saat pemain keluar dari trigger
+                if (taking != null)
+                {
+                    Destroy(taking);
+                    hasTaken = false;
+                }
+            }
             //Jika NPC sedang interaksi
             if (isTalk)
             {
@@ -60,26 +103,32 @@ namespace Nivandria.Explore
                 {
                     if (Quest == QuestOneOrNot.Quest_1)
                     {
-                        HandleQuest.GetInstance().Mision1 = true;
-                        Index = true;
-                    }
-                    else
-                    {
-                        HandleQuest.GetInstance().Mision2 = true;
-                    }
-
-                    if (transisi != null)
-                    {
+                        isDetect = false;
                         transisi.SetTrigger("Dialog");
+                        HandleQuest.GetInstance().Mision1 = true;
                         playerInput.SwitchCurrentActionMap("Player");
                         QuestTriggerObject.GetInstance().SetIsQuest(false);
                         SaveLastPosisi.GetInstance().SetSave(true);
                         isTalk = false;
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        isDetect = false;
+                        transisi.SetTrigger("Dialog");
+                        HandleQuest.GetInstance().Mision2 = true;
+                        playerInput.SwitchCurrentActionMap("Player");
+                        QuestTriggerObject.GetInstance().SetIsQuest(false);
+                        SaveLastPosisi.GetInstance().SetSave(true);
+                        isTalk = false;
+                        Destroy(gameObject);
                     }
                 }
 
                 else
                 {
+                    icon.SetActive(false);
+                    isDetect = false;
                     WaitUI();
                 }
             }
@@ -89,17 +138,6 @@ namespace Nivandria.Explore
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
             }
-
-            if (Index)
-            {
-                Invoke("SwitchScene", 1f);
-                Destroy(gameObject);
-            }
-        }
-
-        void SwitchScene()
-        {
-            SceneManager.LoadScene(indexCutscene);
         }
         void SearchImage(bool Image_1, bool Image_2)
         {
@@ -139,14 +177,5 @@ namespace Nivandria.Explore
                     break;
             }
         }
-    }    
-    public enum DestroyOrNot
-    {
-        Yes,
-        No
-    }
-    public enum QuestOneOrNot{
-        Quest_1,
-        Quest_2
     }
 }

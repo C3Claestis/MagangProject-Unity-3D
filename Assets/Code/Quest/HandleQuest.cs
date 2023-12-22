@@ -11,17 +11,21 @@ namespace Nivandria.Quest
         private static HandleQuest instance;
         private bool hasSpawned = true;
         QuestManager questManager;
+        bool isNonQuest = false;
 
+        //Komponen Quest Data
         [Header("Quest Data")]
         [SerializeField] QuestData quest1;
         [SerializeField] QuestData quest2;
         [HideInInspector] public bool Mision1, Mision2;
 
+        //Komponen UI Panel Quest
         [Header("UI Panel Quest")]
         [SerializeField] Text quest_description;
         [SerializeField] Text quest_type_and_tittle;
+        [SerializeField] GameObject canvas_dialogue;
 
-        #region Componen Quest Pertama  
+        #region Componen Quest          
         [Header("Object Non Quest")]
         [SerializeField] GameObject Quest_Pointer_ToHouseYard;
         [SerializeField] GameObject Quest_Pointer_ToHouse;
@@ -29,7 +33,7 @@ namespace Nivandria.Quest
         [SerializeField] GameObject Quest_Pointer_ToHouseYardFromTrainingGround;
 
         [Header("Component Quest 1")]
-        [SerializeField] Transform pintu_kamar_sacra;
+        [SerializeField] GameObject teleport_house_yard;
         [SerializeField] GameObject MQ1_0;
 
         [Header("Component Quest 2")]
@@ -56,6 +60,21 @@ namespace Nivandria.Quest
 
         [Header("Component Quest 9")]
         [SerializeField] GameObject MQ1_8;
+
+        [Header("Component Quest 10")]
+        [SerializeField] GameObject MQ1_9;
+
+        [Header("Component Quest 11")]
+        [SerializeField] GameObject MQ2_1;
+
+        [Header("Component Quest 12")]
+        [SerializeField] GameObject MQ2_2;
+
+        [Header("Component Quest 13")]
+        [SerializeField] GameObject MQ2_3;
+
+        [Header("Component Quest 14")]
+        [SerializeField] GameObject MQ2_4;
         #endregion
         private void Awake()
         {
@@ -80,13 +99,14 @@ namespace Nivandria.Quest
         {
             if (Input.GetKey(KeyCode.R))
             {
-                PlayerPrefs.GetInt("Quest");
-                PlayerPrefs.GetInt("Quest");
-                PlayerPrefs.GetInt("Prologue1");
-                PlayerPrefs.GetInt("Prologue2");
+                PlayerPrefs.DeleteKey("Quest");
+                PlayerPrefs.DeleteKey("Prologue1");
+                PlayerPrefs.DeleteKey("Prologue2");
             }
 
-            Debug.Log("CURRENY INDEX = " + PlayerPrefs.GetInt("Prologue1"));
+            Debug.Log("CURRENY INDEX PROLOGUE I = " + PlayerPrefs.GetInt("Prologue1"));
+            Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
+            Debug.Log("CURRENY INDEX PROLOGUE II = " + PlayerPrefs.GetInt("Prologue2"));
 
             SwitchQuest(PlayerPrefs.GetInt("Quest"));
 
@@ -115,148 +135,186 @@ namespace Nivandria.Quest
             } */
         }
 
+        //Fungsi untuk menghandle perpindahan quest chapter 0
         void SwitchQuest(int questData)
         {
+            //Quest chapter 0 tahap pertama
             if (questData == 0)
             {
                 questManager.AddCurrentQuest(quest1);
                 CurrentFirstQuest(PlayerPrefs.GetInt("Prologue1"));
                 quest_type_and_tittle.text = quest1.Type.ToString() + " Quest " + " : " + quest1.Title;
-                quest_description.text = questManager.GetCurrentObjective(quest1).Description;
-
+                if (!isNonQuest)
+                {
+                    quest_description.text = questManager.GetCurrentObjective(quest1).Description;
+                }
             }
+            //Quest chapter 0 tahap kedua
             else
             {
                 questManager.AddCurrentQuest(quest2);
-                CurrentFirstQuest(PlayerPrefs.GetInt("Prologue2"));
+                CurrentSecondQuest(PlayerPrefs.GetInt("Prologue2"));
                 quest_type_and_tittle.text = quest2.Type.ToString() + " Quest " + " : " + quest2.Title;
-                quest_description.text = questManager.GetCurrentObjective(quest2).Description;
-
+                if (!isNonQuest)
+                {
+                    quest_description.text = questManager.GetCurrentObjective(quest2).Description;
+                }
             }
         }
-
+        //Fungsi static handle quest tahap pertama
         private void CurrentFirstQuest(int indexobjective)
         {
             switch (indexobjective)
             {
                 case 0:
                     SpawnQuest(MQ1_0);
-                    // Buat pintu menjadi tertutup pintu_kamar_sacra.localRotation = Quaternion.Euler(0, 120, 0);                    
+                    //Teleport pindah scene masih mati
+                    teleport_house_yard.SetActive(false);
+                    //Pintu Vana masih tertutup
+                    pintu_kamar_vana.localRotation = Quaternion.Euler(0, -0.02f, 90);
+                    pintu_kamar_vana.localPosition = new Vector3(2.927363f, 1.845128f, -2.231239f);
                     break;
                 case 1:
-                    SpawnQuest(MQ1_1);
-                    questManager.CompleteObjectiveQuest(quest1, 0);
-                    // Buat pintu menjadi tertutup pintu_kamar_vana.localRotation = Quaternion.Euler(0, -120, 0);                    
+                    //Teleport pindah scene masih mati
+                    teleport_house_yard.SetActive(true);
+                    TakeQuestAndIndexScene(MQ1_1, 1, 1);
+                    DestroySpawnQuest(MQ1_0);
+                    //Pintu Vana masih tertutup
+                    pintu_kamar_vana.localRotation = Quaternion.Euler(0, -0.02f, 90);
+                    pintu_kamar_vana.localPosition = new Vector3(2.927363f, 1.845128f, -2.231239f);
                     break;
                 case 2:
+                    //Pintu Vana masih terbuka
+                    pintu_kamar_vana.localRotation = Quaternion.Euler(0, 79.969f, 90);
+                    pintu_kamar_vana.localPosition = new Vector3(2.639f, 1.845128f, -2.456f);
                     TakeQuestAndIndexScene(MQ1_2, 1, 2);
-                    //Clear(2);
-                    //SpawnQuest(MQ1_2);
                     DestroySpawnQuest(MQ1_1);
                     break;
                 case 3:
-                    //Clear(3);
-                    //SpawnQuest(MQ1_3);
                     TakeQuestAndIndexScene(MQ1_3, 1, 3);
                     DestroySpawnQuest(MQ1_2);
                     break;
                 case 4:
-                    //Clear(4);
-                    //SpawnQuest(MQ1_4);
                     TakeQuestAndIndexScene(MQ1_4, 1, 4);
                     DestroySpawnQuest(MQ1_3);
                     break;
                 case 5:
-                    //Clear(5);
-                    //SpawnQuest(MQ1_5);
                     TakeQuestAndIndexScene(MQ1_5, 2, 5);
                     DestroySpawnQuest(MQ1_4);
                     break;
                 case 6:
-                    Clear(6);
-                    SpawnQuest(MQ1_6);
+                    TakeQuestAndIndexScene(MQ1_6, 2, 6);
+                    DestroySpawnQuest(MQ1_5);
                     break;
                 case 7:
-                    Clear(7);
+                    TakeQuestAndIndexScene(MQ1_7, 1, 7);
+                    DestroySpawnQuest(MQ1_6);
+                    break;
+                case 8:
+                    TakeQuestAndIndexScene(MQ1_8, 1, 8);
+                    DestroySpawnQuest(MQ1_7);
+                    break;
+                case 9:
+                    TakeQuestAndIndexScene(MQ1_9, 1, 9);
+                    DestroySpawnQuest(MQ1_8);
+                    break;
+                case 10:
+                    PlayerPrefs.SetInt("Quest", 1);
+                    DestroySpawnQuest(MQ1_9);
                     break;
             }
         }
-
+        //Fungsi static quest tahap kedua
         private void CurrentSecondQuest(int indexobjective)
         {
             switch (indexobjective)
             {
+                case 0:
+                    TakeQuestAndIndexScene(MQ2_1, 3, 0);
+                    break;
                 case 1:
-                    if (SceneManager.GetActiveScene().buildIndex == 1)
-                    {
-
-                    }
+                    TakeQuestAndIndexScene(MQ2_2, 3, 1);
+                    DestroySpawnQuest(MQ2_1);
                     break;
                 case 2:
-
+                    TakeQuestAndIndexScene(MQ2_3, 3, 2);
+                    DestroySpawnQuest(MQ2_2);
                     break;
                 case 3:
-
+                    TakeQuestAndIndexScene(MQ2_4, 1, 3);
+                    DestroySpawnQuest(MQ2_3);
                     break;
                 case 4:
-
-                    break;
-                case 5:
-
+                    canvas_dialogue.SetActive(false);
                     break;
             }
         }
-
+        //Fungsi untuk handle apakah quest berada di scene yang benar atau tidak
         void TakeQuestAndIndexScene(GameObject quest, int indexScene, int indexClear)
         {
+            //Jika player dan quest berada di scene yang sama 
             if (SceneManager.GetActiveScene().buildIndex == indexScene)
             {
+                isNonQuest = false;
                 SpawnQuest(quest);
                 Clear(indexClear);
             }
+
             //Quest ada di Home dan player berada di HouseYard
             else if (SceneManager.GetActiveScene().buildIndex > indexScene
             && SceneManager.GetActiveScene().buildIndex == 2)
             {
-                Destroy(quest);
+                isNonQuest = true;
+                quest_description.text = "Go to Inside Home";
                 SpawnQuest(Quest_Pointer_ToHouse);
             }
+
             //Quest ada di Home dan player berada di TrainingGround
             else if (SceneManager.GetActiveScene().buildIndex > indexScene
             && SceneManager.GetActiveScene().buildIndex == 3)
             {
-                Destroy(quest);
+                isNonQuest = true;
+                quest_description.text = "Go to Inside Home";
                 SpawnQuest(Quest_Pointer_ToHouseYardFromTrainingGround);
             }
+
             //Quest ada di HouseYard dan player berada di Home
             else if (SceneManager.GetActiveScene().buildIndex < indexScene
             && SceneManager.GetActiveScene().buildIndex == 1)
             {
-                Destroy(quest);
+                isNonQuest = true;
+                quest_description.text = "Go to House Yard";
                 SpawnQuest(Quest_Pointer_ToHouseYard);
             }
+
             //Quest ada di HouseYard dan player berada di TrainingGround
             else if (SceneManager.GetActiveScene().buildIndex > indexScene
             && SceneManager.GetActiveScene().buildIndex == 3)
             {
-                Destroy(quest);
+                isNonQuest = true;
+                quest_description.text = "Go to House Yard";
                 SpawnQuest(Quest_Pointer_ToHouseYardFromTrainingGround);
             }
+
             //Quest ada di TrainingGround dan player berada di Home
             else if (SceneManager.GetActiveScene().buildIndex < indexScene
             && SceneManager.GetActiveScene().buildIndex == 1)
             {
-                Destroy(quest);
+                isNonQuest = true;
+                quest_description.text = "Go to Training Ground";
                 SpawnQuest(Quest_Pointer_ToHouseYard);
             }
+
             //Quest ada di TrainingGround dan player berada di HouseYard
             else if (SceneManager.GetActiveScene().buildIndex < indexScene
             && SceneManager.GetActiveScene().buildIndex == 2)
             {
-                Destroy(quest);
+                isNonQuest = true;
+                quest_description.text = "Go to Training Ground";
                 SpawnQuest(Quest_Pointer_ToTrainingGround);
             }
         }
+        //Fungsi untuk mengakhiri quest
         void QuestComplete(QuestData Index, byte Noindex)
         {
             questManager.CompleteObjectiveQuest(Index, PlayerPrefs.GetInt("Prologue" + Noindex));
@@ -268,9 +326,19 @@ namespace Nivandria.Quest
         }
         void Clear(int value)
         {
-            for (int i = 0; i < value; i++)
+            if (PlayerPrefs.GetInt("Quest") == 0)
             {
-                questManager.CompleteObjectiveQuest(quest1, i);
+                for (int i = 0; i < value; i++)
+                {
+                    questManager.CompleteObjectiveQuest(quest1, i);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < value; i++)
+                {
+                    questManager.CompleteObjectiveQuest(quest2, i);
+                }
             }
         }
         void SpawnQuest(GameObject gameObject)
@@ -304,5 +372,15 @@ namespace Nivandria.Quest
                 Debug.Log("Berhasil Destroy = " + objects);
             }
         }
+    }
+    public enum DestroyOrNot
+    {
+        Yes,
+        No
+    }
+    public enum QuestOneOrNot
+    {
+        Quest_1,
+        Quest_2
     }
 }

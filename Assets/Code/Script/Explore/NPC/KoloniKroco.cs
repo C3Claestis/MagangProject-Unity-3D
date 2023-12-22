@@ -1,5 +1,6 @@
 namespace Nivandria.Explore
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -9,7 +10,10 @@ namespace Nivandria.Explore
     /// </summary>
     public class KoloniKroco : MonoBehaviour
     {
-        [SerializeField] float _jarak, _jarak_kali_dua, durasi;
+        [Range(0, 10)][SerializeField] float _jarak;
+        [Range(0,30)][SerializeField] float _jarak_kali_dua;
+        [Range(0,5)][SerializeField] float durasi;
+
         Transform follow;
         private bool IsFollow = false;
         private bool IsDeteksi = false;

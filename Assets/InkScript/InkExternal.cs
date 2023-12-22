@@ -40,6 +40,9 @@ namespace Nivandria.Explore
                     case "Vana":
                         indexPlayer = 2;
                         break;
+                    case "Eldria":
+                        indexPlayer = 3;
+                        break;
                 }
             });
             story.BindExternalFunction("ekspresiavatar", (string eksvalue) =>

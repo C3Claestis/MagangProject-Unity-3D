@@ -26,35 +26,39 @@ MonoBehaviour:
     Quantity: 0
   - Type: 0
     Description: "Go to Vana\u2019s room"
+    Target: Door
+    Quantity: 0
+  - Type: 0
+    Description: Waking up Vana
     Target: Vana
     Quantity: 0
-  - Type: 1
-    Description: Waking up Vana
-    Target: House Sacra Vana
+  - Type: 0
+    Description: Talk to Vana
+    Target: Vana
     Quantity: 0
-  - Type: 1
-    Description: Walk to the dining table
-    Target: House Sacra Vana
-    Quantity: 0
-  - Type: 1
-    Description: Walking out of the house
-    Target: House Yard
+  - Type: 0
+    Description: Walking towards the dining table
+    Target: Dinning Table
     Quantity: 0
   - Type: 4
-    Description: Take 5 potatoes
+    Description: Take 5 potatoes and take a water of bucket
     Target: Potato
-    Quantity: 5
-  - Type: 4
-    Description: Take a water of bucket
-    Target: Bucket
-    Quantity: 1
-  - Type: 1
-    Description: Go to inside the house
-    Target: House Sacra Vana
+    Quantity: 6
+  - Type: 0
+    Description: Inspect strange things in the weapons storage area
+    Target: Eldria
+    Quantity: 0
+  - Type: 0
+    Description: Examine the mysterious book on the dining table
+    Target: Dinning Table
     Quantity: 0
   - Type: 0
     Description: Speak to mysterious figure
     Target: Eldria
+    Quantity: 0
+  - Type: 0
+    Description: Speak with Vana about what actually happened
+    Target: Vana
     Quantity: 0
   rewards:
   - Type: 0
@@ -88,8 +92,13 @@ MonoBehaviour:
     ReputationPlace: 
     ReputationProgress: 0
   - Type: 0
-    ItemName: Potato
-    ItemQuantity: 7
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
     ReputationPlace: 
     ReputationProgress: 0
   - Type: 0
@@ -102,4 +111,4 @@ MonoBehaviour:
     ItemQuantity: 100
     ReputationPlace: 
     ReputationProgress: 0
-  image: {fileID: 2800000, guid: 570aff90370713441b4f163206dc1d9b, type: 3}
+  image: {fileID: 0}

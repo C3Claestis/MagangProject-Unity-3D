@@ -37,8 +37,10 @@ namespace Nivandria.Explore
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if(Input.GetKey(KeyCode.Alpha0)){
+                PlayerPrefs.DeleteAll();
+            }
+            if(Input.GetKey(KeyCode.Alpha1)){
                 isSave = true;
             }
             if (isTrigger)
@@ -91,6 +93,7 @@ namespace Nivandria.Explore
             PlayerPrefs.SetFloat("Z" + value, Players.position.z);
             PlayerPrefs.Save();
             Debug.Log("BERHASIL SAVE = " + PlayerPrefs.GetFloat("X1") + " " + PlayerPrefs.GetFloat("Y1") + " " + PlayerPrefs.GetFloat("Z1"));
+            isSave = false;
         }
     }
     public enum SceneIndex

@@ -24,11 +24,11 @@ namespace Nivandria.Explore
         [SerializeField] Animator transisi;
 
         [Header("UI Element")]
-        [SerializeField] Text drakar;
-        [SerializeField] Text level;
-        [SerializeField] Text kentang;
-        [SerializeField] int tambahdrakar;
-        [SerializeField] int tambahlevel;
+        //[SerializeField] Text drakar;
+        //[SerializeField] Text level;
+        //[SerializeField] Text kentang;
+        //[SerializeField] int tambahdrakar;
+        //[SerializeField] int tambahlevel;
 
         [Header("Sensitiviy Camera")]
         [SerializeField] CinemachineFreeLook cinemachineFreeLook;
@@ -146,8 +146,8 @@ namespace Nivandria.Explore
         {
             Resource resource = new Resource
             {
-                Drakar = tambahdrakar,
-                Reputation = tambahlevel,
+             //   Drakar = tambahdrakar,
+              //  Reputation = tambahlevel,
                 SensX = sen_x,
                 SensY = sen_y,
                 Kentang = Potato
@@ -164,9 +164,9 @@ namespace Nivandria.Explore
             if (savestring != null)
             {
                 Resource resource = JsonUtility.FromJson<Resource>(savestring);
-                drakar.text = resource.Drakar.ToString();
-                level.text = resource.Reputation.ToString();
-                kentang.text = resource.Kentang.ToString();
+               // drakar.text = resource.Drakar.ToString();
+                //level.text = resource.Reputation.ToString();
+                //kentang.text = resource.Kentang.ToString();
                 sen_x = resource.SensX;
                 sen_y = resource.SensY;
                 Potato = resource.Kentang;

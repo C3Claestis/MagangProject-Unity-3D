@@ -5,6 +5,7 @@ namespace Nivandria.Quest.Editor
     using UnityEditor;
     using UnityEditor.Experimental.GraphView;
     using UnityEngine;
+    using System.IO;
 
     [CustomEditor(typeof(QuestData), true)]
     public class QuestDataEditor : Editor
@@ -22,6 +23,7 @@ namespace Nivandria.Quest.Editor
             "Person/Eldria",
             "Object/Table",
             "Object/Dinning Table",
+            "Object/Wooden Dummy",
             "Object/Door",
             "Object/Wooden Dummy",
             "Location/Outside House",
@@ -59,7 +61,30 @@ namespace Nivandria.Quest.Editor
             searchProvider = CreateInstance<StringListSearchProvider>();
             sourceQuest = (QuestData)target;
         }
+        private void OnDisable()
+        {
+            SaveQuestData();
+        }
 
+        private void SaveQuestData()
+        {
+            string directory = "Assets/Data/Quest";
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            string filename = $"{sourceQuest.Title}.asset";
+            string filePath = Path.Combine(directory, filename);
+
+            var existingQuest = sourceQuest;
+
+            EditorUtility.SetDirty(existingQuest);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log("New Quest Data created and saved to: " + filePath);
+        }
         public override void OnInspectorGUI()
         {
             EditorStructure(EditorHeader, EditorBody, EditorFooter);

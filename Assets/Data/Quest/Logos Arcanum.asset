@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc671c332e9f47b4b8eed05f6f217154, type: 3}
+  m_Name: Logos Arcanum
+  m_EditorClassIdentifier: 
+  title: Logos Arcanum
+  type: 0
+  from: None
+  location: Training Ground
+  description: Eldria's words filled the minds of the two siblings. They resolved
+    to travel, but they needed to learn the power of the Logos Arcanum.
+  orderly: 0
+  objectives:
+  - Type: 2
+    Description: Practice with wooden dummy
+    Target: Wooden Dummy
+    Quantity: 3
+  - Type: 0
+    Description: Talk to Vana outside the training ground
+    Target: Vana
+    Quantity: 0
+  - Type: 2
+    Description: Defeat the wild boar
+    Target: Boar
+    Quantity: 3
+  - Type: 0
+    Description: Talk to Vana
+    Target: Vana
+    Quantity: 0
+  rewards:
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  image: {fileID: 0}

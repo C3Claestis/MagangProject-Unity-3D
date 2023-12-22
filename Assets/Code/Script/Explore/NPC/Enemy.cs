@@ -2,6 +2,7 @@ namespace Nivandria.Explore
 {
     using System.Collections;
     using System.Collections.Generic;
+    using Unity.VisualScripting;
     using UnityEngine;
     using UnityEngine.AI;
     using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace Nivandria.Explore
         [SerializeField] GameObject dangerIcon;
 
         // Reference to KoloniKroco script
-        [SerializeField] KoloniKroco koloni;
+        KoloniKroco koloni;
 
         // Movement Parameters
         [SerializeField] private float maxRange; // Maximum range of movement
@@ -51,6 +52,7 @@ namespace Nivandria.Explore
             anim = GetComponent<Animator>();
             agent = GetComponent<NavMeshAgent>();
             initialPosition = transform.position;
+            koloni = GetComponentInParent<KoloniKroco>();
             SetRandomTargetPosition();
         }
 
@@ -169,6 +171,12 @@ namespace Nivandria.Explore
             isMoving = true;
             SetRandomTargetPosition();
             idleCoroutine = null;
+        }
+
+        private void OnTriggerEnter(Collider collider){
+            if(collider.CompareTag("Player")){
+                Debug.Log("HITT");
+            }
         }
     }
 }
