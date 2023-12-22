@@ -3200,7 +3200,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1549704494}
   m_HandleRect: {fileID: 1549704493}
-  m_Direction: 3
+  m_Direction: 2
   m_Value: 0.99999976
   m_Size: 0.7845725
   m_NumberOfSteps: 0

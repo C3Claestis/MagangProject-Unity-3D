@@ -37,17 +37,15 @@ namespace Nivandria.Battle.UI
                 Destroy(button.gameObject);
             }
 
-            // for (int j = 0; j < 5; j++)
-            // {
-            //     Transform itemButton = Instantiate(itemButtonPrefab, itemButtonPanel);
-            //     itemButtonList.Add(itemButton);
-            // }
+            for (int j = 0; j < 5; j++)
+            {
+                Transform itemButton = Instantiate(itemButtonPrefab, itemButtonPanel);
+                itemButtonList.Add(itemButton);
+            }
         }
 
         public void ButtonClick()
         {
-
-            Debug.Log("itemButtonList.Count : " + itemButtonList.Count);
             if (itemButtonList.Count > 0)
             {
                 int firstButton = 0;
@@ -60,7 +58,7 @@ namespace Nivandria.Battle.UI
             HideUI(false);
             ShowSelectedDummy(true);
 
-            HideScroller(itemButtonList.Count > 3);
+            HideScroller(!(itemButtonList.Count > 3));
         }
 
         private void HideUI(bool status)
