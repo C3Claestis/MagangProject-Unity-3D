@@ -12,8 +12,8 @@ namespace Nivandria.Battle.UI
     {
         [SerializeField] private Transform actionButtonPrefab;
         [SerializeField] private Transform actionButtonContainer;
-        [SerializeField] protected TextMeshProUGUI buttonText;
-        [SerializeField] protected Transform selectedDummyImage;
+        [SerializeField] private TextMeshProUGUI buttonText;
+        [SerializeField] private Transform selectedDummyImage;
         private List<Transform> actionButtonList;
 
         private void Start()
@@ -30,7 +30,6 @@ namespace Nivandria.Battle.UI
         {
             int firstButton = 0;
             UnitActionSystemUI.Instance.SetSelectedGameObject(actionButtonList[firstButton].gameObject);
-
             UnitActionSystemUI.Instance.ShowActionBlocker(true);
 
             LinkCancel(true);

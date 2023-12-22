@@ -218,12 +218,15 @@ namespace Nivandria.Battle
                 Debug.LogError("Unit need to be placed at least one!");
                 return;
             }
+
+            ShowCanvas(false);
             UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction, "Finish Setup Units ?");
         }
 
         private void NoButtonAction()
         {
             PlayerInputController.Instance.SetActionMap("PlacingUnits");
+            ShowCanvas(true);
         }
 
         private void YesButtonAction()

@@ -148,18 +148,10 @@ namespace Nivandria.Battle.UnitSystem
 
             foreach (var unit in unitList)
             {
-                if (enemyIsAlive && SacraIsAlive)
-                {
-                    return false;
-                }
-
                 if (unit.GetCharacterName() == "Sacra") SacraIsAlive = true;
                 if (unit.IsEnemy()) enemyIsAlive = true;
-            }
 
-            if (enemyIsAlive && SacraIsAlive)
-            {
-                return false;
+                if (enemyIsAlive && SacraIsAlive) return false;
             }
 
             if (enemyIsAlive && !SacraIsAlive) gameoverState = GameOver.LOSE;

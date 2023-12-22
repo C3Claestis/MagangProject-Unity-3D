@@ -38,6 +38,11 @@ namespace Nivandria.Battle.UI
             UnitTurnSystem.Instance.OnUnitListChanged += UnitTurnSystem_OnSelectedUnitChanged;
             UnitActionSystem.Instance.OnActionCompleted += UnitActionSystem_OnActionCompleted;
             ShowActionBlocker(false);
+
+            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
         }
 
         public void SelectUIBaseOnSelectedAction()
@@ -122,7 +127,7 @@ namespace Nivandria.Battle.UI
         //EVENT FUNCTION
         private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
-            SetSelectedGameObject(skillActionButtonContainer.gameObject);
+            SetSelectedGameObject(moveActionButton.gameObject);
             UnitActionSystem.Instance.ShowActionUI();
 
             if (UnitTurnSystem.Instance.GetSelectedUnit().IsEnemy()) ShowActionButtonBlocker(true);

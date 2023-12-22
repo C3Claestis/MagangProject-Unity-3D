@@ -9,14 +9,14 @@ namespace Nivandria.Battle
     public class ObjectSetup
     {
         [SerializeField] private Transform objectPrefab;
-        [SerializeField] private int objectNumber;
+        [SerializeField] private int count;
         [SerializeField][Range(0, 100)] private int chances;
         [SerializeField] private List<GridPosition> spawnPositionList;
 
         public Transform GetPrefab() => objectPrefab;
         public List<GridPosition> GetPositionList() => spawnPositionList;
         public int GetChances() => chances;
-        public int GetObjectNumber() => objectNumber;
+        public int GetObjectNumber() => count;
         public void RemovePosition(GridPosition gridPosition) => spawnPositionList.Remove(gridPosition);
     }
 }
