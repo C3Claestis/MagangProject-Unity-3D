@@ -32,17 +32,17 @@ namespace Nivandria.UI.Consumable
         public void UpdateVisual()
         {
             bool status = ConsumablesLogManager.Instance.GetSelectedConsumableLog() == this;
+            CanvasGroup canvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
             if (status)
             {
                 title.fontStyle = FontStyles.Bold;
-                SetImageAlpha(255);
+                canvasGroup.alpha = 1;
                 GetComponent<Button>().Select();
             }
             else
             {
                 title.fontStyle = FontStyles.Normal;
-                SetImageAlpha(0);
-
+                canvasGroup.alpha = 0;
             }
         }
 

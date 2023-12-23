@@ -7,6 +7,7 @@ namespace Nivandria.UI.Archive
 
     public class ArchiveLogManagerTest : MonoBehaviour
     {
+        public static ArchiveLogManagerTest Instance { get; private set; }
         [SerializeField] Transform contentContainer;
 
         [SerializeField] TextMeshProUGUI title;
@@ -15,37 +16,64 @@ namespace Nivandria.UI.Archive
         [SerializeField] List<Archive> archiveList = new List<Archive>();
         [SerializeField] GameObject archiveLog;
 
+        private List<ArchiveLog> archiveLogList;
+        private ArchiveLog selectedArchiveLog;
+
+        public ArchiveLog GetSelectedArchiveLog() => selectedArchiveLog;
+
+        private GameObject activeArchive = null;
+        void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
 
         // Start is called before the first frame update
         void Start()
         {
-            ArchiveLogInitialization();
-            ShowDefaultDescription();
-            SetIndexBorderFirst();
+            InitializeArchiveLog();
+            // ArchiveLogInitialization();
+            // ShowDefaultDescription();
+            // SetIndexBorderFirst();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-
-        private GameObject activeArchive = null;
 
         public void SetIndexBorderFirst()
         {
             if (archiveList.Count > 0)
             {
                 activeArchive = contentContainer.GetChild(0).gameObject;
-                Image activeImage = activeArchive.GetComponentInChildren<Image>();
-                SetImageAlpha(activeImage, 1f); // Mengatur alpha menjadi 255
+                CanvasGroup canvasGroup = activeArchive.transform.GetChild(0).GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 1;
             }
         }
 
-        public void ArchiveLogInitialization()
+        public void InitializeArchiveLog()
+        {
+            GameObject newArchive;
+            archiveLogList = new List<ArchiveLog>();
+
+            for (int i = 0; i < archiveList.Count; i++)
+            {
+                newArchive = Instantiate(archiveLog, contentContainer);
+                newArchive.GetComponent<ArchiveLog>().SetArchiveDetail(archiveList[i]);
+
+                archiveLogList.Add(newArchive.GetComponent<ArchiveLog>());
+            }
+
+            SetSelectedArchiveLog(archiveLogList[0]);
+        }
+
+
+        /* public void ArchiveLogInitialization()
         {
             int index = 0;
+            archiveLogList = new List<ArchiveLog>();
 
             foreach (Archive archive in archiveList)
             {
@@ -63,12 +91,26 @@ namespace Nivandria.UI.Archive
                     UpdateArchiveSelection(newArchive);
                 }
                 );
+
                 SetArchiveText(archiveText, index, archive);
+                
+                // SetImageAlpha(archiveImage, 0f);
+            }
+        } */
 
-                SetImageAlpha(archiveImage, 0f);
+        public void SetSelectedArchiveLog(ArchiveLog archiveLog)
+        {
+            selectedArchiveLog = archiveLog;
+            title.text = selectedArchiveLog.GetArchive().GetTitle();
+            description.text = selectedArchiveLog.GetArchive().GetDescription();
+            UpdateVisualArchiveLog();
+        }
 
-
-
+        public void UpdateVisualArchiveLog()
+        {
+            foreach (ArchiveLog archive in archiveLogList)
+            {
+                archive.UpdateVisual();
             }
         }
 

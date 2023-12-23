@@ -14,8 +14,6 @@ namespace Nivandria.UI.Keys
         [SerializeField] TextMeshProUGUI nameKey;
         [SerializeField] TextMeshProUGUI descriptionKey;
 
-
-
         [SerializeField] List<Keys> keysList = new List<Keys>();
         [SerializeField] GameObject keysLog;
 
@@ -38,12 +36,6 @@ namespace Nivandria.UI.Keys
         void Start()
         {
             IntializeKeyLogs();
-        }
-
-        
-        void Update()
-        {
-
         }
 
         public void IntializeKeyLogs()

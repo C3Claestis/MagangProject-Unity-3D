@@ -42,6 +42,7 @@ namespace Nivandria.UI.Menu
         void Start()
         {
             MenuButtonLogInitialization();
+            ShowPanel(MenuContentContainer, 0, PanelQuest);
         }
 
         public void MenuButtonLogInitialization()
@@ -145,6 +146,29 @@ namespace Nivandria.UI.Menu
                 // Update the currentCanvasGroup to the current CanvasGroup
                 currentCanvasGroup = canvasGroup;
             });
+        }
+
+        private void ShowPanel(Transform contentContainer, int index, Transform panel)
+        {
+            Button buttonMenu = contentContainer.GetChild(index).GetComponent<Button>();
+            CanvasGroup canvasGroup = panel.GetComponent<CanvasGroup>();
+
+            // Check if there is a current CanvasGroup
+            if (currentCanvasGroup != null)
+            {
+                // Set alpha values of the previous CanvasGroup to false
+                currentCanvasGroup.alpha = 0;
+                currentCanvasGroup.interactable = false;
+                currentCanvasGroup.blocksRaycasts = false;
+            }
+
+            // Set alpha values of the current CanvasGroup to true
+            canvasGroup.alpha = 1;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+
+            // Update the currentCanvasGroup to the current CanvasGroup
+            currentCanvasGroup = canvasGroup;
         }
 
 

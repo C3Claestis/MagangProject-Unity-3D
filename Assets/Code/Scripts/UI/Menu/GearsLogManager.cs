@@ -228,11 +228,11 @@ namespace Nivandria.UI.Gears
                 // Retrieve UI Components
 
                 // Get Image Gear
-                Image iconArmor = newGear.transform.GetChild(0).GetComponent<Image>();
+                Image iconArmor = newGear.transform.GetChild(1).GetComponent<Image>();
                 iconArmor.sprite = gear.GetImageGear();
 
                 // Get Name Gear
-                TextMeshProUGUI gearName = newGear.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI gearName = newGear.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 gearName.text = gear.GetNameGears();
 
                 // Get Icon Equipped Gear

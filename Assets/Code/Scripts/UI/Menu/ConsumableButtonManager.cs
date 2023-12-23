@@ -15,9 +15,8 @@ namespace Nivandria.UI.Quest
         [SerializeField] private Image Material;
         [SerializeField] private Image Ingredients;
 
-        private Color activeColor = new Color(0.16f, 0.58f, 0.70f); // Warna 2995B2
-        private Color inactiveColor = new Color(0.93f, 0.13f, 0.40f); // Warna EE3166
-
+        private Color activeColor = new Color(1f, 0.9411765f, 0.7843137f); // Warna FFF0C8
+        private Color inactiveColor = new Color(0.8784314f, 0.8470588f, 0.772549f); // Warna E0D8C5
         void Awake()
         {
             if (Instance != null && Instance != this)

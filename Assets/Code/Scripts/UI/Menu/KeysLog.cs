@@ -32,16 +32,17 @@ namespace Nivandria.UI.Keys
         public void UpdateVisual()
         {
             bool status = KeysLogManager.Instance.GetSelectedKeyLog() == this;
+            CanvasGroup canvasGroup = transform.GetChild(0).GetComponent<CanvasGroup>();
             if (status == true)
             {
                 nameKey.fontStyle = FontStyles.Bold;
-                SetImageAlpha(255);
+                canvasGroup.alpha = 1;
                 GetComponent<Button>().Select();
             }
             else
             {
                 nameKey.fontStyle = FontStyles.Normal;
-                SetImageAlpha(0);
+                canvasGroup.alpha = 0;
 
             }
         }
