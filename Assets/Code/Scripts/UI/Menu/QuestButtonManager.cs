@@ -2,6 +2,7 @@ namespace Nivandria.UI.Quest
 {
     using System.Collections;
     using System.Collections.Generic;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -17,6 +18,9 @@ namespace Nivandria.UI.Quest
 
         [Header("Content Container Side Quest & Commission")]
         [SerializeField] GameObject QuestContentContainer;
+
+        [Header("Text Title List")]
+        [SerializeField] TextMeshProUGUI textTitleList;
 
         [Header("Image Button")]
         [SerializeField] private Image _AllQuest;
@@ -54,17 +58,21 @@ namespace Nivandria.UI.Quest
             {
                 case 1:
                     AllQuestContentContainer.SetActive(true);
+                    textTitleList.text = "In Progress";
                     break;
                 case 2:
                     MainQuestContentContainer.SetActive(true);
+                    textTitleList.text = "QUEST LIST";
                     break;
                 case 3:
                     QuestContentContainer.SetActive(true);
                     QuestLogManager.Instance.questType = QuestType.Side;
+                    textTitleList.text = "QUEST LIST";
                     break;
                 case 4:
                     QuestContentContainer.SetActive(true);
                     QuestLogManager.Instance.questType = QuestType.Commission;
+                    textTitleList.text = "QUEST LIST";
                     break;
                 default:
                     Debug.Log("Panel number out of range.");

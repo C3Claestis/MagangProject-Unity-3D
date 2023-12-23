@@ -1744,7 +1744,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155747995}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -2471,7 +2471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 446.73486, y: 0}
   m_SizeDelta: {x: 642, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &221646227
@@ -5768,6 +5768,7 @@ MonoBehaviour:
   AllQuestContentContainer: {fileID: 247429161}
   MainQuestContentContainer: {fileID: 215600019}
   QuestContentContainer: {fileID: 1919199885}
+  textTitleList: {fileID: 811773651}
   _AllQuest: {fileID: 925088601515465263}
   _MainQuest: {fileID: 7215521079432926506}
   _SideQuest: {fileID: 277510790}
@@ -11851,7 +11852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 446.73486, y: 0}
   m_SizeDelta: {x: 125, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &952455501
