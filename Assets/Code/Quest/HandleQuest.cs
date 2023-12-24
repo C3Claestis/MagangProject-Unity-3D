@@ -75,6 +75,9 @@ namespace Nivandria.Quest
 
         [Header("Component Quest 14")]
         [SerializeField] GameObject MQ2_4;
+
+        [Header("Component Quest 15")]
+        [SerializeField] GameObject MQ2_5;
         #endregion
         private void Awake()
         {
@@ -108,7 +111,10 @@ namespace Nivandria.Quest
             Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
             Debug.Log("CURRENY INDEX PROLOGUE II = " + PlayerPrefs.GetInt("Prologue2"));
 
-            SwitchQuest(PlayerPrefs.GetInt("Quest"));
+            if (PlayerPrefs.GetInt("Quest") < 2)
+            {
+                SwitchQuest(PlayerPrefs.GetInt("Quest"));
+            }
 
             if (Mision1)
             {
@@ -176,7 +182,7 @@ namespace Nivandria.Quest
                     break;
                 case 1:
                     //Teleport pindah scene masih mati
-                    teleport_house_yard.SetActive(true);
+                    teleport_house_yard.SetActive(false);
                     TakeQuestAndIndexScene(MQ1_1, 1, 1);
                     DestroySpawnQuest(MQ1_0);
                     //Pintu Vana masih tertutup
@@ -184,6 +190,8 @@ namespace Nivandria.Quest
                     pintu_kamar_vana.localPosition = new Vector3(2.927363f, 1.845128f, -2.231239f);
                     break;
                 case 2:
+                    //Teleport pindah scene masih mati
+                    teleport_house_yard.SetActive(false);
                     //Pintu Vana masih terbuka
                     pintu_kamar_vana.localRotation = Quaternion.Euler(0, 79.969f, 90);
                     pintu_kamar_vana.localPosition = new Vector3(2.639f, 1.845128f, -2.456f);
@@ -191,14 +199,20 @@ namespace Nivandria.Quest
                     DestroySpawnQuest(MQ1_1);
                     break;
                 case 3:
+                    //Teleport pindah scene masih mati
+                    teleport_house_yard.SetActive(false);
                     TakeQuestAndIndexScene(MQ1_3, 1, 3);
                     DestroySpawnQuest(MQ1_2);
                     break;
                 case 4:
+                    //Teleport pindah scene masih mati
+                    teleport_house_yard.SetActive(false);
                     TakeQuestAndIndexScene(MQ1_4, 1, 4);
                     DestroySpawnQuest(MQ1_3);
                     break;
                 case 5:
+                    //Teleport pindah scene masih mati
+                    teleport_house_yard.SetActive(true);
                     TakeQuestAndIndexScene(MQ1_5, 2, 5);
                     DestroySpawnQuest(MQ1_4);
                     break;
@@ -245,6 +259,11 @@ namespace Nivandria.Quest
                     DestroySpawnQuest(MQ2_3);
                     break;
                 case 4:
+                    TakeQuestAndIndexScene(MQ2_5, 2, 4);
+                    DestroySpawnQuest(MQ2_4);
+                    break;
+                case 5:
+                    DestroySpawnQuest(MQ2_5);
                     canvas_dialogue.SetActive(false);
                     break;
             }

@@ -36,7 +36,16 @@ MonoBehaviour:
     Description: Talk to Vana
     Target: Vana
     Quantity: 0
+  - Type: 0
+    Description: Go to Revindir Kingdom
+    Target: Revindir Kingdom
+    Quantity: 0
   rewards:
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
   - Type: 0
     ItemName: Gold
     ItemQuantity: 100

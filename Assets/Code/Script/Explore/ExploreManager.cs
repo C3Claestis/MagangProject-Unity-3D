@@ -58,25 +58,14 @@ namespace Nivandria.Explore
         void Start()
         {
             transisi.SetTrigger("Out");
-            
-            Load();
         }
 
         // Update is called once per frame
         void Update()
         {
-            /*
-            if (Input.GetKey(KeyCode.K))
-            {
-                Save();
-            }
-            if (Input.GetKey(KeyCode.L))
-            {
-                Load();
-            }*/                   
-
-           // ChangeTransisi();
+            
         }
+       /*
         /// <summary>
         /// Handle Camera Sens
         /// </summary>
@@ -99,7 +88,7 @@ namespace Nivandria.Explore
         {
             panel_party.SetActive(false);
         }
-        /// <summary>
+         /// <summary>
         /// Untuk Mengatur Setup Party Secara Manual Dalam Explore 
         /// </summary>
         void SetUp()
@@ -173,5 +162,6 @@ namespace Nivandria.Explore
             }
             Debug.Log("LOADED" + savestring);
         }
+    */
     }
 }

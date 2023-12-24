@@ -5376,8 +5376,9 @@ MonoBehaviour:
   MQ1_9: {fileID: 1218696401288858230, guid: 1b1f0124e0b75334eb662e6cb27531be, type: 3}
   MQ2_1: {fileID: 1871676230563418706, guid: 558c3fd35f387e3489e0f6a1fb4e9207, type: 3}
   MQ2_2: {fileID: 3447538010762450782, guid: 26624e7a1b90d7c47b7367d42ef8a227, type: 3}
-  MQ2_3: {fileID: 2244691337732358014, guid: 9dcd50b4b53497c43899206c2a5aed8d, type: 3}
+  MQ2_3: {fileID: 6962503875300094298, guid: 9dcd50b4b53497c43899206c2a5aed8d, type: 3}
   MQ2_4: {fileID: 6039033712980590895, guid: 5acfd7d2e5b904f4998c45ed11fd3c6a, type: 3}
+  MQ2_5: {fileID: 7383672476055460982, guid: 0639dedfda423994cad0e34e4c260d90, type: 3}
 --- !u!1 &994843349
 GameObject:
   m_ObjectHideFlags: 0
@@ -10421,6 +10422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indexScene: 2
   transisi: {fileID: 1855429279}
+  Name: Go To House Yard
+  display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
 --- !u!135 &1872431288
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -103,7 +103,7 @@ namespace Nivandria.Explore
                 {
                     if (Quest == QuestOneOrNot.Quest_1)
                     {
-                        isDetect = false;
+                        Destroy(taking);
                         transisi.SetTrigger("Dialog");
                         HandleQuest.GetInstance().Mision1 = true;
                         playerInput.SwitchCurrentActionMap("Player");
@@ -114,7 +114,7 @@ namespace Nivandria.Explore
                     }
                     else
                     {
-                        isDetect = false;
+                        Destroy(taking);
                         transisi.SetTrigger("Dialog");
                         HandleQuest.GetInstance().Mision2 = true;
                         playerInput.SwitchCurrentActionMap("Player");

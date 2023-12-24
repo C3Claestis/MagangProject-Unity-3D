@@ -243,16 +243,7 @@ namespace Nivandria.Explore
         public void InteractionAction(InputAction.CallbackContext context)
         {
             if (context.performed)
-            {
-                Chest[] chest = FindObjectsOfType<Chest>();
-
-                foreach (Chest ces in chest)
-                {
-                    if (ces.GetOpen() == false && ces.GetIsPlayer() == true)
-                    {
-                        ces.SetOpenChest(true);
-                    }
-                }
+            {                
 
                 TriggerScene[] trigger = FindObjectsOfType<TriggerScene>();
 
@@ -316,6 +307,7 @@ namespace Nivandria.Explore
             }
         }
 
+        /*
         /// <summary>
         /// Enters the Party Setup UI using J.
         /// </summary>
@@ -329,7 +321,7 @@ namespace Nivandria.Explore
                 playerInput.SwitchCurrentActionMap("UI");
             }
         }
-
+        */
         private void SetAnimatorRunning(bool value)
         {
             if (interaksiNPC.GetIsTalk() == false)
