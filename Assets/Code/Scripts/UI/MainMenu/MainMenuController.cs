@@ -8,47 +8,75 @@ namespace Nivandria.UI.MainMenu
 
     public class MainMenuController : MonoBehaviour
     {
-        [Header("Panel Main Menu")]
+        [Header("List Button Container")]
+        [SerializeField] Transform listButton;
+
+        [Header("Panel Game Object Main Menu")]
         [SerializeField] private GameObject mainMenu;
         [SerializeField] private GameObject loadGame;
         [SerializeField] private GameObject settings;
         [SerializeField] private GameObject exit;
         [SerializeField] private GameObject loadingScreen;
+
+        [Header("Panel Transform Main Menu")]
+        [SerializeField] private Transform MainMenu;
+        [SerializeField] private Transform LoadGame;
+        [SerializeField] private Transform Settings;
+        [SerializeField] private Transform Exit;
+        [SerializeField] private Transform LoadingScreen;
         private string nextSceneName;
         void Start()
         {
-            loadGame.SetActive(false);
-            settings.SetActive(false);
-            exit.SetActive(false);
-            loadingScreen.SetActive(false);
+            SetPanelMainMenuFirst();
         }
 
-        public void ShowLoadGamePanel()
+        public void SetPanelMainMenuFirst()
         {
-            mainMenu.SetActive(false);
-            loadGame.SetActive(true);
+            ButtonOnClick(MainMenu, true);
+            ButtonOnClick(LoadGame, false);
+            ButtonOnClick(Settings, false);
+            ButtonOnClick(Exit, false);
         }
 
-        // Metode untuk menampilkan panel Settings.
-        public void ShowSettingsPanel()
+        public void ShowPanelMainMenu()
         {
-            mainMenu.SetActive(false);
-            settings.SetActive(true);
+            ButtonOnClick(MainMenu, true);
+            ButtonOnClick(LoadGame, false);
+            ButtonOnClick(Settings, false);
+            ButtonOnClick(Exit, false);
         }
 
-        // Metode untuk menampilkan panel Exit.
-        public void ShowExitPanel()
+        public void ShowPanelLoadGame()
         {
-            exit.SetActive(true);
+            ButtonOnClick(MainMenu, false);
+            ButtonOnClick(LoadGame, true);
+            ButtonOnClick(Settings, false);
+            ButtonOnClick(Exit, false);
         }
 
-        // Metode untuk kembali ke Main Menu dari panel lainnya.
-        public void BackToMainMenu()
+        public void ShowPanelSetting()
         {
-            mainMenu.SetActive(true);
-            loadGame.SetActive(false);
-            settings.SetActive(false);
-            exit.SetActive(false);
+            ButtonOnClick(MainMenu, false);
+            ButtonOnClick(LoadGame, false);
+            ButtonOnClick(Settings, true);
+            ButtonOnClick(Exit, false);
+        }
+
+        public void ShowPanelExit()
+        {
+            ButtonOnClick(MainMenu, false);
+            ButtonOnClick(LoadGame, false);
+            ButtonOnClick(Settings, false);
+            ButtonOnClick(Exit, true);
+        }
+
+
+        public void ButtonOnClick(Transform panel, bool status)
+        {
+            CanvasGroup canvasGroup = panel.transform.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = status? 1 : 0;
+            canvasGroup.interactable = status;
+            canvasGroup.blocksRaycasts = status;
         }
 
         // Contoh metode untuk memulai permainan baru (misalnya, tombol "Start Game").
@@ -58,7 +86,7 @@ namespace Nivandria.UI.MainMenu
             nextSceneName = "exploretest_UI";
 
             // Aktifkan loading screen dan mulai coroutine untuk menunggu 5 detik.
-            loadingScreen.SetActive(true);
+            ButtonOnClick(LoadingScreen, true);
             StartCoroutine(LoadNextSceneAfterDelay(2f));
         }
 

@@ -1,12 +1,11 @@
 namespace Nivandria.UI.Menu
 {
-    using System.Collections;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
-    using Unity.VisualScripting;
+    using UnityEngine.SceneManagement;
 
     public class MenuManager : MonoBehaviour
     {
@@ -18,6 +17,11 @@ namespace Nivandria.UI.Menu
         [Header("Panel Quest & Item")]
         [SerializeField] public Transform PanelQuest;
         [SerializeField] public Transform PanelItem;
+        [SerializeField] public Transform PanelSaveGame;
+        [SerializeField] public Transform PanelAchievement;
+        [SerializeField] public Transform PanelSetting;
+        [SerializeField] public Transform PanelArchieve;
+        [SerializeField] public Transform PanelMainMenu;
 
         [Header("List Menu Button")]
         [SerializeField] List<Menu> MenuButtonList = new List<Menu>();
@@ -65,6 +69,8 @@ namespace Nivandria.UI.Menu
 
             Image iconRightButton = newMenuButton.transform.GetChild(1).GetComponent<Image>();
             iconRightButton.sprite = menu.GetIconLeftButton();
+
+
 
             // Set size and position icon based on the button name
             SetButtonPropertiesBasedOnName(newMenuButton, "ITEM", 33.97f, 45.49f, Vector2.zero, Vector2.zero);
@@ -119,14 +125,31 @@ namespace Nivandria.UI.Menu
 
                 ButtonOnClickMenu(MenuContentContainer, 0, PanelQuest);
                 ButtonOnClickMenu(MenuContentContainer, 1, PanelItem);
+                ButtonOnClickMenu(MenuContentContainer, 2, PanelSaveGame);
+                ButtonOnClickMenu(MenuContentContainer, 3, PanelAchievement);
+                ButtonOnClickMenu(MenuContentContainer, 4, PanelSetting);
+                ButtonOnClickMenu(MenuContentContainer, 5, PanelArchieve);
+                ButtonOnClickMenu(MenuContentContainer, 6, PanelMainMenu);
             }
+
         }
 
         private void ButtonOnClickMenu(Transform contentContainer, int index, Transform panel)
         {
+            // Ensure index is within valid range
+            if (index < 0 || index >= contentContainer.childCount)
+            {
+                Debug.LogError("Invalid index!");
+                return;
+            }
+
+            // Get the Button component from the child at the specified index
             Button buttonMenu = contentContainer.GetChild(index).GetComponent<Button>();
+
+            // Get the CanvasGroup component from the panel
             CanvasGroup canvasGroup = panel.GetComponent<CanvasGroup>();
 
+            // Add a click listener to the Button
             buttonMenu.onClick.AddListener(() =>
             {
                 // Check if there is a current CanvasGroup
@@ -145,7 +168,21 @@ namespace Nivandria.UI.Menu
 
                 // Update the currentCanvasGroup to the current CanvasGroup
                 currentCanvasGroup = canvasGroup;
+
+                if (index == 6)
+                {
+                    SceneManager.LoadScene("MainMenu");
+                }
             });
+
+            // Debug: Check child count of contentContainer
+            Debug.Log("Child count of contentContainer: " + contentContainer.childCount);
+
+            // Debug: Print child names of contentContainer using foreach
+            foreach (Transform child in contentContainer)
+            {
+                Debug.Log("Child: " + child.name);
+            }
         }
 
         private void ShowPanel(Transform contentContainer, int index, Transform panel)

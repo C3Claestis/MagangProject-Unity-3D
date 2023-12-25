@@ -16,7 +16,7 @@ namespace Nivandria.UI.Gears
         [SerializeField] GameObject BootsContentContainer;
 
         [Header("Hero Image")]
-        [SerializeField] private Image image;
+        [SerializeField] private Image heroPictures;
 
         [Header("Button Image")]
         [SerializeField] private Image hero1;
@@ -156,9 +156,9 @@ namespace Nivandria.UI.Gears
 
             if (sprite != null)
             {
-                if (image != null)
+                if (heroPictures != null)
                 {
-                    image.sprite = sprite; // Menetapkan Sprite ke Image
+                    heroPictures.sprite = sprite; // Menetapkan Sprite ke Image
                 }
             }
         }
@@ -169,9 +169,9 @@ namespace Nivandria.UI.Gears
 
             if (sprite != null)
             {
-                if (image != null)
+                if (heroPictures != null)
                 {
-                    image.sprite = sprite;
+                    heroPictures.sprite = sprite;
                 }
             }
         }
@@ -246,9 +246,11 @@ namespace Nivandria.UI.Gears
 
         public void SetFirst()
         {
+            GearsLogManager.Instance.GearsLogInitialization();
             UpdateButtonColors(1);
             HeroDescription();
             NameHero();
+            GetHeroImage(0);
         }
 
         public void HeroDescription()

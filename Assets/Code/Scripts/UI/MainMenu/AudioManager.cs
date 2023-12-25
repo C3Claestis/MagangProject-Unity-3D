@@ -6,65 +6,37 @@ namespace Nivandria.UI.Volume
 
     public class AudioManager : MonoBehaviour
     {
-        public static AudioManager Instance;
-        /*
-        [Header("Audio Source")]
-        [SerializeField] AudioSource musicSource;
-        [SerializeField] AudioSource sfxSource;
-        [SerializeField] AudioSource voiceOverSource;
 
-        [Header("Audio Clip")]
-        [SerializeField] public AudioClip backsound;
-        [SerializeField] public AudioClip buttonOnClick;
-        
-        
-        [SerializeField] public AudioClip hoverOverSound;
-        [SerializeField] public AudioClip buttonOnClick;
-        [SerializeField] public AudioClip loadingScreen;
-        */
-        
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        [Header("------ Audio Source ------")]
+        [SerializeField] AudioSource BGMSource;
+        [SerializeField] AudioSource SFXSource;
 
-        /*
-        private void Start()
-        {
-            musicSource.clip = backsound;
-            musicSource.Play();
-        }
 
-        public void PlaySFX(AudioClip clip)
-        {
-            sfxSource.PlayOneShot(clip);
-        }
+        [Header("------ Audio Volume ------")]
+        [Range(0, 1)][SerializeField] private float MasterVolume = 0.8f;
+        [Range(0, 1)][SerializeField] private float BGMVolume = 0.4f;
+        [Range(0, 1)][SerializeField] private float SFXVolume = 0.9f;
 
-        public void PlayVoiceOver()
-        {
+        public float GetMasterVolume() => MasterVolume;
+        public float GetBGMVolume() => BGMVolume;
+        public float GetSFXVolume() => SFXVolume;
 
-        }
-
-        public void MusicVolume(float volume)
-        {
-            musicSource.volume = volume;
-        }
-
-        public void SFXVolume(float volume)
-        {
-            sfxSource.volume = volume;
-        }
-        */
-        
         public AudioSource musicSource;
         public AudioClip backsoundMusic;
+
+        public static AudioManager Instance { get; private set; }
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogWarning("There's more than one AudioPlayer! " + transform + " - " + Instance);
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         public float SetMusicVolume(float volume)
         {
