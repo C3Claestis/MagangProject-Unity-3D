@@ -106,11 +106,13 @@ namespace Nivandria.Quest
                 PlayerPrefs.DeleteKey("Quest");
                 PlayerPrefs.DeleteKey("Prologue1");
                 PlayerPrefs.DeleteKey("Prologue2");
+                PlayerPrefs.DeleteKey("Cutscene");
             }
 
-            Debug.Log("CURRENY INDEX PROLOGUE I = " + PlayerPrefs.GetInt("Prologue1"));
-            Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
-            Debug.Log("CURRENY INDEX PROLOGUE II = " + PlayerPrefs.GetInt("Prologue2"));
+            Debug.Log(PlayerPrefs.GetInt("Cutscene"));
+            //Debug.Log("CURRENY INDEX PROLOGUE I = " + PlayerPrefs.GetInt("Prologue1"));
+            //Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
+            //Debug.Log("CURRENY INDEX PROLOGUE II = " + PlayerPrefs.GetInt("Prologue2"));
 
             if (PlayerPrefs.GetInt("Quest") < 2)
             {
@@ -222,7 +224,7 @@ namespace Nivandria.Quest
                     DestroySpawnQuest(MQ1_5);
                     break;
                 case 7:
-                    if (PlayerPrefs.GetInt("Cutscene") == 0)
+                    if (PlayerPrefs.GetInt("Cutscene") == 0 && SceneManager.GetActiveScene().buildIndex == 2)
                     {
                         Instantiate(cutscene);
                         PlayerPrefs.SetInt("Cutscene", 1);
