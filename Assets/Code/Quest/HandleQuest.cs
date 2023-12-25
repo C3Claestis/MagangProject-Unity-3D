@@ -18,6 +18,7 @@ namespace Nivandria.Quest
         [SerializeField] QuestData quest1;
         [SerializeField] QuestData quest2;
         [HideInInspector] public bool Mision1, Mision2;
+        [SerializeField] GameObject cutscene;
 
         //Komponen UI Panel Quest
         [Header("UI Panel Quest")]
@@ -221,6 +222,11 @@ namespace Nivandria.Quest
                     DestroySpawnQuest(MQ1_5);
                     break;
                 case 7:
+                    if (PlayerPrefs.GetInt("Cutscene") == 0)
+                    {
+                        Instantiate(cutscene);
+                        PlayerPrefs.SetInt("Cutscene", 1);
+                    }
                     TakeQuestAndIndexScene(MQ1_7, 1, 7);
                     DestroySpawnQuest(MQ1_6);
                     break;

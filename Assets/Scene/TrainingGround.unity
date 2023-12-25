@@ -26891,6 +26891,7 @@ MonoBehaviour:
   quest2: {fileID: 11400000, guid: 78e516c8e742a6047b7681235bfa6e64, type: 2}
   Mision1: 0
   Mision2: 0
+  cutscene: {fileID: 8514474203098598451, guid: 8b860208d308a8f4c862845259ecc21c, type: 3}
   quest_description: {fileID: 2127502311}
   quest_type_and_tittle: {fileID: 2022259503}
   canvas_dialogue: {fileID: 1342833093}
