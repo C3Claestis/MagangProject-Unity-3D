@@ -132,7 +132,7 @@ namespace Nivandria.Explore
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, range);
+            Gizmos.DrawWireSphere(transform.position, _jarak);
             Gizmos.color = Color.red;
         }       
     }

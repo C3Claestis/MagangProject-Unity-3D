@@ -109,9 +109,9 @@ namespace Nivandria.Quest
                 PlayerPrefs.DeleteKey("Cutscene");
             }
 
-            Debug.Log(PlayerPrefs.GetInt("Cutscene"));
+            //Debug.Log(PlayerPrefs.GetInt("Cutscene"));
             //Debug.Log("CURRENY INDEX PROLOGUE I = " + PlayerPrefs.GetInt("Prologue1"));
-            //Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
+            Debug.Log("QUEST INDEX = " + PlayerPrefs.GetInt("Quest"));
             //Debug.Log("CURRENY INDEX PROLOGUE II = " + PlayerPrefs.GetInt("Prologue2"));
 
             if (PlayerPrefs.GetInt("Quest") < 2)
@@ -273,6 +273,7 @@ namespace Nivandria.Quest
                 case 5:
                     DestroySpawnQuest(MQ2_5);
                     canvas_dialogue.SetActive(false);
+                    PlayerPrefs.SetInt("Quest", 2);
                     break;
             }
         }

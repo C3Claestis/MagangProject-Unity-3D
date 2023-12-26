@@ -349,11 +349,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 64
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 6
+    m_MaxSize: 64
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -483,7 +483,6 @@ GameObject:
   - component: {fileID: 1620681432}
   - component: {fileID: 1620681431}
   - component: {fileID: 1620681434}
-  - component: {fileID: 1620681435}
   - component: {fileID: 1620681433}
   m_Layer: 0
   m_Name: EventSystem
@@ -565,27 +564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Timer: 5
-  Quest1: 1
-  ValueQuest: 1
   BackSceneValue: 1
-  Mision1: 0
-  Mision2: 0
-  quest1: {fileID: 11400000, guid: b82dbc7d1f967014995f135228d8fe0c, type: 2}
-  quest2: {fileID: 0}
---- !u!114 &1620681435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1620681429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19c374d445f309e4bb6a637ddc657944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questLibrary:
-  - {fileID: 11400000, guid: b82dbc7d1f967014995f135228d8fe0c, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

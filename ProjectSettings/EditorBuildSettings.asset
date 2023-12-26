@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scene/Cutscene1.unity
-    guid: 778f8b6b695c156438cc3933f932fa84
+    path: Assets/Scene/AMainMenu.unity
+    guid: 18c191e614d729a4ca175c888250dfd6
   - enabled: 1
     path: Assets/Scene/Home.unity
     guid: 81ad66da066179147b3f23b9e7e2f58b
@@ -17,4 +17,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/TrainingGround.unity
     guid: bb5b90a32e4bd4146a7079896d5cd412
+  - enabled: 1
+    path: Assets/Scene/Cutscene1.unity
+    guid: 778f8b6b695c156438cc3933f932fa84
+  - enabled: 1
+    path: Assets/Scene/Cutscene2.unity
+    guid: 6fba05a29ebd5494ebfc4ad0d2a081bf
+  - enabled: 1
+    path: Assets/Scene/Battle1.unity
+    guid: 9f07f54fa8820d64cbe458344459f77e
+  - enabled: 1
+    path: Assets/Scene/Battle2.unity
+    guid: d010ba7a8ee44aa499a92ba3ce40c417
   m_configObjects: {}

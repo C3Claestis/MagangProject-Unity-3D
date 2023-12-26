@@ -8,6 +8,7 @@ namespace Nivandria.Explore
     using UnityEngine.UI;
     using UnityEngine.InputSystem;
     using Cinemachine;
+    using UnityEngine.SceneManagement;
 
     public class ExploreManager : MonoBehaviour
     {
@@ -15,12 +16,13 @@ namespace Nivandria.Explore
         [SerializeField] InputSystem inputSystem;
         [SerializeField] PlayerInput playerInput;
 
-        [Header("Party Setup")]
+        [Header("Component After Quest")]
+        [SerializeField] GameObject boar_traininghround;
+        /*[Header("Party Setup")]
         [SerializeField] Transform slot_leader;
-        [SerializeField] GameObject panel_party;
+        [SerializeField] GameObject panel_party;*/
 
-        [Header("Scene Transisi dan Posisi")]
-        [SerializeField] Transform players;
+        [Header("Scene Transisi")]        
         [SerializeField] Animator transisi;
 
         [Header("UI Element")]
@@ -60,6 +62,10 @@ namespace Nivandria.Explore
             transisi.SetTrigger("Out");
             sen_x = PlayerPrefs.GetFloat("SensX");
             sen_y = PlayerPrefs.GetFloat("SensY");
+
+            if(PlayerPrefs.GetInt("Quest") > 1 && SceneManager.GetActiveScene().buildIndex == 3){
+                boar_traininghround.SetActive(true);
+            }
         }
 
         // Update is called once per frame

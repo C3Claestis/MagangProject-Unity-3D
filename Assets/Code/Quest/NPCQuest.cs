@@ -6,6 +6,7 @@ namespace Nivandria.Explore
     using UnityEditor.Animations;
     using UnityEngine;
     using UnityEngine.InputSystem;
+    using UnityEngine.SceneManagement;
     using UnityEngine.UI;
 
     public class NPCQuest : MonoBehaviour
@@ -29,6 +30,8 @@ namespace Nivandria.Explore
 
         [Header("Object Destroy Or Not?")]
         [SerializeField] DestroyOrNot DestroyAfterDialogue;
+        [SerializeField] bool EldriaFresnel;
+        [SerializeField] int indexCutscene;
 
         [Header("Name Of Object")]
         [SerializeField] string Name;
@@ -87,7 +90,7 @@ namespace Nivandria.Explore
                 }
                 hasTaken = true;
             }
-            if(!isDetect)
+            if (!isDetect)
             {
                 // Hancurkan objek yang di-instantiate saat pemain keluar dari trigger
                 if (taking != null)
@@ -103,24 +106,40 @@ namespace Nivandria.Explore
                 {
                     if (Quest == QuestOneOrNot.Quest_1)
                     {
-                        Destroy(taking);
-                        transisi.SetTrigger("Dialog");
-                        HandleQuest.GetInstance().Mision1 = true;
-                        playerInput.SwitchCurrentActionMap("Player");
-                        QuestTriggerObject.GetInstance().SetIsQuest(false);
-                        SaveLastPosisi.GetInstance().SetSave(true);
-                        isTalk = false;
-                        Destroy(gameObject);
+                        if (!EldriaFresnel)
+                        {
+                            SaveLastPosisi.GetInstance().SetSave(true);
+                            Destroy(taking);
+                            transisi.SetTrigger("Dialog");
+                            HandleQuest.GetInstance().Mision1 = true;
+                            playerInput.SwitchCurrentActionMap("Player");
+                            QuestTriggerObject.GetInstance().SetIsQuest(false);                            
+                            isTalk = false;
+                            SceneManager.LoadScene(indexCutscene);
+                            Destroy(gameObject);
+                        }
+                        else
+                        {
+                            SaveLastPosisi.GetInstance().SetSave(true);
+                            Destroy(taking);
+                            transisi.SetTrigger("Dialog");
+                            HandleQuest.GetInstance().Mision1 = true;
+                            playerInput.SwitchCurrentActionMap("Player");
+                            QuestTriggerObject.GetInstance().SetIsQuest(false);                            
+                            isTalk = false;
+                            Destroy(gameObject);                            
+                        }
                     }
                     else
                     {
+                        SaveLastPosisi.GetInstance().SetSave(true);
                         Destroy(taking);
                         transisi.SetTrigger("Dialog");
                         HandleQuest.GetInstance().Mision2 = true;
                         playerInput.SwitchCurrentActionMap("Player");
-                        QuestTriggerObject.GetInstance().SetIsQuest(false);
-                        SaveLastPosisi.GetInstance().SetSave(true);
+                        QuestTriggerObject.GetInstance().SetIsQuest(false);                        
                         isTalk = false;
+                        SceneManager.LoadScene(indexCutscene);
                         Destroy(gameObject);
                     }
                 }

@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Cutscene : MonoBehaviour
 {
-    [SerializeField] float Timer;    
-    [SerializeField] int ValueQuest;
+    [SerializeField] float Timer;        
     [SerializeField] byte BackSceneValue;    
     void Update()
     {
