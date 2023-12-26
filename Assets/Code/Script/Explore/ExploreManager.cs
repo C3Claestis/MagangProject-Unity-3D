@@ -35,12 +35,11 @@ namespace Nivandria.Explore
         [Range(50f, 300f)][SerializeField] float sen_x;
         [Range(0.1f, 2)][SerializeField] float sen_y;
 
+        #region Get And Set
         private static ExploreManager instance;
         private int set_lead;
         public static int set_lastScene;
         public int GetLead() => set_lead;
-
-        public int Potato;
         private void Awake()
         {
             if (instance != null)
@@ -54,114 +53,142 @@ namespace Nivandria.Explore
         {
             return instance;
         }
+        #endregion
         // Start is called before the first frame update
         void Start()
         {
             transisi.SetTrigger("Out");
+            sen_x = PlayerPrefs.GetFloat("SensX");
+            sen_y = PlayerPrefs.GetFloat("SensY");
         }
 
         // Update is called once per frame
         void Update()
         {
-            
+
+            Debug.Log("SENS X = " + PlayerPrefs.GetFloat("SensX"));
+            Debug.Log("SENS Y = " + PlayerPrefs.GetFloat("SensY"));
+
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                sen_x--;
+                PlayerPrefs.SetFloat("SensX", sen_x);
+            }
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                sen_x++;
+                PlayerPrefs.SetFloat("SensX", sen_x);
+            }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                sen_y--;
+                PlayerPrefs.SetFloat("SensY", sen_y);
+            }
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                sen_y++;
+                PlayerPrefs.SetFloat("SensY", sen_y);
+            }
+            cinemachineFreeLook.m_XAxis.m_MaxSpeed = PlayerPrefs.GetFloat("SensX");
+            cinemachineFreeLook.m_YAxis.m_MaxSpeed = PlayerPrefs.GetFloat("SensY");
         }
-       /*
-        /// <summary>
-        /// Handle Camera Sens
-        /// </summary>
-        void CameraSens()
-        {
-            cinemachineFreeLook.m_XAxis.m_MaxSpeed = sen_x;
-            cinemachineFreeLook.m_YAxis.m_MaxSpeed = sen_y;
-        }
-        /// <summary>
-        /// Open Panel Party
-        /// </summary>
-        public void PanelParty()
-        {
-            panel_party.SetActive(true);
-        }
-        /// <summary>
-        /// Close Panel Party
-        /// </summary>
-        void ClosePanelParty()
-        {
-            panel_party.SetActive(false);
-        }
+        /*
          /// <summary>
-        /// Untuk Mengatur Setup Party Secara Manual Dalam Explore 
-        /// </summary>
-        void SetUp()
-        {
-            string clone = "(Clone)";
-            if (slot_leader.GetChild(0).gameObject.name == "Sacra" + clone)
-            {
-                set_lead = 0;
-                ClosePanelParty();
-                playerInput.SwitchCurrentActionMap("Player");
-                inputSystem.SetIsSpawn(true);
-                inputSystem.LockMouse(false);
-            }
-            else if (slot_leader.GetChild(0).gameObject.name == "Vana" + clone)
-            {
-                set_lead = 1;
-                ClosePanelParty();
-                playerInput.SwitchCurrentActionMap("Player");
-                inputSystem.SetIsSpawn(true);
-                inputSystem.LockMouse(false);
-            }
-            else if (slot_leader.GetChild(0).gameObject.name == "Lin" + clone)
-            {
-                set_lead = 2;
-                ClosePanelParty();
-                playerInput.SwitchCurrentActionMap("Player");
-                inputSystem.SetIsSpawn(true);
-                inputSystem.LockMouse(false);
-            }
-            else if (slot_leader.GetChild(0).gameObject.name == "Guard" + clone)
-            {
-                set_lead = 3;
-                ClosePanelParty();
-                playerInput.SwitchCurrentActionMap("Player");
-                inputSystem.SetIsSpawn(true);
-                inputSystem.LockMouse(false);
-            }
-            else
-            {
-                Debug.Log("Belum Ada Leader");
-            }
-        }
-        void Save()
-        {
-            Resource resource = new Resource
-            {
-             //   Drakar = tambahdrakar,
-              //  Reputation = tambahlevel,
-                SensX = sen_x,
-                SensY = sen_y,
-                Kentang = Potato
-            };
+         /// Handle Camera Sens
+         /// </summary>
+         void CameraSens()
+         {
+             cinemachineFreeLook.m_XAxis.m_MaxSpeed = sen_x;
+             cinemachineFreeLook.m_YAxis.m_MaxSpeed = sen_y;
+         }
+         /// <summary>
+         /// Open Panel Party
+         /// </summary>
+         public void PanelParty()
+         {
+             panel_party.SetActive(true);
+         }
+         /// <summary>
+         /// Close Panel Party
+         /// </summary>
+         void ClosePanelParty()
+         {
+             panel_party.SetActive(false);
+         }
+          /// <summary>
+         /// Untuk Mengatur Setup Party Secara Manual Dalam Explore 
+         /// </summary>
+         void SetUp()
+         {
+             string clone = "(Clone)";
+             if (slot_leader.GetChild(0).gameObject.name == "Sacra" + clone)
+             {
+                 set_lead = 0;
+                 ClosePanelParty();
+                 playerInput.SwitchCurrentActionMap("Player");
+                 inputSystem.SetIsSpawn(true);
+                 inputSystem.LockMouse(false);
+             }
+             else if (slot_leader.GetChild(0).gameObject.name == "Vana" + clone)
+             {
+                 set_lead = 1;
+                 ClosePanelParty();
+                 playerInput.SwitchCurrentActionMap("Player");
+                 inputSystem.SetIsSpawn(true);
+                 inputSystem.LockMouse(false);
+             }
+             else if (slot_leader.GetChild(0).gameObject.name == "Lin" + clone)
+             {
+                 set_lead = 2;
+                 ClosePanelParty();
+                 playerInput.SwitchCurrentActionMap("Player");
+                 inputSystem.SetIsSpawn(true);
+                 inputSystem.LockMouse(false);
+             }
+             else if (slot_leader.GetChild(0).gameObject.name == "Guard" + clone)
+             {
+                 set_lead = 3;
+                 ClosePanelParty();
+                 playerInput.SwitchCurrentActionMap("Player");
+                 inputSystem.SetIsSpawn(true);
+                 inputSystem.LockMouse(false);
+             }
+             else
+             {
+                 Debug.Log("Belum Ada Leader");
+             }
+         }
+         void Save()
+         {
+             Resource resource = new Resource
+             {
+              //   Drakar = tambahdrakar,
+               //  Reputation = tambahlevel,
+                 SensX = sen_x,
+                 SensY = sen_y,
+                 Kentang = Potato
+             };
 
-            string JSON = JsonUtility.ToJson(resource);
+             string JSON = JsonUtility.ToJson(resource);
 
-            SaveSystem.Save(JSON);
-            Debug.Log("SAVED" + JSON);
-        }
-        void Load()
-        {
-            string savestring = SaveSystem.Load();
-            if (savestring != null)
-            {
-                Resource resource = JsonUtility.FromJson<Resource>(savestring);
-               // drakar.text = resource.Drakar.ToString();
-                //level.text = resource.Reputation.ToString();
-                //kentang.text = resource.Kentang.ToString();
-                sen_x = resource.SensX;
-                sen_y = resource.SensY;
-                Potato = resource.Kentang;
-            }
-            Debug.Log("LOADED" + savestring);
-        }
-    */
+             SaveSystem.Save(JSON);
+             Debug.Log("SAVED" + JSON);
+         }
+         void Load()
+         {
+             string savestring = SaveSystem.Load();
+             if (savestring != null)
+             {
+                 Resource resource = JsonUtility.FromJson<Resource>(savestring);
+                // drakar.text = resource.Drakar.ToString();
+                 //level.text = resource.Reputation.ToString();
+                 //kentang.text = resource.Kentang.ToString();
+                 sen_x = resource.SensX;
+                 sen_y = resource.SensY;
+                 Potato = resource.Kentang;
+             }
+             Debug.Log("LOADED" + savestring);
+         }
+     */
     }
 }

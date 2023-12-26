@@ -33,7 +33,7 @@ namespace Nivandria.Explore
                     {
                         Destroy(taking);
                     }
-                    ExploreManager.GetInstance().Potato += 1;
+                    //ExploreManager.GetInstance().Potato += 1;
                     Destroy(gameObject);
                 }
                 else

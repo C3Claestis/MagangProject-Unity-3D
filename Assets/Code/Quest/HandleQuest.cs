@@ -152,7 +152,7 @@ namespace Nivandria.Quest
             {
                 questManager.AddCurrentQuest(quest1);
                 CurrentFirstQuest(PlayerPrefs.GetInt("Prologue1"));
-                quest_type_and_tittle.text = quest1.Type.ToString() + " Quest " + " : " + quest1.Title;
+                quest_type_and_tittle.text = quest1.Title;
                 if (!isNonQuest)
                 {
                     quest_description.text = questManager.GetCurrentObjective(quest1).Description;
@@ -163,7 +163,7 @@ namespace Nivandria.Quest
             {
                 questManager.AddCurrentQuest(quest2);
                 CurrentSecondQuest(PlayerPrefs.GetInt("Prologue2"));
-                quest_type_and_tittle.text = quest2.Type.ToString() + " Quest " + " : " + quest2.Title;
+                quest_type_and_tittle.text = quest2.Title;
                 if (!isNonQuest)
                 {
                     quest_description.text = questManager.GetCurrentObjective(quest2).Description;

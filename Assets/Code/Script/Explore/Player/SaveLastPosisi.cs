@@ -40,7 +40,7 @@ namespace Nivandria.Explore
             if(Input.GetKey(KeyCode.Alpha0)){
                 PlayerPrefs.DeleteAll();
             }
-            if(Input.GetKey(KeyCode.Alpha1)){
+            if(Input.GetKey(KeyCode.Alpha9)){
                 isSave = true;
             }
             if (isTrigger)
