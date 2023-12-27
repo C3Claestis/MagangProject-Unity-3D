@@ -38,43 +38,43 @@ namespace Nivandria.UI.Quest
         public void ToggleMainQuest()
         {
             mainQuestActive = !mainQuestActive;
-            _MainQuest.SetActive(mainQuestActive);
+            _MainQuest.SetActive(!mainQuestActive);
         }
 
         public void ToggleSideQuest()
         {
             sideQuestActive = !sideQuestActive;
-            _SideQuest.SetActive(sideQuestActive);
+            _SideQuest.SetActive(!sideQuestActive);
         }
 
         public void ToggleCommissions()
         {
             commissionsActive = !commissionsActive;
-            _Commissions.SetActive(commissionsActive);
+            _Commissions.SetActive(!commissionsActive);
         }
 
         public void ToggleChapter_0()
         {
             chapter0_Active = !chapter0_Active;
-            _Chapter0.SetActive(chapter0_Active);
+            _Chapter0.SetActive(!chapter0_Active);
         }
 
         public void ToggleChapter_1()
         {
             chapter1_Active = !chapter1_Active;
-            _Chapter1.SetActive(chapter1_Active);
+            _Chapter1.SetActive(!chapter1_Active);
         }
 
         public void ToggleChapter_2()
         {
             chapter2_Active = !chapter2_Active;
-            _Chapter2.SetActive(chapter2_Active);
+            _Chapter2.SetActive(!chapter2_Active);
         }
         
         public void ToggleChapter_3()
         {
             chapter3_Active = !chapter3_Active;
-            _Chapter3.SetActive(chapter3_Active);
+            _Chapter3.SetActive(!chapter3_Active);
         }
 
     }

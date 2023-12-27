@@ -14,7 +14,7 @@ namespace Nivandria.UI.Menu
         [Header("Content Container")]
         [SerializeField] public Transform MenuContentContainer;
 
-        [Header("Panel Quest & Item")]
+        [Header("Panel Menu")]
         [SerializeField] public Transform PanelQuest;
         [SerializeField] public Transform PanelItem;
         [SerializeField] public Transform PanelSaveGame;
