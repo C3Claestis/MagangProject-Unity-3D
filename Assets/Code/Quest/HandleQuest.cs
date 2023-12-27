@@ -96,6 +96,10 @@ namespace Nivandria.Quest
         void Start()
         {
             questManager = GetComponent<QuestManager>();
+            if (PlayerPrefs.GetInt("Quest") > 1)
+            {
+                canvas_dialogue.SetActive(false);
+            }
         }
 
         // Update is called once per frame
