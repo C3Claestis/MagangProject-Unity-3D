@@ -69,7 +69,6 @@ namespace Nivandria.UI.Quest
             QuestLogInitializationMainQuest(QuestChapter.Chapter_3);
             QuestLogInitializationQuest();
             SetFirstDescription(1);
-            // SetTextDetailQuestFirst();
         }
 
         void Update()
@@ -78,16 +77,6 @@ namespace Nivandria.UI.Quest
             currentQuestType = questType;
             RemoveQuestLog();
             QuestLogInitializationQuest();
-        }
-
-        public void SetTextDetailQuestFirst()
-        {
-            title.text = "-";
-            giver.text = "-";
-            location.text = "-";
-            description.text = "-";
-            objective.text = "-";
-            reward.text = "-";
         }
 
         public void QuestLogInitializationAllQuest(QuestType questType)
