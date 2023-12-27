@@ -75,7 +75,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .fake
 
-Assets/Thirdparty/Skybox
+Assets/Thirdparty
 Assets/3D/Environment
 Assets/3D/Object
 Assets/3D/Terrain
