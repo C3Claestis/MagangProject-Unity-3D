@@ -75,7 +75,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .fake
 
+<<<<<<< HEAD
 Assets/Thirdparty
+=======
+>>>>>>> 5b942362b456f360f2c79cafcc976b4646affc61
 Assets/3D/Environment
 Assets/3D/Object
 Assets/3D/Terrain
