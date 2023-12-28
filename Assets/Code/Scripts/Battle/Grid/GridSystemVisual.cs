@@ -100,6 +100,9 @@ namespace Nivandria.Battle.Grid
                 case SpinAction:
                     visualType = GridVisualType.Blue;
                     break;
+                case ItemAction:
+                    visualType = GridVisualType.Blue;
+                    break;
                 case BaseSkillAction:
                     visualType = GridVisualType.Red;
                     invalidVisualType = GridVisualType.RedSoft;
@@ -111,7 +114,7 @@ namespace Nivandria.Battle.Grid
                 visualType = invalidVisualType;
             }
 
-            if (selectedAction is not MoveAction)
+            if (selectedAction is not MoveAction && selectedAction is not ItemAction)
             {
                 BaseSkillAction skillAction = (BaseSkillAction)selectedAction;
 

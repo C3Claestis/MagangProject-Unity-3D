@@ -13,7 +13,7 @@ namespace Nivandria.Battle.UI
         [SerializeField] private Image characterImage;
         [SerializeField] private TextMeshProUGUI characterName;
         [SerializeField] private Slider hpBar;
-        [SerializeField] private Slider xpBar;
+        [SerializeField] private TextMeshProUGUI agilityValue;
 
         private void Start()
         {
@@ -27,6 +27,7 @@ namespace Nivandria.Battle.UI
             characterName.text = unit.GetCharacterName();
             characterImage.sprite = unit.GetUnitIcon();
             hpBar.value = (float)unit.GetCurrentHealth() / unit.GetBaseHealth();
+            agilityValue.text = unit.GetCurrentAgility().ToString();
         }
 
         private void UnitTurnSystem_OnUnitListChanged(object sender, EventArgs e)

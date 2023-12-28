@@ -10,7 +10,7 @@ namespace Nivandria.Battle.UI
     public class ItemActionButtonContainerUI : MonoBehaviour
     {
         [SerializeField] private Transform itemButtonPrefab;
-        [SerializeField] private Transform itemButtonContainer;
+        [SerializeField] private RectTransform itemButtonContainer;
         [SerializeField] private Transform itemButtonPanel;
         [SerializeField] private TextMeshProUGUI buttonText;
         [SerializeField] private Transform selectedDummyImage;
@@ -37,7 +37,7 @@ namespace Nivandria.Battle.UI
                 Destroy(button.gameObject);
             }
 
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 4; j++)
             {
                 Transform itemButton = Instantiate(itemButtonPrefab, itemButtonPanel);
                 itemButtonList.Add(itemButton);
@@ -59,6 +59,30 @@ namespace Nivandria.Battle.UI
             ShowSelectedDummy(true);
 
             HideScroller(!(itemButtonList.Count > 3));
+            SetContainerHeight();
+        }
+
+        private void SetContainerHeight()
+        {
+            Vector2 widthHeight = new Vector2(203.26f, 0);
+
+            switch (itemButtonList.Count)
+            {
+                case 1:
+                    widthHeight.y = 89.64f;
+                    break;
+                case 2:
+                    widthHeight.y = 121f;
+                    break;
+                case 3:
+                    widthHeight.y = 145.2f;
+                    break;
+                default:
+                    widthHeight.y = 174.9f;
+                    break;
+            }
+
+            itemButtonContainer.sizeDelta = widthHeight;
         }
 
         private void HideUI(bool status)

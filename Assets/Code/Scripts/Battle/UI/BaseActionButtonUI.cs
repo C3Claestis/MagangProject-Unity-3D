@@ -28,7 +28,7 @@ namespace Nivandria.Battle.UI
 
         public void UpdateButtonTextColor()
         {
-            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
+            if (unit == null) unit = UnitTurnSystem.Instance.GetSelectedUnit();
             bool actionStatus = unit.GetActionStatus(actionCategory);
             float color = 0.2235294f;
 

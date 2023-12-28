@@ -12,6 +12,7 @@ namespace Nivandria.Battle
 
         private TextMeshPro textMesh;
         private Color textColor;
+        private Transform mainCamera;
 
         private Vector3 normalPosition;
         private bool movingUp;
@@ -28,8 +29,6 @@ namespace Nivandria.Battle
             damagePopUp.Setup(damageAmount, isCriticalHit);
             return damagePopUp;
         }
-
-        private Transform mainCamera;
 
         void Awake()
         {

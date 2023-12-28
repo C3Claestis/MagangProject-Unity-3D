@@ -49,9 +49,11 @@ namespace Nivandria.Battle.Action
                 facingBonus = LevelGrid.Instance.RelativeFacingChecker(targetUnit, unit) / 100f;
             }
 
-
             int damageValue = (int)(unit.GetCurrentPhysicalAttack() * facingBonus * (powerPercentage / 100f));
-            damageable.Damage(damageValue, false);
+            //! Fix Later
+            bool critical = false;
+
+            damageable.Damage(damageValue, critical);
             isActive = false;
             onActionComplete();
         }
@@ -143,7 +145,9 @@ namespace Nivandria.Battle.Action
             base.YesButtonAction();
             SetActive(true);
             FacingTarget(LevelGrid.Instance.GetWorldPosition(targetGrid));
-            StartCoroutine(DelayAndAction(Attacking, 1));
+
+            int waitingInSecond = 1;
+            StartCoroutine(DelayAndAction(Attacking, waitingInSecond));
         }
 
         private IEnumerator DelayAndAction(Action action, int waitForSeconds)
