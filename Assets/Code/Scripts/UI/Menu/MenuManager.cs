@@ -14,7 +14,11 @@ namespace Nivandria.UI.Menu
         [Header("Content Container")]
         [SerializeField] public Transform MenuContentContainer;
 
+        public GameObject openMenu;
+        public GameObject closeMenu;
+
         [Header("Panel Menu")]
+        [SerializeField] public Transform PanelMenu;
         [SerializeField] public Transform PanelQuest;
         [SerializeField] public Transform PanelItem;
         [SerializeField] public Transform PanelSaveGame;
@@ -46,7 +50,6 @@ namespace Nivandria.UI.Menu
         void Start()
         {
             MenuButtonLogInitialization();
-            ShowPanel(MenuContentContainer, 0, PanelQuest);
         }
 
         public void MenuButtonLogInitialization()
@@ -55,6 +58,67 @@ namespace Nivandria.UI.Menu
             {
                 GameObject newMenuButton = Instantiate(menuButtonLog, MenuContentContainer);
                 SetupMenuButton(newMenuButton, menu);
+            }
+        }
+
+        public void ButtonOnClickOpenMenu(Transform panel)
+        {
+            Button buttonSetting = openMenu.transform.GetComponent<Button>();
+            CanvasGroup canvasGroupMenu = openMenu.transform.GetComponent<CanvasGroup>();
+            CanvasGroup canvasGroupPanel = panel.transform.GetComponent<CanvasGroup>();
+
+            buttonSetting.onClick.AddListener(() =>
+            {
+                if (canvasGroupMenu != null)
+                {
+                    canvasGroupMenu.alpha = 0f;
+                    canvasGroupMenu.interactable = false;
+                    canvasGroupMenu.blocksRaycasts = false;
+                }
+
+                if (canvasGroupPanel != null)
+                {
+                    canvasGroupPanel.alpha = 1f;
+                    canvasGroupPanel.interactable = true;
+                    canvasGroupPanel.blocksRaycasts = true;
+                }
+
+
+            });
+        }
+
+        public void ButtonOnClickCloseMenu()
+        {
+            Button buttonSetting = closeMenu.transform.GetComponent<Button>();
+            CanvasGroup canvasGroupMenu = openMenu.transform.GetComponent<CanvasGroup>();
+
+            List<Transform> panels = new List<Transform> { PanelMenu, PanelQuest, PanelItem, PanelSaveGame, PanelAchievement, PanelSetting, PanelArchieve, PanelMainMenu };
+
+            buttonSetting.onClick.AddListener(() =>
+            {
+                foreach (var panel in panels)
+                {
+                    SetPanelProperties(panel, 0f, false);
+                }
+
+                if (canvasGroupMenu != null)
+                {
+                    canvasGroupMenu.alpha = 1f;
+                    canvasGroupMenu.interactable = true;
+                    canvasGroupMenu.blocksRaycasts = true;
+                }
+            });
+        }
+
+        private void SetPanelProperties(Transform panel, float alpha, bool status)
+        {
+            CanvasGroup canvasGroup = panel?.GetComponent<CanvasGroup>();
+
+            if (canvasGroup != null)
+            {
+                canvasGroup.alpha = alpha;
+                canvasGroup.interactable = status;
+                canvasGroup.blocksRaycasts = status;
             }
         }
 
@@ -85,6 +149,9 @@ namespace Nivandria.UI.Menu
             AddHoverEvents(newMenuButton, 4);
             AddHoverEvents(newMenuButton, 5);
             AddHoverEvents(newMenuButton, 6);
+
+            ButtonOnClickOpenMenu(PanelMenu);
+            ButtonOnClickCloseMenu();
         }
 
         private void SetIconButtonSize(Transform buttonTransform, float width, float height)
