@@ -31,7 +31,7 @@ namespace Nivandria.Explore
         [Header("Object Destroy Or Not?")]
         [SerializeField] DestroyOrNot DestroyAfterDialogue;
         [SerializeField] bool EldriaFresnel;
-        [SerializeField] int indexCutscene;    
+        [SerializeField] int indexCutscene;
 
         [Header("Name Of Object")]
         [SerializeField] string Name;
@@ -113,7 +113,7 @@ namespace Nivandria.Explore
                             transisi.SetTrigger("Dialog");
                             HandleQuest.GetInstance().Mision1 = true;
                             playerInput.SwitchCurrentActionMap("Player");
-                            QuestTriggerObject.GetInstance().SetIsQuest(false);
+                            QuestTriggerObject.GetInstance().SetIsQuest(false);                            
                             isTalk = false;
                             SceneManager.LoadScene(indexCutscene);
                             Destroy(gameObject);
@@ -125,9 +125,9 @@ namespace Nivandria.Explore
                             transisi.SetTrigger("Dialog");
                             HandleQuest.GetInstance().Mision1 = true;
                             playerInput.SwitchCurrentActionMap("Player");
-                            QuestTriggerObject.GetInstance().SetIsQuest(false);
+                            QuestTriggerObject.GetInstance().SetIsQuest(false);                            
                             isTalk = false;
-                            Destroy(gameObject);
+                            Destroy(gameObject);                            
                         }
                     }
                     else
@@ -137,7 +137,7 @@ namespace Nivandria.Explore
                         transisi.SetTrigger("Dialog");
                         HandleQuest.GetInstance().Mision2 = true;
                         playerInput.SwitchCurrentActionMap("Player");
-                        QuestTriggerObject.GetInstance().SetIsQuest(false);
+                        QuestTriggerObject.GetInstance().SetIsQuest(false);                        
                         isTalk = false;
                         SceneManager.LoadScene(indexCutscene);
                         Destroy(gameObject);

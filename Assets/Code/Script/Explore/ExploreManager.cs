@@ -32,11 +32,10 @@ namespace Nivandria.Explore
         //[SerializeField] int tambahdrakar;
         //[SerializeField] int tambahlevel;
 
-        /*[Header("Sensitiviy Camera")]
+        [Header("Sensitiviy Camera")]
         [SerializeField] CinemachineFreeLook cinemachineFreeLook;
         [Range(50f, 300f)][SerializeField] float sen_x;
         [Range(0.1f, 2)][SerializeField] float sen_y;
-        */
 
         #region Get And Set
         private static ExploreManager instance;
@@ -60,7 +59,9 @@ namespace Nivandria.Explore
         // Start is called before the first frame update
         void Start()
         {
-            transisi.SetTrigger("Out");           
+            transisi.SetTrigger("Out");
+            sen_x = PlayerPrefs.GetFloat("SensX");
+            sen_y = PlayerPrefs.GetFloat("SensY");
 
             if(PlayerPrefs.GetInt("Quest") > 1 && SceneManager.GetActiveScene().buildIndex == 3){
                 boar_traininghround.SetActive(true);
@@ -71,7 +72,31 @@ namespace Nivandria.Explore
         void Update()
         {
 
-            
+            Debug.Log("SENS X = " + PlayerPrefs.GetFloat("SensX"));
+            Debug.Log("SENS Y = " + PlayerPrefs.GetFloat("SensY"));
+
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                sen_x--;
+                PlayerPrefs.SetFloat("SensX", sen_x);
+            }
+            if (Input.GetKey(KeyCode.Alpha2))
+            {
+                sen_x++;
+                PlayerPrefs.SetFloat("SensX", sen_x);
+            }
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                sen_y--;
+                PlayerPrefs.SetFloat("SensY", sen_y);
+            }
+            if (Input.GetKey(KeyCode.Alpha4))
+            {
+                sen_y++;
+                PlayerPrefs.SetFloat("SensY", sen_y);
+            }
+            cinemachineFreeLook.m_XAxis.m_MaxSpeed = PlayerPrefs.GetFloat("SensX");
+            cinemachineFreeLook.m_YAxis.m_MaxSpeed = PlayerPrefs.GetFloat("SensY");
         }
         /*
          /// <summary>

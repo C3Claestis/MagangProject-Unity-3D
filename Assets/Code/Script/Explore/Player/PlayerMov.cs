@@ -1,64 +1,59 @@
-using UnityEngine;
-
-public class PlayerMov : MonoBehaviour
+namespace Nivandria.Explore
 {
-    [SerializeField] float walkSpeed = 4f;
-    [SerializeField] float runSpeed = 8f;
-    [SerializeField] float rotateSpeed = 30f;
-    
-    // private InputSystem inputSystem;    
-    
-    private bool onGround;
-    
-    private void Awake()
-    {        
-        // inputSystem = GetComponent<InputSystem>();
-    }    
+    using UnityEngine;
 
-    private void Update()
+    /// <summary>
+    /// Controls the movement of the player character, including walking and running.
+    /// </summary>
+    public class PlayerMov : MonoBehaviour
     {
-        if(onGround){
-            Move();
+        [SerializeField] float walkSpeed = 2f; // Walking speed
+        [SerializeField] float runSpeed = 4f; // Running speed
+        [SerializeField] float rotateSpeed = 30f; // Rotation speed
+        [SerializeField] InteraksiNPC interaksiNPC; // Reference to the NPC interaction system
+        private InputSystem inputSystem; // Input system for controlling movement
+        private Rigidbody rb; // Reference to the Rigidbody component
+
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+            inputSystem = GetComponent<InputSystem>();
+        }
+        
+        private void FixedUpdate()
+        {
+            if (interaksiNPC.GetIsTalk() == false)
+            {
+                Move();
+            }
+        }
+        private void Move()
+        {
+            Vector2 input = inputSystem.GetMovementValue();
+
+            // Dapatkan rotasi kamera saat ini
+            Quaternion cameraRotation = Camera.main.transform.rotation;
+
+            // Ubah input pemain menjadi arah dunia menggunakan rotasi kamera
+            Vector3 moveDirection = cameraRotation * new Vector3(input.x, 0, input.y);
+            moveDirection.y = 0; // Pastikan tidak ada perubahan di sumbu y
+
+            float moveSpeed = inputSystem.CanRunning() ? runSpeed : walkSpeed;
+
+            if (input == Vector2.zero)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                return;
+            }
+
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
+                rb.MoveRotation(Quaternion.Lerp(rb.rotation, targetRotation, rotateSpeed * Time.deltaTime));
+            }
+
+            Vector3 velocity = moveDirection * moveSpeed;
+            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
         }
     }
-
-    //Akan terpanggil otomatis jika player bersentuhan dengan Ground
-    private void OnCollisionEnter(Collision other) {
-        if(other.gameObject.layer != 3) return;
-
-        onGround = true;
-        Debug.Log("Player is on the ground");
-    }
-
-    //Akan terpanggil otomatis jika player tidak bersentuhan dengan ground
-    private void OnCollisionExit(Collision other) {
-        if(other.gameObject.layer != 3) return;
-        
-        onGround = false;   
-        Debug.Log("Player exit the ground");    
-    }
-    
-    private void Move()
-    {
-        // Vector2 input = inputSystem.GetMovementValue();
-        // Vector3 moveDirection = new Vector3(input.x, 0, input.y);
-        // float moveSpeed = walkSpeed;
-
-        // if (input == Vector2.zero){
-        //     return;
-        // }
-
-        // if(moveDirection != Vector3.zero){
-        //     Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized, Vector3.up);
-        //     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-        // }
-
-
-        // if(inputSystem.CanRunning()){
-        //     moveSpeed = runSpeed;
-        // }
-
-        // transform.position += moveDirection * Time.deltaTime * moveSpeed;
-    }
-
 }

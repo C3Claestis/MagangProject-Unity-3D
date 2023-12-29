@@ -12512,7 +12512,6 @@ MonoBehaviour:
   walkSpeed: 4
   runSpeed: 8
   rotateSpeed: 30
-  interaksiNPC: {fileID: 2022668705}
 --- !u!136 &185068433
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -34162,9 +34161,6 @@ MonoBehaviour:
   playerInput: {fileID: 185068430}
   boar_traininghround: {fileID: 300383934}
   transisi: {fileID: 1855429279}
-  cinemachineFreeLook: {fileID: 7469084885293390033}
-  sen_x: 152
-  sen_y: 0.583
 --- !u!114 &2141036891
 MonoBehaviour:
   m_ObjectHideFlags: 0
