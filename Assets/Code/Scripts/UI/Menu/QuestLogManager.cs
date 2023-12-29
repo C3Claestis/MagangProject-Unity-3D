@@ -68,7 +68,7 @@ namespace Nivandria.UI.Quest
             QuestLogInitializationMainQuest(QuestChapter.Chapter_2);
             QuestLogInitializationMainQuest(QuestChapter.Chapter_3);
             QuestLogInitializationQuest();
-            SetTextDetailQuestFirst();
+            SetFirstDescription(1);
         }
 
         void Update()
@@ -77,16 +77,6 @@ namespace Nivandria.UI.Quest
             currentQuestType = questType;
             RemoveQuestLog();
             QuestLogInitializationQuest();
-        }
-
-        public void SetTextDetailQuestFirst()
-        {
-            title.text = "-";
-            giver.text = "-";
-            location.text = "-";
-            description.text = "-";
-            objective.text = "-";
-            reward.text = "-";
         }
 
         public void QuestLogInitializationAllQuest(QuestType questType)
@@ -323,6 +313,38 @@ namespace Nivandria.UI.Quest
             for (int i = 0; i < rewardsList.Count; i++)
             {
                 reward.text += rewardsList[i] + " <br>";
+            }
+        }
+
+        void SetFirstDescription(int index)
+        {
+            // Check if the index is within the bounds of the questList
+            if (index >= 0 && index < questList.Count)
+            {
+                Quest quest = questList[index];
+                title.text = quest.GetTitle();
+                giver.text = quest.GetGiver();
+                location.text = quest.GetLocation();
+                description.text = quest.GetDescription();
+
+                List<string> objectivesList = quest.GetObjective();
+                objective.text = "";
+                for (int i = 0; i < objectivesList.Count; i++)
+                {
+                    objective.text += objectivesList[i] + " <br>";
+                }
+
+                List<string> rewardsList = quest.GetReward();
+                reward.text = "";
+                for (int i = 0; i < rewardsList.Count; i++)
+                {
+                    reward.text += rewardsList[i] + " <br>";
+                }
+            }
+            else
+            {
+                // Handle the case when the index is out of bounds
+                Debug.LogError("Index out of bounds for questList");
             }
         }
 

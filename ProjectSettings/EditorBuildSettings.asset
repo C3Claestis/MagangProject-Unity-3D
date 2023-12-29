@@ -39,5 +39,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Scenes/UI/exploretest_UI.unity
     guid: b0509682ae61b7a4f99659fe1ea5629d
+<<<<<<< HEAD
+>>>>>>> UI-Menu
+=======
+  - enabled: 1
+    path: Assets/Level/Scenes/Menu.unity
+    guid: 7645a93cfb1be7441b9ba14ea5e7e07c
 >>>>>>> UI-Menu
   m_configObjects: {}
