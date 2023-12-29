@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PolygonPrototype_Glass_Global
-  m_Shader: {fileID: -6465566751694194690, guid: b9fcdeb1c44235f479251d7b980c3107, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 9655a0ca1feb1454db2465a9df384bf4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -48,12 +48,13 @@ Material:
     - _QueueOffset: 0
     - _Smoothness: 1
     - _Specular: 0.1
-    - __dirty: 0
+    - __dirty: 1
     m_Colors:
+    - Color_1308AD31: {r: 0, g: 1, b: 0.8982549, a: 0}
     - _BaseColor: {r: 0.06228374, g: 0.8320726, b: 0.9411765, a: 0}
     - _Opacity: {r: 0.41911763, g: 0.41911763, b: 0.41911763, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &3428011615245233494
+--- !u!114 &7033583623747840954
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

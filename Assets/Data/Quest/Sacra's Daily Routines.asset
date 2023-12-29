@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc671c332e9f47b4b8eed05f6f217154, type: 3}
+  m_Name: Sacra's Daily Routines
+  m_EditorClassIdentifier: 
+  title: Sacra's Daily Routines
+  type: 0
+  from: None
+  location: House Sacra Vana
+  description: Sacra and her sister Vana who were doing their daily activities, but
+    one day they were surprised by the appearance of light on Sacra's book.
+  orderly: 0
+  objectives:
+  - Type: 0
+    Description: Walk to the book
+    Target: Table
+    Quantity: 0
+  - Type: 0
+    Description: "Go to Vana\u2019s room"
+    Target: Door
+    Quantity: 0
+  - Type: 0
+    Description: Waking up Vana
+    Target: Vana
+    Quantity: 0
+  - Type: 0
+    Description: Talk to Vana
+    Target: Vana
+    Quantity: 0
+  - Type: 0
+    Description: Walking towards the dining table
+    Target: Dinning Table
+    Quantity: 0
+  - Type: 4
+    Description: Take 5 potatoes and take a water of bucket
+    Target: Potato
+    Quantity: 6
+  - Type: 0
+    Description: Inspect strange things in the weapons storage area
+    Target: Eldria
+    Quantity: 0
+  - Type: 0
+    Description: Examine the mysterious book on the dining table
+    Target: Dinning Table
+    Quantity: 0
+  - Type: 0
+    Description: Speak to mysterious figure
+    Target: Eldria
+    Quantity: 0
+  - Type: 0
+    Description: Speak with Vana about what actually happened
+    Target: Vana
+    Quantity: 0
+  rewards:
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  - Type: 0
+    ItemName: Gold
+    ItemQuantity: 100
+    ReputationPlace: 
+    ReputationProgress: 0
+  image: {fileID: 0}
