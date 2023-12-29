@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Code/Scripts/Explore/SaveSystem.cs.meta
 guid: 54c1b6bd4763cb04fb682a20622b3921
+========
+guid: 11bb9455f918359478af4a4b3926886f
+>>>>>>>> UI-Menu:Assets/ChangeVersion.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

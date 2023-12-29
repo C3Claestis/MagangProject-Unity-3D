@@ -52,5 +52,6 @@
         "temp/":true,
         "Temp/":true
     },
-    "dotnet.defaultSolution": "MagangProject-Unity-3D.sln"
+    "dotnet.defaultSolution": "MagangProject-Unity-3D.sln",
+    "dotnet.preferCSharpExtension": true
 }

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Art/3D.meta
 guid: 920b286cce8a98d469bebe19770d2999
+========
+guid: 7554dbc2f64b6b742bed5918f7fafe24
+>>>>>>>> UI-Menu:Assets/Code/Scripts/UI.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

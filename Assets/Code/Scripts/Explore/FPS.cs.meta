@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Code/Scripts/Explore/FPS.cs.meta
 guid: c79bf87a27a921f4da53344071133af4
+========
+guid: d30715ae06957ba479209888ac67b5e1
+>>>>>>>> UI-Menu:Assets/Code/Scripts/Explore/InputSystem.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

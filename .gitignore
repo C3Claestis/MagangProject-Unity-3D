@@ -73,6 +73,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+<<<<<<< HEAD
 .fake
 
 <<<<<<< HEAD
@@ -83,3 +84,7 @@ Assets/3D/Environment
 Assets/3D/Object
 Assets/3D/Terrain
 Assets/Prefab
+=======
+
+ChangeVersion.cs
+>>>>>>> UI-Menu
