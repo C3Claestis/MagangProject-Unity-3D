@@ -162,7 +162,7 @@ namespace Nivandria.Explore
             HideChoice();
             foreach (char letter in line.ToCharArray())
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetKeyDown(KeyCode.Tab))
                 {
                     teks.text = line;
                     break;

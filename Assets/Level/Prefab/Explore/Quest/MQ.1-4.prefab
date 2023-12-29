@@ -72,7 +72,9 @@ MonoBehaviour:
   inkJSON: {fileID: 4900000, guid: b3f12ef1f5e35634c9cc2feef75ab964, type: 3}
   Quest: 0
   DestroyAfterDialogue: 1
+  EldriaFresnel: 0
   indexCutscene: 0
+  NoRotate: 1
   Name: Dining Table
   display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
   icon: {fileID: 3969199347574953021}

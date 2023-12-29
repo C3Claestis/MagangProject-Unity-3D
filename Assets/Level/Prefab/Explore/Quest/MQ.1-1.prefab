@@ -227,7 +227,9 @@ MonoBehaviour:
   inkJSON: {fileID: 4900000, guid: 1c2f9c6be1a882a408ee8f6c71a0b685, type: 3}
   Quest: 0
   DestroyAfterDialogue: 1
+  EldriaFresnel: 0
   indexCutscene: 0
+  NoRotate: 1
   Name: Door
   display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
   icon: {fileID: 4262889451792973796}

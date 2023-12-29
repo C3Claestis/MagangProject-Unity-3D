@@ -187,7 +187,9 @@ MonoBehaviour:
   inkJSON: {fileID: 4900000, guid: bae035fcfa7a36c438cabdb91d5211f4, type: 3}
   Quest: 0
   DestroyAfterDialogue: 1
+  EldriaFresnel: 0
   indexCutscene: 0
+  NoRotate: 1
   Name: Book
   display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
   icon: {fileID: 2539246410815073529}

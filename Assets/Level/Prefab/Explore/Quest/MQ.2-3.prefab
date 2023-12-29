@@ -409,6 +409,7 @@ MonoBehaviour:
   DestroyAfterDialogue: 0
   EldriaFresnel: 0
   indexCutscene: 7
+  NoRotate: 1
   Name: Boar
   display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
   icon: {fileID: 701587299395140769}

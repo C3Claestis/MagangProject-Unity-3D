@@ -188,7 +188,9 @@ MonoBehaviour:
   inkJSON: {fileID: 4900000, guid: 1c5a8db493828f041931055dfc709258, type: 3}
   Quest: 1
   DestroyAfterDialogue: 0
+  EldriaFresnel: 0
   indexCutscene: 6
+  NoRotate: 1
   Name: Wooden Dummy
   display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
   icon: {fileID: 370115205376877541}

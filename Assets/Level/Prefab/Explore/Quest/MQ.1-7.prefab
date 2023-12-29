@@ -74,6 +74,7 @@ MonoBehaviour:
   DestroyAfterDialogue: 1
   EldriaFresnel: 0
   indexCutscene: 0
+  NoRotate: 1
   Name: Book
   display_taking: {fileID: 7666479532543104914, guid: 200e537179be24d4ebcb808021ff678a, type: 3}
   icon: {fileID: 3628139457760604750}

@@ -8726,9 +8726,6 @@ MonoBehaviour:
   playerInput: {fileID: 185068430}
   boar_traininghround: {fileID: 1456859902}
   transisi: {fileID: 1855429279}
-  cinemachineFreeLook: {fileID: 7469084885293390033}
-  sen_x: 100
-  sen_y: 0.5
 --- !u!114 &2141036891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14150,7 +14147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4045663187408894516}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.043824065, y: 0.94913816, z: -0.27158722, w: -0.15315555}
+  m_LocalRotation: {x: -0.043824073, y: 0.94913816, z: -0.27158722, w: -0.15315558}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16686,7 +16683,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 1
     m_SpeedMode: 0
-    m_MaxSpeed: 1
+    m_MaxSpeed: 2
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -16710,7 +16707,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 181
+    m_MaxSpeed: 200
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
