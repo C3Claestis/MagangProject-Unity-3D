@@ -6,6 +6,7 @@ namespace Nivandria.UI.Menu
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
     using UnityEngine.SceneManagement;
+    using Nivandria.Explore;
 
     public class MenuManager : MonoBehaviour
     {
@@ -33,6 +34,8 @@ namespace Nivandria.UI.Menu
         [Header("Menu Button Log")]
         [SerializeField] GameObject menuButtonLog;
 
+        [Header("Panel Explore")]
+        [SerializeField] GameObject panel_explore;
         private CanvasGroup currentCanvasGroup;
 
         void Awake()
@@ -61,16 +64,17 @@ namespace Nivandria.UI.Menu
             }
         }
 
-        public void ButtonOnClickOpenMenu(Transform panel)
+        public void ButtonOnClickOpenMenu(Transform panel, bool status)
         {
-            Button buttonSetting = openMenu.transform.GetComponent<Button>();
+            // Button buttonSetting = openMenu.transform.GetComponent<Button>();
             CanvasGroup canvasGroupMenu = openMenu.transform.GetComponent<CanvasGroup>();
             CanvasGroup canvasGroupPanel = panel.transform.GetComponent<CanvasGroup>();
 
-            buttonSetting.onClick.AddListener(() =>
+            if (status)
             {
                 if (canvasGroupMenu != null)
                 {
+
                     canvasGroupMenu.alpha = 0f;
                     canvasGroupMenu.interactable = false;
                     canvasGroupMenu.blocksRaycasts = false;
@@ -78,13 +82,14 @@ namespace Nivandria.UI.Menu
 
                 if (canvasGroupPanel != null)
                 {
+                    InputSystem.GetInstance().LockMouse(true);
+                    panel_explore.SetActive(false);
+                    Time.timeScale = 0; // Untuk pause waktu
                     canvasGroupPanel.alpha = 1f;
                     canvasGroupPanel.interactable = true;
                     canvasGroupPanel.blocksRaycasts = true;
                 }
-
-
-            });
+            }
         }
 
         public void ButtonOnClickCloseMenu()
@@ -103,6 +108,9 @@ namespace Nivandria.UI.Menu
 
                 if (canvasGroupMenu != null)
                 {
+                    InputSystem.GetInstance().LockMouse(false);
+                    panel_explore.SetActive(true);
+                    Time.timeScale = 1;
                     canvasGroupMenu.alpha = 1f;
                     canvasGroupMenu.interactable = true;
                     canvasGroupMenu.blocksRaycasts = true;
@@ -150,7 +158,7 @@ namespace Nivandria.UI.Menu
             AddHoverEvents(newMenuButton, 5);
             AddHoverEvents(newMenuButton, 6);
 
-            ButtonOnClickOpenMenu(PanelMenu);
+            // ButtonOnClickOpenMenu(PanelMenu);
             ButtonOnClickCloseMenu();
         }
 
@@ -238,6 +246,7 @@ namespace Nivandria.UI.Menu
 
                 if (index == 6)
                 {
+                    Time.timeScale = 1;
                     SceneManager.LoadScene("MainMenu");
                 }
             });

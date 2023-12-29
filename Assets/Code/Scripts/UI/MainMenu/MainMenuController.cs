@@ -83,7 +83,7 @@ namespace Nivandria.UI.MainMenu
         public void StartNewGame()
         {
             // Simpan nama scene berikutnya.
-            nextSceneName = "Menu";
+            nextSceneName = "Home";
 
             // Aktifkan loading screen dan mulai coroutine untuk menunggu 5 detik.
             ButtonOnClick(LoadingScreen, true);

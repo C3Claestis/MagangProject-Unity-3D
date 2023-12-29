@@ -17,6 +17,7 @@ namespace Nivandria.Explore
         // The Ink story object
         private Story story;
 
+
         // Tag used for identifying speakers in dialogue
         private const string SPEAKER_TAG = "speaker";        
 
@@ -96,6 +97,7 @@ namespace Nivandria.Explore
             if (story == null) // Check if the story object is not initialized
             {
                 InputSystem.GetInstance().LockMouse(true);
+                ExploreManager.GetInstance().SetIsPause(true);
                 story = new Story(inkJSON.text);
                 value_npc = value;
                 isPlaying = true;
@@ -113,7 +115,8 @@ namespace Nivandria.Explore
         private void ExitDialogue()
         {
             inkExternal.Unbind(story);  
-            InputSystem.GetInstance().LockMouse(false);                      
+            InputSystem.GetInstance().LockMouse(false);    
+            ExploreManager.GetInstance().SetIsPause(false);                  
             story = null;
             isPlaying = false;
             teks.text = "";
