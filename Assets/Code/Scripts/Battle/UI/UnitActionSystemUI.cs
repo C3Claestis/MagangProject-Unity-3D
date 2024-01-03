@@ -14,7 +14,7 @@ namespace Nivandria.Battle.UI
         [SerializeField] private Transform turnSystemButton;
         [SerializeField] private Transform dialogueConfirmationPrefab;
         [SerializeField] private Transform skillActionButtonContainer;
-        [SerializeField] private Transform itemActionButton;
+        [SerializeField] private Transform itemActionButtonContainer;
         [SerializeField] private Transform moveActionButton;
         [SerializeField] private Transform escapeActionButton;
         [SerializeField] private Transform actionBlocker;
@@ -57,7 +57,7 @@ namespace Nivandria.Battle.UI
                     return;
 
                 case ActionCategory.Item:
-                    SetSelectedGameObject(itemActionButton.gameObject);
+                    SetSelectedGameObject(itemActionButtonContainer.gameObject);
                     return;
 
                 case ActionCategory.Move:
@@ -96,6 +96,25 @@ namespace Nivandria.Battle.UI
             {
                 var skillButton = buttonTransform.GetComponent<SkillActionButtonUI>();
                 bool check = skillButton.GetSkillAction() == skillAction;
+
+                if (!check) continue;
+
+                return buttonTransform;
+            }
+
+            Debug.LogError("Can't find button with this action : ");
+            return null;
+        }
+
+        public Transform GetItemButton(ItemAction itemAction)
+        {
+            var itemActionContainerUI = itemActionButtonContainer.GetComponent<ItemActionButtonContainerUI>();
+            List<Transform> buttonTransformList = itemActionContainerUI.GetButtonList();
+
+            foreach (Transform buttonTransform in buttonTransformList)
+            {
+                var itemButton = buttonTransform.GetComponent<ItemActionButtonUI>();
+                bool check = itemButton.GetItemAction() == itemAction;
 
                 if (!check) continue;
 

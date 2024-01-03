@@ -145,8 +145,8 @@ GameObject:
   - component: {fileID: 6953727562069338084}
   - component: {fileID: 7564060842923622809}
   - component: {fileID: 6183546051163701318}
-  - component: {fileID: 629473815056544990}
   - component: {fileID: 5958087059383347583}
+  - component: {fileID: 5939218265925584717}
   m_Layer: 5
   m_Name: ItemActionButtonUI
   m_TagString: Untagged
@@ -212,19 +212,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &629473815056544990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7976695109508486127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bcd3c66b610e954c9a4c4c76651fbea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonText: {fileID: 5499393027263645570}
 --- !u!114 &5958087059383347583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,4 +255,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6183546051163701318}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5939218265925584717}
+        m_TargetAssemblyTypeName: Nivandria.Battle.UI.ItemActionButtonUI, Assembly-CSharp
+        m_MethodName: ButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5939218265925584717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7976695109508486127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d810493c076e2642ba1339af7fec804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonText: {fileID: 5499393027263645570}

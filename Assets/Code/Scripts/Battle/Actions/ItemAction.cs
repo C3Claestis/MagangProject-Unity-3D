@@ -1,9 +1,11 @@
 namespace Nivandria.Battle.Action
 {
-    using System;
-    using System.Collections.Generic;
-    using Nivandria.Battle.Grid;
     using Nivandria.Battle.PathfindingSystem;
+    using Nivandria.Battle.UnitSystem;
+    using Nivandria.Battle.Grid;
+    using Nivandria.Battle.UI;
+    using System.Collections.Generic;
+    using System;
 
     public class ItemAction : BaseAction
     {
@@ -14,17 +16,50 @@ namespace Nivandria.Battle.Action
 
         private string itemName;
         private string itemDescription;
+        private int itemAmout = 0;
 
-
-        public void SetupItemAction(string itemName, string itemDescription)
+        public void SetupItemAction(string itemName, int itemAmout, string itemDescription, ItemActionButtonContainerUI itemActionButtonContainerUI)
         {
             this.itemName = itemName;
+            this.itemAmout = itemAmout;
             this.itemDescription = itemDescription;
+            gameObject.name = itemName;
+
+            var itemButton = GetComponent<ItemActionButtonUI>();
+            itemButton.InitializeActionButton(this, itemActionButtonContainerUI);
         }
+
+        public void SetUnit(Unit newUnit) => unit = newUnit;
 
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             base.TakeAction(gridPosition, onActionComplete);
+            SetActive(false);
+
+            if (unit.IsEnemy()) YesButtonAction();
+            else UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+        }
+
+        protected override void CancelAction()
+        {
+            GridPosition gridPosition = unit.GetGridPosition();
+
+            GridSystemVisual.Instance.HideAllGridPosition();
+
+            var buttonTransform = UnitActionSystemUI.Instance.GetItemButton(GetComponent<ItemAction>());
+            UnitActionSystemUI.Instance.SetSelectedGameObject(buttonTransform.gameObject);
+
+            UnitActionSystem.Instance.ShowActionUI();
+            var itemActionButtonContainerUI = buttonTransform.GetComponent<ItemActionButtonUI>().GetActionContainer();
+            itemActionButtonContainerUI.LinkCancel(false);
+            itemActionButtonContainerUI.LinkCancel(true);
+
+            Pointer.Instance.SetPointerOnGrid(gridPosition);
+            CameraController.Instance.SetCameraFocusToPosition(LevelGrid.Instance.GetWorldPosition(gridPosition));
+
+            PlayerInputController.Instance.SetActionMap("BattleUI");
+
+            PlayerInputController.Instance.OnCancelActionPressed -= PlayerInputController_OnCancelPressed;
         }
 
         public override List<GridPosition> GetValidActionGridPosition()

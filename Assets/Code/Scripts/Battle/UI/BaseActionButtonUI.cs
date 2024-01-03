@@ -39,7 +39,7 @@ namespace Nivandria.Battle.UI
             buttonText.color = selectedColor;
         }
 
-        private void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        protected virtual void UnitTurnSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             unit = UnitTurnSystem.Instance.GetSelectedUnit();
             UpdateButtonTextColor();

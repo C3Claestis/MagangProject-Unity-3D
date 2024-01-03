@@ -3132,7 +3132,7 @@ MonoBehaviour:
   turnSystemButton: {fileID: 1575719714}
   dialogueConfirmationPrefab: {fileID: 1880736793165282418, guid: 87cbcc288952bdc4b9b40421fe9b7a12, type: 3}
   skillActionButtonContainer: {fileID: 365542178}
-  itemActionButton: {fileID: 0}
+  itemActionButtonContainer: {fileID: 164845615}
   moveActionButton: {fileID: 1187130820}
   escapeActionButton: {fileID: 0}
   actionBlocker: {fileID: 1554916720}
@@ -15620,7 +15620,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemActionButtonUI
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 629473815056544990, guid: e8bb697173479a342a299b6006b815f7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

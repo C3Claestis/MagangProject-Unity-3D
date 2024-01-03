@@ -216,6 +216,7 @@ namespace Nivandria.Battle.UnitSystem
         {
             switch (actionCategory)
             {
+                case ActionCategory.Item:
                 case ActionCategory.Skill:
                     return hasUseSkill;
 

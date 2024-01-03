@@ -20,15 +20,14 @@ namespace Nivandria.Battle.UI
             }
 
             NormalSkill();
-
         }
 
         private void NormalSkill()
         {
+            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionCategory())) return;
+            
             UnitActionSystem.Instance.SetSelectedAction(skillAction);
             GridSystemVisual.Instance.UpdateGridVisual();
-
-            if (UnitTurnSystem.Instance.GetSelectedUnit().GetActionStatus(skillAction.GetActionCategory())) return;
 
             UnitActionSystem.Instance.HideActionUI();
             Pointer.Instance.SetActive(true);

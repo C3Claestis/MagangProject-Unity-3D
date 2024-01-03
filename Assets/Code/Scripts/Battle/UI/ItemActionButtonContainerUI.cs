@@ -4,8 +4,9 @@ namespace Nivandria.Battle.UI
     using System.Collections.Generic;
     using Nivandria.Battle.Action;
     using Nivandria.Battle.UnitSystem;
-    using TMPro;
+    using Unity.VisualScripting;
     using UnityEngine;
+    using TMPro;
 
     public class ItemActionButtonContainerUI : MonoBehaviour
     {
@@ -37,10 +38,17 @@ namespace Nivandria.Battle.UI
                 Destroy(button.gameObject);
             }
 
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < 2; j++)
             {
-                Transform itemButton = Instantiate(itemButtonPrefab, itemButtonPanel);
-                itemButtonList.Add(itemButton);
+                Transform itemTransform = Instantiate(itemButtonPrefab, itemButtonPanel);
+                ItemAction itemAction = itemTransform.AddComponent<ItemAction>();
+                int amount = j + 1;
+
+                string buttonName = "Potion";
+                if (amount > 1) buttonName = $"{amount} Potion";
+
+                itemAction.SetupItemAction(buttonName, amount, "LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum LoremIpsum", this);
+                itemButtonList.Add(itemTransform);
             }
         }
 
@@ -102,7 +110,7 @@ namespace Nivandria.Battle.UI
 
         public void UpdateContainerButtonTextColor()
         {
-            Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
+            UnitSystem.Unit unit = UnitTurnSystem.Instance.GetSelectedUnit();
             bool actionStatus = unit.GetActionStatus(ActionCategory.Skill);
             float color = 0.2235294f;
 
@@ -141,8 +149,10 @@ namespace Nivandria.Battle.UI
         {
             ShowSelectedDummy(false);
             HideUI(true);
+            UpdateContainerButtonTextColor();
         }
 
+        public List<Transform> GetButtonList() => itemButtonList;
     }
 
 }

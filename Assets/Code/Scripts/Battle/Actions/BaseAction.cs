@@ -99,6 +99,7 @@ namespace Nivandria.Battle.Action
         public ActionType GetActionType() => actionType;
 
         public bool GetActionStatus() => unit.GetActionStatus(actionCategory);
+
         public virtual void SetActive(bool status) => isActive = status;
     }
 }
