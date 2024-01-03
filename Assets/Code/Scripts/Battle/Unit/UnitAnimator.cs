@@ -41,11 +41,33 @@ namespace Nivandria.Battle.UnitSystem
 
         private void MoveAction_OnStartMoving(object sender, EventArgs e)
         {
+            switch (gameObject.name)
+            {
+                case "Sacra":
+                    unitAnimator.SetBool("isRun", true);
+                    break;
+
+                case "Boar":
+                    unitAnimator.SetBool("IsFollow", true);
+                    break;
+            }
+
             unitAnimator.SetBool("IsWalking", true);
         }
 
         private void MoveAction_OnStopMoving(object sender, EventArgs e)
         {
+            switch (gameObject.name)
+            {
+                case "Sacra":
+                    unitAnimator.SetBool("isRun", false);
+                    break;
+
+                case "Boar":
+                    unitAnimator.SetBool("IsFollow", false);
+                    break;
+            }
+
             unitAnimator.SetBool("IsWalking", false);
         }
 

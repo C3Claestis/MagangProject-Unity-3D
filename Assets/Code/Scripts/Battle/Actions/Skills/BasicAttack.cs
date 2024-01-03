@@ -50,7 +50,7 @@ namespace Nivandria.Battle.Action
             }
 
             int damageValue = (int)(unit.GetCurrentPhysicalAttack() * facingBonus * (powerPercentage / 100f));
-            //! Fix Later
+            //! Fix anak magang depan
             bool critical = false;
 
             damageable.Damage(damageValue, critical);

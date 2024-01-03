@@ -20,7 +20,7 @@ namespace Nivandria.Battle.Action
         protected override string actionDescription =>
         "Lets a unit relocate to a chosen grid, enhancing tactical positioning and adaptability in combat.";
 
-        [SerializeField] private int maxMoveDistance = 4;
+        [SerializeField] private int maxMoveDistance = 2;
         [SerializeField] private LayerMask obstacleLayer;
         [SerializeField] private Material arrowMaterial;
 
@@ -56,7 +56,7 @@ namespace Nivandria.Battle.Action
 
         private void Update()
         {
-            if (generatePathfindingPath) ShowPath();
+            // if (generatePathfindingPath) ShowPath();
             if (!doneRotating) IsRotating();
             if (!isActive) return;
             if (isJumping) HandleJumping();

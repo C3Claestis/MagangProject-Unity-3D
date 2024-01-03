@@ -64,7 +64,7 @@ namespace Nivandria.Battle.AI
         private void MoveAction()
         {
             GridPosition moveposition = BestMovePosition();
-            ShowPath(moveposition);
+            // ShowPath(moveposition);
             StartCoroutine(WaitAndAction(selectedAction.TakeAction, moveposition, 1));
         }
 

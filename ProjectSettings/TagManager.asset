@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Units
+  - NPC
+  - Builidng
+  - Card
+  - Karakter
+  - PantulanLazer
+  - ObjekLazer
+  - MiniMap
+  - PickItem
   - UI
   - Tier1_Obstacles
   - Tier2_Obstacles
@@ -17,14 +25,14 @@ TagManager:
   - Water
   - UI
   - MousePlane
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - Obstacles
   - Damage&Health Number
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

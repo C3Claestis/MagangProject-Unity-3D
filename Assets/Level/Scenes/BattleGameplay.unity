@@ -5821,6 +5821,10 @@ MonoBehaviour:
     position:
       x: 3
       z: 2
+  - unitPrefab: {fileID: 472600473148616243, guid: 306fbfdfeaf18a34f94339541e4caec6, type: 3}
+    position:
+      x: 4
+      z: 2
   objectList:
   - objectPrefab: {fileID: 1813220800726600777, guid: 020ceef8444c8c44e94e150b5c2f161f, type: 3}
     count: 0
@@ -12432,6 +12436,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19c374d445f309e4bb6a637ddc657944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questDataDirectory: Assets/Data/Quest
+  questLibrary: []
+  questList: []
+  questArray: []
+  gameStarted: 0
 --- !u!1 &1739577795
 GameObject:
   m_ObjectHideFlags: 0

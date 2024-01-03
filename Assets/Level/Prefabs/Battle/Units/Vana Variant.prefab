@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: maxMoveDistance
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7623191215827887392, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 8320
+      objectReference: {fileID: 0}
     - target: {fileID: 8240321862663793904, guid: 9a34dda862b02a54fb4f1ea3c66f4291, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

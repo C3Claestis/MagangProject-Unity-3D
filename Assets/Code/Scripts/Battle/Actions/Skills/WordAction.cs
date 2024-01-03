@@ -7,10 +7,10 @@ namespace Nivandria.Battle.Action
     using Nivandria.Battle.UI;
     using UnityEngine;
     using System;
+    using System.Collections;
 
     public class WordAction : BaseSkillAction
     {
-
         public enum GridPatern
         {
             OneLine,
@@ -30,11 +30,12 @@ namespace Nivandria.Battle.Action
         [SerializeField] private GridPatern newGridPatern = GridPatern.OneLine;
 
         private List<GridPosition> currentAllGridList;
-        private List<GridPosition> currentActiveGridList;
         private List<GridPosition> currentEastGridList;
         private List<GridPosition> currentWestGridList;
         private List<GridPosition> currentNorthGridList;
         private List<GridPosition> currentSouthGridList;
+        private List<GridPosition> currentActiveGridList;
+
 
         private void Start()
         {
@@ -46,8 +47,62 @@ namespace Nivandria.Battle.Action
         {
             base.TakeAction(gridPosition, onActionComplete);
             SetActive(false);
-
             UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
+        }
+
+        private void Attacking()
+        {
+            List<IDamageable> damageableList = new List<IDamageable>();
+            List<GridPosition> attackGridList = GetValidActionGridPosition();
+
+            Debug.Log("attackGridList : " + attackGridList.Count);
+
+            foreach (GridPosition grid in attackGridList)
+            {
+                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(grid);
+
+                if (Pathfinding.Instance.IsObstacleOnGrid(worldPosition, out Transform objectTransform))
+                {
+                    Debug.Log("Add obstacle damageable to list");
+                    damageableList.Add(objectTransform.GetComponent<IDamageable>());
+                }
+                else if (LevelGrid.Instance.HasAnyUnitOnGridPosition(grid))
+                {
+                    Unit targetUnit = LevelGrid.Instance.GetUnitListAtGridPosition(grid)[0];
+                    damageableList.Add(targetUnit.GetComponent<IDamageable>());
+                    Debug.Log("Add unit damageable to list");
+                }
+            }
+
+            int damageValue = (int)(unit.GetCurrentPhysicalAttack() * 1 * (powerPercentage / 100f));
+            bool critical = false;
+
+            Debug.Log("Foreach DamageableList");
+            foreach (var damageable in damageableList)
+            {
+                damageable.Damage(damageValue, critical);
+            }
+
+            isActive = false;
+            Debug.Log("Done");
+            onActionComplete();
+        }
+
+        protected override void YesButtonAction()
+        {
+            base.YesButtonAction();
+            FacingTarget(LevelGrid.Instance.GetWorldPosition(targetGrid));
+
+            int waitingInSecond = 1;
+            Debug.Log("YES");
+            StartCoroutine(DelayAndAction(Attacking, waitingInSecond));
+        }
+
+        private IEnumerator DelayAndAction(Action action, int waitForSeconds)
+        {
+            yield return new WaitForSeconds(waitForSeconds);
+            Debug.Log("Action Started");
+            action();
         }
 
         private bool GridChecker(List<GridPosition> gridList, GridPosition targetGrid)
@@ -292,9 +347,6 @@ namespace Nivandria.Battle.Action
                     }
                     break;
             }
-
-
-
             return validGridList;
         }
 
@@ -323,9 +375,7 @@ namespace Nivandria.Battle.Action
                 default:
                     Debug.LogError($"Can't find current direction for unit {unit.GetCharacterName()}, action {actionName}");
                     break;
-
             }
-
 
             return validGridList;
         }
@@ -338,7 +388,6 @@ namespace Nivandria.Battle.Action
 
         private void Pointer_OnPointerGridChanged(object sender, EventArgs e)
         {
-
             GridPosition pointerGridPosition = Pointer.Instance.GetCurrentGrid();
             bool gridInsideList = GridChecker(currentActiveGridList, pointerGridPosition);
 

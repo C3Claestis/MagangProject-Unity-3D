@@ -82,12 +82,12 @@ namespace Nivandria.Battle.UnitSystem
         /// <summary>Change unit material shading based on the selection status.</summary>
         public void UpdateUnitShade()
         {
-            Material newMaterial = skinnedMeshRenderer.material;
-            Color lightShade = new Color(0.9f, 0.9f, 0.9f, 1f);
-            Color darkShade = new Color(0.4f, 0.4f, 0.4f, 1f);
+            // Material newMaterial = skinnedMeshRenderer.material;
+            // Color lightShade = new Color(0.9f, 0.9f, 0.9f, 1f);
+            // Color darkShade = new Color(0.4f, 0.4f, 0.4f, 1f);
 
-            newMaterial.color = isSelected ? lightShade : darkShade;
-            skinnedMeshRenderer.material = newMaterial;
+            // newMaterial.color = isSelected ? lightShade : darkShade;
+            // skinnedMeshRenderer.material = newMaterial;
         }
 
         /// <summary>Updates the grid position of the unit based on its current world position.</summary>
