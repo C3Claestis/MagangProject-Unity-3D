@@ -45,11 +45,11 @@ namespace Nivandria.Battle.UnitSystem
             {
                 case "Sacra":
                     unitAnimator.SetBool("isRun", true);
-                    break;
+                    return;
 
                 case "Boar":
                     unitAnimator.SetBool("IsFollow", true);
-                    break;
+                    return;
             }
 
             unitAnimator.SetBool("IsWalking", true);
@@ -61,11 +61,11 @@ namespace Nivandria.Battle.UnitSystem
             {
                 case "Sacra":
                     unitAnimator.SetBool("isRun", false);
-                    break;
+                    return;
 
                 case "Boar":
                     unitAnimator.SetBool("IsFollow", false);
-                    break;
+                    return;
             }
 
             unitAnimator.SetBool("IsWalking", false);

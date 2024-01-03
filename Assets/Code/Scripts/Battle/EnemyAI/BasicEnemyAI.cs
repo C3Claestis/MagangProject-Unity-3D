@@ -17,6 +17,13 @@ namespace Nivandria.Battle.AI
 
         public override void HandleEnemyTurn()
         {
+            if (gameObject.name == "Dummy")
+            {
+                int waitInSecond = 2;
+                StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, waitInSecond));
+                return;
+            }
+
             if (!TryAttackAction())
             {
                 if (unit.GetActionStatus(ActionCategory.Skill)) StartCoroutine(WaitAndNext(UnitTurnSystem.Instance.HandleUnitSelection, 1));
@@ -137,7 +144,7 @@ namespace Nivandria.Battle.AI
             lineRenderer.useWorldSpace = true;
             lineRenderer.numCornerVertices = 5;
             lineRenderer.textureScale = new Vector2(1, 0.3f);
-            lineRenderer.sortingLayerName = "Below";   
+            lineRenderer.sortingLayerName = "Below";
 
             lineRenderer.positionCount = pathToTarget.Count;
             for (int i = 0; i < pathToTarget.Count; i++)
