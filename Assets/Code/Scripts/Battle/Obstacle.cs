@@ -8,7 +8,6 @@ namespace Nivandria.Battle
         public event EventHandler OnHitted;
         public event EventHandler OnDead;
 
-
         [SerializeField] private string obstacleName = "Obstacle";
         [SerializeField] private int health = 10;
         [SerializeField] private bool isBroken = false;

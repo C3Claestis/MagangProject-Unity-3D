@@ -10,7 +10,7 @@ namespace Nivandria.Battle.Action
 
     public class WordAction : BaseSkillAction
     {
-        
+
         public enum GridPatern
         {
             OneLine,
@@ -22,7 +22,7 @@ namespace Nivandria.Battle.Action
         protected override ActionCategory actionCategory => ActionCategory.Skill;
         protected override ActionType actionType => ActionType.Magical;
         protected override float powerPercentage => 100;
-        
+
         private GridPosition currentUnitGridPosition;
         private FacingDirection currentDirection;
 
@@ -40,6 +40,14 @@ namespace Nivandria.Battle.Action
         {
             currentActiveGridList = new List<GridPosition>();
             Pointer.Instance.OnPointerGridChanged += Pointer_OnPointerGridChanged;
+        }
+
+        public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
+        {
+            base.TakeAction(gridPosition, onActionComplete);
+            SetActive(false);
+
+            UnitActionSystemUI.Instance.InitializeConfirmationButton(YesButtonAction, NoButtonAction);
         }
 
         private bool GridChecker(List<GridPosition> gridList, GridPosition targetGrid)
