@@ -38,7 +38,7 @@ namespace Nivandria.Explore
         [SerializeField] InteraksiNPC interaksiNPC;
         [SerializeField] Text teks;
         [SerializeField] Text speaker;
-        [SerializeField] GameObject panel_dialogue, panel_explore;
+        [SerializeField] GameObject panel_dialogue, panel_explore, panel_ui;
         [SerializeField] GameObject _cameraMain, _cameraTalk;
         [SerializeField] GameObject _continueIcon;
 
@@ -122,6 +122,7 @@ namespace Nivandria.Explore
             teks.text = "";
             panel_dialogue.SetActive(false);
             panel_explore.SetActive(true);
+            panel_ui.SetActive(true);
             _cameraTalk.SetActive(false);
             _cameraMain.SetActive(true);
             InputSystem.GetInstance().SetAfterDialogue();
@@ -165,7 +166,7 @@ namespace Nivandria.Explore
             HideChoice();
             foreach (char letter in line.ToCharArray())
             {
-                if (Input.GetKeyDown(KeyCode.Tab))
+                if (Input.GetMouseButton(0))
                 {
                     teks.text = line;
                     break;
@@ -307,6 +308,7 @@ namespace Nivandria.Explore
         void ActivatePanel()
         {
             panel_dialogue.SetActive(true);
+            panel_ui.SetActive(false);
             panel_explore.SetActive(false);
         }
     }

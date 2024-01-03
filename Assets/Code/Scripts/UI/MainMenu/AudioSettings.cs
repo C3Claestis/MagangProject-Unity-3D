@@ -45,7 +45,7 @@ namespace Nivandria.UI.Volume
             }
 
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
             SetUITextFields();
         }

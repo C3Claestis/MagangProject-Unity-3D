@@ -35,7 +35,7 @@ namespace Nivandria.UI.Volume
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
 
         public float SetMusicVolume(float volume)
