@@ -15,12 +15,12 @@ namespace Nivandria.Quest
         string[] questArray;
 
         bool gameStarted = false;
-
+#if UNITY_EDITOR
         private void OnEnable()
         {
             RefreshQuestLibrary();
         }
-
+#endif
         private void Awake()
         {
             if (Instance != null)
@@ -36,7 +36,6 @@ namespace Nivandria.Quest
         private void Start()
         {
             questList = new List<Quest>();
-            RefreshQuestLibrary();
             gameStarted = true;
 
             /*foreach (QuestData questData in questLibrary)
@@ -307,6 +306,7 @@ namespace Nivandria.Quest
             return null;
         }
 
+#if UNITY_EDITOR
         public void RefreshQuestLibrary()
         {
             List<QuestData> questLibrary = new List<QuestData>();
@@ -331,6 +331,7 @@ namespace Nivandria.Quest
 
             Debug.Log("Quest List Refreshed!");
         }
+#endif
 
         public string[] GetQuestArray() => questArray;
         public bool IsGameStarted() => gameStarted;

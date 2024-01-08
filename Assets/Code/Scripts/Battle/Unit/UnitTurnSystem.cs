@@ -12,6 +12,7 @@ namespace Nivandria.Battle.UnitSystem
     using Nivandria.Battle.AI;
     using Nivandria.Battle.Grid;
     using Cinemachine;
+    using UnityEngine.SceneManagement;
 
     public class UnitTurnSystem : MonoBehaviour
     {

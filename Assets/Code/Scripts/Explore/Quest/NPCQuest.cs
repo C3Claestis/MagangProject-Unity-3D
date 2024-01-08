@@ -3,7 +3,6 @@ namespace Nivandria.Explore
     using System.Collections;
     using System.Collections.Generic;
     using Nivandria.Quest;
-    using UnityEditor.Animations;
     using UnityEngine;
     using UnityEngine.InputSystem;
     using UnityEngine.SceneManagement;
@@ -31,7 +30,7 @@ namespace Nivandria.Explore
         [Header("Object Destroy Or Not?")]
         [SerializeField] DestroyOrNot DestroyAfterDialogue;
         [SerializeField] bool EldriaFresnel;
-        [SerializeField] int indexCutscene;    
+        [SerializeField] int indexCutscene;
 
         [Header("Name Of Object")]
         [SerializeField] string Name;
@@ -133,14 +132,10 @@ namespace Nivandria.Explore
                     else
                     {
                         SaveLastPosisi.GetInstance().SetSave(true);
+                        InputSystem.GetInstance().LockMouse(true);
                         Destroy(taking);
                         transisi.SetTrigger("Dialog");
-                        HandleQuest.GetInstance().Mision2 = true;
-                        playerInput.SwitchCurrentActionMap("Player");
-                        QuestTriggerObject.GetInstance().SetIsQuest(false);
-                        isTalk = false;
-                        SceneManager.LoadScene(indexCutscene);
-                        Destroy(gameObject);
+                        Invoke("SwitchScene", 1f);
                     }
                 }
 
@@ -157,6 +152,15 @@ namespace Nivandria.Explore
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, initialRotation, Time.deltaTime * rotationSpeed);
             }
+        }
+        void SwitchScene()
+        {
+            HandleQuest.GetInstance().Mision2 = true;
+            playerInput.SwitchCurrentActionMap("Player");
+            QuestTriggerObject.GetInstance().SetIsQuest(false);
+            isTalk = false;
+            SceneManager.LoadScene(indexCutscene);
+            Destroy(gameObject);
         }
         void SearchImage(bool Image_1, bool Image_2)
         {
