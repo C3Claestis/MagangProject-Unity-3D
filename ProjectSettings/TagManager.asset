@@ -13,6 +13,10 @@ TagManager:
   - ObjekLazer
   - MiniMap
   - PickItem
+  - UI
+  - Tier1_Obstacles
+  - Tier2_Obstacles
+  - Tier3_Obstacles
   layers:
   - Default
   - TransparentFX
@@ -27,8 +31,8 @@ TagManager:
   - Minimap
   - Box
   - Quest
-  - 
-  - 
+  - Obstacles
+  - DamageHealth Number
   - 
   - 
   - 

@@ -53,7 +53,7 @@ namespace Nivandria.Battle.PathfindingSystem
 
             gridSystem = new GridSystem<PathNode>(width, height, cellSize,
                 (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
-            gridSystem.CreateDebugObjects(gridDebugObjectPrefab, debugParent);
+            // gridSystem.CreateDebugObjects(gridDebugObjectPrefab, debugParent);
 
             for (int x = 0; x < width; x++)
             {
@@ -90,7 +90,7 @@ namespace Nivandria.Battle.PathfindingSystem
 
             gridSystem = new GridSystem<PathNode>(width, height, cellSize,
                 (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
-            gridSystem.CreateDebugObjects(gridDebugObjectPrefab, debugParent);
+            // gridSystem.CreateDebugObjects(gridDebugObjectPrefab, debugParent);
 
             for (int x = 0; x < width; x++)
             {
