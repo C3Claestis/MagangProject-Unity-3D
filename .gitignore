@@ -73,3 +73,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+ChangeVersion.cs
+
+BuildTest
+
+ZaiR37_UnityAssets
+Assets/Thirdparty/Low Poly Furniture
+Assets/Thirdparty/TextMesh Pro
+Assets/Data
