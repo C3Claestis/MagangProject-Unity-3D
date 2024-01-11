@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ChangeVersion.cs.meta
+guid: 4802c1d4bdfade44fab36d053d9e0055
+========
+guid: 227881dc66faacc42afebe6937a9fd50
+>>>>>>>> battle:Assets/Code/Scripts/Battle/Actions/ActionCategory.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

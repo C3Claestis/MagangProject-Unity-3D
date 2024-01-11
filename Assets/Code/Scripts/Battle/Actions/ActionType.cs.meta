@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Code/Scripts/Beziercurve.cs.meta
+guid: 1ae1d70e6b3cde04a95240082882ae1f
+=======
+guid: f95f91c77307a6243b4dfa9705fffda2
+>>>>>>> battle:Assets/Code/Scripts/Battle/Actions/ActionType.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
